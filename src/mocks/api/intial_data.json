@@ -1,0 +1,33 @@
+{
+  "collections": ["Application", "Knowledge"],
+  "entries": [
+    {
+      "name": "Microsoft Teams",
+      "collection": "Application",
+      "body": "I am body content for Microsoft Teams"
+    },
+    {
+      "name": "Microsoft Outlook",
+      "collection": "Application",
+      "body": "I am body content for Microsoft Outlook"
+    },
+    {
+      "name": "Activity Feed Guide",
+      "collection": "Knowledge",
+      "parent": "Microsoft Teams",
+      "body": "I am body content for Activity Feed Guide"
+    },
+    {
+      "name": "Placing a Call on Hold",
+      "collection": "Knowledge",
+      "parent": "Microsoft Teams",
+      "body": "I am body content for Placing a Call on Hold"
+    },
+    {
+      "name": "Composing a New Message",
+      "collection": "Knowledge",
+      "parent": "Microsoft Outlook",
+      "body": "I am body content for Composing a New Message"
+    }
+  ]
+}
