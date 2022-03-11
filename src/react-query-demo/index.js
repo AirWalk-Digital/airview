@@ -6,15 +6,15 @@ import { EntryBody } from "./entry-body";
 import { ChildEntriesMeta } from "./child-entries-meta";
 import { SiblingEntriesMeta } from "./sibling-entries-meta";
 
-export function ReactQueryDemo() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
     },
-  });
+  },
+});
 
+export function ReactQueryDemo() {
   return (
     <QueryClientProvider client={queryClient}>
       <AllEntriesMeta />
