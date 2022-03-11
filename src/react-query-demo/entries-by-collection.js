@@ -10,10 +10,6 @@ export function EntriesByCollection() {
 
   const handleOnChange = (collection) => setSelectedCollection(collection);
 
-  if (status === "loading") {
-    return <div>Loading Entries By Collection</div>;
-  }
-
   return (
     <div>
       <h3>Entries By Collection</h3>
@@ -21,7 +17,11 @@ export function EntriesByCollection() {
         <i>useGetEntriesMetaByCollection(collectionId)</i>
       </p>
       <CollectionSelector onChange={handleOnChange} />
-      <PrintJson data={entries} />
+      {status === "loading" ? (
+        <div>Loading Entries By Collection</div>
+      ) : (
+        <PrintJson data={entries} />
+      )}
       <hr />
     </div>
   );

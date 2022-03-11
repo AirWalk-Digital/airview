@@ -4,6 +4,7 @@ import { AllEntriesMeta } from "./all-entries-meta";
 import { EntriesByCollection } from "./entries-by-collection";
 import { EntryBody } from "./entry-body";
 import { ChildEntriesMeta } from "./child-entries-meta";
+import { SiblingEntriesMeta } from "./sibling-entries-meta";
 
 export function ReactQueryDemo() {
   const queryClient = new QueryClient({
@@ -20,6 +21,7 @@ export function ReactQueryDemo() {
       <EntriesByCollection />
       <EntryBody />
       <ChildEntriesMeta />
+      <SiblingEntriesMeta />
     </QueryClientProvider>
   );
 }

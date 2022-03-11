@@ -10,18 +10,18 @@ export function ChildEntriesMeta() {
 
   const handleOnChange = (entry) => setSelectedEntry(entry);
 
-  if (status === "loading") {
-    return <div>Loading Child Entries</div>;
-  }
-
   return (
     <div>
-      <h3>Child Entries</h3>
+      <h3>Child Entries Meta</h3>
       <p>
         <i>useGetChildEntries(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} />
-      <PrintJson data={entries} />
+      {status === "loading" ? (
+        <div>Loading Child Entries Meta</div>
+      ) : (
+        <PrintJson data={entries} />
+      )}
       <hr />
     </div>
   );
