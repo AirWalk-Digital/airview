@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { useGetSiblingEntriesMeta } from "./hooks";
 import { EntrySelector } from "./entry-selector";
-import { CollectionSelector } from "./collection-selector";
 import { PrintJson } from "./components";
 
 export function SiblingEntriesMeta() {
   const [selectedEntry, setSelectedEntry] = useState(null);
-  const [selectedCollection, setSelectedCollection] = useState(null);
 
-  const { status, data: entries } = useGetSiblingEntriesMeta(
-    selectedCollection,
-    selectedEntry
-  );
+  const { status, data: entries } = useGetSiblingEntriesMeta(selectedEntry);
 
   const handleOnChange = (entry) => setSelectedEntry(entry);
-  const handleOnCollectionChange = (collection) =>
-    setSelectedCollection(collection);
 
   return (
     <div>
@@ -24,7 +17,6 @@ export function SiblingEntriesMeta() {
         <i>useGetSiblingEntriesMeta(collectionId, entryId)</i>
       </p>
 
-      <CollectionSelector onChange={handleOnCollectionChange} />
       <EntrySelector onChange={handleOnChange} />
 
       {status === "loading" ? (

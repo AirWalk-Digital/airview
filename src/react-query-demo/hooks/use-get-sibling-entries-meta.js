@@ -1,16 +1,22 @@
 import { useMemo } from "react";
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
-export function useGetSiblingEntriesMeta(collectionId, entryId) {
+export function useGetSiblingEntriesMeta(entryId) {
   const { status, data: entriesMeta, error } = useGetAllEntriesMeta();
 
   const filteredEntries = useMemo(() => {
-    if (!entriesMeta || !entryId || !collectionId) return;
+    if (!entriesMeta || !entryId) return;
+
+    const { parent, collection } = entriesMeta.find(
+      (entry) => entry.id === entryId
+    );
+
+    if (!parent || !collection) return;
 
     return entriesMeta.filter(
-      (entry) => entry?.parent === entryId && entry?.collection === collectionId
+      (entry) => entry?.parent === parent && entry?.collection === collection
     );
-  }, [entriesMeta, entryId, collectionId]);
+  }, [entriesMeta, entryId]);
 
   if (entriesMeta) {
     return {
