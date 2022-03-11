@@ -1,5 +1,6 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { Container } from "./components";
 import { AllEntriesMeta } from "./all-entries-meta";
 import { EntriesByCollection } from "./entries-by-collection";
 import { EntryBody } from "./entry-body";
@@ -17,11 +18,18 @@ const queryClient = new QueryClient({
 export function ReactQueryDemo() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AllEntriesMeta />
-      <EntriesByCollection />
-      <EntryBody />
-      <ChildEntriesMeta />
-      <SiblingEntriesMeta />
+      <Container
+        leftSlot={
+          <React.Fragment>
+            <AllEntriesMeta />
+            <EntriesByCollection />
+            <EntryBody />
+            <ChildEntriesMeta />
+            <SiblingEntriesMeta />
+          </React.Fragment>
+        }
+        rightSlot={<span>Creator form here...</span>}
+      />
     </QueryClientProvider>
   );
 }
