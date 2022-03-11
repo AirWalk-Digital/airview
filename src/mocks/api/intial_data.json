@@ -1,5 +1,5 @@
 {
-  "collections": ["Application", "Knowledge"],
+  "collections": ["Application", "Knowledge", "Release"],
   "entries": [
     {
       "name": "Microsoft Teams",
@@ -28,6 +28,24 @@
       "collection": "Knowledge",
       "parent": "Microsoft Outlook",
       "body": "I am body content for Composing a New Message"
+    },
+    {
+      "name": "Dark mode Support",
+      "collection": "Release",
+      "body": "I am body content for Dark Mode Support",
+      "parent": "Microsoft Teams"
+    },
+    {
+      "name": "Mac M1 Silicon Support",
+      "collection": "Release",
+      "body": "I am body content for Mac M1 Silicon Support",
+      "parent": "Microsoft Teams"
+    },
+    {
+      "name": "Windows Security Patch",
+      "collection": "Release",
+      "body": "I am body content for Windows Security Patch",
+      "parent": "Microsoft Outlook"
     }
   ]
 }
