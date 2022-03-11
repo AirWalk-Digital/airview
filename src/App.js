@@ -62,6 +62,61 @@ function useGetEntriesByCollectionId(collectionId) {
   };
 }
 
+function useGetChildEntries(entryId) {
+  const {
+    status,
+    data: entries,
+    error,
+  } = useQuery("entries_meta", client("/api/entries/meta"));
+
+  if (entries) {
+    return {
+      status: "success",
+      data: entries.filter((entry) => entry.parent === entryId),
+    };
+  }
+
+  if (status === "error") {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+
+  return {
+    status: "loading",
+  };
+}
+
+function useGetSiblingEntries(parentId, collectionId) {
+  const {
+    status,
+    data: entries,
+    error,
+  } = useQuery("entries_meta", client("/api/entries/meta"));
+
+  if (entries) {
+    return {
+      status: "success",
+      data: entries.filter(
+        (entry) =>
+          entry.collection === collectionId && entry.parent === parentId
+      ),
+    };
+  }
+
+  if (status === "error") {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+
+  return {
+    status: "loading",
+  };
+}
+
 function useGetEntryBodyById(entryId) {
   const {
     status,
@@ -166,7 +221,9 @@ function SelectEntryBodyById() {
     <div>
       <h3>Entry Body By ID</h3>
       <p>
-        <i>useGetEntryBodyById()</i>
+        <i>useGetAllEntriesMeta()</i>
+        <br />
+        <i>useGetEntryBodyById(entryId)</i>
       </p>
       <select defaultValue={entriesMeta[0].id} onChange={handleOnChange}>
         {entriesMeta.map((entryMeta) => (
@@ -191,6 +248,51 @@ function EntryBody({ entryId }) {
   return <PrintJson data={entry} />;
 }
 
+function ChildEntriesOf() {
+  const [entryId, setEntryId] = useState();
+
+  const { status: entriesMetaStatus, data: entriesMeta } =
+    useGetAllEntriesMeta();
+
+  const handleOnChange = (event) => setEntryId(event.target.value);
+
+  if (entriesMetaStatus === "loading") {
+    return <div>Loading: Get Child Entries</div>;
+  }
+
+  return (
+    <div>
+      <h3>Child Entries of: {entryId ?? entriesMeta[0].id}</h3>
+      <p>
+        <i>useGetEntryBodyById()</i>
+        <br />
+        <i>useGetChildEntries(entryId)</i>
+        <br />
+        <b>Causing hook to re-fetch (/api/entries/meta). Why?</b>
+      </p>
+      <select defaultValue={entriesMeta[0].id} onChange={handleOnChange}>
+        {entriesMeta.map((entryMeta) => (
+          <option key={entryMeta.id} value={entryMeta.id}>
+            {entryMeta.name}
+          </option>
+        ))}
+      </select>
+      <ChildOfEntryBody entryId={entryId ?? entriesMeta[0].id} />
+      <hr />
+    </div>
+  );
+}
+
+function ChildOfEntryBody({ entryId }) {
+  const { status, data } = useGetChildEntries(entryId);
+
+  if (status === "loading") {
+    return <div>Loading child entries for: {entryId}</div>;
+  }
+
+  return <PrintJson data={data} />;
+}
+
 function App() {
   const [mounted, setMounted] = useState(true);
 
@@ -205,6 +307,7 @@ function App() {
         <>
           <AllEntriesMeta />
           <SelectEntryByCollectionId />
+          <ChildEntriesOf />
           <SelectEntryBodyById />
         </>
       )}
