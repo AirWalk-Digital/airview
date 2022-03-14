@@ -4,3 +4,4 @@ export { useGetEntriesMetaByCollection } from "./use-get-entries-meta-by-collect
 export { useGetEntryBody } from "./use-get-entry-body";
 export { useGetChildEntriesMeta } from "./use-get-child-entries-meta";
 export { useGetSiblingEntriesMeta } from "./use-get-sibling-entries-meta";
+export { useGetEntryMeta } from "./use-get-entry-meta";
