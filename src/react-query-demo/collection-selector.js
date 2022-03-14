@@ -1,7 +1,11 @@
 import React, { useRef } from "react";
 import { useGetCollections } from "./hooks";
 
-export function CollectionSelector({ onChange }) {
+export function CollectionSelector({
+  onChange,
+  defaultValue = "",
+  ...otherProps
+}) {
   const { status, data: collections } = useGetCollections();
 
   const selectedCollection = useRef();
@@ -18,7 +22,12 @@ export function CollectionSelector({ onChange }) {
   if (!collections) return <div>No Collections</div>;
 
   return (
-    <select defaultValue="" onChange={handleOnChange} ref={selectedCollection}>
+    <select
+      defaultValue={defaultValue}
+      onChange={handleOnChange}
+      ref={selectedCollection}
+      {...otherProps}
+    >
       <option value="">Choose collection...</option>
       {collections.map((collection) => (
         <option key={collection} value={collection}>

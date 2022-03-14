@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useGetAllEntriesMeta } from "./hooks";
 
-export function EntrySelector({ onChange }) {
+export function EntrySelector({ onChange, defaultValue = "", ...otherProps }) {
   const { status, data: entries } = useGetAllEntriesMeta();
 
   const selectedEntry = useRef();
@@ -18,7 +18,12 @@ export function EntrySelector({ onChange }) {
   if (!entries) return <div>No Entries</div>;
 
   return (
-    <select defaultValue="" onChange={handleOnChange} ref={selectedEntry}>
+    <select
+      defaultValue={defaultValue}
+      onChange={handleOnChange}
+      ref={selectedEntry}
+      {...otherProps}
+    >
       <option value="">Choose an entry...</option>
       {entries.map((entry) => (
         <option key={entry.id} value={entry.id}>
