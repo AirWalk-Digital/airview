@@ -8,6 +8,7 @@ import { EntryBody } from "./entry-body";
 import { ChildEntriesMeta } from "./child-entries-meta";
 import { SiblingEntriesMeta } from "./sibling-entries-meta";
 import { EntryEditor } from "./entry-editor/entry-editor";
+import { EntryCreator } from "./entry-creator/entry-creator";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,7 @@ export function ReactQueryDemo() {
         rightSlot={
           <div>
             <EntryEditor />
+            <EntryCreator />
           </div>
         }
       />
