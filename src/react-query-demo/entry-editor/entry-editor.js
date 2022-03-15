@@ -1,20 +1,11 @@
 import React, { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { useGetEntryMeta, useGetEntryBody } from "../hooks";
 import { MetaForm } from "../meta-form/meta-form";
 import { EntrySelector } from "../entry-selector";
 
-/*
-  state for selected entry
-  does lookup of entry meta
-  does lookup of entry body
-  if loading do not show form
-  if error show feedback
-  if we have both entry meta and entry body show form
-  on submit of form push data to api and await response
-  if successfull - refetch entry meta and body to update form?
-  */
-
 export function EntryEditor() {
+  const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState(null);
 
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
@@ -22,6 +13,32 @@ export function EntryEditor() {
   const { data: entryBody } = useGetEntryBody(selectedEntry);
 
   const handleSelectedEntryChange = (entryId) => setSelectedEntry(entryId);
+
+  const handleOnSubmit = async (formData) => {
+    let data;
+
+    try {
+      const response = await fetch(`/api/entries/${selectedEntry}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        console.log("invalidating entries_meta query");
+        queryClient.invalidateQueries("entries_meta");
+        console.log("invalidating entry_body query");
+        queryClient.invalidateQueries("entry_body", selectedEntry);
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error(error.message ?? data);
+    }
+  };
 
   return (
     <div>
@@ -32,6 +49,7 @@ export function EntryEditor() {
         <MetaForm
           initialFormData={{ ...entryMeta, body: entryBody }}
           key={selectedEntry}
+          onSubmit={handleOnSubmit}
         />
       )}
     </div>
