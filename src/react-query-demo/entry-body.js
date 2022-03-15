@@ -4,10 +4,10 @@ import { EntrySelector } from "./entry-selector";
 import { PrintJson } from "./components";
 
 export function EntryBody() {
-  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState("");
   const { status, data: entryBody } = useGetEntryBody(selectedEntry);
 
-  const handleOnChange = (entry) => setSelectedEntry(entry);
+  const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
   return (
     <div>
@@ -15,7 +15,7 @@ export function EntryBody() {
       <p>
         <i>useGetEntryBody(entryId)</i>
       </p>
-      <EntrySelector onChange={handleOnChange} />
+      <EntrySelector onChange={handleOnChange} value={selectedEntry} />
       {status === "loading" ? (
         <div>Loading entry body</div>
       ) : (

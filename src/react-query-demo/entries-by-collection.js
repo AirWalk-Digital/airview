@@ -4,11 +4,13 @@ import { CollectionSelector } from "./collection-selector";
 import { PrintJson } from "./components";
 
 export function EntriesByCollection() {
-  const [selectedCollection, setSelectedCollection] = useState(null);
+  const [selectedCollection, setSelectedCollection] = useState("");
   const { status, data: entries } =
     useGetEntriesMetaByCollection(selectedCollection);
 
-  const handleOnChange = (collection) => setSelectedCollection(collection);
+  const handleOnChange = (event) => {
+    setSelectedCollection(event.target.value);
+  };
 
   return (
     <div>
@@ -16,7 +18,10 @@ export function EntriesByCollection() {
       <p>
         <i>useGetEntriesMetaByCollection(collectionId)</i>
       </p>
-      <CollectionSelector onChange={handleOnChange} />
+      <CollectionSelector
+        onChange={handleOnChange}
+        value={selectedCollection}
+      />
       {status === "loading" ? (
         <div>Loading Entries By Collection</div>
       ) : (

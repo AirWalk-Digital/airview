@@ -4,11 +4,11 @@ import { EntrySelector } from "./entry-selector";
 import { PrintJson } from "./components";
 
 export function SiblingEntriesMeta() {
-  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState("");
 
   const { status, data: entries } = useGetSiblingEntriesMeta(selectedEntry);
 
-  const handleOnChange = (entry) => setSelectedEntry(entry);
+  const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
   return (
     <div>
@@ -17,7 +17,7 @@ export function SiblingEntriesMeta() {
         <i>useGetSiblingEntriesMeta(collectionId, entryId)</i>
       </p>
 
-      <EntrySelector onChange={handleOnChange} />
+      <EntrySelector onChange={handleOnChange} value={selectedEntry} />
 
       {status === "loading" ? (
         <div>Loading Sibling Entries Metaa</div>

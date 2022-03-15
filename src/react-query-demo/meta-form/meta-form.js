@@ -28,6 +28,7 @@ export function MetaForm({ formData, onSubmit, onChange, onReset }) {
           <label>
             <span>Collection:</span>
             <CollectionSelector
+              name="collection"
               value={formData.collection}
               onChange={onChange}
             />
@@ -37,7 +38,11 @@ export function MetaForm({ formData, onSubmit, onChange, onReset }) {
         <div className={styles.form_input}>
           <label>
             <span>Parent:</span>
-            <EntrySelector value={formData.parent} onChange={onChange} />
+            <EntrySelector
+              name="parent"
+              value={formData.parent}
+              onChange={onChange}
+            />
           </label>
         </div>
 
