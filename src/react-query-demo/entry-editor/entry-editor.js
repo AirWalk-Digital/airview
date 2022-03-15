@@ -6,13 +6,14 @@ import { EntrySelector } from "../entry-selector";
 
 export function EntryEditor() {
   const queryClient = useQueryClient();
-  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState("");
   const [formData, setFormData] = useState();
 
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
   const { data: entryBody } = useGetEntryBody(selectedEntry);
 
-  const handleSelectedEntryChange = (entryId) => setSelectedEntry(entryId);
+  const handleSelectedEntryChange = (event) =>
+    setSelectedEntry(event.target.value);
 
   const handleOnFormChange = (event) => {
     setFormData((prevValue) => ({
@@ -37,10 +38,7 @@ export function EntryEditor() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        console.log("invalidating entries_meta query");
         queryClient.invalidateQueries("entries_meta");
-        console.log("invalidating entry_body query");
         queryClient.invalidateQueries("entry_body", selectedEntry);
       }
     } catch (error) {
@@ -64,7 +62,10 @@ export function EntryEditor() {
   return (
     <div>
       <h3>Edit Entry</h3>
-      <EntrySelector onChange={handleSelectedEntryChange} />
+      <EntrySelector
+        onChange={handleSelectedEntryChange}
+        value={selectedEntry}
+      />
       <hr />
       {formData && (
         <MetaForm
