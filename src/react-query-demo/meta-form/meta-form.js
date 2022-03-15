@@ -1,44 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { CollectionSelector } from "../collection-selector";
 import { EntrySelector } from "../entry-selector";
 import styles from "./meta-form.module.scss";
 
-export function MetaForm({ initialFormData, onSubmit }) {
-  const setIntialFormData = () => {
-    return (
-      initialFormData ?? {
-        name: "",
-        collection: "",
-        parent: "",
-        body: "",
-      }
-    );
-  };
-
-  const [formData, setFormData] = useState(setIntialFormData());
-
-  const handleOnChange = (name, value) => {
-    setFormData((prevValue) => ({
-      ...prevValue,
-      [name]: value,
-    }));
-  };
-
-  const handleOnReset = (event) => {
-    setFormData(setIntialFormData());
-  };
-
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-    onSubmit(formData);
-  };
-
+export function MetaForm({ formData, onSubmit, onChange, onReset }) {
   return (
     <React.Fragment>
       <form
-        onSubmit={handleOnSubmit}
-        onReset={handleOnReset}
         className={styles.root}
+        onSubmit={onSubmit}
+        onReset={onReset}
+        noValidate
       >
         <div className={styles.form_input}>
           <label>
@@ -47,9 +19,7 @@ export function MetaForm({ initialFormData, onSubmit }) {
               type="text"
               name="name"
               value={formData.name}
-              onChange={(event) =>
-                handleOnChange(event.target.name, event.target.value)
-              }
+              onChange={onChange}
             />
           </label>
         </div>
@@ -58,8 +28,8 @@ export function MetaForm({ initialFormData, onSubmit }) {
           <label>
             <span>Collection:</span>
             <CollectionSelector
-              defaultValue={formData.collection}
-              onChange={(value) => handleOnChange("collection", value)}
+              value={formData.collection}
+              onChange={onChange}
             />
           </label>
         </div>
@@ -67,23 +37,14 @@ export function MetaForm({ initialFormData, onSubmit }) {
         <div className={styles.form_input}>
           <label>
             <span>Parent:</span>
-            <EntrySelector
-              defaultValue={formData.parent}
-              onChange={(value) => handleOnChange("parent", value)}
-            />
+            <EntrySelector value={formData.parent} onChange={onChange} />
           </label>
         </div>
 
         <div className={styles.form_input}>
           <label>
             <span>Body:</span>
-            <textarea
-              name="body"
-              value={formData.body}
-              onChange={(event) =>
-                handleOnChange(event.target.name, event.target.value)
-              }
-            />
+            <textarea name="body" value={formData.body} onChange={onChange} />
           </label>
         </div>
 

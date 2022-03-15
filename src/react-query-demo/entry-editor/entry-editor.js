@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useGetEntryMeta, useGetEntryBody } from "../hooks";
 import { MetaForm } from "../meta-form/meta-form";
@@ -7,14 +7,23 @@ import { EntrySelector } from "../entry-selector";
 export function EntryEditor() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState(null);
+  const [formData, setFormData] = useState();
 
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
-
   const { data: entryBody } = useGetEntryBody(selectedEntry);
 
   const handleSelectedEntryChange = (entryId) => setSelectedEntry(entryId);
 
-  const handleOnSubmit = async (formData) => {
+  const handleOnFormChange = (event) => {
+    setFormData((prevValue) => ({
+      ...prevValue,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleOnFormSubmit = async (event) => {
+    event.preventDefault();
+
     let data;
 
     try {
@@ -40,16 +49,29 @@ export function EntryEditor() {
     }
   };
 
+  const handleOnFormReset = (event) => {
+    event.preventDefault();
+
+    setFormData({ ...entryMeta, body: entryBody });
+  };
+
+  useEffect(() => {
+    if (!entryMeta || !entryBody) return;
+
+    setFormData({ ...entryMeta, body: entryBody });
+  }, [entryMeta, entryBody]);
+
   return (
     <div>
       <h3>Edit Entry</h3>
       <EntrySelector onChange={handleSelectedEntryChange} />
       <hr />
-      {entryMeta && entryBody && (
+      {formData && (
         <MetaForm
-          initialFormData={{ ...entryMeta, body: entryBody }}
-          key={selectedEntry}
-          onSubmit={handleOnSubmit}
+          formData={formData}
+          onReset={handleOnFormReset}
+          onChange={handleOnFormChange}
+          onSubmit={handleOnFormSubmit}
         />
       )}
     </div>
