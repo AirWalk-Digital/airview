@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useGetEntryMeta, useGetEntryBody } from "../hooks";
 import { MetaForm } from "../meta-form/meta-form";
 import { EntrySelector } from "../entry-selector";
@@ -37,7 +37,7 @@ export function EntryEditor() {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        //const data = await response.json();
         queryClient.invalidateQueries("entries_meta");
         queryClient.invalidateQueries("entry_body", selectedEntry);
       }
@@ -75,6 +75,7 @@ export function EntryEditor() {
           onSubmit={handleOnFormSubmit}
         />
       )}
+      <hr />
     </div>
   );
 }
