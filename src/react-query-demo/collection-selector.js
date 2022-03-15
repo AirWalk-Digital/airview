@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetCollections } from "./hooks";
 
-export function CollectionSelector({ onChange, value, ...otherProps }) {
+export function CollectionSelector({ onChange, value = "", ...otherProps }) {
   const { status, data: collections } = useGetCollections();
 
   if (status === "loading") {

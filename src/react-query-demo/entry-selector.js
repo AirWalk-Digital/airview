@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetAllEntriesMeta } from "./hooks";
 
-export function EntrySelector({ onChange, value, ...otherProps }) {
+export function EntrySelector({ onChange, value = "", ...otherProps }) {
   const { status, data: entries } = useGetAllEntriesMeta();
 
   if (status === "loading") {
