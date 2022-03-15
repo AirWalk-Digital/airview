@@ -39,7 +39,7 @@ export function EntryEditor() {
       if (response.ok) {
         //const data = await response.json();
         queryClient.invalidateQueries("entries_meta");
-        queryClient.invalidateQueries("entry_body", selectedEntry);
+        // queryClient.invalidateQueries("entry_body", selectedEntry);
       }
     } catch (error) {
       console.log(error);
