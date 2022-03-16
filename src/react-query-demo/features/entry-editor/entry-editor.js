@@ -8,9 +8,24 @@ export function EntryEditor() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
   const [formData, setFormData] = useState();
+  const [formReady, setFormReady] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
-  const { data: entryMeta } = useGetEntryMeta(selectedEntry);
-  const { data: entryBody } = useGetEntryBody(selectedEntry);
+  const {
+    isLoading: entryMetaIsLoading,
+    isFetching: entryMetaIsFetching,
+    isError: entryMetaIsError,
+    isSuccess: entryMetaIsSuccess,
+    data: entryMeta,
+  } = useGetEntryMeta(selectedEntry);
+
+  const {
+    isLoading: entryBodyIsLoading,
+    isFetching: entryBodyIsFetching,
+    isError: entryBodyIsError,
+    isSuccess: entryBodyIsSuccess,
+    data: entryBody,
+  } = useGetEntryBody(selectedEntry);
 
   const handleSelectedEntryChange = (event) =>
     setSelectedEntry(event.target.value);
@@ -22,8 +37,12 @@ export function EntryEditor() {
     }));
   };
 
+  // Look to use React-Query mutation hook:
+  // https://react-query.tanstack.com/guides/mutations
   const handleOnFormSubmit = async (event) => {
     event.preventDefault();
+    setFormSubmitting(true);
+    setFormReady(false);
 
     let data;
 
@@ -38,6 +57,7 @@ export function EntryEditor() {
 
       if (response.ok) {
         //const data = await response.json();
+
         queryClient.invalidateQueries("entries_meta");
       }
     } catch (error) {
@@ -53,20 +73,29 @@ export function EntryEditor() {
   };
 
   useEffect(() => {
+    setFormReady(false);
     if (!entryMeta || !entryBody) return;
 
     setFormData({ ...entryMeta, body: entryBody });
+    setFormReady(true);
+    setFormSubmitting(false);
   }, [entryMeta, entryBody]);
 
   return (
     <div>
       <h3>Edit Entry</h3>
-      <EntrySelector
-        onChange={handleSelectedEntryChange}
-        value={selectedEntry}
-      />
+      {!formSubmitting && (
+        <EntrySelector
+          onChange={handleSelectedEntryChange}
+          value={selectedEntry}
+        />
+      )}
       <hr />
-      {formData && (
+      {formSubmitting && <div>Form submitting</div>}
+      {selectedEntry && !formReady && !formSubmitting && (
+        <div>Loading form</div>
+      )}
+      {selectedEntry && formReady && !formSubmitting && (
         <MetaForm
           formData={formData}
           onReset={handleOnFormReset}
@@ -78,3 +107,11 @@ export function EntryEditor() {
     </div>
   );
 }
+
+/*
+show form
+- when we have form data ready
+  - is dependent on 
+
+
+*/
