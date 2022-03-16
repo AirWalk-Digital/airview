@@ -5,7 +5,7 @@ import { factory, oneOf, primaryKey, nullable } from "@mswjs/data";
 import initialData from "./intial_data.json";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
-const ARTIFICIAL_DELAY_MS = 2000;
+const ARTIFICIAL_DELAY_MS = 0; //2000;
 
 const SLUGIFY_CONFIG = {
   lower: true,
@@ -20,6 +20,7 @@ const db = factory({
   entries: {
     id: primaryKey(String),
     name: String,
+    sha: String,
     collection: oneOf("collections"),
     parent: nullable(oneOf("entries")),
     body: nullable(String),
@@ -39,6 +40,7 @@ function createEntryData(entryData) {
   return {
     id: id ?? nanoid(),
     name,
+    sha: nanoid(),
     collection: db.collections.findFirst({
       where: {
         id: {
@@ -65,11 +67,12 @@ function getAllEntriesMeta() {
   const entries = db.entries.getAll();
 
   return entries.map((entry) => {
-    const { id, name, collection, parent } = entry;
+    const { id, name, sha, collection, parent } = entry;
 
     return {
       id,
       name,
+      sha,
       collection: collection.id,
       parent: parent?.id,
     };
@@ -90,11 +93,11 @@ export const handlers = [
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
-  rest.get("/api/entries/:entryId/body", function (req, res, ctx) {
+  rest.get("/api/entries/:sha/body", function (req, res, ctx) {
     const entry = db.entries.findFirst({
       where: {
-        id: {
-          equals: req.params.entryId,
+        sha: {
+          equals: req.params.sha,
         },
       },
     });
@@ -113,6 +116,7 @@ export const handlers = [
         },
       },
       data: entry,
+      sha: nanoid(),
       strict: true,
     });
 

@@ -1,15 +1,18 @@
 import { useQuery } from "react-query";
 import { fetchClient } from "../util";
+import { useGetEntryMeta } from "../hooks";
 
 export function useGetEntryBody(entryId) {
+  const { data: entryMeta } = useGetEntryMeta(entryId);
+  console.log(entryMeta?.sha);
   const {
     status,
     data: entryBody,
     error,
   } = useQuery(
-    ["entry_body", entryId],
-    fetchClient(`/api/entries/${entryId}/body`),
-    { enabled: !!entryId }
+    ["entry_body", entryMeta?.sha],
+    fetchClient(`/api/entries/${entryMeta?.sha}/body`),
+    { enabled: !!entryMeta?.sha }
   );
 
   if (entryBody) {
