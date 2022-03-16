@@ -13,6 +13,7 @@ import { EntryCreator } from "./entry-creator/entry-creator";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      staleTime: Infinity,
       refetchOnWindowFocus: false,
     },
   },
