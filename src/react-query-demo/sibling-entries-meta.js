@@ -6,7 +6,8 @@ import { PrintJson } from "./components";
 export function SiblingEntriesMeta() {
   const [selectedEntry, setSelectedEntry] = useState("");
 
-  const { status, data: entries } = useGetSiblingEntriesMeta(selectedEntry);
+  const { isLoading, isFetching, isSuccess, isError, data } =
+    useGetSiblingEntriesMeta(selectedEntry);
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
@@ -16,13 +17,14 @@ export function SiblingEntriesMeta() {
       <p>
         <i>useGetSiblingEntriesMeta(collectionId, entryId)</i>
       </p>
-
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
-
-      {status === "loading" ? (
-        <div>Loading Sibling Entries Metaa</div>
+      {selectedEntry && (isLoading || isFetching) ? (
+        <div>Loading Sibling Entries Meta</div>
       ) : (
-        <PrintJson data={entries} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <div>Error fetching Sibling Entries Meta</div>}
+        </>
       )}
       <hr />
     </div>
