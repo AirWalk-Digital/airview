@@ -5,7 +5,7 @@ import { PrintJson } from "./components";
 
 export function EntriesByCollection() {
   const [selectedCollection, setSelectedCollection] = useState("");
-  const { status, data: entries } =
+  const { isLoading, isFetching, isSuccess, isError, data } =
     useGetEntriesMetaByCollection(selectedCollection);
 
   const handleOnChange = (event) => {
@@ -22,10 +22,13 @@ export function EntriesByCollection() {
         onChange={handleOnChange}
         value={selectedCollection}
       />
-      {status === "loading" ? (
-        <div>Loading Entries By Collection</div>
+      {selectedCollection && (isLoading || isFetching) ? (
+        <div>Loading all entries by collection</div>
       ) : (
-        <PrintJson data={entries} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <div>Error fetching entries data</div>}
+        </>
       )}
       <hr />
     </div>
