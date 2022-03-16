@@ -8,7 +8,6 @@ export function EntryEditor() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
   const [formData, setFormData] = useState();
-  const [formReady, setFormReady] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
 
   const {
@@ -42,7 +41,6 @@ export function EntryEditor() {
   const handleOnFormSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitting(true);
-    setFormReady(false);
 
     let data;
 
@@ -57,7 +55,6 @@ export function EntryEditor() {
 
       if (response.ok) {
         //const data = await response.json();
-
         queryClient.invalidateQueries("entries_meta");
       }
     } catch (error) {
@@ -73,35 +70,38 @@ export function EntryEditor() {
   };
 
   useEffect(() => {
-    setFormReady(false);
-    if (!entryMeta || !entryBody) return;
+    if (!entryMeta || !entryBody) {
+      console.log("nulling data");
+      setFormData(null);
+      return;
+    }
 
     setFormData({ ...entryMeta, body: entryBody });
-    setFormReady(true);
     setFormSubmitting(false);
   }, [entryMeta, entryBody]);
 
   return (
     <div>
       <h3>Edit Entry</h3>
-      {!formSubmitting && (
-        <EntrySelector
-          onChange={handleSelectedEntryChange}
-          value={selectedEntry}
-        />
-      )}
-      <hr />
-      {formSubmitting && <div>Form submitting</div>}
-      {selectedEntry && !formReady && !formSubmitting && (
-        <div>Loading form</div>
-      )}
-      {selectedEntry && formReady && !formSubmitting && (
-        <MetaForm
-          formData={formData}
-          onReset={handleOnFormReset}
-          onChange={handleOnFormChange}
-          onSubmit={handleOnFormSubmit}
-        />
+      {formSubmitting ? (
+        <div>Form submitting</div>
+      ) : (
+        <>
+          <EntrySelector
+            onChange={handleSelectedEntryChange}
+            value={selectedEntry}
+            style={{ marginBottom: 32 }}
+          />
+          {selectedEntry && !formData && <div>Loading form data...</div>}
+          {selectedEntry && formData && (
+            <MetaForm
+              formData={formData}
+              onReset={handleOnFormReset}
+              onChange={handleOnFormChange}
+              onSubmit={handleOnFormSubmit}
+            />
+          )}
+        </>
       )}
       <hr />
     </div>
