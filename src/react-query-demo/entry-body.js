@@ -5,7 +5,8 @@ import { PrintJson } from "./components";
 
 export function EntryBody() {
   const [selectedEntry, setSelectedEntry] = useState("");
-  const { status, data: entryBody } = useGetEntryBody(selectedEntry);
+  const { isLoading, isFetching, isSuccess, isError, data } =
+    useGetEntryBody(selectedEntry);
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
@@ -16,10 +17,13 @@ export function EntryBody() {
         <i>useGetEntryBody(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
-      {status === "loading" ? (
+      {selectedEntry && (isLoading || isFetching) ? (
         <div>Loading entry body</div>
       ) : (
-        <PrintJson data={entryBody} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <div>Error fetching entry body</div>}
+        </>
       )}
       <hr />
     </div>
