@@ -5,7 +5,7 @@ import { factory, oneOf, primaryKey, nullable } from "@mswjs/data";
 import initialData from "./intial_data.json";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
-const ARTIFICIAL_DELAY_MS = 0; //2000;
+const ARTIFICIAL_DELAY_MS = 2000;
 
 const SLUGIFY_CONFIG = {
   lower: true,
