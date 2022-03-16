@@ -11,7 +11,7 @@ export function useGetEntryBody(entryId) {
     error,
   } = useQuery(
     ["entry_body", entryMeta?.sha],
-    fetchClient(`/api/entries/${entryMeta?.sha}/body`),
+    fetchClient(`/api/entries/${entryMeta?.sha}`),
     { enabled: !!entryMeta?.sha }
   );
 

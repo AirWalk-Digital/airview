@@ -4,7 +4,7 @@ import { fetchClient } from "../util";
 export function useGetAllEntriesMeta() {
   const { status, data, error } = useQuery(
     "entries_meta",
-    fetchClient("/api/entries/meta")
+    fetchClient("/api/entries")
   );
 
   if (data) {

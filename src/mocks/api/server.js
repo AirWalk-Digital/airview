@@ -88,12 +88,12 @@ initialData.entries.forEach((entry) => {
 });
 
 export const handlers = [
-  rest.get("/api/entries/meta", function (req, res, ctx) {
+  rest.get("/api/entries", function (req, res, ctx) {
     const entiesMeta = getAllEntriesMeta();
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
-  rest.get("/api/entries/:sha/body", function (req, res, ctx) {
+  rest.get("/api/entries/:sha", function (req, res, ctx) {
     const entry = db.entries.findFirst({
       where: {
         sha: {
