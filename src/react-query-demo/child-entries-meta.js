@@ -6,7 +6,8 @@ import { PrintJson } from "./components";
 export function ChildEntriesMeta() {
   const [selectedEntry, setSelectedEntry] = useState("");
 
-  const { status, data: entries } = useGetChildEntriesMeta(selectedEntry);
+  const { isLoading, isFetching, isSuccess, isError, data } =
+    useGetChildEntriesMeta(selectedEntry);
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
@@ -17,10 +18,13 @@ export function ChildEntriesMeta() {
         <i>useGetChildEntries(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
-      {status === "loading" ? (
+      {selectedEntry && (isLoading || isFetching) ? (
         <div>Loading Child Entries Meta</div>
       ) : (
-        <PrintJson data={entries} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <div>Error fetching Child Entries Meta</div>}
+        </>
       )}
       <hr />
     </div>
