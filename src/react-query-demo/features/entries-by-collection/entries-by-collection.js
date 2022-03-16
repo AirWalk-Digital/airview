@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useGetEntriesMetaByCollection } from "./hooks";
-import { CollectionSelector } from "./collection-selector";
-import { PrintJson } from "./components";
+import { useGetEntriesMetaByCollection } from "../../hooks";
+import { CollectionSelector } from "../collection-selector";
+import { PrintJson } from "../../components";
 
 export function EntriesByCollection() {
   const [selectedCollection, setSelectedCollection] = useState("");

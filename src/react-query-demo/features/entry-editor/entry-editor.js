@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
-import { useGetEntryMeta, useGetEntryBody } from "../hooks";
-import { MetaForm } from "../meta-form/meta-form";
+import { useGetEntryMeta, useGetEntryBody } from "../../hooks";
+import { MetaForm } from "../meta-form";
 import { EntrySelector } from "../entry-selector";
 
 export function EntryEditor() {

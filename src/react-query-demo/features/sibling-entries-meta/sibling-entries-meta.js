@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useGetSiblingEntriesMeta } from "./hooks";
-import { EntrySelector } from "./entry-selector";
-import { PrintJson } from "./components";
+import { useGetSiblingEntriesMeta } from "../../hooks";
+import { EntrySelector } from "../entry-selector";
+import { PrintJson } from "../../components";
 
 export function SiblingEntriesMeta() {
   const [selectedEntry, setSelectedEntry] = useState("");

@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import { useGetChildEntriesMeta } from "./hooks";
-import { EntrySelector } from "./entry-selector";
-import { PrintJson } from "./components";
+import { useGetEntryBody } from "../../hooks";
+import { EntrySelector } from "../entry-selector";
+import { PrintJson } from "../../components";
 
-export function ChildEntriesMeta() {
+export function EntryBody() {
   const [selectedEntry, setSelectedEntry] = useState("");
-
   const { isLoading, isFetching, isSuccess, isError, data } =
-    useGetChildEntriesMeta(selectedEntry);
+    useGetEntryBody(selectedEntry);
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
   return (
     <div>
-      <h3>Child Entries Meta</h3>
+      <h3>Entry Body</h3>
       <p>
-        <i>useGetChildEntries(entryId)</i>
+        <i>useGetEntryBody(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
       {selectedEntry && (isLoading || isFetching) ? (
-        <div>Loading Child Entries Meta</div>
+        <div>Loading entry body</div>
       ) : (
         <>
           {isSuccess && <PrintJson data={data} />}
-          {isError && <div>Error fetching Child Entries Meta</div>}
+          {isError && <div>Error fetching entry body</div>}
         </>
       )}
       <hr />

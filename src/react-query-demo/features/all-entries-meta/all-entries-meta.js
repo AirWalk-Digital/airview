@@ -1,6 +1,6 @@
 import React from "react";
-import { useGetAllEntriesMeta } from "./hooks";
-import { PrintJson } from "./components";
+import { useGetAllEntriesMeta } from "../../hooks";
+import { PrintJson } from "../../components";
 
 export function AllEntriesMeta() {
   const { isLoading, isFetching, isSuccess, isError, data } =
