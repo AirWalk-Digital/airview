@@ -3,7 +3,7 @@ import { useGetAllEntriesMeta } from "./hooks";
 import { PrintJson } from "./components";
 
 export function AllEntriesMeta() {
-  const { isLoading, isFetching, isSuccess, isError, data, error } =
+  const { isLoading, isFetching, isSuccess, isError, data } =
     useGetAllEntriesMeta();
 
   return (
@@ -17,7 +17,7 @@ export function AllEntriesMeta() {
       ) : (
         <>
           {isSuccess && <PrintJson data={data} />}
-          {isError && <PrintJson data={{ error: error.message }} />}
+          {isError && <div>Error fetching all entries meta</div>}
         </>
       )}
       <hr />
