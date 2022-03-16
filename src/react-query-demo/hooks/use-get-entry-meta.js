@@ -2,7 +2,15 @@ import { useMemo } from "react";
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
 export function useGetEntryMeta(entryId) {
-  const { status, data: entriesMeta, error } = useGetAllEntriesMeta();
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    isIdle,
+    isFetching,
+    data: entriesMeta,
+    error,
+  } = useGetAllEntriesMeta();
 
   const entryMeta = useMemo(() => {
     if (!entriesMeta || !entryId) return;
@@ -14,21 +22,13 @@ export function useGetEntryMeta(entryId) {
     };
   }, [entriesMeta, entryId]);
 
-  if (entryMeta) {
-    return {
-      status,
-      data: entryMeta,
-    };
-  }
-
-  if (status === "error") {
-    return {
-      status,
-      message: error.message,
-    };
-  }
-
   return {
-    status,
+    isLoading,
+    isError,
+    isSuccess,
+    isIdle,
+    isFetching,
+    data: entryMeta,
+    error,
   };
 }
