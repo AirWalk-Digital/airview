@@ -5,7 +5,8 @@ import { PrintJson } from "./components";
 
 export function EntryMeta() {
   const [selectedEntry, setSelectedEntry] = useState("");
-  const { status, data: entryMeta } = useGetEntryMeta(selectedEntry);
+  const { isLoading, isFetching, isSuccess, isError, data } =
+    useGetEntryMeta(selectedEntry);
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
@@ -16,10 +17,13 @@ export function EntryMeta() {
         <i>useGetEntryMeta(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
-      {status === "loading" ? (
+      {selectedEntry && (isLoading || isFetching) ? (
         <div>Loading entry meta</div>
       ) : (
-        <PrintJson data={entryMeta} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <div>Error fetching entry meta</div>}
+        </>
       )}
       <hr />
     </div>
