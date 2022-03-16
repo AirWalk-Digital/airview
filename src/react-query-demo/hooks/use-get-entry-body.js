@@ -4,7 +4,7 @@ import { useGetEntryMeta } from "../hooks";
 
 export function useGetEntryBody(entryId) {
   const { data: entryMeta } = useGetEntryMeta(entryId);
-  console.log(entryMeta?.sha);
+
   const {
     status,
     data: entryBody,
