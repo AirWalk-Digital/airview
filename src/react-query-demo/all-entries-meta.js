@@ -3,7 +3,8 @@ import { useGetAllEntriesMeta } from "./hooks";
 import { PrintJson } from "./components";
 
 export function AllEntriesMeta() {
-  const { status, data } = useGetAllEntriesMeta();
+  const { isLoading, isFetching, isSuccess, isError, data, error } =
+    useGetAllEntriesMeta();
 
   return (
     <div>
@@ -11,10 +12,13 @@ export function AllEntriesMeta() {
       <p>
         <i>useGetAllEntriesMeta()</i>
       </p>
-      {status === "loading" ? (
+      {isLoading || isFetching ? (
         <div>Loading All Entries Meta</div>
       ) : (
-        <PrintJson data={data} />
+        <>
+          {isSuccess && <PrintJson data={data} />}
+          {isError && <PrintJson data={{ error: error.message }} />}
+        </>
       )}
       <hr />
     </div>
