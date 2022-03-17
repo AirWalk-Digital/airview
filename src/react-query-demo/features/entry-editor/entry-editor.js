@@ -47,7 +47,7 @@ export function EntryEditor() {
         queryClient.invalidateQueries("entries_meta");
       }
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   };
 
