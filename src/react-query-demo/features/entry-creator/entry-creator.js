@@ -47,6 +47,9 @@ export function EntryCreator() {
       }
     } catch (error) {
       console.warn(error);
+    } finally {
+      setFormData(setInitialState());
+      setFormSubmitting(false);
     }
   };
 
