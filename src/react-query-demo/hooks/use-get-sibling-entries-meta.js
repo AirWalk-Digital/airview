@@ -1,17 +1,17 @@
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
 export function useGetSiblingEntriesMeta(entryId) {
-  return useGetAllEntriesMeta((entries) => {
+  return useGetAllEntriesMeta((entriesMeta) => {
     if (!entryId) return;
 
-    const { parent, collection } = entries.find(
-      (entry) => entry.id === entryId
-    );
+    const { parent, collection } =
+      entriesMeta.find((entry) => entry.id === entryId) ?? {};
 
-    if (!parent) return;
+    if (!parent || !collection) return [];
 
-    return entries.filter(
-      (entry) => entry?.parent === parent && entry.collection === collection
+    return entriesMeta.filter(
+      (entryMeta) =>
+        entryMeta?.parent === parent && entryMeta.collection === collection
     );
   });
 }
