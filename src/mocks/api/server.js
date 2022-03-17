@@ -5,7 +5,7 @@ import { factory, oneOf, primaryKey, nullable } from "@mswjs/data";
 import initialData from "./intial_data.json";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
-const ARTIFICIAL_DELAY_MS = 2000;
+const ARTIFICIAL_DELAY_MS = 500;
 
 const SLUGIFY_CONFIG = {
   lower: true,
@@ -106,6 +106,13 @@ export const handlers = [
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entryBody));
   }),
+  rest.post("/api/entries", function (req, res, ctx) {
+    db.entries.create(createEntryData(req.body));
+
+    const entiesMeta = getAllEntriesMeta();
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+  }),
   rest.post("/api/entries/:entryId", function (req, res, ctx) {
     const entry = createEntryData(req.body);
 
@@ -117,6 +124,20 @@ export const handlers = [
       },
       data: entry,
       sha: nanoid(),
+      strict: true,
+    });
+
+    const entiesMeta = getAllEntriesMeta();
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+  }),
+  rest.delete("/api/entries/:entryId", function (req, res, ctx) {
+    db.entries.delete({
+      where: {
+        id: {
+          equals: req.params.entryId,
+        },
+      },
       strict: true,
     });
 

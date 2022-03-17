@@ -3,6 +3,7 @@ import { useQueryClient } from "react-query";
 import { MetaForm } from "../meta-form";
 
 export function EntryCreator() {
+  const queryClient = useQueryClient();
   const setInitialState = () => {
     return {
       name: "",
@@ -13,6 +14,7 @@ export function EntryCreator() {
   };
 
   const [formData, setFormData] = useState(setInitialState());
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   const handleOnFormChange = (event) => {
     setFormData((prevValue) => ({
@@ -27,17 +29,40 @@ export function EntryCreator() {
     setFormData(setInitialState());
   };
 
+  const handleOnFormSubmit = async (event) => {
+    event.preventDefault();
+    setFormSubmitting(true);
+
+    try {
+      const response = await fetch(`/api/entries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        queryClient.invalidateQueries("entries_meta");
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   return (
     <div>
       <h3>Create Entry</h3>
-      <div>Error reporter here</div>
-      <hr />
-      <MetaForm
-        formData={formData}
-        onReset={handleOnFormReset}
-        onChange={handleOnFormChange}
-        onSubmit={() => {}}
-      />
+      {formSubmitting ? (
+        <div>Form submitting</div>
+      ) : (
+        <MetaForm
+          formData={formData}
+          onReset={handleOnFormReset}
+          onChange={handleOnFormChange}
+          onSubmit={handleOnFormSubmit}
+        />
+      )}
       <hr />
     </div>
   );
