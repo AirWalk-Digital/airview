@@ -9,6 +9,7 @@ import {
   SiblingEntriesMeta,
   EntryEditor,
   EntryCreator,
+  EntryRemover,
 } from "../features";
 
 export function MainView() {
@@ -26,8 +27,9 @@ export function MainView() {
       }
       rightSlot={
         <div>
-          <EntryEditor />
           <EntryCreator />
+          <EntryRemover />
+          <EntryEditor />
         </div>
       }
     />
