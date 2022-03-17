@@ -1,38 +1,21 @@
 import { rest } from "msw";
 import { nanoid } from "nanoid";
-import slugify from "slugify";
-import { factory, oneOf, primaryKey, nullable } from "@mswjs/data";
+import { factory, primaryKey, nullable } from "@mswjs/data";
 import initialData from "./intial_data.json";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
 const ARTIFICIAL_DELAY_MS = 500;
 
-const SLUGIFY_CONFIG = {
-  lower: true,
-  replacement: "_",
-};
-
 const db = factory({
-  collections: {
-    id: primaryKey(String),
-    name: String,
-  },
   entries: {
     id: primaryKey(String),
     name: String,
     sha: String,
-    collection: oneOf("collections"),
-    parent: nullable(oneOf("entries")),
+    collection: String,
+    parent: nullable(String),
     body: nullable(String),
   },
 });
-
-function createCollectionData(collection) {
-  return {
-    id: slugify(collection, SLUGIFY_CONFIG),
-    name: collection,
-  };
-}
 
 function createEntryData(entryData) {
   const { id, name, collection, parent, body } = entryData;
@@ -41,47 +24,27 @@ function createEntryData(entryData) {
     id: id ?? nanoid(),
     name,
     sha: nanoid(),
-    collection: db.collections.findFirst({
-      where: {
-        id: {
-          equals: slugify(collection, SLUGIFY_CONFIG),
-        },
-      },
-    }),
-    ...(parent
-      ? {
-          parent: db.entries.findFirst({
-            where: {
-              id: {
-                equals: parent,
-              },
-            },
-          }),
-        }
-      : { parent: null }),
+    collection,
+    parent,
     body,
   };
 }
 
 function getAllEntriesMeta() {
-  const entries = db.entries.getAll();
+  return db.entries.getAll();
 
-  return entries.map((entry) => {
-    const { id, name, sha, collection, parent } = entry;
+  // return entries.map((entry) => {
+  //   const { id, name, sha, collection, parent } = entry;
 
-    return {
-      id,
-      name,
-      sha,
-      collection: collection.id,
-      parent: parent?.id,
-    };
-  });
+  //   return {
+  //     id,
+  //     name,
+  //     sha,
+  //     collection: collection.id,
+  //     parent: parent?.id,
+  //   };
+  // });
 }
-
-initialData.collections.forEach((collection) => {
-  db.collections.create(createCollectionData(collection));
-});
 
 initialData.entries.forEach((entry) => {
   db.entries.create(createEntryData(entry));
@@ -109,9 +72,7 @@ export const handlers = [
   rest.post("/api/entries", function (req, res, ctx) {
     db.entries.create(createEntryData(req.body));
 
-    const entiesMeta = getAllEntriesMeta();
-
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
   rest.post("/api/entries/:entryId", function (req, res, ctx) {
     const entry = createEntryData(req.body);
@@ -127,9 +88,7 @@ export const handlers = [
       strict: true,
     });
 
-    const entiesMeta = getAllEntriesMeta();
-
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
   rest.delete("/api/entries", function (req, res, ctx) {
     const entriesMeta = getAllEntriesMeta();
@@ -156,8 +115,6 @@ export const handlers = [
       strict: true,
     });
 
-    const entriesMeta = getAllEntriesMeta();
-
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entriesMeta));
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
 ];
