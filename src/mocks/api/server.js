@@ -131,6 +131,21 @@ export const handlers = [
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
+  rest.delete("/api/entries", function (req, res, ctx) {
+    const entriesMeta = getAllEntriesMeta();
+
+    entriesMeta.forEach((entry) => {
+      db.entries.delete({
+        where: {
+          id: {
+            equals: entry.id,
+          },
+        },
+      });
+    });
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+  }),
   rest.delete("/api/entries/:entryId", function (req, res, ctx) {
     db.entries.delete({
       where: {
@@ -141,8 +156,8 @@ export const handlers = [
       strict: true,
     });
 
-    const entiesMeta = getAllEntriesMeta();
+    const entriesMeta = getAllEntriesMeta();
 
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entriesMeta));
   }),
 ];

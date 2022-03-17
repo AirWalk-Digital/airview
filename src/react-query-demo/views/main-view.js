@@ -10,6 +10,7 @@ import {
   EntryEditor,
   EntryCreator,
   EntryRemover,
+  RemoveAllEntries,
 } from "../features";
 
 export function MainView() {
@@ -29,6 +30,7 @@ export function MainView() {
         <div>
           <EntryCreator />
           <EntryRemover />
+          <RemoveAllEntries />
           <EntryEditor />
         </div>
       }
