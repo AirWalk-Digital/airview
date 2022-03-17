@@ -69,8 +69,14 @@ export function EntryEditor() {
   useEffect(() => {
     if (entryMetaIsFetching || entryBodyIsFetching) return;
 
-    setFormData({ ...entryMeta, body: entryBody });
-    setFormSubmitting(false);
+    if (!entryMeta || !entryBody) {
+      setSelectedEntry("");
+    }
+
+    if (entryMeta && entryBody) {
+      setFormData({ ...entryMeta, body: entryBody });
+      setFormSubmitting(false);
+    }
   }, [entryMeta, entryBody, entryMetaIsFetching, entryBodyIsFetching]);
 
   return (
