@@ -10,24 +10,16 @@ export function EntryEditor() {
   const [formData, setFormData] = useState();
   const [formSubmitting, setFormSubmitting] = useState(false);
 
-  const {
-    isLoading: entryMetaIsLoading,
-    isFetching: entryMetaIsFetching,
-    isError: entryMetaIsError,
-    isSuccess: entryMetaIsSuccess,
-    data: entryMeta,
-  } = useGetEntryMeta(selectedEntry);
+  const { isFetching: entryMetaIsFetching, data: entryMeta } =
+    useGetEntryMeta(selectedEntry);
 
-  const {
-    isLoading: entryBodyIsLoading,
-    isFetching: entryBodyIsFetching,
-    isError: entryBodyIsError,
-    isSuccess: entryBodyIsSuccess,
-    data: entryBody,
-  } = useGetEntryBody(selectedEntry);
+  const { isFetching: entryBodyIsFetching, data: entryBody } =
+    useGetEntryBody(selectedEntry);
 
-  const handleSelectedEntryChange = (event) =>
+  const handleSelectedEntryChange = (event) => {
+    setFormData(null);
     setSelectedEntry(event.target.value);
+  };
 
   const handleOnFormChange = (event) => {
     setFormData((prevValue) => ({
@@ -42,8 +34,6 @@ export function EntryEditor() {
     event.preventDefault();
     setFormSubmitting(true);
 
-    let data;
-
     try {
       const response = await fetch(`/api/entries/${selectedEntry}`, {
         method: "POST",
@@ -54,31 +44,24 @@ export function EntryEditor() {
       });
 
       if (response.ok) {
-        //const data = await response.json();
         queryClient.invalidateQueries("entries_meta");
       }
     } catch (error) {
       console.log(error);
-      throw new Error(error.message ?? data);
     }
   };
 
   const handleOnFormReset = (event) => {
     event.preventDefault();
-
     setFormData({ ...entryMeta, body: entryBody });
   };
 
   useEffect(() => {
-    if (!entryMeta || !entryBody) {
-      console.log("nulling data");
-      setFormData(null);
-      return;
-    }
+    if (entryMetaIsFetching || entryBodyIsFetching) return;
 
     setFormData({ ...entryMeta, body: entryBody });
     setFormSubmitting(false);
-  }, [entryMeta, entryBody]);
+  }, [entryMeta, entryBody, entryMetaIsFetching, entryBodyIsFetching]);
 
   return (
     <div>
@@ -107,11 +90,3 @@ export function EntryEditor() {
     </div>
   );
 }
-
-/*
-show form
-- when we have form data ready
-  - is dependent on 
-
-
-*/
