@@ -13,7 +13,7 @@ const db = factory({
     sha: String,
     collection: String,
     parent: nullable(String),
-    body: nullable(String),
+    body: Array,
   },
 });
 
@@ -61,7 +61,10 @@ export const handlers = [
 
     const entryBody = entry.body;
 
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entryBody));
+    return res(
+      ctx.delay(ARTIFICIAL_DELAY_MS),
+      ctx.json(Object.assign(...entryBody))
+    );
   }),
   rest.post("/api/entries", function (req, res, ctx) {
     db.entries.create(createEntryData(req.body));
