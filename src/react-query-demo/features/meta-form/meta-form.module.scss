@@ -1,0 +1,38 @@
+.root {
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.form_input {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+
+  input,
+  select,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 4px;
+  }
+
+  input,
+  select {
+    height: 32px;
+  }
+
+  textarea {
+    height: 128px;
+    resize: none;
+  }
+
+  label > span {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+}
+
+.action_button {
+  margin: 4px;
+}

@@ -1,99 +1,117 @@
 import { rest } from "msw";
-import slugify from "slugify";
-import { factory, oneOf, primaryKey, nullable } from "@mswjs/data";
+import { nanoid } from "nanoid";
+import { factory, primaryKey, nullable } from "@mswjs/data";
 import initialData from "./intial_data.json";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
-const ARTIFICIAL_DELAY_MS = 0;
-
-const SLUGIFY_CONFIG = {
-  lower: true,
-  replacement: "_",
-};
+const ARTIFICIAL_DELAY_MS = 500;
 
 const db = factory({
-  collections: {
-    id: primaryKey(String),
-    name: String,
-  },
   entries: {
     id: primaryKey(String),
     name: String,
-    collection: oneOf("collections"),
-    parent: nullable(oneOf("entries")),
-    body: String,
+    sha: String,
+    collection: String,
+    parent: nullable(String),
+    body: Array,
   },
 });
 
-function createCollection(collection) {
-  return {
-    id: slugify(collection, SLUGIFY_CONFIG),
-    name: collection,
-  };
-}
-
-function createEntry(entryData) {
-  const { name, collection, parent, body } = entryData;
+function createEntryData(entryData) {
+  const { id, name, collection, parent, body } = entryData;
 
   return {
-    id: slugify(name, SLUGIFY_CONFIG),
+    id: id ?? nanoid(),
     name,
-    collection: db.collections.findFirst({
-      where: {
-        id: {
-          equals: slugify(collection, SLUGIFY_CONFIG),
-        },
-      },
-    }),
-    ...(parent && {
-      parent: db.entries.findFirst({
-        where: {
-          id: {
-            equals: slugify(parent, SLUGIFY_CONFIG),
-          },
-        },
-      }),
-    }),
+    sha: nanoid(),
+    collection,
+    parent,
     body,
   };
 }
 
-initialData.collections.forEach((collection) => {
-  db.collections.create(createCollection(collection));
-});
+function getAllEntriesMeta() {
+  const entries = db.entries.getAll();
+
+  return entries.map((entry) => {
+    const { body, ...rest } = entry;
+
+    return rest;
+  });
+}
 
 initialData.entries.forEach((entry) => {
-  db.entries.create(createEntry(entry));
+  db.entries.create(createEntryData(entry));
 });
 
 export const handlers = [
-  rest.get("/api/entries/meta", function (req, res, ctx) {
-    const entries = db.entries.getAll();
-
-    const entiesMeta = entries.map((entry) => {
-      const { id, name, collection, parent } = entry;
-
-      return {
-        id,
-        name,
-        collection: collection.id,
-        parent: parent?.id,
-      };
-    });
+  rest.get("/api/entries", function (req, res, ctx) {
+    const entiesMeta = getAllEntriesMeta();
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
-  rest.get("/api/entries/:entryId/body", function (req, res, ctx) {
+  rest.get("/api/entries/:sha", function (req, res, ctx) {
     const entry = db.entries.findFirst({
       where: {
-        id: {
-          equals: req.params.entryId,
+        sha: {
+          equals: req.params.sha,
         },
       },
     });
 
     const entryBody = entry.body;
 
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entryBody));
+    return res(
+      ctx.delay(ARTIFICIAL_DELAY_MS),
+      ctx.json(Object.assign(...entryBody))
+    );
+  }),
+  rest.post("/api/entries", function (req, res, ctx) {
+    db.entries.create(createEntryData(req.body));
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+  }),
+  rest.post("/api/entries/:entryId", function (req, res, ctx) {
+    const entry = createEntryData(req.body);
+
+    db.entries.update({
+      where: {
+        id: {
+          equals: req.params.entryId,
+        },
+      },
+      data: entry,
+      sha: nanoid(),
+      strict: true,
+    });
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+  }),
+  rest.delete("/api/entries", function (req, res, ctx) {
+    const entriesMeta = getAllEntriesMeta();
+
+    entriesMeta.forEach((entry) => {
+      db.entries.delete({
+        where: {
+          id: {
+            equals: entry.id,
+          },
+        },
+      });
+    });
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+  }),
+  rest.delete("/api/entries/:entryId", function (req, res, ctx) {
+    db.entries.delete({
+      where: {
+        id: {
+          equals: req.params.entryId,
+        },
+      },
+      strict: true,
+    });
+
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
 ];

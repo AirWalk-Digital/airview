@@ -1,33 +1,132 @@
 {
-  "collections": ["Application", "Knowledge"],
   "entries": [
     {
+      "id": "1",
       "name": "Microsoft Teams",
-      "collection": "Application",
-      "body": "I am body content for Microsoft Teams"
+      "collection": "application",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Microsoft Teams"
+          }
+        }
+      ]
     },
     {
+      "id": "2",
       "name": "Microsoft Outlook",
-      "collection": "Application",
-      "body": "I am body content for Microsoft Outlook"
+      "collection": "application",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Microsoft Outlook"
+          }
+        }
+      ]
     },
     {
+      "id": "3",
       "name": "Activity Feed Guide",
-      "collection": "Knowledge",
-      "parent": "Microsoft Teams",
-      "body": "I am body content for Activity Feed Guide"
+      "collection": "knowledge",
+      "parent": "1",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Activity Feed Guide"
+          }
+        },
+        {
+          "subsection.md": {
+            "content": "I am subsection body content for Activity Feed Guide"
+          }
+        }
+      ]
     },
     {
+      "id": "4",
       "name": "Placing a Call on Hold",
-      "collection": "Knowledge",
-      "parent": "Microsoft Teams",
-      "body": "I am body content for Placing a Call on Hold"
+      "collection": "knowledge",
+      "parent": "1",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Placing a Call on Hold"
+          }
+        },
+        {
+          "subsection.md": {
+            "content": ""
+          }
+        }
+      ]
     },
     {
+      "id": "5",
       "name": "Composing a New Message",
-      "collection": "Knowledge",
-      "parent": "Microsoft Outlook",
-      "body": "I am body content for Composing a New Message"
+      "collection": "knowledge",
+      "parent": "2",
+      "body": [
+        {
+          "index.md": "I am body content for Composing a New Message"
+        },
+        {
+          "subsection.md": ""
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Dark mode Support",
+      "collection": "release",
+      "parent": "1",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Dark Mode Support"
+          }
+        },
+        {
+          "subsection.md": {
+            "content": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Mac M1 Silicon Support",
+      "collection": "release",
+      "parent": "1",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Mac M1 Silicon Support"
+          }
+        },
+        {
+          "subsection.md": {
+            "content": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Windows Security Patch",
+      "collection": "release",
+      "parent": "2",
+      "body": [
+        {
+          "index.md": {
+            "content": "I am body content for Windows Security Patch"
+          }
+        },
+        {
+          "subsection.md": {
+            "content": ""
+          }
+        }
+      ]
     }
   ]
 }
