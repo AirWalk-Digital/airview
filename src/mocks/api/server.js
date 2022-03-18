@@ -31,19 +31,13 @@ function createEntryData(entryData) {
 }
 
 function getAllEntriesMeta() {
-  return db.entries.getAll();
+  const entries = db.entries.getAll();
 
-  // return entries.map((entry) => {
-  //   const { id, name, sha, collection, parent } = entry;
+  return entries.map((entry) => {
+    const { body, ...rest } = entry;
 
-  //   return {
-  //     id,
-  //     name,
-  //     sha,
-  //     collection: collection.id,
-  //     parent: parent?.id,
-  //   };
-  // });
+    return rest;
+  });
 }
 
 initialData.entries.forEach((entry) => {
