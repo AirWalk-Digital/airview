@@ -84,11 +84,6 @@
           "index.md": {
             "content": "I am body content for Dark Mode Support"
           }
-        },
-        {
-          "subsection.md": {
-            "content": ""
-          }
         }
       ]
     },
@@ -102,11 +97,6 @@
           "index.md": {
             "content": "I am body content for Mac M1 Silicon Support"
           }
-        },
-        {
-          "subsection.md": {
-            "content": ""
-          }
         }
       ]
     },
@@ -119,11 +109,6 @@
         {
           "index.md": {
             "content": "I am body content for Windows Security Patch"
-          }
-        },
-        {
-          "subsection.md": {
-            "content": ""
           }
         }
       ]

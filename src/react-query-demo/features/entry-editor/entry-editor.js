@@ -5,7 +5,6 @@ import {
   useGetEntryMeta,
   useGetEntryBody,
 } from "../../hooks";
-import { MetaForm } from "../meta-form";
 import { EntrySelector } from "../entry-selector";
 
 export function EntryEditor() {
@@ -102,14 +101,7 @@ export function EntryEditor() {
                   {selectedEntry && !formData && (
                     <div>Loading form data...</div>
                   )}
-                  {selectedEntry && formData && (
-                    <MetaForm
-                      formData={formData}
-                      onReset={handleOnFormReset}
-                      onChange={handleOnFormChange}
-                      onSubmit={handleOnFormSubmit}
-                    />
-                  )}
+                  {selectedEntry && formData && <span>Form</span>}
                 </>
               )}
             </>
