@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "react-query";
 import { CollectionSelector } from "../collection-selector";
-import { EntrySelector } from "../entry-selector";
 import { useConfig } from "../../hooks";
-import styles from "./dynamic-form.module.scss";
+import { DynamicForm } from "../dynamic-form";
 
 export function EntryCreator() {
   const queryClient = useQueryClient();
@@ -108,96 +107,5 @@ export function EntryCreator() {
 
       <hr />
     </div>
-  );
-}
-
-function StringInput({ label, name, placeholder, value, onChange }) {
-  return (
-    <div className={styles.form_input}>
-      <label>
-        <span>{label}</span>
-        <input type="text" {...{ name, placeholder, value, onChange }} />
-      </label>
-    </div>
-  );
-}
-
-function TextareaInput({ label, name, placeholder, value, onChange }) {
-  return (
-    <div className={styles.form_input}>
-      <label>
-        <span>{label}</span>
-        <textarea {...{ label, name, placeholder, value, onChange }} />
-      </label>
-    </div>
-  );
-}
-
-function EntrySelectInput({ label, name, value, onChange }) {
-  return (
-    <div className={styles.form_input}>
-      <label>
-        <span>{label}</span>
-        <EntrySelector {...{ label, name, value, onChange }} />
-      </label>
-    </div>
-  );
-}
-
-function DynamicForm({
-  formState,
-  frontmatterFields,
-  onSubmit,
-  onReset,
-  onChange,
-  status,
-}) {
-  const getDynamicField = (fieldData) => {
-    const { type, ...inputProps } = fieldData;
-
-    let field;
-
-    switch (fieldData.type) {
-      case "string":
-        field = <StringInput {...inputProps} />;
-        break;
-
-      case "entry_select":
-        field = <EntrySelectInput {...inputProps} />;
-        break;
-
-      default:
-        field = null;
-        break;
-    }
-
-    return field;
-  };
-
-  return (
-    <form
-      onSubmit={onSubmit}
-      onReset={onReset}
-      noValidate
-      className={styles.root}
-    >
-      {frontmatterFields?.map((field, index) => {
-        const fieldData = {
-          ...field,
-          key: field.name,
-          onChange,
-          value: formState[field.name],
-        };
-
-        return getDynamicField(fieldData);
-      })}
-
-      <div className={styles.form_input}>
-        <button type="reset">Reset</button>
-        <button type="submit" className={styles.action_button}>
-          Submit
-        </button>
-      </div>
-    </form>
   );
 }
