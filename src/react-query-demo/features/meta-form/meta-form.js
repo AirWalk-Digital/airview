@@ -14,11 +14,11 @@ export function MetaForm({ formData, onSubmit, onChange, onReset }) {
       >
         <div className={styles.form_input}>
           <label>
-            <span>Name:</span>
+            <span>Entity:</span>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="entity"
+              value={formData.entity}
               onChange={onChange}
             />
           </label>

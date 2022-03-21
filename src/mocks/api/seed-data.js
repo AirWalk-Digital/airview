@@ -1,32 +1,34 @@
 import { nanoid } from "nanoid";
 
-export const seedData = {
-  microsoft_teams: {
-    sha: nanoid(),
-    files: [
+export const seedData = [
+  {
+    id: "application/ms_teams",
+    collection: "application",
+    entity: "ms_teams",
+    meta: {
+      title: "Microsoft Teams",
+    },
+    content: [
       {
         name: "index.md",
         sha: nanoid(),
-        frontmatter: {
-          title: "Microsoft Teams",
-          collection: "application",
-        },
         body: "I am body content for Microsoft Teams",
       },
     ],
   },
-  microsoft_outlook: {
-    sha: nanoid(),
-    files: [
+  {
+    id: "application/ms_outlook",
+    collection: "application",
+    entity: "ms_outlook",
+    meta: {
+      title: "Microsoft Outlook",
+    },
+    content: [
       {
         name: "index.md",
         sha: nanoid(),
-        frontmatter: {
-          title: "Microsoft Outlook",
-          collection: "application",
-        },
         body: "I am body content for Microsoft Outlook",
       },
     ],
   },
-};
+];

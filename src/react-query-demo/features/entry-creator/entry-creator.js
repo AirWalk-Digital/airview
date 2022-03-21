@@ -6,7 +6,7 @@ export function EntryCreator() {
   const queryClient = useQueryClient();
   const setInitialState = () => {
     return {
-      name: "",
+      entity: "",
       collection: "",
       parent: "",
       body: "",
@@ -33,14 +33,20 @@ export function EntryCreator() {
     event.preventDefault();
     setFormSubmitting(true);
 
+    const { body, ...postData } = formData;
+    postData.content = [{ name: "_index.md", content: body }];
+
     try {
-      const response = await fetch(`/api/entries`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `/api/content/${formData.collection}/${formData.entity}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
 
       if (response.ok) {
         queryClient.invalidateQueries("entries_meta");

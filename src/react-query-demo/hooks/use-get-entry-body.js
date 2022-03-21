@@ -7,9 +7,9 @@ export function useGetEntryBody(entryId) {
 
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
     useQuery(
-      ["entry_body", entryMeta?.sha],
-      fetchClient(`/api/entries/${entryMeta?.sha}`),
-      { enabled: !!entryMeta?.sha }
+      ["entry_body", [entryMeta?.id, "xyz"]],
+      fetchClient(`/api/content/${entryMeta?.id}/xyz`),
+      { enabled: !!entryMeta?.id }
     );
 
   return {

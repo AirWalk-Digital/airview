@@ -2,37 +2,26 @@ import { nanoid } from "nanoid";
 import { seedData } from "./seed-data";
 
 export function createStore() {
-  let entries = {};
-
-  const init = () => (entries = { ...seedData });
+  let entries = seedData;
 
   const getEntries = () => {
-    return Object.entries(entries).map(([entryId, entryData]) => {
-      return {
-        dir: entryId,
-        sha: entryData.sha,
-        files: entryData.files.map((file) => {
-          return {
-            name: file.name,
-            sha: file.sha,
-            frontmatter: file.frontmatter,
-          };
-        }),
-      };
+    return entries.map((e) => {
+      const { content, ...rest } = e;
+      return rest;
     });
   };
 
-  const getEntry = (dirName, fileName) => {
-    const entry = entries[dirName];
+  const getEntryContent = (id, sha) => {
+    const entry = entries.find((f) => f.id === id);
 
     if (!entry) return false;
 
-    return (
-      entry.files.filter((file) => file.name === fileName)[0]?.body ?? false
-    );
+    return entry.content;
   };
 
   const editEntry = (dirName, fileName, fileContents) => {
+    return null;
+    /*
     const entry = getEntry(dirName, fileName);
 
     if (!entry) return false;
@@ -48,6 +37,20 @@ export function createStore() {
       sha: nanoid(),
       ...fileContents,
     };
+    */
+  };
+
+  const persistContent = (id, data) => {
+    data.content.forEach((item) => (item.sha = nanoid()));
+    data.id = id;
+    data.meta = { title: data.entity };
+
+    const index = entries.findIndex((f) => f.id == id);
+    if (index === -1) {
+      entries.push(data);
+      return;
+    }
+    entries[index] = data;
   };
 
   const createEntry = (dirName, files) => {
@@ -64,26 +67,26 @@ export function createStore() {
     };
   };
 
-  const dropEntry = (dirName) => {
-    if (!entries[dirName]) return false;
+  const dropEntry = (id) => {
+    if (!entries[id]) return false;
 
-    delete entries[dirName];
+    delete entries[id];
   };
 
   const dropAllEntries = () => (entries = {});
 
-  const reset = () => init();
-
-  init();
+  const reset = () => {
+    entries = seedData;
+  };
 
   return {
-    init,
     getEntries,
-    getEntry,
+    getEntryContent,
     editEntry,
     createEntry,
     dropEntry,
     dropAllEntries,
+    persistContent,
     reset,
   };
 }

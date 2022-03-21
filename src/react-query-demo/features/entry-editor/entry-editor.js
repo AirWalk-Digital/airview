@@ -45,12 +45,14 @@ export function EntryEditor() {
     setFormSubmitting(true);
 
     try {
-      const response = await fetch(`/api/entries/${selectedEntry}`, {
-        method: "POST",
+      const { body, ...postData } = formData;
+      postData.content = [{ name: "_index.md", content: body }];
+      const response = await fetch(`/api/content/${selectedEntry}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(postData),
       });
 
       if (response.ok) {
