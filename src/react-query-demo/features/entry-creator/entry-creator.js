@@ -91,7 +91,15 @@ export function EntryCreator() {
       {selectedCollection && formState && !formSubmitting && (
         <DynamicForm
           formState={formState}
-          frontmatterFields={frontmatterFields}
+          frontmatterFields={[
+            {
+              type: "string",
+              label: "Name",
+              name: "name",
+              placeholder: "Type a name for the entry...",
+            },
+            ...(frontmatterFields ?? []),
+          ]}
           onChange={handleOnFormInputChange}
           onSubmit={handleOnFormSubmit}
           onReset={handleOnFormReset}
@@ -173,14 +181,6 @@ function DynamicForm({
       noValidate
       className={styles.root}
     >
-      <StringInput
-        label="Name"
-        name="name"
-        placeholder="Type a name for the entry..."
-        value={formState.name}
-        onChange={onChange}
-      />
-
       {frontmatterFields?.map((field, index) => {
         const fieldData = {
           ...field,
