@@ -132,8 +132,6 @@ export function EntryEditorOld() {
     }
   }, [entryMeta, entryBody, entryMetaIsFetching, entryBodyIsFetching]);
 
-  console.log(formData);
-
   return (
     <div>
       <h3>Edit Entry</h3>

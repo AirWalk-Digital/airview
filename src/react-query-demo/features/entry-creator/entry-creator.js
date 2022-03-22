@@ -47,20 +47,23 @@ export function EntryCreator() {
     event.preventDefault();
     setFormSubmitting(true);
 
-    const { body, ...postData } = formData;
-    postData.content = [{ name: "_index.md", content: body }];
-
     try {
-      const response = await fetch(`/api/entries`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formState,
-          collection: selectedCollection,
-        }),
-      });
+      const mappedBody = {
+        entity: formState.name,
+        collection: selectedCollection,
+        content: [],
+        ...formState,
+      };
+      const response = await fetch(
+        `/api/content/${mappedBody.collection}/${mappedBody.name}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mappedBody),
+        }
+      );
 
       if (response.ok) {
         queryClient.invalidateQueries("entries_meta");

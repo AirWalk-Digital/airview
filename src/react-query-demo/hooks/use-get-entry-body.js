@@ -12,8 +12,6 @@ export function useGetEntryBody(entryId) {
 
   */
 
-  console.log(entryMeta);
-
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
     useQuery(
       ["entry_body", [entryId, "xyz"]],
