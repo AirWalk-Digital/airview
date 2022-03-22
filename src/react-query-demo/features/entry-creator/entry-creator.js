@@ -97,7 +97,7 @@ export function EntryCreator() {
       {selectedCollection && formState && !formSubmitting && (
         <DynamicForm
           formState={formState}
-          frontmatterFields={[
+          meta={[
             {
               type: "string",
               label: "Name",

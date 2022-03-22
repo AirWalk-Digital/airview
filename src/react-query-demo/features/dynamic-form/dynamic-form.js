@@ -27,7 +27,7 @@ function getDynamicField(fieldData) {
 
 export function DynamicForm({
   formState,
-  frontmatterFields,
+  meta,
   onSubmit,
   onReset,
   onChange,
@@ -40,7 +40,7 @@ export function DynamicForm({
       noValidate
       className={styles.root}
     >
-      {frontmatterFields?.map((field, index) => {
+      {meta?.map((field, index) => {
         const fieldData = {
           ...field,
           key: field.name,
