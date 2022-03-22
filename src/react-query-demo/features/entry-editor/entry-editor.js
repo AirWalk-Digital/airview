@@ -8,12 +8,14 @@ import {
 } from "../../hooks";
 import { EntrySelector } from "../entry-selector";
 import { PrintJson } from "../../components";
+import { DynamicForm } from "../dynamic-form";
 
 export function EntryEditor() {
   const config = useConfig();
   const queryClient = useQueryClient();
-  const [selectedEntry, setSelectedEntry] = useState("2");
+  const [selectedEntry, setSelectedEntry] = useState("");
   const [formState, setFormState] = useState(null);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   const { isFetching: entryMetaIsFetching, data: entryMeta } =
     useGetEntryMeta(selectedEntry);
@@ -30,17 +32,17 @@ export function EntryEditor() {
   useEffect(() => {
     if (!entryMeta || !entryBody) return;
 
-    const frontmatterFields =
-      config.collections[entryMeta.collection].frontmatter;
+    const meta = config.collections[entryMeta.collection].meta;
 
     const formState = {
       ...Object.fromEntries(
-        frontmatterFields.map((field) => {
+        meta.map((field) => {
           const { name } = field;
 
-          return [name, entryMeta[name]];
+          return [name, entryMeta.meta[name]];
         })
       ),
+      title: entryMeta.meta.title,
       body: entryBody.find((f) => f.name === "index.md").body,
     };
 
@@ -52,117 +54,25 @@ export function EntryEditor() {
       <EntrySelector
         onChange={(event) => setSelectedEntry(event.target.value)}
         value={selectedEntry}
-        style={{ marginBottom: 32 }}
+        style={{ marginBottom: 16 }}
       />
-      <PrintJson data={formState} />
-    </div>
-  );
-}
-
-export function EntryEditorOld() {
-  const queryClient = useQueryClient();
-  const [selectedEntry, setSelectedEntry] = useState("");
-  const [formData, setFormData] = useState();
-  const [formSubmitting, setFormSubmitting] = useState(false);
-
-  const {
-    isLoading: allEntriesIsLoading,
-    isFetching: allEntriesIsFetching,
-    data: entries,
-  } = useGetAllEntriesMeta();
-
-  const { isFetching: entryMetaIsFetching, data: entryMeta } =
-    useGetEntryMeta(selectedEntry);
-
-  const { isFetching: entryBodyIsFetching, data: entryBody } =
-    useGetEntryBody(selectedEntry);
-
-  const handleSelectedEntryChange = (event) => {
-    setFormData(null);
-    setSelectedEntry(event.target.value);
-  };
-
-  const handleOnFormChange = (event) => {
-    setFormData((prevValue) => ({
-      ...prevValue,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  // Look to use React-Query mutation hook:
-  // https://react-query.tanstack.com/guides/mutations
-  const handleOnFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormSubmitting(true);
-
-    try {
-      const { body, ...postData } = formData;
-      postData.content = [{ name: "_index.md", content: body }];
-      const response = await fetch(`/api/content/${selectedEntry}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (response.ok) {
-        queryClient.invalidateQueries("entries_meta");
-      }
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
-  const handleOnFormReset = (event) => {
-    event.preventDefault();
-    setFormData({ ...entryMeta, body: entryBody });
-  };
-
-  useEffect(() => {
-    if (entryMetaIsFetching || entryBodyIsFetching) return;
-
-    if (!entryMeta || !entryBody) {
-      setSelectedEntry("");
-    }
-
-    if (entryMeta && entryBody) {
-      setFormData({ ...entryMeta, body: entryBody });
-      setFormSubmitting(false);
-    }
-  }, [entryMeta, entryBody, entryMetaIsFetching, entryBodyIsFetching]);
-
-  return (
-    <div>
-      <h3>Edit Entry</h3>
-      {allEntriesIsLoading || allEntriesIsFetching ? (
-        <div>Fetching entries</div>
-      ) : (
-        <>
-          {!entries.length ? (
-            <div>There are no entries to edit...</div>
-          ) : (
-            <>
-              {formSubmitting ? (
-                <div>Form submitting</div>
-              ) : (
-                <>
-                  <EntrySelector
-                    onChange={handleSelectedEntryChange}
-                    value={selectedEntry}
-                    style={{ marginBottom: 32 }}
-                  />
-                  {selectedEntry && !formData && (
-                    <div>Loading form data...</div>
-                  )}
-                  {selectedEntry && formData && <span>Form</span>}
-                </>
-              )}
-            </>
-          )}
-        </>
+      {selectedEntry && formState && !formSubmitting && (
+        <DynamicForm
+          formState={formState}
+          meta={[
+            {
+              type: "string",
+              label: "Title",
+              name: "title",
+              placeholder: "Type a title for the entry...",
+            },
+            ...(config.collections[entryMeta.collection].meta ?? []),
+          ]}
+          onChange={() => {}}
+          onSubmit={() => {}}
+          onReset={() => {}}
+        />
       )}
-      <hr />
     </div>
   );
 }
