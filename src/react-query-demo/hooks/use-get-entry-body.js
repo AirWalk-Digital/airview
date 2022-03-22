@@ -16,7 +16,7 @@ export function useGetEntryBody(entryId) {
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
     useQuery(
       ["entry_body", [entryId, entryMeta?.contentVersion]],
-      fetchClient(`/api/content/${entryId}/${currentBranch.sha}`),
+      fetchClient(`/api/content/${entryId}/${currentBranch.name}`),
       { enabled: !!entryId }
     );
 

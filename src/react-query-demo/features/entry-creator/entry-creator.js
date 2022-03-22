@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "react-query";
 import { CollectionSelector } from "../collection-selector";
-import { useConfig } from "../../hooks";
+import { useConfig, useGetCurrentBranch } from "../../hooks";
 import { DynamicForm } from "../dynamic-form";
 
 export function EntryCreator() {
@@ -10,6 +10,7 @@ export function EntryCreator() {
   const [formState, setFormState] = useState(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const config = useConfig();
+  const { data: currentBranch } = useGetCurrentBranch();
 
   const frontmatterFields = config.collections[selectedCollection]?.frontmatter;
 
@@ -55,7 +56,7 @@ export function EntryCreator() {
         ...formState,
       };
       const response = await fetch(
-        `/api/content/${mappedBody.collection}/${mappedBody.name}`,
+        `/api/content/${mappedBody.collection}/${mappedBody.name}/${currentBranch.name}`,
         {
           method: "PUT",
           headers: {
