@@ -15,48 +15,9 @@ const {
   persistContent,
 } = createStore();
 
-const db = factory({
-  entries: {
-    id: primaryKey(String),
-    name: String,
-    sha: String,
-    collection: String,
-    parent: nullable(String),
-    body: Array,
-  },
-});
-
-function createEntryData(entryData) {
-  const { id, name, collection, parent, body } = entryData;
-
-  return {
-    id: id ?? nanoid(),
-    name,
-    sha: nanoid(),
-    collection,
-    parent,
-    body,
-  };
-}
-
-function getAllEntriesMeta() {
-  return getEntries();
-  const entries = db.entries.getAll();
-
-  return entries.map((entry) => {
-    const { body, ...rest } = entry;
-
-    return rest;
-  });
-}
-
-initialData.entries.forEach((entry) => {
-  db.entries.create(createEntryData(entry));
-});
-
 export const handlers = [
   rest.get("/api/entries", function (req, res, ctx) {
-    const entiesMeta = getAllEntriesMeta();
+    const entiesMeta = getEntries();
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
@@ -66,30 +27,9 @@ export const handlers = [
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
   }),
-  rest.post("/api/entries", function (req, res, ctx) {
-    db.entries.create(createEntryData(req.body));
-
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-  }),
   rest.put("/api/content/:collection/:entity", function (req, res, ctx) {
     const id = `${req.params.collection}/${req.params.entity}`;
     persistContent(id, req.body);
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-  }),
-  rest.post("/api/entries/:entryId", function (req, res, ctx) {
-    const entry = createEntryData(req.body);
-
-    db.entries.update({
-      where: {
-        id: {
-          equals: req.params.entryId,
-        },
-      },
-      data: entry,
-      sha: nanoid(),
-      strict: true,
-    });
-
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
   rest.delete("/api/content", function (req, res, ctx) {

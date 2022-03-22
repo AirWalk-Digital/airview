@@ -30,8 +30,6 @@ export function EntryEditor() {
   useEffect(() => {
     if (!entryMeta || !entryBody) return;
 
-    console.log(entryBody);
-
     const frontmatterFields =
       config.collections[entryMeta.collection].frontmatter;
 
