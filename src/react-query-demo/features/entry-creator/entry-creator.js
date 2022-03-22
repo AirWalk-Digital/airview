@@ -58,8 +58,6 @@ export function EntryCreator() {
 
     const b64Contents = await blobToBase64(markdownBlob);
 
-    console.log(slugifyString(formState.title));
-
     try {
       const response = await fetch(
         `/api/content/${selectedCollection}/${slugifyString(formState.title)}/${
