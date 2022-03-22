@@ -30,6 +30,8 @@ export function EntryEditor() {
   useEffect(() => {
     if (!entryMeta || !entryBody) return;
 
+    console.log(entryBody);
+
     const frontmatterFields =
       config.collections[entryMeta.collection].frontmatter;
 
@@ -41,7 +43,7 @@ export function EntryEditor() {
           return [name, entryMeta[name]];
         })
       ),
-      body: entryBody["index.md"].content,
+      body: entryBody.find((f) => f.name === "index.md").body,
     };
 
     setFormState(formState);

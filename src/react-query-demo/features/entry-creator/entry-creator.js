@@ -51,7 +51,7 @@ export function EntryCreator() {
       const mappedBody = {
         entity: formState.name,
         collection: selectedCollection,
-        content: [],
+        content: [{ name: "index.md", body: "" }],
         ...formState,
       };
       const response = await fetch(
