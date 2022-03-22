@@ -3,7 +3,7 @@ export const config = {
     application: {
       name: "Application",
       id: "application",
-      frontmatter: null,
+      frontmatter: [],
       placeholder: "Enter some body content for the application...",
     },
     knowledge: {
