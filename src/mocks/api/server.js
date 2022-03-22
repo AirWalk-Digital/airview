@@ -1,7 +1,4 @@
 import { rest } from "msw";
-import { nanoid } from "nanoid";
-import { factory, primaryKey, nullable } from "@mswjs/data";
-import initialData from "./intial_data.json";
 import { createStore } from "./create-store";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
