@@ -1,8 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "react-query";
+import matter from "gray-matter";
+import { blobToBase64, slugifyString } from "../../util";
 import { CollectionSelector } from "../collection-selector";
-import { useConfig, useGetCurrentBranch, useSlugify  } from "../../hooks";
+import { useConfig, useGetCurrentBranch } from "../../hooks";
 import { DynamicForm } from "../dynamic-form";
+
+global.Buffer = global.Buffer || require("buffer").Buffer;
 
 export function EntryCreator() {
   const queryClient = useQueryClient();
@@ -11,7 +15,6 @@ export function EntryCreator() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const config = useConfig();
   const { data: currentBranch } = useGetCurrentBranch();
-  const slugify = useSlugify();
 
   const meta = config.collections[selectedCollection]?.meta;
 
@@ -21,7 +24,7 @@ export function EntryCreator() {
 
   const setIntialFormState = useMemo(() => {
     return {
-      name: "",
+      title: "",
       ...Object.fromEntries(
         meta?.map((field) => {
           return [field.name, ""];
@@ -49,21 +52,25 @@ export function EntryCreator() {
     event.preventDefault();
     setFormSubmitting(true);
 
+    const markdownBlob = new Blob([matter.stringify("", formState)], {
+      type: "text/plain",
+    });
+
+    const b64Contents = await blobToBase64(markdownBlob);
+
+    console.log(slugifyString(formState.title));
+
     try {
-      const mappedBody = {
-        entity: formState.name,
-        collection: selectedCollection,
-        content: [{ name: "index.md", body: "" }],
-        ...formState,
-      };
       const response = await fetch(
-        `/api/content/${mappedBody.collection}/${slugify(mappedBody.name)}/${currentBranch.name}`,
+        `/api/content/${selectedCollection}/${slugifyString(formState.title)}/${
+          currentBranch.name
+        }`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(mappedBody),
+          body: JSON.stringify(b64Contents),
         }
       );
 
@@ -101,9 +108,9 @@ export function EntryCreator() {
           meta={[
             {
               type: "string",
-              label: "Name",
-              name: "name",
-              placeholder: "Type a name for the entry...",
+              label: "Title",
+              name: "title",
+              placeholder: "Type a title for the entry...",
             },
             ...(meta ?? []),
           ]}
