@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "react-query";
 import { CollectionSelector } from "../collection-selector";
-import { useConfig } from "../../hooks";
+import { useConfig, useSlugify } from "../../hooks";
 import { DynamicForm } from "../dynamic-form";
 
 export function EntryCreator() {
@@ -10,8 +10,9 @@ export function EntryCreator() {
   const [formState, setFormState] = useState(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const config = useConfig();
+  const slugify = useSlugify();
 
-  const frontmatterFields = config.collections[selectedCollection]?.frontmatter;
+  const frontmatterFields = config.collections[selectedCollection]?.meta;
 
   const handleOnSelectedCollectionChange = (event) => {
     setSelectedCollection(event.target.value);
@@ -55,7 +56,7 @@ export function EntryCreator() {
         ...formState,
       };
       const response = await fetch(
-        `/api/content/${mappedBody.collection}/${mappedBody.name}`,
+        `/api/content/${mappedBody.collection}/${slugify(mappedBody.name)}`,
         {
           method: "PUT",
           headers: {
