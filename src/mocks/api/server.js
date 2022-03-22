@@ -10,12 +10,12 @@ const {
   dropEntry,
   dropAllEntries,
   persistContent,
+  getBranches,
 } = createStore();
 
 export const handlers = [
   rest.get("/api/entries", function (req, res, ctx) {
     const entiesMeta = getEntries();
-
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
   rest.get("/api/content/:collection/:entity/:sha", function (req, res, ctx) {
@@ -37,5 +37,9 @@ export const handlers = [
     const id = `${req.params.collection}/${req.params.entity}`;
     dropEntry(id);
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+  }),
+  rest.get("/api/branches", function (req, res, ctx) {
+    const branches = getBranches();
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
   }),
 ];

@@ -44,6 +44,10 @@ export function createStore() {
 
   const dropAllEntries = () => (entries = []);
 
+  const getBranches = () => [
+    { name: "main", sha: nanoid(), isProtected: false },
+  ];
+
   const reset = () => {
     entries = seedData;
   };
@@ -54,6 +58,7 @@ export function createStore() {
     dropEntry,
     dropAllEntries,
     persistContent,
+    getBranches,
     reset,
   };
 }
