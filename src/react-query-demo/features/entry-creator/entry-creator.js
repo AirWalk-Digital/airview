@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "react-query";
 import { CollectionSelector } from "../collection-selector";
-import { useConfig, useGetCurrentBranch } from "../../hooks";
+import { useConfig, useGetCurrentBranch, useSlugify  } from "../../hooks";
 import { DynamicForm } from "../dynamic-form";
 
 export function EntryCreator() {
@@ -11,8 +11,9 @@ export function EntryCreator() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const config = useConfig();
   const { data: currentBranch } = useGetCurrentBranch();
+  const slugify = useSlugify();
 
-  const frontmatterFields = config.collections[selectedCollection]?.frontmatter;
+  const meta = config.collections[selectedCollection]?.meta;
 
   const handleOnSelectedCollectionChange = (event) => {
     setSelectedCollection(event.target.value);
@@ -22,12 +23,12 @@ export function EntryCreator() {
     return {
       name: "",
       ...Object.fromEntries(
-        frontmatterFields?.map((field) => {
+        meta?.map((field) => {
           return [field.name, ""];
         }) ?? []
       ),
     };
-  }, [frontmatterFields]);
+  }, [meta]);
 
   const handleOnFormInputChange = (event) => {
     event.preventDefault();
@@ -56,7 +57,7 @@ export function EntryCreator() {
         ...formState,
       };
       const response = await fetch(
-        `/api/content/${mappedBody.collection}/${mappedBody.name}/${currentBranch.name}`,
+        `/api/content/${mappedBody.collection}/${slugify(mappedBody.name)}/${currentBranch.name}`,
         {
           method: "PUT",
           headers: {
@@ -97,14 +98,14 @@ export function EntryCreator() {
       {selectedCollection && formState && !formSubmitting && (
         <DynamicForm
           formState={formState}
-          frontmatterFields={[
+          meta={[
             {
               type: "string",
               label: "Name",
               name: "name",
               placeholder: "Type a name for the entry...",
             },
-            ...(frontmatterFields ?? []),
+            ...(meta ?? []),
           ]}
           onChange={handleOnFormInputChange}
           onSubmit={handleOnFormSubmit}
