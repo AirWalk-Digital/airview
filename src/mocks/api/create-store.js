@@ -19,27 +19,6 @@ export function createStore() {
     return entry.content;
   };
 
-  const editEntry = (dirName, fileName, fileContents) => {
-    return null;
-    /*
-    const entry = getEntry(dirName, fileName);
-
-    if (!entry) return false;
-
-    entries[dirName].sha = nanoid();
-
-    const entryIndex = entries[dirName].files.findIndex(
-      (file) => file.name === fileName
-    );
-
-    entries[dirName].files[entryIndex] = {
-      ...entries[dirName].files[entryIndex],
-      sha: nanoid(),
-      ...fileContents,
-    };
-    */
-  };
-
   const persistContent = (id, data) => {
     data.content.forEach((item) => (item.sha = nanoid()));
     data.id = id;
@@ -51,20 +30,6 @@ export function createStore() {
       return;
     }
     entries[index] = data;
-  };
-
-  const createEntry = (dirName, files) => {
-    if (entries[dirName]) return false;
-
-    entries[dirName] = {
-      sha: nanoid(),
-      files: files.map((file) => {
-        return {
-          sha: nanoid(),
-          ...file,
-        };
-      }),
-    };
   };
 
   const dropEntry = (id) => {
@@ -85,8 +50,6 @@ export function createStore() {
   return {
     getEntries,
     getEntryContent,
-    editEntry,
-    createEntry,
     dropEntry,
     dropAllEntries,
     persistContent,
