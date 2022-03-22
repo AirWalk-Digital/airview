@@ -12,7 +12,7 @@ export function EntryCreator() {
   const config = useConfig();
   const slugify = useSlugify();
 
-  const frontmatterFields = config.collections[selectedCollection]?.meta;
+  const meta = config.collections[selectedCollection]?.meta;
 
   const handleOnSelectedCollectionChange = (event) => {
     setSelectedCollection(event.target.value);
@@ -22,12 +22,12 @@ export function EntryCreator() {
     return {
       name: "",
       ...Object.fromEntries(
-        frontmatterFields?.map((field) => {
+        meta?.map((field) => {
           return [field.name, ""];
         }) ?? []
       ),
     };
-  }, [frontmatterFields]);
+  }, [meta]);
 
   const handleOnFormInputChange = (event) => {
     event.preventDefault();
@@ -104,7 +104,7 @@ export function EntryCreator() {
               name: "name",
               placeholder: "Type a name for the entry...",
             },
-            ...(frontmatterFields ?? []),
+            ...(meta ?? []),
           ]}
           onChange={handleOnFormInputChange}
           onSubmit={handleOnFormSubmit}
