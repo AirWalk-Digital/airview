@@ -18,26 +18,35 @@ export const handlers = [
     const entiesMeta = getEntries();
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
-  rest.get("/api/content/:collection/:entity/:sha", function (req, res, ctx) {
-    const id = `${req.params.collection}/${req.params.entity}`;
-    const content = getEntryContent(id, "");
+  rest.get(
+    "/api/content/:collection/:entity/:branch",
+    function (req, res, ctx) {
+      const id = `${req.params.collection}/${req.params.entity}`;
+      const content = getEntryContent(id, "");
 
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
-  }),
-  rest.put("/api/content/:collection/:entity", function (req, res, ctx) {
-    const id = `${req.params.collection}/${req.params.entity}`;
-    persistContent(id, req.body);
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-  }),
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
+    }
+  ),
+  rest.put(
+    "/api/content/:collection/:entity/:branch",
+    function (req, res, ctx) {
+      const id = `${req.params.collection}/${req.params.entity}`;
+      persistContent(id, req.body);
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+    }
+  ),
   rest.delete("/api/content", function (req, res, ctx) {
     dropAllEntries();
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
-  rest.delete("/api/content/:collection/:entity", function (req, res, ctx) {
-    const id = `${req.params.collection}/${req.params.entity}`;
-    dropEntry(id);
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-  }),
+  rest.delete(
+    "/api/content/:collection/:entity/:branch",
+    function (req, res, ctx) {
+      const id = `${req.params.collection}/${req.params.entity}`;
+      dropEntry(id);
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+    }
+  ),
   rest.get("/api/branches", function (req, res, ctx) {
     const branches = getBranches();
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
