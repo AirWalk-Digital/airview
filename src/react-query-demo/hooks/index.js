@@ -7,4 +7,3 @@ export { useGetSiblingEntriesMeta } from "./use-get-sibling-entries-meta";
 export { useGetEntryMeta } from "./use-get-entry-meta";
 export { useConfig } from "./use-config";
 export { useGetCurrentBranch } from "./use-get-current-branch";
-export { useSlugify } from "./use-slugify";
