@@ -3,13 +3,13 @@ export const config = {
     application: {
       name: "Application",
       id: "application",
-      frontmatter: [],
+      meta: [],
       placeholder: "Enter some body content for the application...",
     },
     knowledge: {
       name: "Knowledge",
       id: "knowledge",
-      frontmatter: [
+      meta: [
         {
           type: "entry_select",
           name: "parent",
@@ -21,7 +21,7 @@ export const config = {
     release: {
       name: "Release",
       id: "release",
-      frontmatter: [
+      meta: [
         {
           type: "entry_select",
           name: "parent",
