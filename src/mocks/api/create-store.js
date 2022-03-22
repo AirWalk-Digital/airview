@@ -68,12 +68,15 @@ export function createStore() {
   };
 
   const dropEntry = (id) => {
-    if (!entries[id]) return false;
-
-    delete entries[id];
+    const index = entries.findIndex((f) => f.id == id);
+    if (index >= 0) {
+      entries.pop(index);
+      return true;
+    }
+    return false;
   };
 
-  const dropAllEntries = () => (entries = {});
+  const dropAllEntries = () => (entries = []);
 
   const reset = () => {
     entries = seedData;

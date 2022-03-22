@@ -17,7 +17,7 @@ export function EntryRemover() {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/entries/${selectedEntry}`, {
+      const response = await fetch(`/api/content/${selectedEntry}`, {
         method: "DELETE",
       });
 

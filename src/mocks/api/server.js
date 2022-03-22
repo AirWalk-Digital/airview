@@ -92,12 +92,13 @@ export const handlers = [
 
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
-  rest.delete("/api/entries", function (req, res, ctx) {
+  rest.delete("/api/content", function (req, res, ctx) {
     dropAllEntries();
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
-  rest.delete("/api/entries/:entryId", function (req, res, ctx) {
-    dropEntry(req.params.entryId);
+  rest.delete("/api/content/:collection/:entity", function (req, res, ctx) {
+    const id = `${req.params.collection}/${req.params.entity}`;
+    dropEntry(id);
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
 ];

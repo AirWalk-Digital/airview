@@ -11,7 +11,7 @@ export function RemoveAllEntries() {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/entries/`, {
+      const response = await fetch(`/api/content/`, {
         method: "DELETE",
       });
 
