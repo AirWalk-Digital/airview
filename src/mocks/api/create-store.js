@@ -25,7 +25,7 @@ export function createStore() {
     data.contentVersion = nanoid();
     data.meta = { title: data.entity };
 
-    const index = entries.findIndex((f) => f.id == id);
+    const index = entries.findIndex((f) => f.id === id);
     if (index === -1) {
       entries.push(data);
       return;
@@ -34,7 +34,7 @@ export function createStore() {
   };
 
   const dropEntry = (id) => {
-    const index = entries.findIndex((f) => f.id == id);
+    const index = entries.findIndex((f) => f.id === id);
     if (index >= 0) {
       entries.pop(index);
       return true;
