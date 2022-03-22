@@ -14,7 +14,7 @@ export function useGetEntryBody(entryId) {
 
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
     useQuery(
-      ["entry_body", [entryId, "xyz"]],
+      ["entry_body", [entryId, entryMeta?.contentVersion]],
       fetchClient(`/api/content/${entryId}/xyz`),
       { enabled: !!entryId }
     );

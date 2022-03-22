@@ -7,7 +7,7 @@ export function createStore() {
   const getEntries = () => {
     return entries.map((e) => {
       const { content, ...rest } = e;
-      return rest;
+      return { contentVersion: nanoid(), ...rest };
     });
   };
 
@@ -22,6 +22,7 @@ export function createStore() {
   const persistContent = (id, data) => {
     data.content.forEach((item) => (item.sha = nanoid()));
     data.id = id;
+    data.contentVersion = nanoid();
     data.meta = { title: data.entity };
 
     const index = entries.findIndex((f) => f.id == id);
