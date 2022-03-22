@@ -1,7 +1,14 @@
 .root {
+  margin: 16px 0;
   * {
     box-sizing: border-box;
   }
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 .form_input {

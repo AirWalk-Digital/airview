@@ -4,11 +4,62 @@ import {
   useGetAllEntriesMeta,
   useGetEntryMeta,
   useGetEntryBody,
+  useConfig,
 } from "../../hooks";
-import { MetaForm } from "../meta-form";
 import { EntrySelector } from "../entry-selector";
+import { PrintJson } from "../../components";
 
 export function EntryEditor() {
+  const config = useConfig();
+  const queryClient = useQueryClient();
+  const [selectedEntry, setSelectedEntry] = useState("2");
+  const [formState, setFormState] = useState(null);
+
+  const { isFetching: entryMetaIsFetching, data: entryMeta } =
+    useGetEntryMeta(selectedEntry);
+
+  const { isFetching: entryBodyIsFetching, data: entryBody } =
+    useGetEntryBody(selectedEntry);
+
+  useEffect(() => {
+    if (entryMetaIsFetching || entryBodyIsFetching) {
+      setFormState(null);
+    }
+  }, [entryMetaIsFetching, entryBodyIsFetching]);
+
+  useEffect(() => {
+    if (!entryMeta || !entryBody) return;
+
+    const frontmatterFields =
+      config.collections[entryMeta.collection].frontmatter;
+
+    const formState = {
+      ...Object.fromEntries(
+        frontmatterFields.map((field) => {
+          const { name } = field;
+
+          return [name, entryMeta[name]];
+        })
+      ),
+      body: entryBody["index.md"].content,
+    };
+
+    setFormState(formState);
+  }, [config, entryMeta, entryBody]);
+
+  return (
+    <div>
+      <EntrySelector
+        onChange={(event) => setSelectedEntry(event.target.value)}
+        value={selectedEntry}
+        style={{ marginBottom: 32 }}
+      />
+      <PrintJson data={formState} />
+    </div>
+  );
+}
+
+export function EntryEditorOld() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
   const [formData, setFormData] = useState();
@@ -81,6 +132,8 @@ export function EntryEditor() {
     }
   }, [entryMeta, entryBody, entryMetaIsFetching, entryBodyIsFetching]);
 
+  console.log(formData);
+
   return (
     <div>
       <h3>Edit Entry</h3>
@@ -104,14 +157,7 @@ export function EntryEditor() {
                   {selectedEntry && !formData && (
                     <div>Loading form data...</div>
                   )}
-                  {selectedEntry && formData && (
-                    <MetaForm
-                      formData={formData}
-                      onReset={handleOnFormReset}
-                      onChange={handleOnFormChange}
-                      onSubmit={handleOnFormSubmit}
-                    />
-                  )}
+                  {selectedEntry && formData && <span>Form</span>}
                 </>
               )}
             </>
