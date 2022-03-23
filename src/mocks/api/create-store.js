@@ -20,11 +20,7 @@ export function createStore() {
   };
 
   const getEntryContent = (id, sha) => {
-    const entry = entries.find((f) => f.id === id);
-
-    if (!entry) return false;
-
-    return entry.content;
+    return entries[id]?.content ?? false;
   };
 
   const persistContent = (id, content) => {
