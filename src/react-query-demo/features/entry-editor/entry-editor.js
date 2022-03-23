@@ -67,6 +67,12 @@ export function EntryEditor() {
               placeholder: "Type a title for the entry...",
             },
             ...(config.collections[entryMeta.collection].meta ?? []),
+            {
+              type: "textarea",
+              label: "Body",
+              name: "body",
+              placeholder: config.collections[entryMeta.collection].placeholder,
+            },
           ]}
           onChange={() => {}}
           onSubmit={() => {}}
