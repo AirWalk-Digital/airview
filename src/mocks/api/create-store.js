@@ -14,7 +14,6 @@ export function createStore() {
     );
 
     return {
-      contentVersion: nanoid(),
       ...Object.fromEntries(mappedEntries),
     };
   };
@@ -26,14 +25,8 @@ export function createStore() {
   const persistContent = (id, content) => {
     const meta = matter(atob(content["index.md"].content)).data;
     const collection = id.split("/")[0];
-    const entry = { contentVersion: nanoid(), id, collection, meta, content };
 
-    const index = entries.findIndex((f) => f.id === id);
-    if (index === -1) {
-      entries.push(entry);
-      return;
-    }
-    entries[index] = entry;
+    entries[id] = { contentVersion: nanoid(), collection, meta, content };
   };
 
   const dropEntry = (id) => {
