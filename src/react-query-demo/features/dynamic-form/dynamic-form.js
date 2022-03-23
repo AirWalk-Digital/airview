@@ -17,6 +17,10 @@ function getDynamicField(fieldData) {
       field = <EntrySelectInput {...inputProps} />;
       break;
 
+    case "textarea":
+      field = <TextareaInput {...inputProps} />;
+      break;
+
     default:
       field = null;
       break;
