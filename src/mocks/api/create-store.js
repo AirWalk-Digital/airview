@@ -6,10 +6,17 @@ export function createStore() {
   let entries = seedData;
 
   const getEntries = () => {
-    return entries.map((e) => {
-      const { content, ...rest } = e;
-      return { contentVersion: nanoid(), ...rest };
-    });
+    const mappedEntries = Object.entries(entries).map(
+      ([entryId, entryData]) => {
+        const { content, ...otherEntryData } = entryData;
+        return [entryId, otherEntryData];
+      }
+    );
+
+    return {
+      contentVersion: nanoid(),
+      ...Object.fromEntries(mappedEntries),
+    };
   };
 
   const getEntryContent = (id, sha) => {
