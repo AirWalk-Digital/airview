@@ -57,6 +57,7 @@ export function EntryCreator() {
     });
 
     const b64Contents = await blobToBase64(markdownBlob);
+    const body = { "index.md": { content: b64Contents } };
 
     try {
       const response = await fetch(
@@ -68,7 +69,7 @@ export function EntryCreator() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(b64Contents),
+          body: JSON.stringify(body),
         }
       );
 

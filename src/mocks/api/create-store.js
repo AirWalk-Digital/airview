@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { seedData } from "./seed-data";
+import matter from "gray-matter";
 
 export function createStore() {
   let entries = seedData;
@@ -19,18 +20,17 @@ export function createStore() {
     return entry.content;
   };
 
-  const persistContent = (id, data) => {
-    data.content.forEach((item) => (item.sha = nanoid()));
-    data.id = id;
-    data.contentVersion = nanoid();
-    data.meta = { title: data.entity };
+  const persistContent = (id, content) => {
+    const meta = matter(atob(content["index.md"].content)).data;
+    const collection = id.split("/")[0];
+    const entry = { contentVersion: nanoid(), id, collection, meta, content };
 
     const index = entries.findIndex((f) => f.id === id);
     if (index === -1) {
-      entries.push(data);
+      entries.push(entry);
       return;
     }
-    entries[index] = data;
+    entries[index] = entry;
   };
 
   const dropEntry = (id) => {

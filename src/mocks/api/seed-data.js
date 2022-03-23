@@ -4,7 +4,6 @@ export const seedData = [
   {
     id: "application/ms_teams",
     collection: "application",
-    entity: "ms_teams",
     meta: {
       title: "Microsoft Teams",
     },
@@ -12,14 +11,13 @@ export const seedData = [
       {
         name: "index.md",
         sha: nanoid(),
-        body: "I am body content for Microsoft Teams",
+        content: btoa("I am body content for Microsoft Teams"),
       },
     ],
   },
   {
     id: "application/ms_outlook",
     collection: "application",
-    entity: "ms_outlook",
     meta: {
       title: "Microsoft Outlook",
     },
@@ -27,7 +25,7 @@ export const seedData = [
       {
         name: "index.md",
         sha: nanoid(),
-        body: "I am body content for Microsoft Outlook",
+        content: btoa("I am body content for Microsoft Outlook"),
       },
     ],
   },
