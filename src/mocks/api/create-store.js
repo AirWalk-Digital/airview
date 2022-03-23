@@ -45,7 +45,7 @@ export function createStore() {
     return false;
   };
 
-  const dropAllEntries = () => (entries = []);
+  const dropAllEntries = () => (entries = {});
 
   const getBranches = () => [
     { name: "main", sha: nanoid(), isProtected: false },
