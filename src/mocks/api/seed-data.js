@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 
 export const seedData = {
   "application/ms_teams": {
+    contentVersion: nanoid(),
     collection: "application",
     meta: {
       title: "Microsoft Teams",
@@ -14,6 +15,7 @@ export const seedData = {
     },
   },
   "application/ms_outlook": {
+    contentVersion: nanoid(),
     collection: "application",
     meta: {
       title: "Microsoft Outlook",
