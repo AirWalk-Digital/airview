@@ -1,5 +1,6 @@
 import { rest } from "msw";
 import { createStore } from "./create-store";
+import matter from "gray-matter";
 
 // Add an extra delay to all endpoints, so loading spinners show up.
 const ARTIFICIAL_DELAY_MS = 500;
@@ -12,6 +13,33 @@ const {
   persistContent,
   getBranches,
 } = createStore();
+
+const testMarkdown = {
+  "index.md": {
+    content: btoa(
+      matter.stringify("I am body content for Apple Music", {
+        title: "Apple Music",
+      })
+    ),
+  },
+};
+
+console.log(testMarkdown);
+
+console.log("entries", getEntries());
+console.log("entryContent", getEntryContent("application/ms_outlook"));
+
+console.log("updating content for entryId 'application/ms_teams'");
+persistContent("application/ms_teams", testMarkdown);
+console.log("entries", getEntries());
+console.log(
+  "entryContent",
+  atob(getEntryContent("application/ms_teams")["index.md"].content)
+);
+
+console.log("dropping all entries");
+dropAllEntries();
+console.log("entries", getEntries());
 
 export const handlers = [
   rest.get("/api/entries", function (req, res, ctx) {
