@@ -51,7 +51,6 @@ export const seedData = {
         ),
       },
       "section_one.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify(
             "I am body content for Place Call on Hold - section one"
