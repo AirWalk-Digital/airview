@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import matter from "gray-matter";
 
+// Change to factory and return new object when called
 export const seedData = {
   "application/ms_teams": {
     contentVersion: nanoid(),
