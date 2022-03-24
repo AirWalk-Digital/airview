@@ -53,6 +53,14 @@ export const seedData = {
           })
         ),
       },
+      "section_one.md": {
+        sha: nanoid(),
+        content: btoa(
+          matter.stringify(
+            "I am body content for Place Call on Hold - section one"
+          )
+        ),
+      },
     },
   },
   "knowledge/composing_a_new_message": {
@@ -69,6 +77,14 @@ export const seedData = {
           matter.stringify("I am body content for Composing a new message", {
             title: "Composing a new message",
           })
+        ),
+      },
+      "section_one.md": {
+        sha: nanoid(),
+        content: btoa(
+          matter.stringify(
+            "I am body content for Composing a new message - section one"
+          )
         ),
       },
     },
