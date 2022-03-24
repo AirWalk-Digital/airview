@@ -29,9 +29,9 @@ export function MainView() {
       rightSlot={
         <div>
           <EntryCreator />
-          {/*<EntryRemover />
+          <EntryRemover />
           <RemoveAllEntries />
-          <EntryEditor />*/}
+          {/*<EntryEditor />*/}
         </div>
       }
     />

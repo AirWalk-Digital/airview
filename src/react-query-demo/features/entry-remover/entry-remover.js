@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useGetCurrentBranch, useGetAllEntriesMeta } from "../../hooks";
 import { EntrySelector } from "../entry-selector";
+const isEmpty = require("lodash/isEmpty");
 
 export function EntryRemover() {
   const queryClient = useQueryClient();
@@ -43,7 +44,7 @@ export function EntryRemover() {
         <div>Fetching entries</div>
       ) : (
         <>
-          {!entries.length ? (
+          {isEmpty(entries) ? (
             <div>There are no entries to remove...</div>
           ) : (
             <>
