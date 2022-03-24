@@ -1,34 +1,39 @@
 import { nanoid } from "nanoid";
+import matter from "gray-matter";
 
-export const seedData = [
-  {
-    id: "application/ms_teams",
+export const seedData = {
+  "application/ms_teams": {
+    contentVersion: nanoid(),
     collection: "application",
-    entity: "ms_teams",
     meta: {
       title: "Microsoft Teams",
     },
-    content: [
-      {
-        name: "index.md",
+    content: {
+      "index.md": {
         sha: nanoid(),
-        body: "I am body content for Microsoft Teams",
+        content: btoa(
+          matter.stringify("I am body content for Microsoft Teams", {
+            title: "Microsoft Teams",
+          })
+        ),
       },
-    ],
+    },
   },
-  {
-    id: "application/ms_outlook",
+  "application/ms_outlook": {
+    contentVersion: nanoid(),
     collection: "application",
-    entity: "ms_outlook",
     meta: {
       title: "Microsoft Outlook",
     },
-    content: [
-      {
-        name: "index.md",
+    content: {
+      "index.md": {
         sha: nanoid(),
-        body: "I am body content for Microsoft Outlook",
+        content: btoa(
+          matter.stringify("I am body content for Microsoft Outlook", {
+            title: "Microsoft Outlook",
+          })
+        ),
       },
-    ],
+    },
   },
-];
+};
