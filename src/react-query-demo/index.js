@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
 export function ReactQueryDemo() {
   return (
     <QueryClientProvider client={queryClient}>
-      {/*<MainView />*/}
+      <MainView />
     </QueryClientProvider>
   );
 }
