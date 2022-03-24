@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import matter from "gray-matter";
 
 export const seedData = {
   "application/ms_teams": {
@@ -10,7 +11,11 @@ export const seedData = {
     content: {
       "index.md": {
         sha: nanoid(),
-        content: btoa("I am body content for Microsoft Teams"),
+        content: btoa(
+          matter.stringify("I am body content for Microsoft Teams", {
+            title: "Microsoft Teams",
+          })
+        ),
       },
     },
   },
@@ -23,7 +28,11 @@ export const seedData = {
     content: {
       "index.md": {
         sha: nanoid(),
-        content: btoa("I am body content for Microsoft Outlook"),
+        content: btoa(
+          matter.stringify("I am body content for Microsoft Outlook", {
+            title: "Microsoft Outlook",
+          })
+        ),
       },
     },
   },
