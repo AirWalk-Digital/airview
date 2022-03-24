@@ -48,6 +48,14 @@ export function EntryCreator() {
     setFormState(setIntialFormState);
   };
 
+  const makeMarkdownFileBlob = async (body, frontmatter) => {
+    return await blobToBase64(
+      new Blob([matter.stringify(body, frontmatter)], {
+        type: "text/plain",
+      })
+    );
+  };
+
   const handleOnFormSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitting(true);
@@ -56,8 +64,22 @@ export function EntryCreator() {
       type: "text/plain",
     });
 
+    const additionalFileKeys = Object.keys(
+      config.collections[selectedCollection]?.additionalFiles ?? []
+    );
+
+    const additionalFiles = await Promise.all(
+      additionalFileKeys.map(async (key) => {
+        return [key, { content: await makeMarkdownFileBlob("", null) }];
+      })
+    );
+
     const b64Contents = await blobToBase64(markdownBlob);
-    const body = { "index.md": { content: b64Contents } };
+
+    const body = {
+      "index.md": { content: b64Contents },
+      ...Object.fromEntries(additionalFiles),
+    };
 
     try {
       const response = await fetch(
