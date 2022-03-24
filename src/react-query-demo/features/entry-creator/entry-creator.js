@@ -8,6 +8,14 @@ import { DynamicForm } from "../dynamic-form";
 
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
+const makeMarkdownFileBlob = async (body, frontmatter) => {
+  return await blobToBase64(
+    new Blob([matter.stringify(body, frontmatter)], {
+      type: "text/plain",
+    })
+  );
+};
+
 export function EntryCreator() {
   const queryClient = useQueryClient();
   const [selectedCollection, setSelectedCollection] = useState("");
@@ -17,10 +25,6 @@ export function EntryCreator() {
   const { data: currentBranch } = useGetCurrentBranch();
 
   const meta = config.collections[selectedCollection]?.meta;
-
-  const handleOnSelectedCollectionChange = (event) => {
-    setSelectedCollection(event.target.value);
-  };
 
   const setIntialFormState = useMemo(() => {
     return {
@@ -32,6 +36,10 @@ export function EntryCreator() {
       ),
     };
   }, [meta]);
+
+  const handleOnSelectedCollectionChange = (event) => {
+    setSelectedCollection(event.target.value);
+  };
 
   const handleOnFormInputChange = (event) => {
     event.preventDefault();
@@ -48,21 +56,9 @@ export function EntryCreator() {
     setFormState(setIntialFormState);
   };
 
-  const makeMarkdownFileBlob = async (body, frontmatter) => {
-    return await blobToBase64(
-      new Blob([matter.stringify(body, frontmatter)], {
-        type: "text/plain",
-      })
-    );
-  };
-
   const handleOnFormSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitting(true);
-
-    const markdownBlob = new Blob([matter.stringify("", formState)], {
-      type: "text/plain",
-    });
 
     const additionalFileKeys = Object.keys(
       config.collections[selectedCollection]?.additionalFiles ?? []
@@ -74,10 +70,8 @@ export function EntryCreator() {
       })
     );
 
-    const b64Contents = await blobToBase64(markdownBlob);
-
     const body = {
-      "index.md": { content: b64Contents },
+      "index.md": { content: await makeMarkdownFileBlob("", formState) },
       ...Object.fromEntries(additionalFiles),
     };
 
