@@ -18,6 +18,7 @@ export function createStore() {
     };
   };
 
+  // Is the shar property required now?
   const getEntryContent = (id, sha) => {
     return entries[id]?.content ?? false;
   };
@@ -30,12 +31,9 @@ export function createStore() {
   };
 
   const dropEntry = (id) => {
-    const index = entries.findIndex((f) => f.id === id);
-    if (index >= 0) {
-      entries.pop(index);
-      return true;
-    }
-    return false;
+    if (!entries[id]) return false;
+
+    delete entries[id];
   };
 
   const dropAllEntries = () => (entries = {});
