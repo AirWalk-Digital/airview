@@ -6,14 +6,14 @@ export function useGetEntryBody(entryId) {
   const { data: entryMeta } = useGetEntryMeta(entryId);
   const { data: currentBranch } = useGetCurrentBranch();
 
-  const contentVersion = entryMeta?.contentVersion;
+  const sha = entryMeta?.sha;
   const branchName = currentBranch?.name;
 
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
     useQuery(
-      ["entry_body", [entryId, contentVersion]],
+      ["entry_body", [sha]],
       fetchClient(`/api/content/${entryId}/${branchName}`),
-      { enabled: !!entryId && !!contentVersion && !!branchName }
+      { enabled: !!entryId && !!sha && !!branchName }
     );
 
   return {
