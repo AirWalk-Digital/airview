@@ -12,7 +12,7 @@ export function EntryBody() {
 
   const formatData = () => {
     const formattedData = Object.entries(data).map(([entryId, entryBody]) => {
-      return [entryId, { ...entryBody, content: atob(entryBody.content) }];
+      return [entryId, atob(entryBody)];
     });
 
     return Object.fromEntries(formattedData);

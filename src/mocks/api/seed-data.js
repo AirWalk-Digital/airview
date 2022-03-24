@@ -10,13 +10,11 @@ export const seedData = {
       title: "Microsoft Teams",
     },
     content: {
-      "index.md": {
-        content: btoa(
-          matter.stringify("I am body content for Microsoft Teams", {
-            title: "Microsoft Teams",
-          })
-        ),
-      },
+      "_index.md": btoa(
+        matter.stringify("I am body content for Microsoft Teams", {
+          title: "Microsoft Teams",
+        })
+      ),
     },
   },
   "application/ms_outlook": {
@@ -26,13 +24,11 @@ export const seedData = {
       title: "Microsoft Outlook",
     },
     content: {
-      "index.md": {
-        content: btoa(
-          matter.stringify("I am body content for Microsoft Outlook", {
-            title: "Microsoft Outlook",
-          })
-        ),
-      },
+      "_index.md": btoa(
+        matter.stringify("I am body content for Microsoft Outlook", {
+          title: "Microsoft Outlook",
+        })
+      ),
     },
   },
   "knowledge/place_call_on_hold": {
@@ -43,20 +39,17 @@ export const seedData = {
       parent: "application/ms_teams",
     },
     content: {
-      "index.md": {
-        content: btoa(
-          matter.stringify("I am body content for Place Call on Hold", {
-            title: "Place Call on Hold",
-          })
-        ),
-      },
-      "section_one.md": {
-        content: btoa(
-          matter.stringify(
-            "I am body content for Place Call on Hold - section one"
-          )
-        ),
-      },
+      "_index.md": btoa(
+        matter.stringify("I am body content for Place Call on Hold", {
+          title: "Place Call on Hold",
+        })
+      ),
+
+      "section_one.md": btoa(
+        matter.stringify(
+          "I am body content for Place Call on Hold - section one"
+        )
+      ),
     },
   },
   "knowledge/composing_a_new_message": {
@@ -67,20 +60,16 @@ export const seedData = {
       parent: "application/ms_teams",
     },
     content: {
-      "index.md": {
-        content: btoa(
-          matter.stringify("I am body content for Composing a new message", {
-            title: "Composing a new message",
-          })
-        ),
-      },
-      "section_one.md": {
-        content: btoa(
-          matter.stringify(
-            "I am body content for Composing a new message - section one"
-          )
-        ),
-      },
+      "_index.md": btoa(
+        matter.stringify("I am body content for Composing a new message", {
+          title: "Composing a new message",
+        })
+      ),
+      "section_one.md": btoa(
+        matter.stringify(
+          "I am body content for Composing a new message - section one"
+        )
+      ),
     },
   },
   "release/security_patch": {
@@ -91,13 +80,11 @@ export const seedData = {
       parent: "application/ms_teams",
     },
     content: {
-      "index.md": {
-        content: btoa(
-          matter.stringify("I am body content for Security Patch", {
-            title: "Security Patch",
-          })
-        ),
-      },
+      "_index.md": btoa(
+        matter.stringify("I am body content for Security Patch", {
+          title: "Security Patch",
+        })
+      ),
     },
   },
 };

@@ -31,7 +31,7 @@ export function MainView() {
           <EntryCreator />
           <EntryRemover />
           <RemoveAllEntries />
-          {/*<EntryEditor />*/}
+          <EntryEditor />
         </div>
       }
     />

@@ -32,9 +32,10 @@ export function EntryEditor() {
   useEffect(() => {
     if (!entryMeta || !entryBody) return;
 
-    const meta = config.collections[entryMeta.collection].meta;
+    const meta = config.collections[entryMeta.collection]?.meta ?? [];
 
     const formState = {
+      title: entryMeta.meta.title,
       ...Object.fromEntries(
         meta.map((field) => {
           const { name } = field;
@@ -42,15 +43,41 @@ export function EntryEditor() {
           return [name, entryMeta.meta[name]];
         })
       ),
-      title: entryMeta.meta.title,
-      body: entryBody.find((f) => f.name === "index.md").body,
     };
 
     setFormState(formState);
   }, [config, entryMeta, entryBody]);
 
+  console.log(formState);
+
+  const placeholderFormState = {
+    meta: {
+      title: String,
+    },
+    content: {
+      "_index.md": {
+        content: String,
+      },
+    },
+  };
+
+  console.log(placeholderFormState);
+
   return (
     <div>
+      <h3>Edit Entry</h3>
+      <EntrySelector
+        onChange={(event) => setSelectedEntry(event.target.value)}
+        value={selectedEntry}
+        style={{ marginBottom: 16 }}
+      />
+      <PrintJson data={formState} />
+    </div>
+  );
+
+  return (
+    <div>
+      <h3>Edit Entry</h3>
       <EntrySelector
         onChange={(event) => setSelectedEntry(event.target.value)}
         value={selectedEntry}
@@ -67,12 +94,6 @@ export function EntryEditor() {
               placeholder: "Type a title for the entry...",
             },
             ...(config.collections[entryMeta.collection].meta ?? []),
-            {
-              type: "textarea",
-              label: "Body",
-              name: "body",
-              placeholder: config.collections[entryMeta.collection].placeholder,
-            },
           ]}
           onChange={() => {}}
           onSubmit={() => {}}

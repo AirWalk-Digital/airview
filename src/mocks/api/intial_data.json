@@ -6,7 +6,7 @@
       "collection": "application",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Microsoft Teams"
           }
         }
@@ -18,7 +18,7 @@
       "collection": "application",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Microsoft Outlook"
           }
         }
@@ -31,7 +31,7 @@
       "parent": "1",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Activity Feed Guide"
           }
         },
@@ -49,7 +49,7 @@
       "parent": "1",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Placing a Call on Hold"
           }
         },
@@ -67,7 +67,7 @@
       "parent": "2",
       "body": [
         {
-          "index.md": "I am body content for Composing a New Message"
+          "_index.md": "I am body content for Composing a New Message"
         },
         {
           "subsection.md": ""
@@ -81,7 +81,7 @@
       "parent": "1",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Dark Mode Support"
           }
         }
@@ -94,7 +94,7 @@
       "parent": "1",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Mac M1 Silicon Support"
           }
         }
@@ -107,7 +107,7 @@
       "parent": "2",
       "body": [
         {
-          "index.md": {
+          "_index.md": {
             "content": "I am body content for Windows Security Patch"
           }
         }

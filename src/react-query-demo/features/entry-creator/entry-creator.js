@@ -66,14 +66,16 @@ export function EntryCreator() {
 
     const additionalFiles = await Promise.all(
       additionalFileKeys.map(async (key) => {
-        return [key, { content: await makeMarkdownFileBlob("", null) }];
+        return [key, await makeMarkdownFileBlob("", null)];
       })
     );
 
     const body = {
-      "index.md": { content: await makeMarkdownFileBlob("", formState) },
+      "_index.md": await makeMarkdownFileBlob("", formState),
       ...Object.fromEntries(additionalFiles),
     };
+
+    console.log(body);
 
     try {
       const response = await fetch(

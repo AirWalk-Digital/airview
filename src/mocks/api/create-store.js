@@ -23,7 +23,7 @@ export function createStore() {
   };
 
   const persistContent = (id, content) => {
-    const meta = matter(atob(content["index.md"].content)).data;
+    const meta = matter(atob(content["_index.md"])).data;
     const collection = id.split("/")[0];
 
     entries[id] = { sha: nanoid(), collection, meta, content };
