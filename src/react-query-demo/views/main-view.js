@@ -23,7 +23,7 @@ export function MainView() {
           <EntryMeta />
           <EntryBody />
           <ChildEntriesMeta />
-          {/*<SiblingEntriesMeta />*/}
+          <SiblingEntriesMeta />
         </React.Fragment>
       }
       rightSlot={
