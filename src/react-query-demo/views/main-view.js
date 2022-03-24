@@ -20,8 +20,8 @@ export function MainView() {
         <React.Fragment>
           <AllEntriesMeta />
           <EntriesByCollection />
-          {/*<EntryMeta />
-          <EntryBody />
+          <EntryMeta />
+          {/*<EntryBody />
           <ChildEntriesMeta />
           <SiblingEntriesMeta />*/}
         </React.Fragment>

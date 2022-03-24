@@ -15,9 +15,9 @@ export function EntrySelector({ onChange, value = "", ...otherProps }) {
   return (
     <select value={value} onChange={onChange} {...otherProps}>
       <option value="">Choose an entry...</option>
-      {data.map((entry) => (
-        <option key={entry.id} value={entry.id}>
-          {entry.meta.title}
+      {Object.entries(data).map(([entryId, entryData]) => (
+        <option key={entryId} value={entryId}>
+          {entryData.meta.title}
         </option>
       ))}
     </select>
