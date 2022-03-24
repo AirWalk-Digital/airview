@@ -4,7 +4,7 @@ import matter from "gray-matter";
 // Change to factory and return new object when called
 export const seedData = {
   "application/ms_teams": {
-    contentVersion: nanoid(),
+    sha: nanoid(),
     collection: "application",
     meta: {
       title: "Microsoft Teams",
@@ -20,7 +20,7 @@ export const seedData = {
     },
   },
   "application/ms_outlook": {
-    contentVersion: nanoid(),
+    sha: nanoid(),
     collection: "application",
     meta: {
       title: "Microsoft Outlook",
@@ -36,7 +36,7 @@ export const seedData = {
     },
   },
   "knowledge/place_call_on_hold": {
-    contentVersion: nanoid(),
+    sha: nanoid(),
     collection: "knowledge",
     meta: {
       title: "Place Call on Hold",
@@ -60,7 +60,7 @@ export const seedData = {
     },
   },
   "knowledge/composing_a_new_message": {
-    contentVersion: nanoid(),
+    sha: nanoid(),
     collection: "knowledge",
     meta: {
       title: "Composing a new message",
@@ -84,7 +84,7 @@ export const seedData = {
     },
   },
   "release/security_patch": {
-    contentVersion: nanoid(),
+    sha: nanoid(),
     collection: "release",
     meta: {
       title: "Security Patch",
