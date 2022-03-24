@@ -19,19 +19,19 @@ export function MainView() {
       leftSlot={
         <React.Fragment>
           <AllEntriesMeta />
-          <EntriesByCollection />
+          {/*<EntriesByCollection />
           <EntryMeta />
           <EntryBody />
           <ChildEntriesMeta />
-          <SiblingEntriesMeta />
+          <SiblingEntriesMeta />*/}
         </React.Fragment>
       }
       rightSlot={
         <div>
-          <EntryCreator />
+          {/*<EntryCreator />
           <EntryRemover />
           <RemoveAllEntries />
-          <EntryEditor />
+          <EntryEditor />*/}
         </div>
       }
     />
