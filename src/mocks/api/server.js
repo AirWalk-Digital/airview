@@ -22,7 +22,7 @@ export const handlers = [
     "/api/content/:collection/:entity/:branch",
     function (req, res, ctx) {
       const id = `${req.params.collection}/${req.params.entity}`;
-      const content = getEntryContent(id, "");
+      const content = getEntryContent(id);
 
       return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
     }

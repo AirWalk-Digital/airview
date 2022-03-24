@@ -11,7 +11,6 @@ export const seedData = {
     },
     content: {
       "index.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify("I am body content for Microsoft Teams", {
             title: "Microsoft Teams",
@@ -28,7 +27,6 @@ export const seedData = {
     },
     content: {
       "index.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify("I am body content for Microsoft Outlook", {
             title: "Microsoft Outlook",
@@ -46,7 +44,6 @@ export const seedData = {
     },
     content: {
       "index.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify("I am body content for Place Call on Hold", {
             title: "Place Call on Hold",
@@ -72,7 +69,6 @@ export const seedData = {
     },
     content: {
       "index.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify("I am body content for Composing a new message", {
             title: "Composing a new message",
@@ -80,7 +76,6 @@ export const seedData = {
         ),
       },
       "section_one.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify(
             "I am body content for Composing a new message - section one"
@@ -98,7 +93,6 @@ export const seedData = {
     },
     content: {
       "index.md": {
-        sha: nanoid(),
         content: btoa(
           matter.stringify("I am body content for Security Patch", {
             title: "Security Patch",

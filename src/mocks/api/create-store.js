@@ -18,8 +18,7 @@ export function createStore() {
     };
   };
 
-  // Is the shar property required now?
-  const getEntryContent = (id, sha) => {
+  const getEntryContent = (id) => {
     return entries[id]?.content ?? false;
   };
 
