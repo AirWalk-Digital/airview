@@ -19,8 +19,8 @@ export function MainView() {
       leftSlot={
         <React.Fragment>
           <AllEntriesMeta />
-          {/*<EntriesByCollection />
-          <EntryMeta />
+          <EntriesByCollection />
+          {/*<EntryMeta />
           <EntryBody />
           <ChildEntriesMeta />
           <SiblingEntriesMeta />*/}
