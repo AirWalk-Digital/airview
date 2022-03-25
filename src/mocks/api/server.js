@@ -11,18 +11,19 @@ const {
   dropAllEntries,
   persistContent,
   getBranches,
+  createBranch,
 } = createStore();
 
 export const handlers = [
-  rest.get("/api/entries", function (req, res, ctx) {
-    const entiesMeta = getEntries();
+  rest.get("/api/entries/:branch", function (req, res, ctx) {
+    const entiesMeta = getEntries(req.params.branch);
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
   }),
   rest.get(
     "/api/content/:collection/:entity/:branch",
     function (req, res, ctx) {
       const id = `${req.params.collection}/${req.params.entity}`;
-      const content = getEntryContent(id);
+      const content = getEntryContent(id, req.params.branch);
 
       return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
     }
@@ -31,7 +32,7 @@ export const handlers = [
     "/api/content/:collection/:entity/:branch",
     function (req, res, ctx) {
       const id = `${req.params.collection}/${req.params.entity}`;
-      persistContent(id, req.body);
+      persistContent(id, req.params.branch, req.body);
       return res(ctx.delay(ARTIFICIAL_DELAY_MS));
     }
   ),
@@ -43,12 +44,16 @@ export const handlers = [
     "/api/content/:collection/:entity/:branch",
     function (req, res, ctx) {
       const id = `${req.params.collection}/${req.params.entity}`;
-      dropEntry(id);
+      dropEntry(id, req.params.branch);
       return res(ctx.delay(ARTIFICIAL_DELAY_MS));
     }
   ),
   rest.get("/api/branches", function (req, res, ctx) {
     const branches = getBranches();
+    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
+  }),
+  rest.post("/api/branches", function (req, res, ctx) {
+    const branches = createBranch(req.body);
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
   }),
 ];
