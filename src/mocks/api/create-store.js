@@ -31,7 +31,7 @@ export function createStore() {
     const meta = matter(atob(content["_index.md"])).data;
     const collection = id.split("/")[0];
 
-    entries[branch][id] = { sha: nanoid(), collection, meta, content };
+    entries[branch][id] = { sha: [nanoid()], collection, meta, content };
   };
 
   const dropEntry = (id, branch) => {

@@ -5,7 +5,7 @@ import matter from "gray-matter";
 export const seedData = {
   main: {
     "application/ms_teams": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "application",
       meta: {
         title: "Microsoft Teams",
@@ -19,7 +19,7 @@ export const seedData = {
       },
     },
     "application/ms_outlook": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "application",
       meta: {
         title: "Microsoft Outlook",
@@ -33,7 +33,7 @@ export const seedData = {
       },
     },
     "knowledge/place_call_on_hold": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "knowledge",
       meta: {
         title: "Place Call on Hold",
@@ -54,7 +54,7 @@ export const seedData = {
       },
     },
     "knowledge/composing_a_new_message": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "knowledge",
       meta: {
         title: "Composing a new message",
@@ -74,7 +74,7 @@ export const seedData = {
       },
     },
     "release/security_patch": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "release",
       meta: {
         title: "Security Patch",
@@ -91,7 +91,7 @@ export const seedData = {
   },
   one: {
     "release/security_patch": {
-      sha: nanoid(),
+      sha: [nanoid()],
       collection: "release",
       meta: {
         title: "Security Patch",
