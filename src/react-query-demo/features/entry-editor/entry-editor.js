@@ -2,9 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import matter from "gray-matter";
 import { blobToBase64 } from "../../util";
-import { useGetEntryMeta, useGetEntryBody, useConfig } from "../../hooks";
+import {
+  useGetEntryMeta,
+  useGetEntryBody,
+  useConfig,
+  useGetAllEntriesMeta,
+} from "../../hooks";
 import { EntrySelector } from "../entry-selector";
 import { DynamicForm } from "../dynamic-form";
+const isEmpty = require("lodash/isEmpty");
 
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
@@ -20,6 +26,7 @@ export function EntryEditor() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
   const config = useConfig();
+  const { data: entries, isFetching: entriesFetching } = useGetAllEntriesMeta();
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
   const { data: entryBody } = useGetEntryBody(selectedEntry);
   const [formState, setFormState] = useState(null);
@@ -159,19 +166,35 @@ export function EntryEditor() {
   return (
     <div>
       <h3>Edit Entry</h3>
-      <EntrySelector
-        onChange={(event) => setSelectedEntry(event.target.value)}
-        value={selectedEntry}
-        style={{ marginBottom: 16 }}
-      />
-      {formState && formFields && !formSubmitting && (
-        <DynamicForm
-          formState={formState}
-          meta={formFields}
-          onChange={handleOnFieldChange}
-          onSubmit={handleOnSubmit}
-          onReset={() => {}}
-        />
+      {isEmpty(entries) && !entriesFetching ? (
+        <div>There are no entries to edit...</div>
+      ) : (
+        <>
+          {formSubmitting ? (
+            <div>Submitting changes...</div>
+          ) : (
+            <>
+              <EntrySelector
+                onChange={(event) => setSelectedEntry(event.target.value)}
+                value={selectedEntry}
+                style={{ marginBottom: 16 }}
+              />
+              {!entriesFetching &&
+                selectedEntry &&
+                formState &&
+                formFields &&
+                !formSubmitting && (
+                  <DynamicForm
+                    formState={formState}
+                    meta={formFields}
+                    onChange={handleOnFieldChange}
+                    onSubmit={handleOnSubmit}
+                    onReset={() => {}}
+                  />
+                )}
+            </>
+          )}
+        </>
       )}
     </div>
   );
