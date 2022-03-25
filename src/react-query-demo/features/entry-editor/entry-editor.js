@@ -44,6 +44,19 @@ export function EntryEditor() {
   const [formFields, setFormFields] = useState(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
 
+  const handleOnFieldChange = (event) => {
+    setFormState((prevState) => {
+      return {
+        ...prevState,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+  };
+
   useEffect(() => {
     if (!config || !entryMeta || !entryBody) {
       setFormState(null);
@@ -133,8 +146,8 @@ export function EntryEditor() {
         <DynamicForm
           formState={formState}
           meta={formFields}
-          onChange={() => {}}
-          onSubmit={() => {}}
+          onChange={handleOnFieldChange}
+          onSubmit={handleOnSubmit}
           onReset={() => {}}
         />
       )}
@@ -147,81 +160,3 @@ export function EntryEditor() {
 
   // return <span>Form will render</span>;
 }
-
-/*
-export function EntryEditor() {
-  const config = useConfig();
-  const queryClient = useQueryClient();
-  const [selectedEntry, setSelectedEntry] = useState("");
-  const [formState, setFormState] = useState(null);
-  const [formSubmitting, setFormSubmitting] = useState(false);
-
-  const { isFetching: entryMetaIsFetching, data: entryMeta } =
-    useGetEntryMeta(selectedEntry);
-
-  const { isFetching: entryBodyIsFetching, data: entryBody } =
-    useGetEntryBody(selectedEntry);
-
-  useEffect(() => {
-    if (entryMetaIsFetching || entryBodyIsFetching) {
-      setFormState(null);
-    }
-  }, [entryMetaIsFetching, entryBodyIsFetching]);
-
-  useEffect(() => {
-    if (!entryMeta || !entryBody) return;
-
-    const meta = config.collections[entryMeta.collection]?.meta ?? [];
-
-    const bodyContent = Object.entries(entryBody).map(([fileName, content]) => {
-      console.log(atob(content));
-      return [fileName, matter(atob(content)).content];
-    });
-
-    const formState = {
-      ...entryMeta.meta,
-      ...Object.fromEntries(bodyContent),
-    };
-
-    setFormState(formState);
-  }, [config, entryMeta, entryBody]);
-
-  const formMeta = [
-    {
-      type: "string",
-      label: "Title",
-      name: "title",
-      placeholder: "Type a title for the entry...",
-    },
-    ...(config.collections[entryMeta.collection].meta ?? []),
-  ];
-
-  return (
-    <div>
-      <h3>Edit Entry</h3>
-      <EntrySelector
-        onChange={(event) => setSelectedEntry(event.target.value)}
-        value={selectedEntry}
-        style={{ marginBottom: 16 }}
-      />
-      {selectedEntry && formState && !formSubmitting && (
-        <DynamicForm
-          formState={formState}
-          meta={[
-            {
-              type: "string",
-              label: "Title",
-              name: "title",
-              placeholder: "Type a title for the entry...",
-            },
-            ...(config.collections[entryMeta.collection].meta ?? []),
-          ]}
-          onChange={() => {}}
-          onSubmit={() => {}}
-          onReset={() => {}}
-        />
-      )}
-    </div>
-  );
-}
-*/
