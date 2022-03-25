@@ -13,70 +13,36 @@ import { DynamicForm } from "../dynamic-form";
 
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
-/*
-function useConfig() {
-  return {
-    application: {
-      meta: [
-        {
-          type: "string",
-          name: "title",
-          label: "Title",
-          placeholder: "Enter a title",
-        },
-      ],
-      placeholder: "Main body placeholder",
-    },
-    document: {
-      meta: [
-        {
-          type: "string",
-          name: "title",
-          label: "Title",
-          placeholder: "Enter a title",
-        },
-        {
-          type: "checkbox",
-          name: "published",
-          label: "Published",
-        },
-      ],
-      placeholder: "Main body placeholder",
-      additionalFiles: [
-        {
-          name: "section_two.md",
-          placeholder: "Section Two placeholder",
-        },
-      ],
-    },
-  };
-}
+// function makePayload() {
+//   const metaData = meta.map(({ name }) => [name, formState[name]]);
+//   const bodyData = additionalFiles.map(({ name }) => [
+//     name,
+//     matter.stringify(formState[name]),
+//   ]);
 
-function useGetEntryMeta() {
-  return {
-    collection: "document",
-    meta: {
-      title: "Open a new tab",
-      published: false,
-    },
-  };
-}
+//   return {
+//     "index.md": matter.stringify(
+//       formState["_index.md"],
+//       Object.fromEntries(metaData)
+//     ),
+//     ...Object.fromEntries(bodyData),
+//   };
+// }
 
-function useGetEntryBody() {
-  return {
-    "_index.md": "Some body content",
-    "section_two.md": "Some extra content",
-  };
-}
-*/
+// const payload = makePayload();
+
+// console.log("formFields", formFields);
+// console.log("formState", formState);
+// console.log("payload", payload);
 
 export function EntryEditor() {
-  const selectedEntry = "knowledge/composing_a_new_message";
+  const [selectedEntry, setSelectedEntry] = useState("");
   const config = useConfig();
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
   const { data: entryBody } = useGetEntryBody(selectedEntry);
   const [formState, setFormState] = useState(null);
   const [formFields, setFormFields] = useState(null);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   useEffect(() => {
     if (!config || !entryMeta || !entryBody) {
@@ -95,12 +61,14 @@ export function EntryEditor() {
 
       stateMetaData.push(["title", entryMeta.meta.title]);
 
-      const stateBodyData = additionalFiles.map(({ name }) => [
-        name,
-        matter(atob(entryBody[name]) ?? "",
-      ]);
+      const stateBodyData = additionalFiles.map(({ name }) => {
+        return [name, matter(atob(entryBody[name])).content];
+      });
 
-      stateBodyData.push(["_index.md", entryBody["_index.md"]]);
+      stateBodyData.push([
+        "_index.md",
+        matter(atob(entryBody["_index.md"])).content,
+      ]);
 
       return {
         ...Object.fromEntries(stateMetaData),
@@ -111,57 +79,73 @@ export function EntryEditor() {
     setFormState(makeInitialFormState());
   }, [config, entryMeta, entryBody]);
 
+  useEffect(() => {
+    if (!config || !entryMeta) {
+      setFormFields(null);
+      return;
+    }
+
+    const {
+      meta = [],
+      additionalFiles = [],
+      placeholder,
+    } = config.collections[entryMeta.collection];
+
+    function makeFormFields() {
+      return [
+        ...[
+          {
+            type: "string",
+            name: "title",
+            label: "Title",
+            placeholder: "Enter a title",
+          },
+          ...meta,
+        ],
+        ...[{ name: "_index.md", placeholder }, ...additionalFiles].map(
+          (file) => {
+            return {
+              type: "textarea",
+              name: file.name,
+              label: file.name,
+              placeholder: file.placeholder,
+            };
+          }
+        ),
+      ];
+    }
+
+    setFormFields(makeFormFields());
+  }, [config, entryMeta]);
+
   console.log(formState);
+  console.log(formFields);
 
-  return null;
+  return (
+    <div>
+      <h3>Edit Entry</h3>
+      <EntrySelector
+        onChange={(event) => setSelectedEntry(event.target.value)}
+        value={selectedEntry}
+        style={{ marginBottom: 16 }}
+      />
+      {formState && formFields && !formSubmitting && (
+        <DynamicForm
+          formState={formState}
+          meta={formFields}
+          onChange={() => {}}
+          onSubmit={() => {}}
+          onReset={() => {}}
+        />
+      )}
+    </div>
+  );
 
-  // const {
-  //   meta = [],
-  //   additionalFiles = [],
-  //   placeholder,
-  // } = config[entryMeta.collection];
-
-  // function makeFormFields() {
-  //   return [
-  //     ...meta,
-  //     ...[...additionalFiles, { name: "_index.md", placeholder }].map(
-  //       (file) => {
-  //         return {
-  //           type: "textarea",
-  //           name: file.name,
-  //           label: file.name,
-  //           placeholder: file.placeholder,
-  //         };
-  //       }
-  //     ),
-  //   ];
+  // if (!formState || !formFields) {
+  //   return <span>Form will not render</span>;
   // }
 
-  // const formFields = makeFormFields();
-
-  // function makePayload() {
-  //   const metaData = meta.map(({ name }) => [name, formState[name]]);
-  //   const bodyData = additionalFiles.map(({ name }) => [
-  //     name,
-  //     matter.stringify(formState[name]),
-  //   ]);
-
-  //   return {
-  //     "index.md": matter.stringify(
-  //       formState["_index.md"],
-  //       Object.fromEntries(metaData)
-  //     ),
-  //     ...Object.fromEntries(bodyData),
-  //   };
-  // }
-
-  // const payload = makePayload();
-
-  // console.log("formFields", formFields);
-  // console.log("formState", formState);
-  // console.log("payload", payload);
-
-  return <span>EntryEditor</span>;
+  // return <span>Form will render</span>;
 }
 
 /*
