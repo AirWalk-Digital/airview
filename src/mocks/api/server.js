@@ -36,8 +36,8 @@ export const handlers = [
       return res(ctx.delay(ARTIFICIAL_DELAY_MS));
     }
   ),
-  rest.delete("/api/content", function (req, res, ctx) {
-    dropAllEntries();
+  rest.delete("/api/content/:branch", function (req, res, ctx) {
+    dropAllEntries(req.params.branch);
     return res(ctx.delay(ARTIFICIAL_DELAY_MS));
   }),
   rest.delete(

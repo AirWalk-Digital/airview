@@ -14,7 +14,7 @@ export function createStore() {
     const mappedEntries = Object.entries(entries[branch]).map(
       ([entryId, entryData]) => {
         const { content, ...otherEntryData } = entryData;
-        return [entryId, otherEntryData];
+        return [entryId, { id: entryId, ...otherEntryData }];
       }
     );
 
@@ -40,7 +40,10 @@ export function createStore() {
     delete entries[branch][id];
   };
 
-  const dropAllEntries = () => (entries = {});
+  const dropAllEntries = (branch) => {
+    if (!entries[branch]) return false;
+    entries[branch] = {};
+  };
   const getBranches = () => branches;
 
   const createBranch = (body) =>
