@@ -35,8 +35,6 @@ export function EntryEditor() {
     });
   };
 
-  console.log(entryMeta);
-
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
@@ -66,9 +64,7 @@ export function EntryEditor() {
         ...Object.fromEntries(bodyData),
       };
 
-      console.log(`/api/content/${selectedEntry}/main`);
-
-      const response = await fetch(`/api/content/${selectedEntry}/main`, {
+      const response = await fetch(`/api/content/${entryMeta.id}/main`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
