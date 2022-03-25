@@ -16,12 +16,13 @@ export const config = {
         },
       ],
       placeholder: "Enter some body content for the knowledge document...",
-      additionalFiles: {
-        "section_one.md": {
+      additionalFiles: [
+        {
+          name: "section_one.md",
           placeholder:
             "Enter some additional content for the knowledge document sub-section...",
         },
-      },
+      ],
     },
     release: {
       name: "Release",
