@@ -4,6 +4,9 @@ import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 function prepare() {
+  if (process.env.REACT_APP_USE_API === "true") {
+    return Promise.resolve();
+  }
   if (process.env.NODE_ENV === "development") {
     const { worker } = require("./mocks/api/browser");
     return worker.start();
