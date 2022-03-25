@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
+import matter from "gray-matter";
 import {
   useGetAllEntriesMeta,
   useGetEntryMeta,
@@ -10,6 +11,13 @@ import { EntrySelector } from "../entry-selector";
 import { PrintJson } from "../../components";
 import { DynamicForm } from "../dynamic-form";
 
+global.Buffer = global.Buffer || require("buffer").Buffer;
+
+export function EntryEditor() {
+  return <span>EntryEditor</span>;
+}
+
+/*
 export function EntryEditor() {
   const config = useConfig();
   const queryClient = useQueryClient();
@@ -34,46 +42,28 @@ export function EntryEditor() {
 
     const meta = config.collections[entryMeta.collection]?.meta ?? [];
 
-    const formState = {
-      title: entryMeta.meta.title,
-      ...Object.fromEntries(
-        meta.map((field) => {
-          const { name } = field;
+    const bodyContent = Object.entries(entryBody).map(([fileName, content]) => {
+      console.log(atob(content));
+      return [fileName, matter(atob(content)).content];
+    });
 
-          return [name, entryMeta.meta[name]];
-        })
-      ),
+    const formState = {
+      ...entryMeta.meta,
+      ...Object.fromEntries(bodyContent),
     };
 
     setFormState(formState);
   }, [config, entryMeta, entryBody]);
 
-  console.log(formState);
-
-  const placeholderFormState = {
-    meta: {
-      title: String,
+  const formMeta = [
+    {
+      type: "string",
+      label: "Title",
+      name: "title",
+      placeholder: "Type a title for the entry...",
     },
-    content: {
-      "_index.md": {
-        content: String,
-      },
-    },
-  };
-
-  console.log(placeholderFormState);
-
-  return (
-    <div>
-      <h3>Edit Entry</h3>
-      <EntrySelector
-        onChange={(event) => setSelectedEntry(event.target.value)}
-        value={selectedEntry}
-        style={{ marginBottom: 16 }}
-      />
-      <PrintJson data={formState} />
-    </div>
-  );
+    ...(config.collections[entryMeta.collection].meta ?? []),
+  ];
 
   return (
     <div>
@@ -103,3 +93,4 @@ export function EntryEditor() {
     </div>
   );
 }
+*/
