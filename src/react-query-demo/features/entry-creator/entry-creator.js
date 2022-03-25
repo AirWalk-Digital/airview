@@ -75,8 +75,6 @@ export function EntryCreator() {
       ...Object.fromEntries(additionalFiles),
     };
 
-    console.log(body);
-
     try {
       const response = await fetch(
         `/api/content/${selectedCollection}/${slugifyString(formState.title)}/${

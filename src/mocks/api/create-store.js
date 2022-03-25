@@ -4,9 +4,14 @@ import matter from "gray-matter";
 
 export function createStore() {
   let entries = seedData;
+  let branches = [
+    { name: "main", sha: "abc", isProtected: true },
+    { name: "one", sha: "cde", isProtected: false },
+    { name: "two", sha: "efg", isProtected: false },
+  ];
 
-  const getEntries = () => {
-    const mappedEntries = Object.entries(entries).map(
+  const getEntries = (branch) => {
+    const mappedEntries = Object.entries(entries[branch]).map(
       ([entryId, entryData]) => {
         const { content, ...otherEntryData } = entryData;
         return [entryId, otherEntryData];
@@ -18,28 +23,28 @@ export function createStore() {
     };
   };
 
-  const getEntryContent = (id) => {
-    return entries[id]?.content ?? false;
+  const getEntryContent = (id, branch) => {
+    return entries[branch][id]?.content ?? false;
   };
 
-  const persistContent = (id, content) => {
+  const persistContent = (id, branch, content) => {
     const meta = matter(atob(content["_index.md"])).data;
     const collection = id.split("/")[0];
 
-    entries[id] = { sha: nanoid(), collection, meta, content };
+    entries[branch][id] = { sha: nanoid(), collection, meta, content };
   };
 
-  const dropEntry = (id) => {
-    if (!entries[id]) return false;
+  const dropEntry = (id, branch) => {
+    if (!entries[branch][id]) return false;
 
-    delete entries[id];
+    delete entries[branch][id];
   };
 
   const dropAllEntries = () => (entries = {});
+  const getBranches = () => branches;
 
-  const getBranches = () => [
-    { name: "main", sha: nanoid(), isProtected: false },
-  ];
+  const createBranch = (body) =>
+    branches.push({ name: body.name, isProtected: false, sha: nanoid() });
 
   const reset = () => {
     entries = seedData;
@@ -52,6 +57,7 @@ export function createStore() {
     dropAllEntries,
     persistContent,
     getBranches,
+    createBranch,
     reset,
   };
 }
