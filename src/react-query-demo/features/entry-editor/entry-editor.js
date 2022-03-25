@@ -1,41 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import matter from "gray-matter";
-import {
-  useGetAllEntriesMeta,
-  useGetEntryMeta,
-  useGetEntryBody,
-  useConfig,
-} from "../../hooks";
+import { blobToBase64 } from "../../util";
+import { useGetEntryMeta, useGetEntryBody, useConfig } from "../../hooks";
 import { EntrySelector } from "../entry-selector";
-import { PrintJson } from "../../components";
 import { DynamicForm } from "../dynamic-form";
 
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
-// function makePayload() {
-//   const metaData = meta.map(({ name }) => [name, formState[name]]);
-//   const bodyData = additionalFiles.map(({ name }) => [
-//     name,
-//     matter.stringify(formState[name]),
-//   ]);
-
-//   return {
-//     "index.md": matter.stringify(
-//       formState["_index.md"],
-//       Object.fromEntries(metaData)
-//     ),
-//     ...Object.fromEntries(bodyData),
-//   };
-// }
-
-// const payload = makePayload();
-
-// console.log("formFields", formFields);
-// console.log("formState", formState);
-// console.log("payload", payload);
+const makeMarkdownFileBlob = async (body, frontmatter) => {
+  return await blobToBase64(
+    new Blob([matter.stringify(body, frontmatter)], {
+      type: "text/plain",
+    })
+  );
+};
 
 export function EntryEditor() {
+  const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
   const config = useConfig();
   const { data: entryMeta } = useGetEntryMeta(selectedEntry);
@@ -53,8 +35,55 @@ export function EntryEditor() {
     });
   };
 
-  const handleOnSubmit = (event) => {
+  console.log(entryMeta);
+
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      setFormSubmitting(true);
+
+      const { meta = [], additionalFiles = [] } =
+        config.collections[entryMeta.collection];
+
+      const metaData = [...meta, { name: "title" }].map(({ name }) => [
+        name,
+        formState[name],
+      ]);
+
+      const bodyData = await Promise.all(
+        additionalFiles.map(async ({ name }) => [
+          name,
+          await makeMarkdownFileBlob(formState[name], null),
+        ])
+      );
+
+      const payload = {
+        "_index.md": await makeMarkdownFileBlob(
+          formState["_index.md"],
+          Object.fromEntries(metaData)
+        ),
+        ...Object.fromEntries(bodyData),
+      };
+
+      console.log(`/api/content/${selectedEntry}/main`);
+
+      const response = await fetch(`/api/content/${selectedEntry}/main`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        queryClient.invalidateQueries("entries_meta");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setFormSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -130,9 +159,6 @@ export function EntryEditor() {
 
     setFormFields(makeFormFields());
   }, [config, entryMeta]);
-
-  console.log(formState);
-  console.log(formFields);
 
   return (
     <div>
