@@ -22,6 +22,29 @@ const makeMarkdownFileBlob = async (body, frontmatter) => {
   );
 };
 
+function makeInitialFormState(meta, entryMeta, additionalFiles, entryBody) {
+  const stateMetaData = meta.map(({ name }) => [
+    name,
+    entryMeta.meta[name] ?? "",
+  ]);
+
+  stateMetaData.push(["title", entryMeta.meta.title]);
+
+  const stateBodyData = additionalFiles.map(({ name }) => {
+    return [name, matter(atob(entryBody[name])).content];
+  });
+
+  stateBodyData.push([
+    "_index.md",
+    matter(atob(entryBody["_index.md"])).content,
+  ]);
+
+  return {
+    ...Object.fromEntries(stateMetaData),
+    ...Object.fromEntries(stateBodyData),
+  };
+}
+
 export function EntryEditor() {
   const queryClient = useQueryClient();
   const [selectedEntry, setSelectedEntry] = useState("");
@@ -89,6 +112,15 @@ export function EntryEditor() {
     }
   };
 
+  const handleOnReset = () => {
+    const { meta = [], additionalFiles = [] } =
+      config.collections[entryMeta.collection];
+
+    setFormState(
+      makeInitialFormState(meta, entryMeta, additionalFiles, entryBody)
+    );
+  };
+
   useEffect(() => {
     if (!config || !entryMeta || !entryBody) {
       setFormState(null);
@@ -98,30 +130,9 @@ export function EntryEditor() {
     const { meta = [], additionalFiles = [] } =
       config.collections[entryMeta.collection];
 
-    function makeInitialFormState() {
-      const stateMetaData = meta.map(({ name }) => [
-        name,
-        entryMeta.meta[name] ?? "",
-      ]);
-
-      stateMetaData.push(["title", entryMeta.meta.title]);
-
-      const stateBodyData = additionalFiles.map(({ name }) => {
-        return [name, matter(atob(entryBody[name])).content];
-      });
-
-      stateBodyData.push([
-        "_index.md",
-        matter(atob(entryBody["_index.md"])).content,
-      ]);
-
-      return {
-        ...Object.fromEntries(stateMetaData),
-        ...Object.fromEntries(stateBodyData),
-      };
-    }
-
-    setFormState(makeInitialFormState());
+    setFormState(
+      makeInitialFormState(meta, entryMeta, additionalFiles, entryBody)
+    );
   }, [config, entryMeta, entryBody]);
 
   useEffect(() => {
@@ -163,6 +174,8 @@ export function EntryEditor() {
     setFormFields(makeFormFields());
   }, [config, entryMeta]);
 
+  console.log(formState);
+
   return (
     <div>
       <h3>Edit Entry</h3>
@@ -189,7 +202,7 @@ export function EntryEditor() {
                     meta={formFields}
                     onChange={handleOnFieldChange}
                     onSubmit={handleOnSubmit}
-                    onReset={() => {}}
+                    onReset={handleOnReset}
                   />
                 )}
             </>
