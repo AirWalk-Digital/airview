@@ -174,8 +174,6 @@ export function EntryEditor() {
     setFormFields(makeFormFields());
   }, [config, entryMeta]);
 
-  console.log(formState);
-
   return (
     <div>
       <h3>Edit Entry</h3>
@@ -211,10 +209,4 @@ export function EntryEditor() {
       )}
     </div>
   );
-
-  // if (!formState || !formFields) {
-  //   return <span>Form will not render</span>;
-  // }
-
-  // return <span>Form will render</span>;
 }
