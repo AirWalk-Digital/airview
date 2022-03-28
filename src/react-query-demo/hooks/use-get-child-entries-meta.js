@@ -1,8 +1,13 @@
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
-export function useGetChildEntriesMeta(entryId) {
+export function useGetChildEntriesMeta(id) {
   return useGetAllEntriesMeta((entries) => {
-    if (!entryId) return;
-    return entries.filter((entry) => entry?.parent === entryId);
+    if (!id) return;
+
+    const filteredEntries = Object.entries(entries).filter(
+      ([entryId, entryData]) => entryData.meta?.parent === id
+    );
+
+    return Object.fromEntries(filteredEntries);
   });
 }

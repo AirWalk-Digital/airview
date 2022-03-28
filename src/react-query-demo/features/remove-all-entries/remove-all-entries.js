@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { useQueryClient } from "react-query";
-import { useGetAllEntriesMeta } from "../../hooks";
+import { useGetAllEntriesMeta, useGetCurrentBranch } from "../../hooks";
+const isEmpty = require("lodash/isEmpty");
 
 export function RemoveAllEntries() {
   const queryClient = useQueryClient();
   const { data: entries, isLoading, isFetching } = useGetAllEntriesMeta();
   const [submitting, setSubmitting] = useState(false);
+  const { data: branchData } = useGetCurrentBranch();
 
   const removeAllEntries = async () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/entries/`, {
+      const response = await fetch(`/api/content/${branchData.name}`, {
         method: "DELETE",
       });
 
@@ -32,7 +34,7 @@ export function RemoveAllEntries() {
         <div>Fetching entries</div>
       ) : (
         <>
-          {!entries.length ? (
+          {isEmpty(entries) ? (
             <div>There are no entries to remove...</div>
           ) : (
             <>

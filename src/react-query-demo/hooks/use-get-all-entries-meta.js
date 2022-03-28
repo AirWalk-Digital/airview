@@ -1,9 +1,17 @@
 import { useQuery } from "react-query";
 import { fetchClient } from "../util";
+import { useGetCurrentBranch } from "../hooks";
 
 export function useGetAllEntriesMeta(select) {
+  const { data: branchData } = useGetCurrentBranch();
   const { isLoading, isError, isSuccess, isIdle, isFetching, data, error } =
-    useQuery("entries_meta", fetchClient("/api/entries"), { select });
+    useQuery(
+      ["entries_meta", branchData.sha],
+      fetchClient(`/api/entries/${branchData.name}`),
+      {
+        select,
+      }
+    );
 
   return {
     isLoading,

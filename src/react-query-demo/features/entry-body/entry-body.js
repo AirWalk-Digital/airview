@@ -10,6 +10,14 @@ export function EntryBody() {
 
   const handleOnChange = (event) => setSelectedEntry(event.target.value);
 
+  const formatData = () => {
+    const formattedData = Object.entries(data).map(([entryId, entryBody]) => {
+      return [entryId, atob(entryBody)];
+    });
+
+    return Object.fromEntries(formattedData);
+  };
+
   return (
     <div>
       <h3>Entry Body</h3>
@@ -21,7 +29,7 @@ export function EntryBody() {
         <div>Loading entry body</div>
       ) : (
         <>
-          {isSuccess && <PrintJson data={data} />}
+          {isSuccess && <PrintJson data={formatData()} />}
           {isError && <div>Error fetching entry body</div>}
         </>
       )}

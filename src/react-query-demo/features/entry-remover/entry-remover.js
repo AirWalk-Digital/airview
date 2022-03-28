@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useQueryClient } from "react-query";
-import { useGetAllEntriesMeta } from "../../hooks";
+import { useGetCurrentBranch, useGetAllEntriesMeta } from "../../hooks";
 import { EntrySelector } from "../entry-selector";
+const isEmpty = require("lodash/isEmpty");
 
 export function EntryRemover() {
   const queryClient = useQueryClient();
   const { data: entries, isLoading, isFetching } = useGetAllEntriesMeta();
   const [selectedEntry, setSelectedEntry] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const { data: currentBranch } = useGetCurrentBranch();
 
   const handleSelectedEntryChange = (event) => {
     setSelectedEntry(event.target.value);
@@ -17,9 +19,12 @@ export function EntryRemover() {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/entries/${selectedEntry}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/content/${selectedEntry}/${currentBranch.name}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         setSelectedEntry("");
@@ -39,7 +44,7 @@ export function EntryRemover() {
         <div>Fetching entries</div>
       ) : (
         <>
-          {!entries.length ? (
+          {isEmpty(entries) ? (
             <div>There are no entries to remove...</div>
           ) : (
             <>

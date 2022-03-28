@@ -15,7 +15,7 @@ export function SiblingEntriesMeta() {
     <div>
       <h3>Sibling Entries Meta</h3>
       <p>
-        <i>useGetSiblingEntriesMeta(collectionId, entryId)</i>
+        <i>useGetSiblingEntriesMeta(entryId)</i>
       </p>
       <EntrySelector onChange={handleOnChange} value={selectedEntry} />
       {selectedEntry && (isLoading || isFetching) ? (
