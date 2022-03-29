@@ -1,6 +1,8 @@
 import { nanoid } from "nanoid";
 import matter from "gray-matter";
 
+global.Buffer = global.Buffer || require("buffer").Buffer;
+
 // Change to factory and return new object when called
 export const seedData = {
   main: {

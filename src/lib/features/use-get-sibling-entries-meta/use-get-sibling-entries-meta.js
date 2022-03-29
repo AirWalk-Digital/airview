@@ -1,4 +1,4 @@
-import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
+import { useGetAllEntriesMeta } from "../../features";
 
 export function useGetSiblingEntriesMeta(id) {
   return useGetAllEntriesMeta((entries) => {

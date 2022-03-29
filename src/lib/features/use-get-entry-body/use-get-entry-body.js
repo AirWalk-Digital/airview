@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { fetchClient } from "../util";
-import { useGetEntryMeta, useGetCurrentBranch } from "../hooks";
+import { fetchClient } from "../../util";
+import { useGetEntryMeta, useGetCurrentBranch } from "../../features";
 
 export function useGetEntryBody(entryId) {
   const { data: entryMeta } = useGetEntryMeta(entryId);

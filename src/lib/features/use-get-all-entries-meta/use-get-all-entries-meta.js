@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { fetchClient } from "../util";
-import { useGetCurrentBranch } from "../hooks";
+import { fetchClient } from "../../util";
+import { useGetCurrentBranch } from "../../features";
 
 export function useGetAllEntriesMeta(select) {
   const { data: branchData } = useGetCurrentBranch();
