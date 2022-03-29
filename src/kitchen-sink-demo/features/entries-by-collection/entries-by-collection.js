@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetEntriesMetaByCollection } from "../../hooks";
+import { useGetEntriesMetaByCollection } from "../../../lib";
 import { CollectionSelector } from "../collection-selector";
 import { PrintJson } from "../../components";
 

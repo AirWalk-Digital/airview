@@ -2,15 +2,15 @@ import React from "react";
 import { Container } from "../components";
 import {
   AllEntriesMeta,
-  EntriesByCollection,
-  EntryMeta,
-  EntryBody,
-  ChildEntriesMeta,
-  SiblingEntriesMeta,
-  EntryEditor,
-  EntryCreator,
-  EntryRemover,
-  RemoveAllEntries,
+  // EntriesByCollection,
+  // EntryMeta,
+  // EntryBody,
+  // ChildEntriesMeta,
+  // SiblingEntriesMeta,
+  // EntryEditor,
+  // EntryCreator,
+  // EntryRemover,
+  // RemoveAllEntries,
 } from "../features";
 
 export function MainView() {
@@ -19,19 +19,19 @@ export function MainView() {
       leftSlot={
         <React.Fragment>
           <AllEntriesMeta />
-          <EntriesByCollection />
+          {/*<EntriesByCollection />
           <EntryMeta />
           <EntryBody />
           <ChildEntriesMeta />
-          <SiblingEntriesMeta />
+          <SiblingEntriesMeta />*/}
         </React.Fragment>
       }
       rightSlot={
         <div>
-          <EntryCreator />
+          {/*<EntryCreator />
           <EntryRemover />
           <RemoveAllEntries />
-          <EntryEditor />
+          <EntryEditor />*/}
         </div>
       }
     />

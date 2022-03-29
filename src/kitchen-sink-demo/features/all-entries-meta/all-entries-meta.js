@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetAllEntriesMeta } from "../../hooks";
+import { useGetAllEntriesMeta } from "../../../lib";
 import { PrintJson } from "../../components";
 
 export function AllEntriesMeta() {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetChildEntriesMeta } from "../../hooks";
+import { useGetChildEntriesMeta } from "../../../lib";
 import { EntrySelector } from "../entry-selector";
 import { PrintJson } from "../../components";
 

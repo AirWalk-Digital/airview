@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetCollections } from "../../hooks";
+import { useGetCollections } from "../../../lib";
 
 export function CollectionSelector({ onChange, value = "", ...otherProps }) {
   const collections = useGetCollections();

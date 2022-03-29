@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetAllEntriesMeta } from "../../hooks";
+import { useGetAllEntriesMeta } from "../../../lib";
 
 export function EntrySelector({ onChange, value = "", ...otherProps }) {
   const { isLoading, isError, isFetching, data } = useGetAllEntriesMeta();
