@@ -1,1 +1,2 @@
-export { history, AirviewRouter } from "./airview-router";
+export { history } from "./history";
+export { AirviewRouter } from "./airview-router";

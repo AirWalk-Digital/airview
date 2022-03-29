@@ -1,8 +1,5 @@
 import { useState, useLayoutEffect } from "react";
 import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-
-export const history = createBrowserHistory();
 
 export function AirviewRouter({ history, ...props }) {
   const [state, setState] = useState({

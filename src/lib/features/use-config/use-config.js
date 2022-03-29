@@ -1,12 +1,5 @@
-import React, { useMemo, useContext } from "react";
-const ConfigContext = React.createContext();
-ConfigContext.displayName = "ConfigContext";
-
-export function ConfigProvider({ children, config }) {
-  return (
-    <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
-  );
-}
+import { useMemo, useContext } from "react";
+import { ConfigContext } from "../config-provider";
 
 export function useConfig() {
   const theme = useContext(ConfigContext);
