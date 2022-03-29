@@ -2,7 +2,8 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { history, AirviewRouter } from "../airview-router";
 import { QueryMetaInvalidator } from "../query-meta-invalidator";
-import { ConfigProvider } from "../config-provider";
+import { ConfigProvider } from "../airview-config";
+import { AirviewStoreProvider } from "../airview-store";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,13 +14,15 @@ const queryClient = new QueryClient({
   },
 });
 
-export function AirviewProvider({ config, children }) {
+export function Airview({ config, children }) {
   return (
     <AirviewRouter history={history}>
       <ConfigProvider {...{ config }}>
-        <QueryClientProvider client={queryClient}>
-          <QueryMetaInvalidator>{children}</QueryMetaInvalidator>
-        </QueryClientProvider>
+        <AirviewStoreProvider>
+          <QueryClientProvider client={queryClient}>
+            <QueryMetaInvalidator>{children}</QueryMetaInvalidator>
+          </QueryClientProvider>
+        </AirviewStoreProvider>
       </ConfigProvider>
     </AirviewRouter>
   );

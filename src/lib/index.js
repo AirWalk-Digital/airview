@@ -1,5 +1,5 @@
 export {
-  AirviewProvider,
+  Airview,
   useGetAllEntriesMeta,
   useGetCollections,
   useGetEntriesMetaByCollection,

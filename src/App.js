@@ -1,11 +1,11 @@
-import { AirviewProvider } from "./lib";
+import { Airview } from "./lib";
 import { config } from "./config";
-import { KitchenSinkDemo } from "./kitchen-sink-demo";
+import { NavigationDemo } from "./navigation-demo";
 
 export function App() {
   return (
-    <AirviewProvider {...{ config }}>
-      <KitchenSinkDemo />
-    </AirviewProvider>
+    <Airview {...{ config }}>
+      <NavigationDemo />
+    </Airview>
   );
 }
