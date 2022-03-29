@@ -1,0 +1,10 @@
+.root {
+  padding: 32px 0px;
+  display: flex;
+  flex-wrap: nowrap;
+
+  > div {
+    flex: 1 1 33.333%;
+    padding: 0 8px;
+  }
+}

@@ -9,3 +9,4 @@ export { EntryEditor } from "./entry-editor";
 export { EntryCreator } from "./entry-creator";
 export { EntryRemover } from "./entry-remover";
 export { RemoveAllEntries } from "./remove-all-entries";
+export { PageSelector } from "./page-selector";

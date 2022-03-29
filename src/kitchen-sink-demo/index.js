@@ -1,6 +1,15 @@
 import React from "react";
-import { MainView } from "./views/main-view";
+import { Routes, Route } from "react-router-dom";
+import { MainLayout } from "./layouts";
+import { EntryView } from "./views";
 
 export function KitchenSinkDemo() {
-  return <MainView />;
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path=":collectionId/:entryId" element={<EntryView />} />
+        <Route path="*" element={<span>Entry not found!</span>} />
+      </Route>
+    </Routes>
+  );
 }
