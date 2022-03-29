@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter } from "react-router-dom";
-import { ConfigProvider } from "../../features";
+import { useQueryClient } from "react-query";
+import {
+  history,
+  AirviewRouter,
+  ConfigProvider,
+  useHistory,
+} from "../../features";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,12 +19,27 @@ const queryClient = new QueryClient({
 
 export function AirviewProvider({ config, children }) {
   return (
-    <BrowserRouter>
+    <AirviewRouter history={history}>
       <ConfigProvider {...{ config }}>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <QueryMetaInvalidator>{children}</QueryMetaInvalidator>
         </QueryClientProvider>
       </ConfigProvider>
-    </BrowserRouter>
+    </AirviewRouter>
   );
+}
+
+function QueryMetaInvalidator({ children }) {
+  const queryClient = useQueryClient();
+  const otherHistory = useHistory();
+
+  useLayoutEffect(() => {
+    const unlisten = otherHistory.listen(() => {
+      queryClient.invalidateQueries("entries_meta");
+    });
+
+    return () => unlisten();
+  }, [queryClient, otherHistory]);
+
+  return children;
 }

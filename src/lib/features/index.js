@@ -9,3 +9,5 @@ export { useGetEntryMeta } from "./use-get-entry-meta";
 export { useConfig, ConfigProvider } from "./use-config";
 export { useGetCurrentBranch } from "./use-get-current-branch";
 export { useGetAllBranches } from "./use-get-all-branches";
+export { useHistory } from "./use-history";
+export { AirviewRouter, history } from "./airview-router";
