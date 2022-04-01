@@ -6,7 +6,7 @@
       "collection": "application",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Microsoft Teams"
           }
         }
@@ -18,7 +18,7 @@
       "collection": "application",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Microsoft Outlook"
           }
         }
@@ -31,12 +31,12 @@
       "parent": "1",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Activity Feed Guide"
           }
         },
         {
-          "subsection.md": {
+          "subsection": {
             "content": "I am subsection body content for Activity Feed Guide"
           }
         }
@@ -49,12 +49,12 @@
       "parent": "1",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Placing a Call on Hold"
           }
         },
         {
-          "subsection.md": {
+          "subsection": {
             "content": ""
           }
         }
@@ -67,10 +67,10 @@
       "parent": "2",
       "body": [
         {
-          "_index.md": "I am body content for Composing a New Message"
+          "index": "I am body content for Composing a New Message"
         },
         {
-          "subsection.md": ""
+          "subsection": ""
         }
       ]
     },
@@ -81,7 +81,7 @@
       "parent": "1",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Dark Mode Support"
           }
         }
@@ -94,7 +94,7 @@
       "parent": "1",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Mac M1 Silicon Support"
           }
         }
@@ -107,7 +107,7 @@
       "parent": "2",
       "body": [
         {
-          "_index.md": {
+          "index": {
             "content": "I am body content for Windows Security Patch"
           }
         }

@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+global.Buffer = global.Buffer || require("buffer").Buffer;
+
 function prepare() {
   if (
     (process.env.REACT_APP_USE_API === "true" &&

@@ -11,7 +11,7 @@ export const seedData = {
         title: "Microsoft Teams",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am body content for Microsoft Teams", {
             title: "Microsoft Teams",
           })
@@ -25,7 +25,7 @@ export const seedData = {
         title: "Microsoft Outlook",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am body content for Microsoft Outlook", {
             title: "Microsoft Outlook",
           })
@@ -40,13 +40,13 @@ export const seedData = {
         parent: "application/ms_teams",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am body content for Place Call on Hold", {
             title: "Place Call on Hold",
           })
         ),
 
-        "section_one.md": btoa(
+        section_one: btoa(
           matter.stringify(
             "I am body content for Place Call on Hold - section one"
           )
@@ -61,12 +61,12 @@ export const seedData = {
         parent: "application/ms_teams",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am body content for Composing a new message", {
             title: "Composing a new message",
           })
         ),
-        "section_one.md": btoa(
+        section_one: btoa(
           matter.stringify(
             "I am body content for Composing a new message - section one"
           )
@@ -81,7 +81,7 @@ export const seedData = {
         parent: "application/ms_teams",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am body content for Security Patch", {
             title: "Security Patch",
           })
@@ -98,7 +98,7 @@ export const seedData = {
         parent: "application/ms_teams",
       },
       content: {
-        "_index.md": btoa(
+        _index: btoa(
           matter.stringify("I am branch one body content for Security Patch", {
             title: "Security Patch",
           })
