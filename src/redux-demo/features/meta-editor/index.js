@@ -29,7 +29,13 @@ export function MetaEditor() {
           value={value}
           onChange={handleOnChange}
           name="title"
-          style={{ width: "90%", height: 32, display: "block" }}
+          style={{
+            width: "100%",
+            height: 32,
+            display: "block",
+            margin: 0,
+            padding: 0,
+          }}
         />
       </label>
     </div>

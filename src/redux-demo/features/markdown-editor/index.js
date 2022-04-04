@@ -20,7 +20,7 @@ export function MarkdownEditor({ fileName }) {
     <textarea
       value={markdownContent}
       onChange={handleOnChange}
-      style={{ width: "100%", maxWidth: 800, minHeight: 300 }}
+      style={{ width: "100%", minHeight: 300 }}
     />
   );
 }
