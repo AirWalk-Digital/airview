@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import matter from "gray-matter";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { airviewApi, useGetEntryQuery } from "../api";
+import { airviewApi, useGetEntryQuery, useLazyGetEntryQuery } from "../api";
 
 const set = require("lodash/set");
 
@@ -113,15 +113,26 @@ export function useGetContext(id) {
 
   const dispatch = useDispatch();
 
-  const {
-    status: queryStatus,
-    data: queryData,
-    error: queryError,
-  } = useGetEntryQuery({ id, branch: "main" });
+  // const {
+  //   status: queryStatus,
+  //   data: queryData,
+  //   error: queryError,
+  // } = useGetEntryQuery({ id, branch: "main" });
+
+  const [trigger, { status: queryStatus, data: queryData, error: queryError }] =
+    useLazyGetEntryQuery();
 
   useEffect(() => {
+    if (!id) return;
+
+    const request = trigger({ id, branch: "main" });
     dispatch(setContextId(id));
-  }, [dispatch, id]);
+
+    return () => {
+      request.abort();
+      // -> {name: 'AbortError', message: 'Aborted'}
+    };
+  }, [dispatch, id, trigger]);
 
   useEffect(() => {
     dispatch(setStatus(queryStatus));

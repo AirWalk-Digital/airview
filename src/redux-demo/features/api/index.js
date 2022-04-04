@@ -1,1 +1,5 @@
-export { airviewApi, useGetEntryQuery } from "./airview-api";
+export {
+  airviewApi,
+  useGetEntryQuery,
+  useLazyGetEntryQuery,
+} from "./airview-api";

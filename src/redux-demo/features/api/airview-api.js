@@ -12,7 +12,7 @@ export const airviewApi = createApi({
   }),
 });
 
-export const { useGetEntryQuery } = airviewApi;
+export const { useGetEntryQuery, useLazyGetEntryQuery } = airviewApi;
 
 function normalizeEntryData(entryData) {
   console.log(entryData);
