@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLazyGetEntryQuery } from "../api";
+import {
+  useGetBranchesQuery,
+  useLazyGetAllEntriesMetaQuery,
+  useLazyGetEntryQuery,
+} from "../api";
 
 const set = require("lodash/set");
 
@@ -63,35 +67,92 @@ export function useGetContext(id) {
     error,
   } = useSelector((state) => state.context);
 
+  const {
+    status: entryQueryStatus,
+    data: entryQueryData,
+    error: entryQueryError,
+  } = useGetEntry(id);
+
   const dispatch = useDispatch();
 
-  const [trigger, { status: queryStatus, data: queryData, error: queryError }] =
-    useLazyGetEntryQuery();
+  useEffect(() => {
+    dispatch(setContextId(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (!id) return;
+    if (!entryQueryStatus) return;
+    dispatch(setStatus(entryQueryStatus));
+  }, [dispatch, entryQueryStatus]);
 
-    const request = trigger({ id, branch: "main" });
-    dispatch(setContextId(id));
+  useEffect(() => {
+    if (!entryQueryError) return;
+    dispatch(setError(entryQueryError));
+  }, [dispatch, entryQueryError]);
+
+  useEffect(() => {
+    if (!entryQueryData) return;
+    dispatch(setContextData(entryQueryData));
+  }, [dispatch, entryQueryData]);
+
+  return { data, status, error };
+}
+
+function useGetAllEntriesMeta(select) {
+  const { status: branchQueryStatus, data: branchQueryData } =
+    useGetBranchesQuery();
+
+  const [
+    trigger,
+    { status: metaQueryStatus, data: metaQueryData, error: metaQueryError },
+  ] = useLazyGetAllEntriesMetaQuery({
+    ...(select && { selectFromResult: select }),
+  });
+
+  useEffect(() => {
+    if (!branchQueryData) return;
+
+    const branchSha = branchQueryData.filter(
+      (branch) => branch.name === "main"
+    ).sha;
+
+    const request = trigger({ branch: "main", branchSha });
 
     return () => {
       request.abort();
-      dispatch(resetContextState());
-      // -> {name: 'AbortError', message: 'Aborted'}
     };
-  }, [dispatch, id, trigger]);
+  }, [trigger, branchQueryData]);
+
+  return {
+    status: metaQueryStatus,
+    data: metaQueryData,
+    error: metaQueryError,
+  };
+}
+
+function useGetEntry(entryId) {
+  const { data: metaQueryData } = useGetAllEntriesMeta(({ data }) => {
+    return { data: data?.[entryId] };
+  });
+
+  const branch = "main";
+
+  const [trigger, { status, data, error }] = useLazyGetEntryQuery();
 
   useEffect(() => {
-    dispatch(setStatus(queryStatus));
-  }, [dispatch, queryStatus]);
+    if (!metaQueryData || !branch) return;
 
-  useEffect(() => {
-    dispatch(setError(queryError));
-  }, [dispatch, queryError]);
+    const request = trigger({
+      entryId,
+      branch,
+      entrySha: metaQueryData.sha.join("-"),
+    });
 
-  useEffect(() => {
-    dispatch(setContextData(queryData));
-  }, [dispatch, queryData]);
+    return () => request.abort();
+  }, [trigger, metaQueryData, branch, entryId]);
 
-  return { data, status, error };
+  return {
+    status,
+    data,
+    error,
+  };
 }

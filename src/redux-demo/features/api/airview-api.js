@@ -4,22 +4,36 @@ import matter from "gray-matter";
 export const airviewApi = createApi({
   reducerPath: "airviewApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
-  tagTypes: ["AllEntriesMeta", "Entry"],
+  tagTypes: ["EntriesMeta", "Entry", "Branches"],
   endpoints: (builder) => ({
+    getBranches: builder.query({
+      query: () => "/branches",
+      providesTags: ["Branches"],
+    }),
+    getAllEntriesMeta: builder.query({
+      query: ({ branch, branchSha }) => `/entries/${branch}`,
+      providesTags: (result, error, arg) => {
+        return [{ type: "EntriesMeta", id: arg.branchSha }];
+      },
+    }),
     getEntry: builder.query({
-      query: ({ id, branch }) => `content/${id}/${branch}`,
+      query: ({ entryId, branch, entrySha }) => `/content/${entryId}/${branch}`,
       transformResponse: (response) => normalizeEntryData(response),
       providesTags: (result, error, arg) => {
-        return [{ type: "Entry", id: `${arg.id}/${arg.branch}` }];
+        return [{ type: "Entry", id: arg.entrySha }];
       },
     }),
   }),
 });
 
-export const { useGetEntryQuery, useLazyGetEntryQuery } = airviewApi;
+export const {
+  useGetBranchesQuery,
+  useGetEntryQuery,
+  useLazyGetAllEntriesMetaQuery,
+  useLazyGetEntryQuery,
+} = airviewApi;
 
 function normalizeEntryData(entryData) {
-  console.log(entryData);
   const parsedMarkdown = Object.entries(entryData).map(([key, entryData]) => {
     const { data, content } = matter(atob(entryData));
 
