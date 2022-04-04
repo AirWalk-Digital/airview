@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { airviewApi, useLazyGetEntryQuery } from "../api";
+import { useLazyGetEntryQuery } from "../api";
 
 const set = require("lodash/set");
 
