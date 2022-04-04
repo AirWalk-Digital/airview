@@ -14,7 +14,7 @@ export function MetaEditor() {
     );
   };
 
-  if (status !== "succeeded") return null;
+  if (status !== "fulfilled") return null;
 
   const value = editsData._index.data.title ?? "";
 

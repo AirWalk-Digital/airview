@@ -6,7 +6,9 @@ import { MetaEditor } from "../../features/meta-editor";
 export function MainView() {
   const entry = useGetContext("application/ms_teams");
 
-  if (entry.status !== "succeeded") return null;
+  console.log(entry);
+
+  if (entry.status !== "fulfilled") return null;
 
   return (
     <div

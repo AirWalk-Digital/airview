@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import matter from "gray-matter";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { airviewApi, useGetEntryQuery } from "../api";
 
 const set = require("lodash/set");
 
@@ -47,6 +48,16 @@ export const contextSlice = createSlice({
     setContextId(state, action) {
       state.id = action.payload;
     },
+    setStatus(state, action) {
+      state.status = action.payload;
+    },
+    setError(state, action) {
+      state.error = action.payload;
+    },
+    setContextData(state, action) {
+      state.originalData = action.payload;
+      state.editsData = action.payload;
+    },
     persistEdits(state, action) {
       const { path, value } = action.payload;
 
@@ -79,31 +90,63 @@ export const contextSlice = createSlice({
   },
 });
 
-const { setContextId, persistEdits, clearEdits, resetContextState } =
-  contextSlice.actions;
+const {
+  setStatus,
+  setError,
+  setContextId,
+  setContextData,
+  persistEdits,
+  clearEdits,
+  resetContextState,
+} = contextSlice.actions;
 
 export { persistEdits, clearEdits };
 
 export function useGetContext(id) {
   const {
-    originalData,
     editsData: data,
-    ...rest
+    status,
+    error,
   } = useSelector((state) => state.context);
+
+  console.log(airviewApi);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => dispatch(resetContextState());
-  }, [dispatch]);
+  const {
+    status: queryStatus,
+    data: queryData,
+    error: queryError,
+  } = useGetEntryQuery({ id, branch: "main" });
 
   useEffect(() => {
     dispatch(setContextId(id));
-    const entryRequest = dispatch(fetchContextData({ id, branch: "main" }));
-
-    return () => {
-      entryRequest.abort();
-    };
   }, [dispatch, id]);
 
-  return { ...rest, data };
+  useEffect(() => {
+    dispatch(setStatus(queryStatus));
+  }, [dispatch, queryStatus]);
+
+  useEffect(() => {
+    dispatch(setError(queryError));
+  }, [dispatch, queryError]);
+
+  useEffect(() => {
+    dispatch(setContextData(queryData));
+  }, [dispatch, queryData]);
+
+  // useEffect(() => {
+  //   return () => dispatch(resetContextState());
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(setContextId(id));
+  //   const entryRequest = dispatch(fetchContextData({ id, branch: "main" }));
+
+  //   return () => {
+  //     entryRequest.abort();
+  //   };
+  // }, [dispatch, id]);
+
+  return { data, status, error };
 }

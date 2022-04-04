@@ -14,7 +14,7 @@ export function MarkdownEditor({ fileName }) {
 
   const markdownContent = editsData?.[fileName].content ?? "";
 
-  if (status !== "succeeded") return null;
+  if (status !== "fulfilled") return null;
 
   return (
     <textarea
