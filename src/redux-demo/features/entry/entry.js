@@ -61,7 +61,6 @@ export const entrySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchEntryData.pending, (state, action) => {
-      console.log(state, action);
       state.status = "loading";
     });
     builder.addCase(fetchEntryData.fulfilled, (state, action) => {

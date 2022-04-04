@@ -8,8 +8,6 @@ export function EditorToolbar() {
 
   const haveEdits = !isEqual(originalData, editsData);
 
-  console.log("haveEdits", haveEdits);
-
   const handleOnClearClick = () => dispatch(clearEdits());
 
   const handleOnSaveClick = () => console.log("saving, payload:", editsData);
