@@ -15,8 +15,6 @@ export const airviewApi = createApi({
 export const { useGetEntryQuery, useLazyGetEntryQuery } = airviewApi;
 
 function normalizeEntryData(entryData) {
-  console.log(entryData);
-
   const parsedMarkdown = Object.entries(entryData).map(([key, entryData]) => {
     const { data, content } = matter(atob(entryData));
 

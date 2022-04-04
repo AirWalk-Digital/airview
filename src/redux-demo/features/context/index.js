@@ -1,7 +1,1 @@
-export {
-  contextSlice,
-  fetchContextData,
-  persistEdits,
-  clearEdits,
-  useGetContext,
-} from "./entry";
+export { contextSlice, persistEdits, clearEdits, useGetContext } from "./entry";
