@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { entrySlice } from "../entry";
+import { contextSlice } from "../context";
 
 export const store = configureStore({
   reducer: {
-    [entrySlice.name]: entrySlice.reducer,
+    [contextSlice.name]: contextSlice.reducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

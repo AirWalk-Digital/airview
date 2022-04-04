@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { clearEdits } from "../entry";
+import { clearEdits } from "../context";
 const isEqual = require("lodash/isEqual");
 
 export function EditorToolbar() {
   const dispatch = useDispatch();
-  const { originalData, editsData } = useSelector((store) => store.entry);
+  const { originalData, editsData } = useSelector((store) => store.context);
 
   const haveEdits = !isEqual(originalData, editsData);
 

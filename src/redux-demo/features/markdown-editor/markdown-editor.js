@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { persistEdits } from "../entry";
+import { persistEdits } from "../context";
 
 export function MarkdownEditor({ fileName }) {
-  const { status, editsData } = useSelector((state) => state.entry);
+  const { status, editsData } = useSelector((state) => state.context);
 
   const dispatch = useDispatch();
 

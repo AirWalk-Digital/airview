@@ -1,7 +1,7 @@
 export {
-  entrySlice,
-  fetchEntryData,
+  contextSlice,
+  fetchContextData,
   persistEdits,
   clearEdits,
-  useGetEntry,
+  useGetContext,
 } from "./entry";

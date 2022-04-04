@@ -1,10 +1,10 @@
-import { useGetEntry } from "../../features/entry";
+import { useGetContext } from "../../features/context";
 import { MarkdownEditor } from "../../features/markdown-editor";
 import { EditorToolbar } from "../../features/editor-toolbar";
 import { MetaEditor } from "../../features/meta-editor";
 
 export function MainView() {
-  const entry = useGetEntry("application/ms_teams");
+  const entry = useGetContext("application/ms_teams");
 
   if (entry.status !== "succeeded") return null;
 

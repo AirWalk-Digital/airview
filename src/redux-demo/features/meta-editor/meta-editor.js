@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { persistEdits } from "../entry";
+import { persistEdits } from "../context";
 
 export function MetaEditor() {
   const dispatch = useDispatch();
-  const { status, editsData } = useSelector((state) => state.entry);
+  const { status, editsData } = useSelector((state) => state.context);
 
   const handleOnChange = (event) => {
     dispatch(

@@ -13,7 +13,7 @@ const initialState = {
   editsData: null,
 };
 
-export const fetchEntryData = createAsyncThunk(
+export const fetchContextData = createAsyncThunk(
   "entry/fetchEntryData",
   async ({ id, branch }, { signal, rejectWithValue, dispatch }) => {
     try {
@@ -40,11 +40,11 @@ export const fetchEntryData = createAsyncThunk(
   }
 );
 
-export const entrySlice = createSlice({
-  name: "entry",
+export const contextSlice = createSlice({
+  name: "context",
   initialState,
   reducers: {
-    setEntryId(state, action) {
+    setContextId(state, action) {
       state.id = action.payload;
     },
     persistEdits(state, action) {
@@ -55,20 +55,20 @@ export const entrySlice = createSlice({
     clearEdits(state) {
       state.editsData = state.originalData;
     },
-    resetEntryState(state) {
+    resetContextState(state) {
       state = initialState;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchEntryData.pending, (state, action) => {
+    builder.addCase(fetchContextData.pending, (state, action) => {
       state.status = "loading";
     });
-    builder.addCase(fetchEntryData.fulfilled, (state, action) => {
+    builder.addCase(fetchContextData.fulfilled, (state, action) => {
       state.status = "succeeded";
       state.originalData = action.payload;
       state.editsData = action.payload;
     });
-    builder.addCase(fetchEntryData.rejected, (state, action) => {
+    builder.addCase(fetchContextData.rejected, (state, action) => {
       if (action.meta.aborted) {
         return;
       }
@@ -79,26 +79,26 @@ export const entrySlice = createSlice({
   },
 });
 
-const { setEntryId, persistEdits, clearEdits, resetEntryState } =
-  entrySlice.actions;
+const { setContextId, persistEdits, clearEdits, resetContextState } =
+  contextSlice.actions;
 
 export { persistEdits, clearEdits };
 
-export function useGetEntry(id) {
+export function useGetContext(id) {
   const {
     originalData,
     editsData: data,
     ...rest
-  } = useSelector((state) => state.entry);
+  } = useSelector((state) => state.context);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    return () => dispatch(resetEntryState());
+    return () => dispatch(resetContextState());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(setEntryId(id));
-    const entryRequest = dispatch(fetchEntryData({ id, branch: "main" }));
+    dispatch(setContextId(id));
+    const entryRequest = dispatch(fetchContextData({ id, branch: "main" }));
 
     return () => {
       entryRequest.abort();
