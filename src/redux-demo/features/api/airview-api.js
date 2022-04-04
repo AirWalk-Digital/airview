@@ -4,10 +4,14 @@ import matter from "gray-matter";
 export const airviewApi = createApi({
   reducerPath: "airviewApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  tagTypes: ["AllEntriesMeta", "Entry"],
   endpoints: (builder) => ({
     getEntry: builder.query({
       query: ({ id, branch }) => `content/${id}/${branch}`,
       transformResponse: (response) => normalizeEntryData(response),
+      providesTags: (result, error, arg) => {
+        return [{ type: "Entry", id: `${arg.id}/${arg.branch}` }];
+      },
     }),
   }),
 });
@@ -15,6 +19,7 @@ export const airviewApi = createApi({
 export const { useGetEntryQuery, useLazyGetEntryQuery } = airviewApi;
 
 function normalizeEntryData(entryData) {
+  console.log(entryData);
   const parsedMarkdown = Object.entries(entryData).map(([key, entryData]) => {
     const { data, content } = matter(atob(entryData));
 
