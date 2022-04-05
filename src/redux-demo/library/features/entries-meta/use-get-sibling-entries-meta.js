@@ -2,8 +2,6 @@ import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
 export function useGetSiblingEntriesMeta(id) {
   return useGetAllEntriesMeta(({ data, ...rest }) => {
-    //if (!id) return { data: undefined, ...rest };
-
     if (!data) return { data, ...rest };
 
     const {
@@ -20,6 +18,9 @@ export function useGetSiblingEntriesMeta(id) {
         entryId !== id
     );
 
-    return { data: Object.fromEntries(filteredEntries), ...rest };
+    return {
+      data: filteredEntries.length ? Object.fromEntries(filteredEntries) : null,
+      ...rest,
+    };
   }, id);
 }
