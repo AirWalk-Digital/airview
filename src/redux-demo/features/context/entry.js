@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetBranchesQuery,
-  useLazyGetAllEntriesMetaQuery,
+  useGetAllEntriesMetaQuery,
   useLazyGetEntryQuery,
 } from "../api";
 
 const set = require("lodash/set");
+const every = require("lodash/every");
 
 const initialState = {
   status: "idle",
@@ -98,35 +99,25 @@ export function useGetContext(id) {
 }
 
 function useGetAllEntriesMeta(select) {
-  const { status: branchQueryStatus, data: branchQueryData } =
-    useGetBranchesQuery();
+  const workingBranch = useSelector(
+    (state) => state.branchManager.workingBranch
+  );
 
-  const [
-    trigger,
-    { status: metaQueryStatus, data: metaQueryData, error: metaQueryError },
-  ] = useLazyGetAllEntriesMetaQuery({
-    ...(select && { selectFromResult: select }),
-  });
+  const { data: branchQueryData } = useGetBranchesQuery();
 
-  useEffect(() => {
-    if (!branchQueryData) return;
+  const branchSha = branchQueryData?.filter(
+    (branch) => branch.name === workingBranch
+  )[0].sha;
 
-    const branchSha = branchQueryData.filter(
-      (branch) => branch.name === "main"
-    ).sha;
+  const { status, data, error } = useGetAllEntriesMetaQuery(
+    { branch: workingBranch, branchSha },
+    {
+      skip: !every([workingBranch, branchQueryData, branchSha]),
+      ...(select && { selectFromResult: select }),
+    }
+  );
 
-    const request = trigger({ branch: "main", branchSha });
-
-    return () => {
-      request.abort();
-    };
-  }, [trigger, branchQueryData]);
-
-  return {
-    status: metaQueryStatus,
-    data: metaQueryData,
-    error: metaQueryError,
-  };
+  return { status, data, error };
 }
 
 function useGetEntry(entryId) {

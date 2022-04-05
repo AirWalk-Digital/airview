@@ -2,6 +2,6 @@ export {
   airviewApi,
   useGetBranchesQuery,
   useGetEntryQuery,
-  useLazyGetAllEntriesMetaQuery,
+  useGetAllEntriesMetaQuery,
   useLazyGetEntryQuery,
 } from "./airview-api";

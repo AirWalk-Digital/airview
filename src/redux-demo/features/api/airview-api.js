@@ -29,7 +29,7 @@ export const airviewApi = createApi({
 export const {
   useGetBranchesQuery,
   useGetEntryQuery,
-  useLazyGetAllEntriesMetaQuery,
+  useGetAllEntriesMetaQuery,
   useLazyGetEntryQuery,
 } = airviewApi;
 
