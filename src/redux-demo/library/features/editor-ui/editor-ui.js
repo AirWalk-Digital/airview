@@ -16,11 +16,10 @@ export function EditorUi({ children }) {
   const haveEdits = !isEqual(originalData, editsData);
 
   useLayoutEffect(() => {
-    const unblock = history.block((tx) => {
-      if (!haveEdits) {
-        unblock();
-        tx.retry();
-      } else {
+    let unblock;
+
+    if (haveEdits) {
+      unblock = history.block((tx) => {
         if (
           window.confirm(
             "You have unsaved changes; press cancel to keep these changes or ok to dismiss the changes?"
@@ -29,10 +28,10 @@ export function EditorUi({ children }) {
           unblock();
           tx.retry();
         }
-      }
-    });
+      });
+    }
 
-    return () => unblock();
+    return () => unblock && unblock();
   }, [history, haveEdits]);
 
   useLayoutEffect(() => {
