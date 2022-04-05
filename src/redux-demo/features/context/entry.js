@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   useGetBranchesQuery,
   useGetAllEntriesMetaQuery,
-  useLazyGetEntryQuery,
+  useGetEntryQuery,
 } from "../api";
 
 const set = require("lodash/set");
@@ -121,29 +121,22 @@ function useGetAllEntriesMeta(select) {
 }
 
 function useGetEntry(entryId) {
-  const { data: metaQueryData } = useGetAllEntriesMeta(({ data }) => {
+  const workingBranch = useSelector(
+    (state) => state.branchManager.workingBranch
+  );
+
+  const { data: entryMeta } = useGetAllEntriesMeta(({ data }) => {
     return { data: data?.[entryId] };
   });
 
-  const branch = "main";
+  const entrySha = entryMeta?.sha;
 
-  const [trigger, { status, data, error }] = useLazyGetEntryQuery();
+  const { status, data, error } = useGetEntryQuery(
+    { entryId, branch: workingBranch, entrySha },
+    {
+      skip: !every([entryId, workingBranch, entrySha]),
+    }
+  );
 
-  useEffect(() => {
-    if (!metaQueryData || !branch) return;
-
-    const request = trigger({
-      entryId,
-      branch,
-      entrySha: metaQueryData.sha.join("-"),
-    });
-
-    return () => request.abort();
-  }, [trigger, metaQueryData, branch, entryId]);
-
-  return {
-    status,
-    data,
-    error,
-  };
+  return { status, data, error };
 }

@@ -30,7 +30,6 @@ export const {
   useGetBranchesQuery,
   useGetEntryQuery,
   useGetAllEntriesMetaQuery,
-  useLazyGetEntryQuery,
 } = airviewApi;
 
 function normalizeEntryData(entryData) {

@@ -3,5 +3,4 @@ export {
   useGetBranchesQuery,
   useGetEntryQuery,
   useGetAllEntriesMetaQuery,
-  useLazyGetEntryQuery,
 } from "./airview-api";
