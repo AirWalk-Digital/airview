@@ -1,5 +1,6 @@
 import { useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { airviewApi } from "../airview-api";
 import { useAirviewRouterHistory } from "../airview-router";
 import { EditorToolbar } from "./editor-toolbar";
 import { MetaEditor } from "./meta-editor";
@@ -7,6 +8,7 @@ import { MetaEditor } from "./meta-editor";
 const isEqual = require("lodash/isEqual");
 
 export function EditorUi({ children }) {
+  const dispatch = useDispatch();
   const history = useAirviewRouterHistory();
 
   const { originalData, editsData } = useSelector(
@@ -36,11 +38,11 @@ export function EditorUi({ children }) {
 
   useLayoutEffect(() => {
     const unlisten = history.listen(() => {
-      console.log("will invalidate branch query");
+      dispatch(airviewApi.util.invalidateTags(["Branches", "EntriesMeta"]));
     });
 
     return () => unlisten();
-  }, [history]);
+  }, [history, dispatch]);
 
   return (
     <div
