@@ -11,7 +11,7 @@ export function useGetAllEntriesMeta(select, dependencies = []) {
 
   const branchSha = branchQueryData?.filter(
     (branch) => branch.name === workingBranch
-  )[0].sha;
+  )[0]?.sha;
 
   return useGetAllEntriesMetaQuery(
     { branch: workingBranch, branchSha },
@@ -22,7 +22,7 @@ export function useGetAllEntriesMeta(select, dependencies = []) {
         branchSha,
         ...dependencies,
       ]),
-      ...(select && { selectFromResult: select }),
+      //...(select && { selectFromResult: select }),
     }
   );
 }

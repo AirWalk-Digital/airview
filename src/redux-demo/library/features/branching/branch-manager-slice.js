@@ -16,17 +16,7 @@ export const branchManagerSlice = createSlice({
   },
 });
 
-export function setWorkingBranch(branchName) {
-  return function (dispatch, getState) {
-    const edits = true;
-
-    if (edits) {
-      if (!window.confirm("You have unsaved edits, continue?")) return;
-    }
-
-    dispatch(branchManagerSlice.actions.setWorkingBranch(branchName));
-  };
-}
+export const { setWorkingBranch } = branchManagerSlice.actions;
 
 export function selectWorkingBranch(state) {
   return state.branchManager.workingBranch;

@@ -25,7 +25,16 @@ export const handlers = [
       const id = `${req.params.collection}/${req.params.entity}`;
       const content = getEntryContent(id, req.params.branch);
 
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
+      if (content) {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
+      } else {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            message: `Entry '${id}' not found`,
+          })
+        );
+      }
     }
   ),
   rest.put(

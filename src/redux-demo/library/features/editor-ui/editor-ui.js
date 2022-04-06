@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { airviewApi } from "../airview-api";
+import { resetContextState } from "../editor-context";
 import { useAirviewRouterHistory } from "../airview-router";
 import { EditorToolbar } from "./editor-toolbar";
 import { MetaEditor } from "./meta-editor";

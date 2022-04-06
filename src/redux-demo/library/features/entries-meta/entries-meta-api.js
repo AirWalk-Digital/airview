@@ -3,7 +3,9 @@ import { airviewApi } from "../airview-api/airview-api";
 const extendedApi = airviewApi.injectEndpoints({
   endpoints: (build) => ({
     getAllEntriesMeta: build.query({
-      query: ({ branch, branchSha }) => `/entries/${branch}`,
+      query: ({ branch, branchSha }) => {
+        return `/entries/${branch}`;
+      },
       providesTags: (result, error, arg) => {
         return [{ type: "EntriesMeta", id: arg.branchSha }];
       },

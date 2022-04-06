@@ -4,7 +4,9 @@ import matter from "gray-matter";
 const extendedApi = airviewApi.injectEndpoints({
   endpoints: (build) => ({
     getEntry: build.query({
-      query: ({ entryId, branch, entrySha }) => `/content/${entryId}/${branch}`,
+      query: ({ entryId, branch, entrySha }) => {
+        return `/content/${entryId}/${branch}`;
+      },
       transformResponse: (response) => normalizeEntryData(response),
       providesTags: (result, error, arg) => {
         return [{ type: "Entry", id: arg.entrySha }];

@@ -36,7 +36,8 @@ export const editorContextSlice = createSlice({
       state.editsData = state.originalData;
     },
     resetContextState(state) {
-      state = initialState;
+      console.log("clearing editor state");
+      return { ...initialState };
     },
   },
 });

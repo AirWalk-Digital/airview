@@ -5,23 +5,32 @@ import {
   setStatus,
   setError,
   setContextData,
+  resetContextState,
 } from "./editor-context-slice";
 import { useGetEntry } from "../entry";
 
 export function useSetEditorContext(id) {
+  const dispatch = useDispatch();
+
   const {
     editsData: data,
     status,
     error,
   } = useSelector((state) => state.editorContext);
 
+  useEffect(() => {
+    dispatch(resetContextState());
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    return () => dispatch(resetContextState());
+  }, [dispatch]);
+
   const {
     status: entryQueryStatus,
     data: entryQueryData,
     error: entryQueryError,
   } = useGetEntry(id);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setContextId(id));
