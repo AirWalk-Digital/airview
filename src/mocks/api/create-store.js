@@ -1,16 +1,13 @@
 import { nanoid } from "nanoid";
-import { seedData } from "./seed-data";
+import { makeSeedData } from "./seed-data";
 import matter from "gray-matter";
 
 export function createStore() {
-  let entries = seedData;
-  let branches = [
-    { name: "main", sha: "abc", isProtected: true },
-    { name: "one", sha: "cde", isProtected: false },
-    { name: "two", sha: "efg", isProtected: false },
-  ];
+  let { branches, entries } = makeSeedData();
 
   const getEntries = (branch) => {
+    if (!entries?.[branch]) return false;
+
     const mappedEntries = Object.entries(entries[branch]).map(
       ([entryId, entryData]) => {
         const { content, ...otherEntryData } = entryData;
@@ -44,13 +41,13 @@ export function createStore() {
     if (!entries[branch]) return false;
     entries[branch] = {};
   };
-  const getBranches = () => branches;
+  const getBranches = () => Object.values(branches);
 
   const createBranch = (body) =>
     branches.push({ name: body.name, isProtected: false, sha: nanoid() });
 
   const reset = () => {
-    entries = seedData;
+    entries = makeSeedData().entries;
   };
 
   return {

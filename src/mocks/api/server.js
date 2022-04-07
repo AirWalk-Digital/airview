@@ -16,8 +16,22 @@ const {
 
 export const handlers = [
   rest.get("/api/entries/:branch", function (req, res, ctx) {
-    const entiesMeta = getEntries(req.params.branch);
-    return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    const branch = req.params.branch;
+
+    const entiesMeta = getEntries(branch);
+
+    console.log(entiesMeta);
+
+    if (entiesMeta) {
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    } else {
+      return res(
+        ctx.status(404),
+        ctx.json({
+          message: `Branch '${branch}' not found`,
+        })
+      );
+    }
   }),
   rest.get(
     "/api/content/:collection/:entity/:branch",
@@ -59,6 +73,7 @@ export const handlers = [
   ),
   rest.get("/api/branches", function (req, res, ctx) {
     const branches = getBranches();
+    //return res.networkError("Failed to connect");
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
   }),
   rest.post("/api/branches", function (req, res, ctx) {
