@@ -20,8 +20,6 @@ export const handlers = [
 
     const entiesMeta = getEntries(branch);
 
-    console.log(entiesMeta);
-
     if (entiesMeta) {
       return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
     } else {
@@ -74,6 +72,12 @@ export const handlers = [
   rest.get("/api/branches", function (req, res, ctx) {
     const branches = getBranches();
     //return res.networkError("Failed to connect");
+    // return res(
+    //   ctx.status(404),
+    //   ctx.json({
+    //     message: `not found`,
+    //   })
+    // );
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
   }),
   rest.post("/api/branches", function (req, res, ctx) {

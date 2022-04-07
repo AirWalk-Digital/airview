@@ -9,7 +9,7 @@ export function makeSeedData() {
   };
 
   const entries = {
-    [branches["main"].sha]: {
+    [branches["main"].name]: {
       "application/ms_teams": {
         sha: [nanoid()],
         collection: "application",
@@ -95,7 +95,7 @@ export function makeSeedData() {
         },
       },
     },
-    [branches["one"].sha]: {
+    [branches["one"].name]: {
       "release/security_patch": {
         sha: [nanoid()],
         collection: "release",
@@ -115,7 +115,7 @@ export function makeSeedData() {
         },
       },
     },
-    [branches["two"].sha]: {},
+    [branches["two"].name]: {},
   };
 
   return {
