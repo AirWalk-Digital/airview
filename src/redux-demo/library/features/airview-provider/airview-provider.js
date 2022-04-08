@@ -9,7 +9,8 @@ export function AirviewProvider({ config, children }) {
     <Provider store={airviewStore}>
       <AirviewRouter history={history}>
         <ConfigProvider {...{ config }}>
-          <EditorUi>{children}</EditorUi>
+          {/*<EditorUi>{children}</EditorUi>*/}
+          {children}
         </ConfigProvider>
       </AirviewRouter>
     </Provider>

@@ -7,7 +7,11 @@ const every = require("lodash/every");
 export function useGetAllEntriesMeta(select, dependencies = []) {
   const workingBranch = useSelector(selectWorkingBranch);
 
-  const { data: branchQueryData } = useGetBranchesQuery();
+  const {
+    data: branchQueryData,
+    isFetching,
+    isSuccess,
+  } = useGetBranchesQuery();
 
   const branchSha = branchQueryData?.filter(
     (branch) => branch.name === workingBranch
@@ -20,9 +24,11 @@ export function useGetAllEntriesMeta(select, dependencies = []) {
         workingBranch,
         branchQueryData,
         branchSha,
+        !isFetching,
+        isSuccess,
         ...dependencies,
       ]),
-      //...(select && { selectFromResult: select }),
+      ...(select && { selectFromResult: select }),
     }
   );
 }

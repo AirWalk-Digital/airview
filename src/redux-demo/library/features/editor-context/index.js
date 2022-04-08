@@ -9,4 +9,4 @@ export {
   editorContextSlice,
 } from "./editor-context-slice";
 
-export { useSetEditorContext } from "./use-set-editor-context";
+export { useSetEditorContext, useTest } from "./use-set-editor-context";
