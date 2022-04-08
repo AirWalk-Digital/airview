@@ -71,7 +71,7 @@ export const handlers = [
   ),
   rest.get("/api/branches", function (req, res, ctx) {
     const branches = getBranches();
-    //return res.networkError("Failed to connect");
+    // return res.networkError("Failed to connect");
     // return res(
     //   ctx.status(404),
     //   ctx.json({
