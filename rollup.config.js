@@ -5,7 +5,7 @@ import { module } from "./package.json";
 export default [
   {
     input: "lib/index.js",
-    external: [],
+    external: ["react", "react-dom"],
     output: [{ file: module, format: "es" }],
     plugins: [resolve(), babel({ babelHelpers: "bundled" })],
   },
