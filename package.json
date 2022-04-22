@@ -2,7 +2,7 @@
   "name": "airview",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "devDependencies": {},
   "scripts": {},
   "repository": {
@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/AirWalk-Digital/airview/issues"
   },
-  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
+  "workspaces": [
+    "demo"
+  ]
 }
