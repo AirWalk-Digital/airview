@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "rollup": "^2.70.2"
+  },
   "scripts": {},
   "repository": {
     "type": "git",
