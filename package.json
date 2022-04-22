@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "module": "dist/airview.esm.js",
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
