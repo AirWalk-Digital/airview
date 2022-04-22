@@ -2,11 +2,18 @@
   "name": "airview",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/index.js",
+  "module": "dist/airview.esm.js",
   "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.2.1",
     "rollup": "^2.70.2"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/AirWalk-Digital/airview.git"
