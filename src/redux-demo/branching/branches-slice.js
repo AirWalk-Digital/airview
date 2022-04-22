@@ -1,39 +1,61 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { AirviewFetchError } from "../../util";
+
+export const branchesData = [
+  {
+    name: "main",
+    sha: "abc",
+    isProtected: true,
+  },
+  {
+    name: "one",
+    sha: "cde",
+    isProtected: false,
+  },
+  {
+    name: "two",
+    sha: "efg",
+    isProtected: false,
+  },
+];
 
 const baseBranch = "main"; // need to read this from a config
 
 export const fetchBranches = createAsyncThunk(
-  "branches/fetchBranches",
+  "branchesSlice/fetchBranches",
   async (arg, { signal, rejectWithValue }) => {
-    try {
-      const response = await fetch("/api/branches", {
-        cache: "no-cache",
-        signal,
-      });
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(branchesData), [500]);
+    });
+    // try {
+    //   // const response = await fetch("/api/branches", {
+    //   //   cache: "no-cache",
+    //   //   signal,
+    //   // });
 
-      const data = await response.json();
+    //   // const data = await response.json();
 
-      if (!response.ok) {
-        throw new AirviewFetchError(response.status, data.message);
-      }
+    //   // if (!response.ok) {
+    //   //   console.log("error:", data);
+    //   //   throw new Error(data.message);
+    //   // }
 
-      return data;
-    } catch (error) {
-      return rejectWithValue({ ...error });
-    }
+    //   // return data;
+    // } catch (error) {
+    //   return rejectWithValue({ ...error });
+    // }
   }
 );
 
 const initialState = {
   status: "idle",
   error: null,
+  baseBranch,
   workingBranch: baseBranch,
-  branches: [],
+  branches: null,
 };
 
 export const branchesSlice = createSlice({
-  name: "branches",
+  name: "branchesSlice",
   initialState,
   reducers: {
     setWorkingBranch(state, action) {
@@ -45,7 +67,7 @@ export const branchesSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(fetchBranches.fulfilled, (state, action) => {
-      state.branches.push(action.payload);
+      state.branches = [...action.payload];
       state.status = "fulfilled";
     });
     builder.addCase(fetchBranches.rejected, (state, action) => {

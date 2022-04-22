@@ -14,3 +14,5 @@ export { AirviewProvider } from "./airview-provider";
 // export { MarkdownEditor } from "./markdown-editor";
 
 export * from "./branches";
+export * from "./entries-meta";
+export * from "./entry";
