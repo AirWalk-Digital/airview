@@ -25,16 +25,19 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-plugin-storybook": "^0.5.11",
     "eslint-plugin-testing-library": "^5.3.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.0",
     "prettier": "^2.6.2",
     "rollup": "^2.70.2"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "lint": "eslint './lib/**/*.{js, jsx}'",
+    "lint": "eslint './lib/**/*.{js, jsx}' './demo/src/**/*.{js, jsx}'",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --check './lib/'",
-    "format:fix": "npm run format -- --write"
+    "format": "prettier --check './lib/' './demo'",
+    "format:fix": "npm run format -- --write",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -48,5 +51,11 @@
   "homepage": "https://github.com/AirWalk-Digital/airview#readme",
   "workspaces": [
     "demo"
-  ]
+  ],
+  "lint-staged": {
+    "*.js": "eslint",
+    "*": [
+      "prettier --ignore-unknown --write"
+    ]
+  }
 }
