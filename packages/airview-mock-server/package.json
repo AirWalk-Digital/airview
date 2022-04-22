@@ -1,0 +1,23 @@
+{
+  "name": "airview-mock-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "peerDependencies": {
+    "msw": "^0.39.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AirWalk-Digital/airview.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AirWalk-Digital/airview/issues"
+  },
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
+}
