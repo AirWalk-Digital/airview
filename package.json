@@ -2,7 +2,10 @@
   "name": "airview",
   "version": "0.1.0",
   "description": "",
-  "module": "dist/airview.esm.js",
+  "main": "dist/airview.esm.js",
+  "files": [
+    "./lib"
+  ],
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "react": "^18.0.0",
