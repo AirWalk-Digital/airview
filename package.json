@@ -9,14 +9,22 @@
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.1.4",
     "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-storybook": "^0.5.11",
+    "eslint-plugin-testing-library": "^5.3.1",
+    "prettier": "^2.6.2",
     "rollup": "^2.70.2"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint './lib/**/*.{js, jsx}'",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --check './lib/'",
+    "format:fix": "npm run format -- --write"
   },
   "repository": {
     "type": "git",
