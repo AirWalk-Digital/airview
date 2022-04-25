@@ -1,52 +1,43 @@
 {
   "name": "airview",
   "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.8.0",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
-    "nanoid": "^3.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-query": "^3.34.16",
-    "react-redux": "^7.2.6",
-    "react-scripts": "5.0.0",
-    "sass": "^1.49.9",
-    "slugify": "^1.6.5",
-    "web-vitals": "^2.1.4"
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.1.4",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-storybook": "^0.5.11",
+    "eslint-plugin-testing-library": "^5.3.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.0",
+    "prettier": "^2.6.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "prepare": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AirWalk-Digital/airview.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/AirWalk-Digital/airview/issues"
+  },
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
+  "workspaces": [
+    "packages/airview-cms",
+    "packages/airview-ui",
+    "apps/airview-demo",
+    "packages/airview-mock-server"
+  ],
+  "lint-staged": {
+    "*.js": "eslint",
+    "*": [
+      "prettier --ignore-unknown --write"
     ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^6.0.0-beta.0",
-    "@mswjs/data": "^0.9.2",
-    "msw": "^0.39.1"
-  },
-  "msw": {
-    "workerDirectory": "public"
   }
 }
