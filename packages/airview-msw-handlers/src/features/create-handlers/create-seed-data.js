@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import matter from "gray-matter";
 
-export function makeSeedData() {
+export function createSeedData() {
   const branches = {
     main: { name: "main", sha: "abc", isProtected: true },
     one: { name: "one", sha: "cde", isProtected: false },

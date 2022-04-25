@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid";
-import { makeSeedData } from "./seed-data";
+import { createSeedData } from "./create-seed-data";
 import matter from "gray-matter";
 
 export function createStore() {
-  let { branches, entries } = makeSeedData();
+  let { branches, entries } = createSeedData();
 
   const getEntries = (branch) => {
     if (!entries?.[branch]) return false;
@@ -48,7 +48,7 @@ export function createStore() {
     branches.push({ name: body.name, isProtected: false, sha: nanoid() });
 
   const reset = () => {
-    entries = makeSeedData().entries;
+    entries = createSeedData().entries;
   };
 
   return {
