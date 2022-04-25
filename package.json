@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/AirWalk-Digital/airview#readme",
   "workspaces": [
-    "packages/airview-core",
+    "packages/airview-cms",
     "packages/airview-ui",
     "apps/airview-demo",
     "packages/airview-mock-server"

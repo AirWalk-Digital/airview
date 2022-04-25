@@ -1,4 +1,4 @@
-import { greet } from "airview-core";
+import { greet } from "airview-cms";
 
 function App() {
   const greetJames = greet();

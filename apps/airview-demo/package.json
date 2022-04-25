@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
-    "airview-core": "file:../../packages/airview-core",
+    "airview-cms": "file:../../packages/airview-cms",
     "msw": "^0.39.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
