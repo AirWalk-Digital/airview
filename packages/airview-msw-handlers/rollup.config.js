@@ -5,8 +5,12 @@ import { main } from "./package.json";
 export default [
   {
     input: "src/index.js",
-    external: ["msw"],
+    external: ["msw", "gray-matter", "nanoid"],
     output: [{ file: main, format: "es" }],
     plugins: [resolve(), babel({ babelHelpers: "bundled" })],
   },
+
+  // Add production bundle:
+  // - minification
+  // - tree shaking
 ];
