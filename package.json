@@ -32,7 +32,7 @@
     "packages/airview-cms",
     "packages/airview-ui",
     "apps/airview-demo",
-    "packages/airview-mock-server"
+    "packages/airview-msw-handlers"
   ],
   "lint-staged": {
     "*.js": "eslint",
