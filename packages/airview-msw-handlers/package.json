@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/AirWalk-Digital/airview#readme",
   "dependencies": {
-    "msw": "^0.39.2"
+    "matter": "^0.2.0",
+    "msw": "^0.39.2",
+    "nanoid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
