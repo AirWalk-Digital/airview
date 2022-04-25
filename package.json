@@ -32,7 +32,6 @@
     "packages/airview-core",
     "packages/airview-ui",
     "apps/airview-demo",
-    "apps/airview-storybook",
     "packages/airview-mock-server"
   ],
   "lint-staged": {
