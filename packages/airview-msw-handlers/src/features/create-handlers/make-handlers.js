@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { createStore } from "./create-store";
 
-export function makeHandlers(delay = 500) {
+export function createHandlers(delay = 500) {
   const ARTIFICIAL_DELAY_MS = delay;
 
   const {
