@@ -9,7 +9,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,7 @@
   },
   "homepage": "https://github.com/AirWalk-Digital/airview#readme",
   "dependencies": {
-    "matter": "^0.2.0",
+    "gray-matter": "^4.0.3",
     "msw": "^0.39.2",
     "nanoid": "^3.3.3"
   },
@@ -31,6 +33,9 @@
     "@babel/preset-env": "^7.16.11",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.2.1",
+    "babel-jest": "^28.0.0",
+    "jest": "^28.0.0",
+    "node-fetch": "^2.6.7",
     "rollup": "^2.70.2"
   }
 }

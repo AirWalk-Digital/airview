@@ -2,7 +2,6 @@
   "name": "airview",
   "version": "0.1.0",
   "description": "",
-  "dependencies": {},
   "devDependencies": {
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",

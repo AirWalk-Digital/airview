@@ -1,21 +1,32 @@
 import { rest } from "msw";
 import { createStore } from "./create-store";
 
-export function createHandlers(delay = 500) {
+export function createHandlers(delay = 500, domain = "") {
   const ARTIFICIAL_DELAY_MS = delay;
 
   const {
     getEntries,
     getEntryContent,
     dropEntry,
-    dropAllEntries,
+    deleteBranch,
     persistContent,
     getBranches,
     createBranch,
+    reset,
   } = createStore();
 
-  return [
-    rest.get("/api/entries/:branch", function (req, res, ctx) {
+  const handlers = [
+    rest.get(`${domain}/api/branches`, function (req, res, ctx) {
+      const branches = getBranches();
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
+    }),
+
+    rest.post(`${domain}/api/branches`, function (req, res, ctx) {
+      const branches = createBranch(JSON.parse(req.body));
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
+    }),
+
+    rest.get(`${domain}/api/entries/:branch`, function (req, res, ctx) {
       const branch = req.params.branch;
 
       const entiesMeta = getEntries(branch);
@@ -31,8 +42,9 @@ export function createHandlers(delay = 500) {
         );
       }
     }),
+
     rest.get(
-      "/api/content/:collection/:entity/:branch",
+      `${domain}/api/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
         const content = getEntryContent(id, req.params.branch);
@@ -49,33 +61,31 @@ export function createHandlers(delay = 500) {
         }
       }
     ),
+
     rest.put(
-      "/api/content/:collection/:entity/:branch",
+      `${domain}/api/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
-        persistContent(id, req.params.branch, req.body);
+
+        persistContent(id, req.params.branch, JSON.parse(req.body));
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));
       }
     ),
-    rest.delete("/api/content/:branch", function (req, res, ctx) {
-      dropAllEntries(req.params.branch);
+
+    rest.delete(`${domain}/api/content/:branch`, function (req, res, ctx) {
+      deleteBranch(req.params.branch);
       return res(ctx.delay(ARTIFICIAL_DELAY_MS));
     }),
+
     rest.delete(
-      "/api/content/:collection/:entity/:branch",
+      `${domain}/api/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
         dropEntry(id, req.params.branch);
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));
       }
     ),
-    rest.get("/api/branches", function (req, res, ctx) {
-      const branches = getBranches();
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
-    }),
-    rest.post("/api/branches", function (req, res, ctx) {
-      const branches = createBranch(req.body);
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
-    }),
   ];
+
+  return { handlers, resetData: reset };
 }

@@ -26,7 +26,7 @@ export function createStore() {
   };
 
   const persistContent = (id, branch, content) => {
-    const meta = matter(atob(content["_index.md"])).data;
+    const meta = matter(atob(content["_index"])).data;
     const collection = id.split("/")[0];
 
     entries[branch][id] = { sha: [nanoid()], collection, meta, content };
@@ -38,14 +38,29 @@ export function createStore() {
     delete entries[branch][id];
   };
 
-  const dropAllEntries = (branch) => {
-    if (!entries[branch]) return false;
-    entries[branch] = {};
+  const deleteBranch = (branch) => {
+    if (!entries[branch] || !branches[branch]) return false;
+    delete entries[branch];
+    delete branches[branch];
   };
   const getBranches = () => Object.values(branches);
 
-  const createBranch = (body) =>
-    branches.push({ name: body.name, isProtected: false, sha: nanoid() });
+  const createBranch = (body) => {
+    const validBranch = Object.values(branches).find(
+      (branch) => branch.sha === body.sha
+    );
+
+    if (!validBranch || branches[body.name]) {
+      return false;
+    }
+
+    return true;
+    // const branchName = body.name
+    // if( branches[branchName] ) return false
+
+    // branches.push({ name: body.name, isProtected: false, sha: nanoid() });
+    // entries[branchName]
+  };
 
   const reset = () => {
     entries = createSeedData().entries;
@@ -55,7 +70,7 @@ export function createStore() {
     getEntries,
     getEntryContent,
     dropEntry,
-    dropAllEntries,
+    deleteBranch,
     persistContent,
     getBranches,
     createBranch,
