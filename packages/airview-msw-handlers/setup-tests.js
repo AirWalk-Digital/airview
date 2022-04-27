@@ -1,7 +1,10 @@
 import { setupServer } from "msw/node";
-import { createHandlers } from "./src";
+import { AirviewMockServer } from "./src";
 
-const { handlers, resetData } = createHandlers(0, "http://airview-mock-server");
+const { handlers, resetData } = new AirviewMockServer(
+  0,
+  "http://airview-mock-server"
+);
 
 const server = setupServer(...handlers);
 

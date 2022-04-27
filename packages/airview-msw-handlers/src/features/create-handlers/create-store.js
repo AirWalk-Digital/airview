@@ -64,7 +64,7 @@ export function createStore() {
     return true;
   };
 
-  const reset = () => {
+  const resetStore = () => {
     entries = createSeedData().entries;
     branches = createSeedData().branches;
   };
@@ -77,6 +77,6 @@ export function createStore() {
     persistContent,
     getBranches,
     createBranch,
-    reset,
+    resetStore,
   };
 }

@@ -1,7 +1,7 @@
 import { rest } from "msw";
 import { createStore } from "./create-store";
 
-export function createHandlers(delay = 500, domain = "") {
+export function AirviewMockServer(delay = 500, domain = "") {
   const ARTIFICIAL_DELAY_MS = delay;
 
   const {
@@ -12,10 +12,10 @@ export function createHandlers(delay = 500, domain = "") {
     persistContent,
     getBranches,
     createBranch,
-    reset,
+    resetStore,
   } = createStore();
 
-  const handlers = [
+  this.handlers = [
     rest.get(`${domain}/api/branches`, function (req, res, ctx) {
       const branches = getBranches();
       return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
@@ -92,5 +92,5 @@ export function createHandlers(delay = 500, domain = "") {
     ),
   ];
 
-  return { handlers, resetData: reset };
+  this.resetData = resetStore;
 }
