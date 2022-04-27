@@ -1,14 +1,18 @@
 {
   "name": "airview-mock-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "peerDependencies": {
-    "msw": "^0.39.2"
-  },
-  "devDependencies": {},
+  "main": "dist/airview-mock-server.esm.min.js",
+  "files": [
+    "./dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf dist",
+    "build": "npm run clean && rollup -c --environment NODE_ENV:production",
+    "dev": "npm run build -- -w --environment NODE_ENV:development",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch --coverage=false",
+    "test:coverage": "npm run test -- --coverage"
   },
   "repository": {
     "type": "git",
@@ -19,5 +23,22 @@
   "bugs": {
     "url": "https://github.com/AirWalk-Digital/airview/issues"
   },
-  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "msw": "^0.39.2",
+    "nanoid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.2.1",
+    "babel-jest": "^28.0.0",
+    "jest": "^28.0.0",
+    "node-fetch": "^2.6.7",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.70.2",
+    "rollup-plugin-terser": "^7.0.2"
+  }
 }
