@@ -1,5 +1,5 @@
 {
-  "name": "airview-msw-handlers",
+  "name": "airview-mock-server",
   "version": "0.1.0",
   "description": "",
   "main": "dist/airview-mock-server.esm.js",
