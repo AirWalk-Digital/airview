@@ -1,5 +1,11 @@
+import { AirviewProvider } from "airview-cms";
+
 function App() {
-  return null;
+  return (
+    <AirviewProvider>
+      <span>Test</span>
+    </AirviewProvider>
+  );
 }
 
 export default App;
