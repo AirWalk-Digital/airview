@@ -2,7 +2,7 @@
   "name": "airview-msw-handlers",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/airview-msw-handlers.esm.js",
+  "main": "dist/airview-mock-server.esm.js",
   "files": [
     "./dist"
   ],

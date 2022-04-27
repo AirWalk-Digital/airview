@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import matter from "gray-matter";
 
-describe("createHandlers", () => {
+describe("AirviewMockServer", () => {
   test("a request to fetch branches", async () => {
     const expected = [
       { name: "main", sha: "abc", isProtected: true },
