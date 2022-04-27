@@ -7,8 +7,9 @@
     "./dist"
   ],
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "clean": "rimraf dist",
+    "build": "npm run clean && rollup -c",
+    "dev": "npm run build -- -w",
     "test": "jest",
     "test:watch": "npm run test -- --watch --coverage=false",
     "test:coverage": "npm run test -- --coverage"
@@ -36,6 +37,7 @@
     "babel-jest": "^28.0.0",
     "jest": "^28.0.0",
     "node-fetch": "^2.6.7",
+    "rimraf": "^3.0.2",
     "rollup": "^2.70.2"
   }
 }
