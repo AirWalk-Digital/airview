@@ -17,15 +17,53 @@ describe("createHandlers", () => {
   });
 
   test("a request to create a branch", async () => {
-    await fetch("http://airview-mock-server/api/branches", {
-      method: "POST",
-      body: JSON.stringify({
-        sha: "cde",
-        name: "test_branch",
-      }),
-    });
+    const branchCreateRequest = await fetch(
+      "http://airview-mock-server/api/branches",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          sha: "cde",
+          name: "test_branch",
+        }),
+      }
+    );
 
-    expect(1).toBe(1);
+    expect(branchCreateRequest.status).toBe(200);
+
+    const expectedBranches = [
+      { name: "main", sha: "abc", isProtected: true },
+      { name: "one", sha: "cde", isProtected: false },
+      { name: "two", sha: "efg", isProtected: false },
+      { name: "test_branch", sha: "shaid", isProtected: false },
+    ];
+
+    const branchesResponse = await fetch(
+      "http://airview-mock-server/api/branches"
+    );
+
+    const branchesData = await branchesResponse.json();
+
+    expect(branchesData).toEqual(expectedBranches);
+
+    const expectedAllEntries = {
+      "release/security_patch": {
+        id: "release/security_patch",
+        collection: "release",
+        sha: ["shaid"],
+        meta: {
+          title: "Security Patch",
+          parent: "application/ms_teams",
+        },
+      },
+    };
+
+    const allEntriesResponse = await fetch(
+      "http://airview-mock-server/api/entries/test_branch"
+    );
+
+    const allEntriesData = await allEntriesResponse.json();
+
+    expect(allEntriesData).toEqual(expectedAllEntries);
   });
 
   test("a request to delete a branch", async () => {

@@ -46,24 +46,27 @@ export function createStore() {
   const getBranches = () => Object.values(branches);
 
   const createBranch = (body) => {
-    const validBranch = Object.values(branches).find(
+    const branch = Object.values(branches).find(
       (branch) => branch.sha === body.sha
     );
 
-    if (!validBranch || branches[body.name]) {
+    if (!branch || branches[body.name]) {
       return false;
     }
 
-    return true;
-    // const branchName = body.name
-    // if( branches[branchName] ) return false
+    (branches[body.name] = {
+      name: body.name,
+      sha: nanoid(),
+      isProtected: false,
+    }),
+      (entries[body.name] = { ...entries[branch.name] });
 
-    // branches.push({ name: body.name, isProtected: false, sha: nanoid() });
-    // entries[branchName]
+    return true;
   };
 
   const reset = () => {
     entries = createSeedData().entries;
+    branches = createSeedData().branches;
   };
 
   return {

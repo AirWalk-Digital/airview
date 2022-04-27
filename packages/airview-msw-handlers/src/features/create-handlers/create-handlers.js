@@ -23,7 +23,12 @@ export function createHandlers(delay = 500, domain = "") {
 
     rest.post(`${domain}/api/branches`, function (req, res, ctx) {
       const branches = createBranch(JSON.parse(req.body));
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
+
+      if (branches) {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+      } else {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.status(422));
+      }
     }),
 
     rest.get(`${domain}/api/entries/:branch`, function (req, res, ctx) {
