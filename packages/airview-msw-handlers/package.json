@@ -10,7 +10,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "test:watch": "npm run test -- --watch",
+    "test:watch": "npm run test -- --watch --coverage=false",
     "test:coverage": "npm run test -- --coverage"
   },
   "repository": {
