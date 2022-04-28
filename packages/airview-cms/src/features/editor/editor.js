@@ -1,3 +1,6 @@
+import React from "react";
+import { TopBar } from "./top-bar";
+
 export function Editor() {
-  return null;
+  return <TopBar />;
 }

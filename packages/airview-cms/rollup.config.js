@@ -5,14 +5,22 @@ import { main } from "./package.json";
 export default [
   {
     input: "src/index.js",
-    external: [
-      "react",
-      "react-dom",
-      "@reduxjs/toolkit",
-      "react-redux",
-      "react-router-dom",
-    ],
+    external: ["react", "@mui/material", "@mui/icons-material/Menu"],
+    // external: [
+    //   "react",
+    //   "react-dom",
+    //   "@reduxjs/toolkit",
+    //   "react-redux",
+    //   "react-router-dom",
+    // ],
     output: [{ file: main, format: "es" }],
-    plugins: [resolve(), babel({ babelHelpers: "bundled" })],
+    plugins: [
+      resolve({
+        customResolveOptions: {
+          moduleDirectories: "node_modules",
+        },
+      }),
+      babel({ babelHelpers: "bundled" }),
+    ],
   },
 ];
