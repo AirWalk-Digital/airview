@@ -10,15 +10,8 @@ export default [
       "@reduxjs/toolkit",
       "react-redux",
       "@mui/material",
-      "@mui/icons-material/Menu",
+      "@mui/icons-material",
     ],
-    // external: [
-    //   "react",
-    //   "react-dom",
-    //   "@reduxjs/toolkit",
-    //   "react-redux",
-    //   "react-router-dom",
-    // ],
     output: [{ file: main, format: "es" }],
     plugins: [
       resolve({
