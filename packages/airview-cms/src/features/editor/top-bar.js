@@ -47,7 +47,10 @@ export function TopBar() {
               <Typography
                 variant="h6"
                 component="h1"
-                sx={{ color: "primary.main", lineHeight: 1 }}
+                sx={{
+                  color: "primary.main",
+                  lineHeight: 1,
+                }}
               >
                 Airview CMS
               </Typography>
@@ -57,7 +60,9 @@ export function TopBar() {
                 sx={{
                   color: "text.primary",
                   display: "block",
-                  lineHeight: 1,
+                  lineHeight: 1.2,
+                  textTransform: "uppercase",
+                  fontSize: 11,
                 }}
               >
                 Version: 0.10
