@@ -10,6 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { setWorkingBranch, fetchBranches } from "./branch-slice";
+import { version } from "../../../package.json";
 
 export function TopBar() {
   return (
@@ -65,7 +66,7 @@ export function TopBar() {
                   fontSize: 11,
                 }}
               >
-                Version: 0.10
+                Version: {version}
               </Typography>
             </Box>
           </Box>
