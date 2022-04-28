@@ -5,7 +5,13 @@ import { main } from "./package.json";
 export default [
   {
     input: "src/index.js",
-    external: ["react", "@mui/material", "@mui/icons-material/Menu"],
+    external: [
+      "react",
+      "@reduxjs/toolkit",
+      "react-redux",
+      "@mui/material",
+      "@mui/icons-material/Menu",
+    ],
     // external: [
     //   "react",
     //   "react-dom",
