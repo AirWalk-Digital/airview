@@ -1,25 +1,23 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  ButtonBase,
-  Box,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 
 export function TopBar() {
   return (
     <AppBar
+      color="transparent"
       sx={{
         boxShadow: 0,
-        bgcolor: "grey.100",
         borderBottom: 1,
         borderColor: "grey.300",
       }}
     >
-      <Toolbar disableGutters>
+      <Toolbar
+        sx={{
+          borderBottom: 1,
+          borderColor: "grey.300",
+          bgcolor: "grey.50",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -35,23 +33,6 @@ export function TopBar() {
               alignItems: "center",
             }}
           >
-            <ButtonBase
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 66,
-                width: 64,
-                marginRight: (theme) => theme.spacing(2),
-                marginTop: "-2px",
-                marginBottom: "-2px",
-                border: 0,
-                bgcolor: "primary.main",
-                color: "common.white",
-              }}
-            >
-              <MenuIcon />
-            </ButtonBase>
             <Box>
               <Typography
                 variant="h6"
@@ -79,7 +60,6 @@ export function TopBar() {
               justifyContent: "flex-end",
               alignItems: "center",
               flex: "0 1 auto",
-              marginRight: (theme) => theme.spacing(3),
               "& > .MuiButton-root": {
                 marginLeft: (theme) => theme.spacing(2),
               },
@@ -92,6 +72,53 @@ export function TopBar() {
               Exit
             </Button>
           </Box>
+        </Box>
+      </Toolbar>
+      <Toolbar
+        variant="dense"
+        sx={{
+          bgcolor: "common.white",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
+            flex: "1 1 auto",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 14,
+            }}
+          >
+            main
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flex: "1 1 auto",
+            justifyContent: "flex-end",
+            "& > .MuiButton-root": {
+              marginLeft: (theme) => theme.spacing(1),
+            },
+          }}
+        >
+          <Button variant="text" size="small">
+            Switch Branch
+          </Button>
+          <Button variant="text" size="small">
+            Create Branch
+          </Button>
+          <Button variant="text" size="small">
+            Create Pull Request
+          </Button>
+          <Button variant="text" size="small" color="error">
+            Clear Changes
+          </Button>
+          <Button variant="text" size="small">
+            Save Changes
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
