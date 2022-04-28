@@ -1,12 +1,16 @@
 {
   "name": "airview-cms",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "dist/airview.esm.js",
+  "main": "dist/airview-cms.esm.min.js",
   "files": [
     "./dist"
   ],
   "peerDependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.3",
     "@reduxjs/toolkit": "^1.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -16,7 +20,9 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "rollup": "^2.70.2"
   },
