@@ -69,7 +69,7 @@ export function createStore() {
   };
 
   const persistContent = (entryId, branchName, content) => {
-    if (!branches[branchName]) return;
+    if (!branches[branchName]) return false;
 
     const newBranchSha = nanoid();
 
@@ -84,6 +84,8 @@ export function createStore() {
       meta,
       content,
     };
+
+    return true;
   };
 
   const dropEntry = (entryId, branch) => {
