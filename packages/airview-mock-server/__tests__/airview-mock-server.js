@@ -1,188 +1,140 @@
 import fetch from "node-fetch";
 import matter from "gray-matter";
 
+const fetchBranches = async () => {
+  const response = await fetch("http://airview-mock-server/api/branches");
+
+  return await response.json();
+};
+
+const fetchEntries = async (branchSha) => {
+  const response = await fetch(
+    `http://airview-mock-server/api/entries/${branchSha}`
+  );
+
+  return await response.json();
+};
+
 describe("AirviewMockServer", () => {
-  test("a request to fetch branches", async () => {
-    const expected = [
-      { name: "main", sha: "abc", isProtected: true },
-      { name: "one", sha: "cde", isProtected: false },
-      { name: "two", sha: "efg", isProtected: false },
-    ];
+  test("creating a new branch", async () => {
+    // Fetch branches and get sha for branch "one"
+    const initialBranchData = await fetchBranches();
 
-    const response = await fetch("http://airview-mock-server/api/branches");
+    const branchOneSha = initialBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
 
-    const data = await response.json();
+    // Fetch entries meta for branch "one"
+    const branchOneEntriesData = await fetchEntries(branchOneSha);
 
-    expect(data).toEqual(expected);
-  });
-
-  test("a request to create a branch", async () => {
-    const branchCreateRequest = await fetch(
-      "http://airview-mock-server/api/branches",
+    expect(branchOneEntriesData).toEqual([
       {
-        method: "POST",
-        body: JSON.stringify({
-          sha: "cde",
-          name: "test_branch",
-        }),
-      }
-    );
-
-    expect(branchCreateRequest.status).toBe(200);
-
-    const expectedBranches = [
-      { name: "main", sha: "abc", isProtected: true },
-      { name: "one", sha: "cde", isProtected: false },
-      { name: "two", sha: "efg", isProtected: false },
-      { name: "test_branch", sha: "shaid", isProtected: false },
-    ];
-
-    const branchesResponse = await fetch(
-      "http://airview-mock-server/api/branches"
-    );
-
-    const branchesData = await branchesResponse.json();
-
-    expect(branchesData).toEqual(expectedBranches);
-
-    const expectedAllEntries = {
-      "release/security_patch": {
         id: "release/security_patch",
+        sha: expect.any(String),
         collection: "release",
-        sha: ["shaid"],
-        meta: {
-          title: "Security Patch",
-          parent: "application/ms_teams",
-        },
+        meta: { title: "Security Patch", parent: "application/ms_teams" },
       },
-    };
+    ]);
 
-    const allEntriesResponse = await fetch(
-      "http://airview-mock-server/api/entries/test_branch"
-    );
+    // Create new branch "test_branch"
+    const newBranchName = "test_branch";
 
-    const allEntriesData = await allEntriesResponse.json();
+    await fetch("http://airview-mock-server/api/branches", {
+      method: "POST",
+      body: JSON.stringify({
+        baseBranchSha: branchOneSha,
+        branchName: newBranchName,
+      }),
+    });
 
-    expect(allEntriesData).toEqual(expectedAllEntries);
-  });
+    // Fetch modified branches and get data for new branch
+    const modifiedBranches = await fetchBranches();
 
-  test("a request to delete a branch", async () => {
-    const deleteRequest = await fetch(
-      "http://airview-mock-server/api/content/one",
+    const modifiedBranchOneSha = modifiedBranches.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    expect(modifiedBranches).toEqual([
       {
-        method: "DELETE",
-      }
-    );
-
-    expect(deleteRequest.status).toBe(200);
-
-    const expectedBranches = [
-      { name: "main", sha: "abc", isProtected: true },
-      { name: "two", sha: "efg", isProtected: false },
-    ];
-
-    const branchesResponse = await fetch(
-      "http://airview-mock-server/api/branches"
-    );
-
-    const branchesData = await branchesResponse.json();
-
-    expect(branchesData).toEqual(expectedBranches);
-
-    const allEntriesMetaResponse = await fetch(
-      "http://airview-mock-server/api/entries/one"
-    );
-
-    expect(allEntriesMetaResponse.status).toBe(404);
-  });
-
-  test("a request to get all entries meta", async () => {
-    const expected = {
-      "release/security_patch": {
-        id: "release/security_patch",
-        collection: "release",
-        sha: ["shaid"],
-        meta: {
-          title: "Security Patch",
-          parent: "application/ms_teams",
-        },
+        name: "main",
+        isProtected: true,
+        sha: expect.any(String),
       },
-    };
-
-    const response = await fetch("http://airview-mock-server/api/entries/one");
-
-    const data = await response.json();
-
-    expect(data).toEqual(expected);
-  });
-
-  test("a request to get an entry", async () => {
-    const expected = {
-      content: "I am branch one body content for Security Patch\n",
-      data: {
-        title: "Security Patch",
-      },
-      excerpt: "",
-      isEmpty: false,
-    };
-
-    const response = await fetch(
-      "http://airview-mock-server/api/content/release/security_patch/one"
-    );
-
-    const data = await response.json();
-
-    expect(matter(atob(data["_index"]))).toEqual(expected);
-  });
-
-  test("a request to edit an entry", async () => {
-    const mutations = {
-      content: "Test",
-      title: "Test mutation",
-    };
-
-    const putResponse = await fetch(
-      "http://airview-mock-server/api/content/release/security_patch/one",
       {
-        method: "PUT",
-        body: JSON.stringify({
-          _index: btoa(
-            matter.stringify(mutations.content, { title: mutations.title })
-          ),
-        }),
-      }
-    );
+        name: "one",
+        isProtected: false,
+        sha: expect.any(String),
+      },
+      {
+        name: "two",
+        isProtected: false,
+        sha: expect.any(String),
+      },
+      {
+        name: newBranchName,
+        isProtected: false,
+        sha: expect.any(String),
+      },
+    ]);
 
-    expect(putResponse.status).toBe(200);
+    // Fetch entries meta for new branch "test_branch"
+    const newBranchEntriesData = await fetchEntries(modifiedBranchOneSha);
 
-    const metaResponse = await fetch(
-      "http://airview-mock-server/api/entries/one"
-    );
-
-    const metaData = await metaResponse.json();
-
-    expect(metaData["release/security_patch"].meta.title).toBe(mutations.title);
-
-    const entryResponse = await fetch(
-      "http://airview-mock-server/api/content/release/security_patch/one"
-    );
-
-    const entryData = await entryResponse.json();
-
-    const { content, data } = matter(atob(entryData["_index"]));
-
-    expect(content).toEqual(expect.stringContaining(mutations.content));
-    expect(data.title).toBe(mutations.title);
+    expect(branchOneEntriesData).toEqual(newBranchEntriesData);
   });
 
-  test("a request to create an entry", async () => {
+  test("deleting a branch", async () => {
+    // Fetch branches and get sha for branch "one"
+    const initialBranchesData = await fetchBranches();
+    const branchOneSha = initialBranchesData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    // Send request to delete branch "one"
+    await fetch(`http://airview-mock-server/api/content/${branchOneSha}`, {
+      method: "DELETE",
+    });
+
+    // Re-fetch branches data
+    const modifiedBranchesData = await fetchBranches();
+
+    expect(modifiedBranchesData).toEqual([
+      {
+        name: "main",
+        isProtected: true,
+        sha: expect.any(String),
+      },
+      {
+        name: "two",
+        isProtected: false,
+        sha: expect.any(String),
+      },
+    ]);
+
+    // Fetch entries meta by removed branch sha
+    const entriesMetaResponse = await fetch(
+      `http://airview-mock-server/api/entries/${branchOneSha}`
+    );
+
+    expect(entriesMetaResponse.status).toBe(404);
+  });
+
+  test("create an entry", async () => {
+    // Fetch branches and get sha for branch "one"
+    const initialBranchData = await fetchBranches();
+
+    const initialBranchOneSha = initialBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    // Make a request to create an entry under branch "one"
     const entryData = {
       content: "Entry body",
       title: "Test entry",
     };
 
-    const putResponse = await fetch(
-      "http://airview-mock-server/api/content/release/test_entry/one",
+    await fetch(
+      `http://airview-mock-server/api/content/release/test_entry/one`,
       {
         method: "PUT",
         body: JSON.stringify({
@@ -193,46 +145,163 @@ describe("AirviewMockServer", () => {
       }
     );
 
-    expect(putResponse.status).toBe(200);
+    // Fetch branches again due to mutation of entry
+    const modifiedBranchData = await fetchBranches();
 
-    const metaResponse = await fetch(
-      "http://airview-mock-server/api/entries/one"
+    const modifiedBranchOneSha = modifiedBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    expect(initialBranchOneSha).not.toBe(modifiedBranchOneSha);
+
+    // Fetch all entries meta for branch "one"
+    const allEntriesMetaData = await fetchEntries(modifiedBranchOneSha);
+
+    expect(allEntriesMetaData).toEqual([
+      {
+        id: "release/security_patch",
+        sha: expect.any(String),
+        collection: "release",
+        meta: { title: "Security Patch", parent: "application/ms_teams" },
+      },
+      {
+        id: "release/test_entry",
+        sha: expect.any(String),
+        collection: "release",
+        meta: { title: "Test entry" },
+      },
+    ]);
+
+    const entrySha = allEntriesMetaData.find(
+      (entry) => entry.id === "release/test_entry"
+    ).sha;
+
+    // Fetch entry content
+    const entryContentRequest = await fetch(
+      `http://airview-mock-server/api/content/${entrySha}`
     );
 
-    const metaData = await metaResponse.json();
+    const entryContentData = await entryContentRequest.json();
 
-    expect(metaData["release/test_entry"].meta.title).toBe(entryData.title);
+    expect(entryContentData).toEqual({
+      content: expect.objectContaining({
+        _index: expect.any(String),
+      }),
+    });
 
-    const entryResponse = await fetch(
-      "http://airview-mock-server/api/content/release/test_entry/one"
+    const markdownContent = matter(atob(entryContentData.content["_index"]));
+
+    expect(markdownContent.content).toEqual(
+      expect.stringContaining(entryData.content)
     );
 
-    const entryReponseData = await entryResponse.json();
-
-    const { content, data } = matter(atob(entryReponseData["_index"]));
-
-    expect(content).toEqual(expect.stringContaining(entryData.content));
-    expect(data.title).toBe(entryData.title);
+    expect(markdownContent.data).toEqual({
+      title: entryData.title,
+    });
   });
 
-  test("a request to delete an entry", async () => {
-    const deleteResponse = await fetch(
+  test("edit an entry", async () => {
+    // Fetch branches and get sha for branch "one"
+    const initialBranchData = await fetchBranches();
+
+    const initialBranchOneSha = initialBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    const initialEntriesData = await fetchEntries(initialBranchOneSha);
+
+    expect(initialEntriesData).toEqual([
+      {
+        id: "release/security_patch",
+        sha: expect.any(String),
+        collection: "release",
+        meta: { title: "Security Patch", parent: "application/ms_teams" },
+      },
+    ]);
+
+    // Make a request to edit an entry under branch "one"
+    const entryData = {
+      content: "Entry body",
+      title: "Test entry",
+    };
+
+    await fetch(
+      `http://airview-mock-server/api/content/release/security_patch/one`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          _index: btoa(
+            matter.stringify(entryData.content, { title: entryData.title })
+          ),
+        }),
+      }
+    );
+
+    // Fetch branches again due to mutation of entry
+    const modifiedBranchData = await fetchBranches();
+
+    const modifiedBranchOneSha = modifiedBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    // Fetch all entries meta for branch "one"
+    const modifiedEntriesMetaData = await fetchEntries(modifiedBranchOneSha);
+
+    expect(modifiedEntriesMetaData).toEqual([
+      {
+        id: "release/security_patch",
+        sha: expect.any(String),
+        collection: "release",
+        meta: { title: entryData.title },
+      },
+    ]);
+
+    expect(
+      initialEntriesData.find((entry) => entry.id === "release/security_patch")
+        .sha
+    ).not.toBe(
+      modifiedEntriesMetaData.find(
+        (entry) => entry.id === "release/security_patch"
+      ).sha
+    );
+  });
+
+  test("delete an entry", async () => {
+    // Get intial branches data
+    const intialBranchData = await fetchBranches();
+
+    const branchOneSha = intialBranchData.find(
+      (branch) => branch.name === "one"
+    ).sha;
+
+    const initialEntriesMeta = await fetchEntries(branchOneSha);
+
+    // Request to delete an entry
+    await fetch(
       "http://airview-mock-server/api/content/release/security_patch/one",
       { method: "DELETE" }
     );
 
-    expect(deleteResponse.status).toBe(200);
+    // Refetch branches data
+    const modifiedBranchesData = await fetchBranches();
+    const modifiedBranchOneSha = modifiedBranchesData.find(
+      (branch) => branch.name === "one"
+    ).sha;
 
-    const metaResponse = await fetch(
-      "http://airview-mock-server/api/entries/one"
-    );
+    expect(branchOneSha).not.toBe(modifiedBranchOneSha);
 
-    const metaData = await metaResponse.json();
+    // Fetch entries meta
+    const entriesMeta = await fetchEntries(modifiedBranchOneSha);
 
-    expect(metaData).toEqual({});
+    expect(entriesMeta).toEqual([]);
+
+    // Attempt to fetch deleted entry by old sha
+    const entrySha = initialEntriesMeta.find(
+      (entry) => entry.id === "release/security_patch"
+    ).sha;
 
     const entryResponse = await fetch(
-      "http://airview-mock-server/api/content/release/security_patch/one"
+      `http://airview-mock-server/api/content/${entrySha}`
     );
 
     expect(entryResponse.status).toBe(404);

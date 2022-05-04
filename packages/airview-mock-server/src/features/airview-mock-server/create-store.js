@@ -5,68 +5,101 @@ import matter from "gray-matter";
 export function createStore() {
   let { branches, entries } = createSeedData();
 
-  const getEntries = (branch) => {
-    if (!entries?.[branch]) return false;
-
-    const mappedEntries = Object.entries(entries[branch]).map(
-      ([entryId, entryData]) => {
-        const selectedEntryData = { ...entryData };
-        delete selectedEntryData.content;
-        return [entryId, { id: entryId, ...selectedEntryData }];
-      }
-    );
-
-    return {
-      ...Object.fromEntries(mappedEntries),
-    };
-  };
-
-  const getEntryContent = (id, branch) => {
-    return entries[branch][id]?.content ?? false;
-  };
-
-  const persistContent = (id, branch, content) => {
-    const meta = matter(atob(content["_index"])).data;
-    const collection = id.split("/")[0];
-
-    entries[branch][id] = { sha: [nanoid()], collection, meta, content };
-  };
-
-  const dropEntry = (id, branch) => {
-    if (!entries[branch][id]) return false;
-
-    delete entries[branch][id];
-  };
-
-  const deleteBranch = (branch) => {
-    if (!entries[branch] || !branches[branch]) return false;
-    delete entries[branch];
-    delete branches[branch];
-  };
   const getBranches = () => Object.values(branches);
 
-  const createBranch = (body) => {
-    const branch = Object.values(branches).find(
-      (branch) => branch.sha === body.sha
+  const createBranch = (baseBranchSha, branchName) => {
+    const baseBranch = Object.values(branches).find(
+      (branch) => branch.sha === baseBranchSha
     );
 
-    if (!branch || branches[body.name]) {
+    if (!baseBranch || branches[branchName]) {
       return false;
     }
 
-    (branches[body.name] = {
-      name: body.name,
-      sha: nanoid(),
+    const branchSha = nanoid();
+
+    branches[branchName] = {
+      name: branchName,
+      sha: branchSha,
       isProtected: false,
-    }),
-      (entries[body.name] = { ...entries[branch.name] });
+    };
+
+    entries[branchSha] = { ...entries[baseBranch.sha] };
 
     return true;
   };
 
+  const deleteBranch = (branchSha) => {
+    const branchData = getBranches().find((branch) => branch.sha === branchSha);
+
+    if (!branchData) return;
+
+    delete branches[branchData.name];
+    delete entries[branchData.name];
+  };
+
+  const getEntries = (branchSha) => {
+    const branch = getBranches().find((branch) => branch.sha === branchSha);
+
+    if (!branch) return false;
+
+    return Object.entries(entries[branch.name]).map(([entryId, entryData]) => {
+      const selectedEntryData = { ...entryData };
+      delete selectedEntryData.content;
+      return { id: entryId, ...selectedEntryData };
+    });
+  };
+
+  const getEntryContent = (entrySha) => {
+    let entry;
+
+    const groupedEntries = Object.values(entries);
+
+    for (let i = 0; i < groupedEntries.length; i++) {
+      entry = Object.values(groupedEntries[i]).find(
+        (entry) => entry.sha === entrySha
+      );
+
+      if (entry) break;
+    }
+
+    if (!entry) return false;
+
+    return { content: entry.content };
+  };
+
+  const persistContent = (entryId, branchName, content) => {
+    if (!branches[branchName]) return;
+
+    const newBranchSha = nanoid();
+
+    branches[branchName].sha = newBranchSha;
+
+    const meta = matter(atob(content["_index"])).data;
+    const collection = entryId.split("/")[0];
+
+    entries[branchName][entryId] = {
+      sha: nanoid(),
+      collection,
+      meta,
+      content,
+    };
+  };
+
+  const dropEntry = (entryId, branch) => {
+    if (!branches[branch]) return;
+
+    if (!entries[branch][entryId]) return;
+
+    delete entries[branch][entryId];
+
+    branches[branch].sha = nanoid();
+  };
+
   const resetStore = () => {
-    entries = createSeedData().entries;
-    branches = createSeedData().branches;
+    const newData = createSeedData();
+    entries = newData.entries;
+    branches = newData.branches;
   };
 
   return {
