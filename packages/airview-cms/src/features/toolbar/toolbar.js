@@ -1,9 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
+import { enableBranchCreatorModal } from "../branch-creator";
 
 export function ToolBar() {
+  const dispatch = useDispatch();
+
   return (
     <AppBar
       color="transparent"
@@ -108,6 +112,13 @@ export function ToolBar() {
         >
           <Button variant="text" size="small">
             Edit Meta
+          </Button>
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => dispatch(enableBranchCreatorModal())}
+          >
+            Create Branch
           </Button>
           <Button variant="text" size="small">
             Create Pull Request
