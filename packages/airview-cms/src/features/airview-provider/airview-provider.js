@@ -1,12 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { airviewStore } from "./airview-store";
-import { Editor } from "../editor";
+import { store } from "./store";
+import { CMS } from "../cms";
 
-export function AirviewProvider() {
+export function AirviewProvider({ children }) {
   return (
-    <Provider store={airviewStore}>
-      <Editor />
+    <Provider store={store}>
+      <CMS>{children}</CMS>
     </Provider>
   );
 }
+
+AirviewProvider.propTypes = {
+  children: PropTypes.node,
+};

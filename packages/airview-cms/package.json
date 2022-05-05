@@ -41,5 +41,8 @@
   "bugs": {
     "url": "https://github.com/AirWalk-Digital/airview/issues"
   },
-  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
+  "dependencies": {
+    "prop-types": "^15.8.1"
+  }
 }

@@ -1,10 +1,9 @@
 import React from "react";
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
-import { version } from "../../../package.json";
+import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
-import { RevealBranchCreatorModalBtn } from "../create-branch/branch-creator";
 
-export function TopBar() {
+export function ToolBar() {
   return (
     <AppBar
       color="transparent"
@@ -110,7 +109,6 @@ export function TopBar() {
           <Button variant="text" size="small">
             Edit Meta
           </Button>
-          <RevealBranchCreatorModalBtn />
           <Button variant="text" size="small">
             Create Pull Request
           </Button>

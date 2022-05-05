@@ -1,1 +1,1 @@
-export { AirviewProvider } from "./airview-provider";
+export * from "./airview-provider";
