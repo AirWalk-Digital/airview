@@ -9,5 +9,7 @@ export const airviewStore = configureStore({
     [workingBranchSlice.name]: workingBranchSlice.reducer,
     [branchCreatorSlice.name]: branchCreatorSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(airviewApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });

@@ -10,19 +10,59 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { selectWorkingBranch } from "../toolbar";
+import { useCreateBranchMutation, useGetBranchesQuery } from "../airview-api";
+import { selectWorkingBranch, setWorkingBranch } from "../toolbar";
 import {
+  selectBranchCreatorBranchName,
   selectBranchCreatorModalEnabledStatus,
+  selectIsBranchCreatorBranchNameValid,
   disableBranchCreatorModal,
+  setBranchName,
+  clearBranchName,
 } from "./branch-creator.slice";
 
 export function BranchCreator() {
   const dispatch = useDispatch();
   const dialogEnabled = useSelector(selectBranchCreatorModalEnabledStatus);
   const workingBranch = useSelector(selectWorkingBranch);
+  const branchName = useSelector(selectBranchCreatorBranchName);
+  const validBranchName = useSelector(selectIsBranchCreatorBranchNameValid);
+  const { branch } = useGetBranchesQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      branch: data?.find((branch) => branch.name === workingBranch),
+    }),
+  });
+
+  const [
+    createBranch,
+    {
+      isLoading: createBranchIsLoading,
+      isError: createBranchIsError,
+      error: createBranchError,
+      reset: resetCreateBranch,
+    },
+  ] = useCreateBranchMutation();
 
   const handleOnClose = () => {
     dispatch(disableBranchCreatorModal());
+  };
+
+  const handleOnExit = () => {
+    dispatch(clearBranchName());
+
+    if (createBranchIsError) {
+      resetCreateBranch();
+    }
+  };
+
+  const handleOnSubmit = async () => {
+    try {
+      await createBranch({ baseBranchSha: branch.sha, branchName }).unwrap();
+      dispatch(disableBranchCreatorModal());
+      dispatch(setWorkingBranch(branchName));
+    } catch {
+      return;
+    }
   };
 
   return (
@@ -32,7 +72,7 @@ export function BranchCreator() {
       maxWidth="xs"
       onClose={handleOnClose}
       TransitionProps={{
-        onExited: () => {},
+        onExit: handleOnExit,
       }}
     >
       <DialogTitle>Create Branch</DialogTitle>
@@ -41,11 +81,13 @@ export function BranchCreator() {
           Branching from: <strong>{workingBranch}</strong>
         </Typography>
 
-        {/*state.errorMessage && (
+        {createBranchIsError && (
           <Typography color="error" role="alert" paragraph>
-            Error: 
+            Error:{" "}
+            {createBranchError?.data?.message ??
+              "Unable to create branch, please try again"}
           </Typography>
-        )*/}
+        )}
 
         <Box component="form" noValidate autoComplete="off">
           <TextField
@@ -65,11 +107,11 @@ export function BranchCreator() {
                 marginTop: 1,
               },
             }}
-            value=""
-            onChange={() => {}}
-            error={false}
+            value={branchName}
+            onChange={(event) => dispatch(setBranchName(event.target.value))}
+            error={!validBranchName && validBranchName !== undefined}
             autoComplete="off"
-            disabled={false}
+            disabled={createBranchIsLoading}
           />
         </Box>
       </DialogContent>
@@ -78,7 +120,7 @@ export function BranchCreator() {
           variant="outlined"
           size="small"
           onClick={handleOnClose}
-          disabled={false}
+          disabled={createBranchIsLoading}
         >
           Cancel
         </Button>
@@ -86,10 +128,10 @@ export function BranchCreator() {
           variant="contained"
           size="small"
           disableElevation
-          onClick={() => {}}
-          disabled={false}
+          onClick={handleOnSubmit}
+          disabled={!validBranchName || createBranchIsLoading || !branch}
         >
-          Submit
+          {createBranchIsLoading ? "Working..." : "Create"}
         </Button>
       </DialogActions>
     </Dialog>

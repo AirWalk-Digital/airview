@@ -22,7 +22,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
     }),
 
     rest.post(`${domain}/api/branches`, function (req, res, ctx) {
-      const { baseBranchSha, branchName } = JSON.parse(req.body);
+      const { baseBranchSha, branchName } = req.body;
 
       const branches = createBranch(baseBranchSha, branchName);
 

@@ -28,14 +28,14 @@ export function BranchSwitcher() {
         }}
       >
         Working branch:
-        {(isLoading || isError) && (
+        {(isLoading || isError || isFetching) && (
           <Typography
             component="span"
             sx={{
               fontSize: "inherit",
               fontWeight: "inherit",
               marginLeft: 1,
-              color: isLoading ? "text.secondary" : "error.main",
+              color: isLoading || isFetching ? "text.secondary" : "error.main",
             }}
           >
             {isError ? "Error loading branches!" : "Loading branches..."}
@@ -43,7 +43,7 @@ export function BranchSwitcher() {
         )}
       </Typography>
 
-      {!(isLoading || isError) && (
+      {!(isLoading || isError || isFetching) && (
         <Select
           labelId="branch-switcher-label"
           id="branch-switcher"
@@ -56,7 +56,6 @@ export function BranchSwitcher() {
               paddingBottom: 1,
             },
           }}
-          disabled={isFetching}
           onChange={(event) => dispatch(setWorkingBranch(event.target.value))}
         >
           {branches &&
