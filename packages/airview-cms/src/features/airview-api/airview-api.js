@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const api = createApi({
+export const airviewApi = createApi({
+  reducerPath: "airviewApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   tagTypes: ["Branches"],
   endpoints: (builder) => ({
@@ -11,4 +12,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetBranchesQuery } = api;
+export const { useGetBranchesQuery } = airviewApi;
