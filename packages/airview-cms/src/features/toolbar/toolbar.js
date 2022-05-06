@@ -1,13 +1,25 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
 import { enableBranchCreatorModal } from "../branch-creator";
 import { TOOL_BAR_HEIGHT } from "./constants";
+import {
+  enableMetaEditor,
+  disableMetaEditor,
+  selectMetaEditorEnabledStatus,
+} from "../meta-editor";
 
 export function ToolBar() {
   const dispatch = useDispatch();
+  const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
+
+  const handleOnShowMetaClick = () => {
+    metaEditorEnabled
+      ? dispatch(disableMetaEditor())
+      : dispatch(enableMetaEditor());
+  };
 
   return (
     <AppBar
@@ -108,13 +120,10 @@ export function ToolBar() {
             flex: "1 1 auto",
             justifyContent: "flex-end",
             "& > .MuiButton-root": {
-              marginLeft: (theme) => theme.spacing(1),
+              marginLeft: 1,
             },
           }}
         >
-          <Button variant="text" size="small">
-            Show Meta
-          </Button>
           <Button
             variant="text"
             size="small"
@@ -131,6 +140,23 @@ export function ToolBar() {
           <Button variant="text" size="small">
             Save Changes
           </Button>
+          <Box
+            sx={{
+              marginLeft: 1,
+              paddingLeft: 1,
+              borderLeft: 1,
+              borderColor: "grey.300",
+            }}
+          >
+            <Button
+              variant="text"
+              size="small"
+              onClick={handleOnShowMetaClick}
+              sx={{ minWidth: "140px" }}
+            >
+              {metaEditorEnabled ? "Hide Meta Editor" : "Show Meta Editor"}
+            </Button>
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>
