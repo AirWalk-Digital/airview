@@ -1,17 +1,57 @@
-import { AirviewProvider } from "airview-cms";
+import React from "react";
+import {
+  AirviewProvider,
+  useGetAllEntriesMeta,
+  useGetEntry,
+} from "airview-cms";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import matter from "gray-matter";
 
 function App() {
   return (
-    // <AirviewProvider>
-    //   <span>Test</span>
-    // </AirviewProvider>
-    <Test />
+    <AirviewProvider>
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "50%" }}>
+          <AllEntriesMeta />
+        </div>
+        <div style={{ width: "50%" }}>
+          <Entry />
+        </div>
+      </div>
+    </AirviewProvider>
   );
 }
 
 export default App;
+
+function AllEntriesMeta() {
+  const { data, isLoading, isFetching, isError, error } =
+    useGetAllEntriesMeta();
+
+  if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
+
+  if (isError) return <div>Error fetching all entries meta</div>;
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
+
+function Entry() {
+  const { data, isLoading, isFetching, isError, error } = useGetEntry(
+    "release/security_patch"
+  );
+
+  if (isLoading || isFetching) return <div>Fetching entry...</div>;
+
+  if (isError)
+    return (
+      <React.Fragment>
+        <div>Error fetching entry</div>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </React.Fragment>
+    );
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
 
 function Test() {
   const [workingBranch, setWorkingBranch] = useState("main");
