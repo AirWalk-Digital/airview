@@ -3,4 +3,5 @@ export {
   useGetBranchesQuery,
   useCreateBranchMutation,
   useGetEntriesQuery,
+  useGetEntryQuery,
 } from "./airview-api";

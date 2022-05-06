@@ -1,3 +1,4 @@
+import matter from "gray-matter";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const airviewApi = createApi({
@@ -32,6 +33,25 @@ export const airviewApi = createApi({
         { type: "Entries", id: branchSha },
       ],
     }),
+    getEntry: builder.query({
+      query: (entrySha) => {
+        return `content/${entrySha}`;
+      },
+      transformResponse: (response) => {
+        const parsedResponse = Object.entries(response.content).map(
+          ([key, entryData]) => {
+            const { data, content } = matter(atob(entryData));
+
+            return [key, { data, content }];
+          }
+        );
+
+        return Object.fromEntries(parsedResponse);
+      },
+      providesTags: (result, error, entrySha) => [
+        { type: "Entry", id: entrySha },
+      ],
+    }),
   }),
 });
 
@@ -39,4 +59,5 @@ export const {
   useGetBranchesQuery,
   useCreateBranchMutation,
   useGetEntriesQuery,
+  useGetEntryQuery,
 } = airviewApi;

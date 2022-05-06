@@ -18,6 +18,7 @@ export default [
       "@mui/material",
       "@mui/icons-material",
       "prop-types",
+      "gray-matter",
     ],
     output: [{ file: main, format: "es" }],
     plugins: [

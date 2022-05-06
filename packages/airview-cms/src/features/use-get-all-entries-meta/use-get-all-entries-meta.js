@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { selectWorkingBranch } from "../toolbar";
 import { useGetBranchesQuery, useGetEntriesQuery } from "../airview-api";
 
-export function useGetAllEntriesMeta() {
+export function useGetAllEntriesMeta(select) {
   const workingBranch = useSelector(selectWorkingBranch);
 
   const { branch } = useGetBranchesQuery(undefined, {
@@ -15,5 +15,6 @@ export function useGetAllEntriesMeta() {
 
   return useGetEntriesQuery(branch?.sha, {
     skip: !branch?.sha,
+    ...(select && { selectFromResult: select }),
   });
 }
