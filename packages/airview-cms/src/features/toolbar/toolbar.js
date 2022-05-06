@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
 import { enableBranchCreatorModal } from "../branch-creator";
+import { TOOL_BAR_HEIGHT } from "./constants";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export function ToolBar() {
         boxShadow: 0,
         borderBottom: 1,
         borderColor: "grey.300",
+        height: `${TOOL_BAR_HEIGHT}px`,
       }}
     >
       <Toolbar
