@@ -24,7 +24,7 @@ export function createStore() {
       isProtected: false,
     };
 
-    entries[branchSha] = { ...entries[baseBranch.sha] };
+    entries[branchName] = { ...entries[baseBranch.name] };
 
     return true;
   };
