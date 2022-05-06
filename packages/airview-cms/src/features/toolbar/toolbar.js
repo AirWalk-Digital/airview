@@ -10,6 +10,7 @@ import {
   disableMetaEditor,
   selectMetaEditorEnabledStatus,
 } from "../meta-editor";
+import { disableCms } from "../cms";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ export function ToolBar() {
     metaEditorEnabled
       ? dispatch(disableMetaEditor())
       : dispatch(enableMetaEditor());
+  };
+
+  const handleOnExitClick = () => {
+    dispatch(disableCms());
   };
 
   return (
@@ -94,7 +99,12 @@ export function ToolBar() {
             <Button variant="contained" disableElevation size="small">
               Create New
             </Button>
-            <Button variant="contained" disableElevation size="small">
+            <Button
+              variant="contained"
+              disableElevation
+              size="small"
+              onClick={handleOnExitClick}
+            >
               Exit
             </Button>
           </Box>
