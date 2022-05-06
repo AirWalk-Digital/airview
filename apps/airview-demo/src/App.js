@@ -4,13 +4,13 @@ import {
   useGetAllEntriesMeta,
   useGetEntry,
 } from "airview-cms";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import matter from "gray-matter";
+//import { useState, useEffect, useCallback } from "react";
+//import matter from "gray-matter";
 
 function App() {
   return (
     <AirviewProvider>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
           <AllEntriesMeta />
         </div>
@@ -25,8 +25,7 @@ function App() {
 export default App;
 
 function AllEntriesMeta() {
-  const { data, isLoading, isFetching, isError, error } =
-    useGetAllEntriesMeta();
+  const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
 
   if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
 
@@ -53,6 +52,7 @@ function Entry() {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
+/*
 function Test() {
   const [workingBranch, setWorkingBranch] = useState("main");
 
@@ -265,3 +265,4 @@ function useFetchEntry(entriesMeta, entryId) {
 
   return { state };
 }
+*/

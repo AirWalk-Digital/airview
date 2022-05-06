@@ -111,7 +111,7 @@ export function ToolBar() {
           }}
         >
           <Button variant="text" size="small">
-            Edit Meta
+            Show Meta
           </Button>
           <Button
             variant="text"
