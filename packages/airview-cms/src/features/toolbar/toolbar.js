@@ -32,14 +32,14 @@ export function ToolBar() {
       sx={{
         boxShadow: 0,
         borderBottom: 1,
-        borderColor: "grey.300",
+        borderBottomColor: "grey.300",
         height: `${TOOL_BAR_HEIGHT}px`,
       }}
     >
       <Toolbar
         sx={{
           borderBottom: 1,
-          borderColor: "grey.300",
+          borderBottomColor: "grey.300",
           bgcolor: "grey.50",
         }}
       >
@@ -105,7 +105,7 @@ export function ToolBar() {
               size="small"
               onClick={handleOnExitClick}
             >
-              Exit
+              Disable CMS
             </Button>
           </Box>
         </Box>
