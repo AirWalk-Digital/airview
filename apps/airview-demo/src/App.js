@@ -1,15 +1,11 @@
 import React from "react";
-import {
-  AirviewProvider,
-  useGetAllEntriesMeta,
-  useGetEntry,
-} from "airview-cms";
+import AirviewCMS, { useGetAllEntriesMeta, useGetEntry } from "airview-cms";
 //import { useState, useEffect, useCallback } from "react";
 //import matter from "gray-matter";
 
 function App() {
   return (
-    <AirviewProvider>
+    <AirviewCMS>
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
           <AllEntriesMeta />
@@ -18,7 +14,7 @@ function App() {
           <Entry />
         </div>
       </div>
-    </AirviewProvider>
+    </AirviewCMS>
   );
 }
 

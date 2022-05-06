@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { enableCms } from "./cms.slice";
 
-export function EnableCms() {
+export function EnableCmsButton() {
   const dispatch = useDispatch();
   return (
     <Button

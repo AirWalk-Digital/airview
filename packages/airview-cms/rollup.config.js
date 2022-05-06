@@ -32,6 +32,10 @@ export default [
       alias({
         entries: [
           {
+            find: "@app",
+            replacement: path.resolve(projectRootDir, "src/app"),
+          },
+          {
             find: "@package",
             replacement: path.resolve(projectRootDir, "package.json"),
           },
@@ -42,6 +46,10 @@ export default [
           {
             find: "@components",
             replacement: path.resolve(projectRootDir, "src/components"),
+          },
+          {
+            find: "@views",
+            replacement: path.resolve(projectRootDir, "src/views"),
           },
         ],
       }),
