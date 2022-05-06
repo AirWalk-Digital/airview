@@ -24,7 +24,19 @@ export const airviewApi = createApi({
         return ["Branches"];
       },
     }),
+    getEntries: builder.query({
+      query: (branchSha) => {
+        return `entries/${branchSha}`;
+      },
+      providesTags: (result, error, branchSha) => [
+        { type: "Entries", id: branchSha },
+      ],
+    }),
   }),
 });
 
-export const { useGetBranchesQuery, useCreateBranchMutation } = airviewApi;
+export const {
+  useGetBranchesQuery,
+  useCreateBranchMutation,
+  useGetEntriesQuery,
+} = airviewApi;
