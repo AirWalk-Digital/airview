@@ -1,4 +1,4 @@
-export { MetaEditor } from "./meta-editor";
+export { MetaEditor as default } from "./meta-editor";
 export {
   metaEditorSlice,
   enableMetaEditor,

@@ -6,7 +6,7 @@ import { TOOL_BAR_HEIGHT } from "../toolbar";
 import { META_EDITOR_WIDTH } from "../meta-editor/constants";
 import { selectMetaEditorEnabledStatus } from "../meta-editor";
 
-export function MainContent({ children }) {
+export default function MainContent({ children }) {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
 
   return (

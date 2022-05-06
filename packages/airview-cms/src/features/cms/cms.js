@@ -1,17 +1,21 @@
-import React from "react";
+import React, { Suspense } from "react";
 import PropTypes from "prop-types";
-import { ToolBar } from "../toolbar";
-import { BranchCreator } from "../branch-creator";
-import { MetaEditor } from "../meta-editor";
-import { MainContent } from "./main-content";
+import { CmsLoadingIndicator } from "./cms-loading-indicator";
+
+const ToolBar = React.lazy(() => import("../toolbar"));
+const BranchCreator = React.lazy(() => import("../branch-creator"));
+const MetaEditor = React.lazy(() => import("../meta-editor"));
+const MainContent = React.lazy(() => import("./main-content"));
 
 export function CMS({ children }) {
   return (
     <React.Fragment>
-      <ToolBar />
-      <BranchCreator />
-      <MetaEditor />
-      <MainContent>{children}</MainContent>
+      <Suspense fallback={<CmsLoadingIndicator />}>
+        <ToolBar />
+        <BranchCreator />
+        <MetaEditor />
+        <MainContent>{children}</MainContent>
+      </Suspense>
     </React.Fragment>
   );
 }

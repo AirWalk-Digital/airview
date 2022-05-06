@@ -1,5 +1,5 @@
 export * from "./constants";
-export { ToolBar } from "./toolbar";
+export { ToolBar as default } from "./toolbar";
 export {
   workingBranchSlice,
   setWorkingBranch,

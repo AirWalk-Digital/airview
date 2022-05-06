@@ -2,7 +2,7 @@
   "name": "airview-cms",
   "version": "0.2.0",
   "description": "",
-  "main": "dist/airview-cms.esm.min.js",
+  "main": "dist/index.js",
   "files": [
     "./dist"
   ],

@@ -2,7 +2,6 @@ import resolve from "@rollup/plugin-node-resolve";
 import babel from "@rollup/plugin-babel";
 import json from "@rollup/plugin-json";
 import alias from "@rollup/plugin-alias";
-import { main } from "./package.json";
 const path = require("path");
 
 const projectRootDir = path.resolve(__dirname);
@@ -20,7 +19,7 @@ export default [
       "prop-types",
       "gray-matter",
     ],
-    output: [{ file: main, format: "es" }],
+    output: [{ dir: `dist`, format: "es" }],
     plugins: [
       resolve({
         customResolveOptions: {

@@ -1,4 +1,4 @@
-export { BranchCreator } from "./branch-creator";
+export { BranchCreator as default } from "./branch-creator";
 export {
   branchCreatorSlice,
   enableBranchCreatorModal,
