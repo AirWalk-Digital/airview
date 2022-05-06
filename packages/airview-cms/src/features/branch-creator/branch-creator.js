@@ -27,11 +27,17 @@ export function BranchCreator() {
   const workingBranch = useSelector(selectWorkingBranch);
   const branchName = useSelector(selectBranchCreatorBranchName);
   const validBranchName = useSelector(selectIsBranchCreatorBranchNameValid);
-  const { branch } = useGetBranchesQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      branch: data?.find((branch) => branch.name === workingBranch),
-    }),
-  });
+  const { data: branches } = useGetBranchesQuery();
+
+  const workingBranchSha = branches?.find(
+    (branch) => branch.name === workingBranch
+  )?.sha;
+
+  const isBranchNameUnique = () => {
+    return branches?.find((branch) => branch.name === branchName)
+      ? false
+      : true;
+  };
 
   const [
     createBranch,
@@ -57,7 +63,10 @@ export function BranchCreator() {
 
   const handleOnSubmit = async () => {
     try {
-      await createBranch({ baseBranchSha: branch.sha, branchName }).unwrap();
+      await createBranch({
+        baseBranchSha: workingBranchSha,
+        branchName,
+      }).unwrap();
       dispatch(disableBranchCreatorModal());
       dispatch(setWorkingBranch(branchName));
     } catch {
@@ -109,9 +118,12 @@ export function BranchCreator() {
             }}
             value={branchName}
             onChange={(event) => dispatch(setBranchName(event.target.value))}
-            error={!validBranchName && validBranchName !== undefined}
+            error={
+              (!validBranchName && validBranchName !== undefined) ||
+              !isBranchNameUnique()
+            }
             autoComplete="off"
-            disabled={createBranchIsLoading}
+            disabled={createBranchIsLoading || !branches}
           />
         </Box>
       </DialogContent>
@@ -129,7 +141,12 @@ export function BranchCreator() {
           size="small"
           disableElevation
           onClick={handleOnSubmit}
-          disabled={!validBranchName || createBranchIsLoading || !branch}
+          disabled={
+            !validBranchName ||
+            createBranchIsLoading ||
+            !workingBranchSha ||
+            !isBranchNameUnique()
+          }
         >
           {createBranchIsLoading ? "Working..." : "Create"}
         </Button>
