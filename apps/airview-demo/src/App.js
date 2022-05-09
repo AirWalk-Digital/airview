@@ -1,5 +1,5 @@
 import React from "react";
-import AirviewCMS, { useGetAllEntriesMeta, useGetEntry } from "airview-cms";
+import { AirviewCMS, useGetAllEntriesMeta, useGetEntry } from "airview-cms";
 //import { useState, useEffect, useCallback } from "react";
 //import matter from "gray-matter";
 

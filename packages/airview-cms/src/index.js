@@ -1,4 +1,2 @@
-import { AirviewCMS } from "@app";
-
-export default AirviewCMS;
+export { AirviewCMS } from "@app";
 export { useGetAllEntriesMeta, useGetEntry } from "@features";
