@@ -1,21 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
+import { Box, Slide } from "@mui/material";
 import { META_EDITOR_WIDTH } from "./constants";
 import { TOOL_BAR_HEIGHT } from "../toolbar";
 import { selectMetaEditorEnabledStatus } from "./meta-editor.slice";
 
-// Change to slide over content
-
 export function MetaEditor() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
 
-  if (metaEditorEnabled)
-    return (
+  return (
+    <Slide in={metaEditorEnabled} direction="left" timeout={350}>
       <Box
         component="aside"
         sx={{
-          position: "absolute",
+          position: "fixed",
           top: `${TOOL_BAR_HEIGHT}px`,
           bottom: 0,
           right: 0,
@@ -29,7 +27,6 @@ export function MetaEditor() {
       >
         <span>Meta editor content</span>
       </Box>
-    );
-
-  return null;
+    </Slide>
+  );
 }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  metaEditorEnabled: true,
+  metaEditorEnabled: false,
 };
 
 export const metaEditorSlice = createSlice({
