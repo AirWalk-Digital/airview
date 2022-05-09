@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { resetWorkingBranch } from "./toolbar";
 
 const initialState = {
-  cmsEnabled: true,
+  cmsEnabled: false,
 };
 
 export const cmsSlice = createSlice({
