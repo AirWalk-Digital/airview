@@ -22,7 +22,9 @@ export function AirviewMockServer(delay = 500, domain = "") {
     }),
 
     rest.post(`${domain}/api/branches`, function (req, res, ctx) {
-      const branches = createBranch(JSON.parse(req.body));
+      const { baseBranchSha, branchName } = req.body;
+
+      const branches = createBranch(baseBranchSha, branchName);
 
       if (branches) {
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));
@@ -31,62 +33,66 @@ export function AirviewMockServer(delay = 500, domain = "") {
       }
     }),
 
-    rest.get(`${domain}/api/entries/:branch`, function (req, res, ctx) {
-      const branch = req.params.branch;
+    rest.delete(`${domain}/api/content/:branchSha`, function (req, res, ctx) {
+      const { branchSha } = req.params;
 
-      const entiesMeta = getEntries(branch);
+      deleteBranch(branchSha);
+      return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+    }),
 
-      if (entiesMeta) {
-        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entiesMeta));
+    rest.get(`${domain}/api/entries/:branchSha`, function (req, res, ctx) {
+      const { branchSha } = req.params;
+
+      const entriesMeta = getEntries(branchSha);
+
+      if (entriesMeta) {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(entriesMeta));
       } else {
         return res(
           ctx.status(404),
+          ctx.delay(ARTIFICIAL_DELAY_MS),
           ctx.json({
-            message: `Branch '${branch}' not found`,
+            message: `Branch Sha '${branchSha}' not found`,
           })
         );
       }
     }),
 
-    rest.get(
-      `${domain}/api/content/:collection/:entity/:branch`,
-      function (req, res, ctx) {
-        const id = `${req.params.collection}/${req.params.entity}`;
-        const content = getEntryContent(id, req.params.branch);
+    rest.get(`${domain}/api/content/:sha`, function (req, res, ctx) {
+      const content = getEntryContent(req.params.sha);
 
-        if (content) {
-          return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
-        } else {
-          return res(
-            ctx.status(404),
-            ctx.json({
-              message: `Entry '${id}' not found`,
-            })
-          );
-        }
+      if (content) {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
+      } else {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            message: `Entry '${req.params.sha}' not found`,
+          })
+        );
       }
-    ),
+    }),
 
+    // branchSha, branchName, entrySha (branchSha as q param)
     rest.put(
       `${domain}/api/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
+        const branch = req.params.branch;
 
-        persistContent(id, req.params.branch, JSON.parse(req.body));
-        return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+        if (persistContent(id, branch, JSON.parse(req.body))) {
+          return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+        } else {
+          return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.status(422));
+        }
       }
     ),
-
-    rest.delete(`${domain}/api/content/:branch`, function (req, res, ctx) {
-      deleteBranch(req.params.branch);
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-    }),
 
     rest.delete(
       `${domain}/api/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
-        const id = `${req.params.collection}/${req.params.entity}`;
-        dropEntry(id, req.params.branch);
+        const entryId = `${req.params.collection}/${req.params.entity}`;
+        dropEntry(entryId, req.params.branch);
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));
       }
     ),

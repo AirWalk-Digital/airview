@@ -3,15 +3,15 @@ import matter from "gray-matter";
 
 export function createSeedData() {
   const branches = {
-    main: { name: "main", sha: "abc", isProtected: true },
-    one: { name: "one", sha: "cde", isProtected: false },
-    two: { name: "two", sha: "efg", isProtected: false },
+    main: { name: "main", sha: nanoid(), isProtected: true },
+    one: { name: "one", sha: nanoid(), isProtected: false },
+    two: { name: "two", sha: nanoid(), isProtected: false },
   };
 
   const entries = {
-    [branches["main"].name]: {
+    [branches.main.name]: {
       "application/ms_teams": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "application",
         meta: {
           title: "Microsoft Teams",
@@ -25,7 +25,7 @@ export function createSeedData() {
         },
       },
       "application/ms_outlook": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "application",
         meta: {
           title: "Microsoft Outlook",
@@ -39,7 +39,7 @@ export function createSeedData() {
         },
       },
       "knowledge/place_call_on_hold": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "knowledge",
         meta: {
           title: "Place Call on Hold",
@@ -60,7 +60,7 @@ export function createSeedData() {
         },
       },
       "knowledge/composing_a_new_message": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "knowledge",
         meta: {
           title: "Composing a new message",
@@ -80,7 +80,7 @@ export function createSeedData() {
         },
       },
       "release/security_patch": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "release",
         meta: {
           title: "Security Patch",
@@ -95,9 +95,9 @@ export function createSeedData() {
         },
       },
     },
-    [branches["one"].name]: {
+    [branches.one.name]: {
       "release/security_patch": {
-        sha: [nanoid()],
+        sha: nanoid(),
         collection: "release",
         meta: {
           title: "Security Patch",
@@ -115,7 +115,7 @@ export function createSeedData() {
         },
       },
     },
-    [branches["two"].name]: {},
+    [branches.two.name]: {},
   };
 
   return {
