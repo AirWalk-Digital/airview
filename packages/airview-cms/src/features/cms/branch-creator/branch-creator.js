@@ -10,10 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  useCreateBranchMutation,
-  useGetBranchesQuery,
-} from "../../airview-store";
+import { useCreateBranchMutation, useGetBranchesQuery } from "../../store";
 import { selectWorkingBranch, setWorkingBranch } from "../toolbar";
 import {
   selectBranchCreatorBranchName,

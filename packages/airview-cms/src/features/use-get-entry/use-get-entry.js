@@ -1,4 +1,4 @@
-import { useGetEntryQuery } from "../airview-store";
+import { useGetEntryQuery } from "../store";
 import { useGetAllEntriesMeta } from "../use-get-all-entries-meta";
 
 export function useGetEntry(entryId) {

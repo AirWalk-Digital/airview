@@ -7,7 +7,7 @@ import {
   metaEditorSlice,
 } from "../cms";
 
-export const airviewStore = configureStore({
+export const store = configureStore({
   reducer: {
     [airviewApi.reducerPath]: airviewApi.reducer,
     [workingBranchSlice.name]: workingBranchSlice.reducer,
