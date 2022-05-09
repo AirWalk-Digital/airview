@@ -98,7 +98,12 @@ export function BranchCreator() {
           </Typography>
         )}
 
-        <Box component="form" noValidate autoComplete="off">
+        <Box
+          id="branchCreatorForm"
+          component="form"
+          noValidate
+          autoComplete="off"
+        >
           <TextField
             name="branch-name"
             id="branch-name"
@@ -137,6 +142,8 @@ export function BranchCreator() {
           Cancel
         </Button>
         <Button
+          type="submit"
+          form="branchCreatorForm"
           variant="contained"
           size="small"
           disableElevation
