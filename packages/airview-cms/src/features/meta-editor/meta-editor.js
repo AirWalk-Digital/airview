@@ -5,6 +5,8 @@ import { META_EDITOR_WIDTH } from "./constants";
 import { TOOL_BAR_HEIGHT } from "../toolbar";
 import { selectMetaEditorEnabledStatus } from "./meta-editor.slice";
 
+// Change to slide over content
+
 export function MetaEditor() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
 
@@ -22,6 +24,7 @@ export function MetaEditor() {
           borderColor: "grey.300",
           padding: 1,
           boxSizing: "border-box",
+          backgroundColor: "common.white",
         }}
       >
         <span>Meta editor content</span>
