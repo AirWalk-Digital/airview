@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { resetWorkingBranch } from "../toolbar";
+import { resetWorkingBranch } from "./toolbar";
 
 const initialState = {
   cmsEnabled: false,

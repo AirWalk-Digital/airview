@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { airviewApi } from "./airview-api";
-import { workingBranchSlice } from "../toolbar";
-import { branchCreatorSlice } from "../branch-creator";
-import { metaEditorSlice } from "../meta-editor/";
-import { cmsSlice } from "../cms";
+import {
+  cmsSlice,
+  workingBranchSlice,
+  branchCreatorSlice,
+  metaEditorSlice,
+} from "../cms";
 
 export const airviewStore = configureStore({
   reducer: {

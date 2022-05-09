@@ -10,7 +10,7 @@ import {
   disableMetaEditor,
   selectMetaEditorEnabledStatus,
 } from "../meta-editor";
-import { disableCms } from "../cms";
+import { disableCms } from "../cms.slice";
 
 export function ToolBar() {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectWorkingBranch } from "../toolbar";
+import { selectWorkingBranch } from "../cms";
 import { useGetBranchesQuery, useGetEntriesQuery } from "../airview-store";
 
 export function useGetAllEntriesMeta(select) {

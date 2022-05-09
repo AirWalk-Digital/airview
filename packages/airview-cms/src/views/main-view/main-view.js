@@ -21,3 +21,17 @@ export function MainView({ children }) {
 MainView.propTypes = {
   children: PropTypes.node,
 };
+
+/*
+- cms
+- - index.js
+- - cms.js
+- - cms.slice.js
+- - main-content
+- - enable-cms-button
+- - cms-loading-indicator
+- - branch-creator
+- - meta-editor
+- - toolbar
+- - use-set-cms-context
+*/
