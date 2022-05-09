@@ -6,6 +6,7 @@ const ToolBar = React.lazy(() => import("./toolbar"));
 const BranchCreator = React.lazy(() => import("./branch-creator"));
 const MetaEditor = React.lazy(() => import("./meta-editor"));
 const MainContent = React.lazy(() => import("./main-content/"));
+const CreatePullRequest = React.lazy(() => import("./create-pull-request/"));
 
 export function CMS({ children }) {
   return (
@@ -13,6 +14,7 @@ export function CMS({ children }) {
       <Suspense fallback={<CmsLoadingIndicator />}>
         <ToolBar />
         <BranchCreator />
+        <CreatePullRequest />
         <MetaEditor />
         <MainContent>{children}</MainContent>
       </Suspense>

@@ -11,6 +11,7 @@ import {
   selectMetaEditorEnabledStatus,
 } from "../meta-editor";
 import { disableCms } from "../cms.slice";
+import { enableCreatePullRequestModal } from "../create-pull-request";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -141,7 +142,11 @@ export function ToolBar() {
           >
             Create Branch
           </Button>
-          <Button variant="text" size="small">
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => dispatch(enableCreatePullRequestModal())}
+          >
             Create Pull Request
           </Button>
           <Button variant="text" size="small" color="error">

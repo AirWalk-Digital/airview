@@ -52,6 +52,16 @@ export const airviewApi = createApi({
         { type: "Entry", id: entrySha },
       ],
     }),
+    createPullRequest: builder.mutation({
+      query: ({ baseBranch, headBranch }) => ({
+        url: "pulls",
+        method: "POST",
+        body: {
+          baseBranch,
+          headBranch,
+        },
+      }),
+    }),
   }),
 });
 
@@ -60,4 +70,5 @@ export const {
   useCreateBranchMutation,
   useGetEntriesQuery,
   useGetEntryQuery,
+  useCreatePullRequestMutation,
 } = airviewApi;

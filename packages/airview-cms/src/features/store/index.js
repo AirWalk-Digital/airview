@@ -5,4 +5,5 @@ export {
   useCreateBranchMutation,
   useGetEntriesQuery,
   useGetEntryQuery,
+  useCreatePullRequestMutation,
 } from "./airview-api";
