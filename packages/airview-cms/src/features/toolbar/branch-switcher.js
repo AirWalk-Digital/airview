@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
-import { useGetBranchesQuery } from "../airview-api";
+import { useGetBranchesQuery } from "../airview-store";
 import { setWorkingBranch, selectWorkingBranch } from "./working-branch.slice";
 
 export function BranchSwitcher() {

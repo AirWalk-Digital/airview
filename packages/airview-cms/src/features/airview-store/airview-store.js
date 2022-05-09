@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { airviewApi } from "../airview-api";
+import { airviewApi } from "./airview-api";
 import { workingBranchSlice } from "../toolbar";
 import { branchCreatorSlice } from "../branch-creator";
 import { metaEditorSlice } from "../meta-editor/";
