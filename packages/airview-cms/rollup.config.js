@@ -15,7 +15,7 @@ export default [
       "@reduxjs/toolkit/query/react",
       "react-redux",
       "@mui/material",
-      "@mui/icons-material",
+      "@mui/icons-material/OpenInNew",
       "prop-types",
       "gray-matter",
     ],
