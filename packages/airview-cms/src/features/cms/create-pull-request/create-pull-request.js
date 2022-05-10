@@ -19,6 +19,7 @@ import {
 import {
   disableCreatePullRequestModal,
   selectCreatePullRequestModalEnabledStatus,
+  selectCanCreatePullRequest,
 } from "./create-pull-request.slice";
 import { selectBaseBranch, selectWorkingBranch } from "../toolbar";
 import { useCreatePullRequestMutation } from "../../store";
@@ -28,10 +29,9 @@ export function CreatePullRequest() {
   const dialogEnabled = useSelector(selectCreatePullRequestModalEnabledStatus);
   const baseBranch = useSelector(selectBaseBranch);
   const workingBranch = useSelector(selectWorkingBranch);
+  const canCreatePr = useSelector(selectCanCreatePullRequest);
   const [createPullRequest, { data, isLoading, isSuccess, isError, reset }] =
     useCreatePullRequestMutation();
-
-  const isInvalidPr = baseBranch === workingBranch;
 
   const handleOnSubmit = () => {
     createPullRequest({
@@ -83,9 +83,9 @@ export function CreatePullRequest() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {(isError || isInvalidPr) && (
+            {(isError || !canCreatePr) && (
               <Typography color="error" role="alert" paragraph>
-                {isInvalidPr
+                {!canCreatePr
                   ? "Error: Unable to create pull request, branches must not match"
                   : "Error: Unable to create pull request, please try again"}
               </Typography>
@@ -122,7 +122,7 @@ export function CreatePullRequest() {
               size="small"
               disableElevation
               onClick={handleOnSubmit}
-              disabled={isLoading || isInvalidPr}
+              disabled={isLoading || !canCreatePr}
             >
               Create
             </Button>
