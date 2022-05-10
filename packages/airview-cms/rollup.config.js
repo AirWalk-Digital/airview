@@ -15,9 +15,10 @@ export default [
       "@reduxjs/toolkit/query/react",
       "react-redux",
       "@mui/material",
-      "@mui/icons-material",
       "prop-types",
       "gray-matter",
+      "@fortawesome/fontawesome-svg-core",
+      "@fortawesome/free-solid-svg-icons",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [

@@ -96,6 +96,19 @@ export function AirviewMockServer(delay = 500, domain = "") {
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));
       }
     ),
+
+    rest.post(`${domain}/api/pulls`, function (req, res, ctx) {
+      const { baseBranch, headBranch } = req.body;
+
+      if (baseBranch !== headBranch) {
+        return res(
+          ctx.delay(ARTIFICIAL_DELAY_MS),
+          ctx.json("http://github.com")
+        );
+      } else {
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.status(422));
+      }
+    }),
   ];
 
   this.resetData = resetStore;

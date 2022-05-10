@@ -50,6 +50,7 @@ export function BranchCreator() {
   ] = useCreateBranchMutation();
 
   const handleOnClose = () => {
+    if (createBranchIsLoading) return;
     dispatch(disableBranchCreatorModal());
   };
 

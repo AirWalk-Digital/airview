@@ -5,6 +5,7 @@ import {
   workingBranchSlice,
   branchCreatorSlice,
   metaEditorSlice,
+  createPullRequestSlice,
 } from "../cms";
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     [branchCreatorSlice.name]: branchCreatorSlice.reducer,
     [metaEditorSlice.name]: metaEditorSlice.reducer,
     [cmsSlice.name]: cmsSlice.reducer,
+    [createPullRequestSlice.name]: createPullRequestSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(airviewApi.middleware),
