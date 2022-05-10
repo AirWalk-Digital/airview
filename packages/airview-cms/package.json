@@ -16,7 +16,9 @@
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

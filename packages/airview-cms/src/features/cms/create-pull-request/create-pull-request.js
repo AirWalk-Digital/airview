@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogTitle,
@@ -9,8 +10,12 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useSelector, useDispatch } from "react-redux";
+import { FontAwesomeSvgIcon } from "@components";
+import {
+  faCodeBranch,
+  faArrowUpRightFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   disableCreatePullRequestModal,
   selectCreatePullRequestModalEnabledStatus,
@@ -71,7 +76,7 @@ export function CreatePullRequest() {
               component="a"
               href={data}
               target="_blank"
-              startIcon={<OpenInNewIcon />}
+              startIcon={<FontAwesomeSvgIcon icon={faArrowUpRightFromSquare} />}
             >
               View Pull Request
             </Button>
@@ -81,28 +86,17 @@ export function CreatePullRequest() {
             {(isError || isInvalidPr) && (
               <Typography color="error" role="alert" paragraph>
                 {isInvalidPr
-                  ? 'Unable to create pull request, "from" branch must not equal "to" branch.'
+                  ? "Error: Unable to create pull request, branches must not match"
                   : "Error: Unable to create pull request, please try again"}
               </Typography>
             )}
 
-            <Paper variant="outlined" sx={{ px: 2, py: 1, mb: 2 }}>
-              <Typography sx={{ lineHeight: 1.2 }}>
-                <Box component="strong" sx={{ display: "block" }}>
-                  From:
-                </Box>{" "}
-                {workingBranch}
-              </Typography>
-            </Paper>
-
-            <Paper variant="outlined" sx={{ px: 2, py: 1 }}>
-              <Typography sx={{ lineHeight: 1.2 }}>
-                <Box component="strong" sx={{ display: "block" }}>
-                  To:
-                </Box>{" "}
-                {baseBranch}
-              </Typography>
-            </Paper>
+            <BranchLabel label="From:" branchName={workingBranch} />
+            <BranchLabel
+              label="To:"
+              branchName={baseBranch}
+              bottomMargin={false}
+            />
           </React.Fragment>
         )}
       </DialogContent>
@@ -138,3 +132,46 @@ export function CreatePullRequest() {
     </Dialog>
   );
 }
+
+function BranchLabel({ label, branchName, bottomMargin = true }) {
+  return (
+    <Paper
+      variant="outlined"
+      sx={{ mb: bottomMargin ? 2 : 0, display: "flex" }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: "0 0 auto",
+          bgcolor: "grey.200",
+          px: 1,
+          py: 1,
+        }}
+      >
+        <FontAwesomeSvgIcon
+          icon={faCodeBranch}
+          fontSize="small"
+          sx={{
+            color: "grey.800",
+          }}
+        />
+      </Box>
+      <Box sx={{ flexGrow: 1, px: 1, py: 1 }}>
+        <Typography sx={{ lineHeight: 1.2 }}>
+          <Box component="strong" sx={{ display: "block", fontSize: 14 }}>
+            {label}
+          </Box>{" "}
+          {branchName}
+        </Typography>
+      </Box>
+    </Paper>
+  );
+}
+
+BranchLabel.propTypes = {
+  label: PropTypes.string.isRequired,
+  branchName: PropTypes.string.isRequired,
+  bottomMargin: PropTypes.bool,
+};
