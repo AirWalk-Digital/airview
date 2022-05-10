@@ -11,11 +11,15 @@ import {
   selectMetaEditorEnabledStatus,
 } from "../meta-editor";
 import { disableCms } from "../cms.slice";
-import { enableCreatePullRequestModal } from "../create-pull-request";
+import {
+  enableCreatePullRequestModal,
+  selectCanCreatePullRequest,
+} from "../create-pull-request";
 
 export function ToolBar() {
   const dispatch = useDispatch();
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
+  const canCreatePullRequest = useSelector(selectCanCreatePullRequest);
 
   const handleOnShowMetaClick = () => {
     metaEditorEnabled
@@ -146,6 +150,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             onClick={() => dispatch(enableCreatePullRequestModal())}
+            disabled={!canCreatePullRequest}
           >
             Create Pull Request
           </Button>

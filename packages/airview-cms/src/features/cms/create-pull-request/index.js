@@ -5,4 +5,5 @@ export {
   enableCreatePullRequestModal,
   disableCreatePullRequestModal,
   selectCreatePullRequestModalEnabledStatus,
+  selectCanCreatePullRequest,
 } from "./create-pull-request.slice";
