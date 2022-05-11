@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { initStore } from "./store";
 
-export function AirviewProvider({ children }) {
-  return <Provider store={store}>{children}</Provider>;
+export function AirviewProvider({ config, children }) {
+  return <Provider store={initStore(config)}>{children}</Provider>;
 }
 
 AirviewProvider.propTypes = {
   children: PropTypes.node,
+  config: PropTypes.object.isRequired,
 };

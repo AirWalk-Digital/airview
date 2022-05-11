@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const baseBranch = "main"; // Need to read from a passed config
-
-const initialState = {
-  baseBranch,
-  workingBranch: baseBranch,
-};
+export function createInitialWorkingBranchState(baseBranch, workingBranch) {
+  return {
+    baseBranch,
+    workingBranch,
+  };
+}
 
 export const workingBranchSlice = createSlice({
   name: "workingBranchSlice",
-  initialState,
+  initialState: createInitialWorkingBranchState(),
   reducers: {
     setWorkingBranch: (state, action) => {
       state.workingBranch = action.payload;

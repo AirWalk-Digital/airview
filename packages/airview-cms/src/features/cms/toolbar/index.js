@@ -1,6 +1,7 @@
 export * from "./constants";
 export { ToolBar as default } from "./toolbar";
 export {
+  createInitialWorkingBranchState,
   workingBranchSlice,
   setWorkingBranch,
   resetWorkingBranch,

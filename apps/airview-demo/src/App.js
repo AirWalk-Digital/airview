@@ -8,9 +8,13 @@ import {
 //import { useState, useEffect, useCallback } from "react";
 //import matter from "gray-matter";
 
+const config = {
+  baseBranch: "main",
+};
+
 function App() {
   return (
-    <AirviewCMS>
+    <AirviewCMS config={config}>
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
           <Entry />

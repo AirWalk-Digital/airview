@@ -7,7 +7,11 @@ export {
   selectCmsContext,
 } from "./cms.slice";
 export { branchCreatorSlice } from "./branch-creator";
-export { workingBranchSlice, selectWorkingBranch } from "./toolbar";
+export {
+  workingBranchSlice,
+  createInitialWorkingBranchState,
+  selectWorkingBranch,
+} from "./toolbar";
 export { metaEditorSlice } from "./meta-editor";
 export { createPullRequestSlice } from "./create-pull-request";
 export { useSetCmsContext } from "./use-set-cms-context";
