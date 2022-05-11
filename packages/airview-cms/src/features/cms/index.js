@@ -1,6 +1,11 @@
 export { CMS } from "./cms";
 export { EnableCmsButton } from "./enable-cms-button";
-export { cmsSlice, selectCmsEnabledStatus } from "./cms.slice";
+export {
+  cmsSlice,
+  setCmsContext,
+  selectCmsEnabledStatus,
+  selectCmsContext,
+} from "./cms.slice";
 export { branchCreatorSlice } from "./branch-creator";
 export { workingBranchSlice, selectWorkingBranch } from "./toolbar";
 export { metaEditorSlice } from "./meta-editor";

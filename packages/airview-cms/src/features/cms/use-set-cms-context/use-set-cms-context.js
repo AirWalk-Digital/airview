@@ -1,44 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  setMetaEditorToIsLoading,
-  setMetaEditorToIsSuccess,
-  setMetaEditorToIsError,
-} from "../meta-editor";
+import { setCmsContext } from "../cms.slice";
+import { setMetaEditorInitialData } from "../meta-editor";
 import { useGetEntry } from "../../use-get-entry";
 
 export function useSetCmsContext(entryId) {
   const dispatch = useDispatch();
 
-  const {
-    data: entryData,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isError,
-    error,
-  } = useGetEntry(entryId);
+  useEffect(() => {
+    dispatch(setCmsContext(entryId));
+  }, [dispatch, entryId]);
+
+  const { data: entryData } = useGetEntry(entryId);
 
   useEffect(() => {
-    if (!isLoading) return;
-    dispatch(setMetaEditorToIsLoading());
-  }, [dispatch, isLoading]);
+    const data = entryData?.["_index"]?.data ?? {};
 
-  useEffect(() => {
-    if (!isFetching) return;
-    dispatch(setMetaEditorToIsLoading());
-  }, [dispatch, isFetching]);
+    dispatch(setMetaEditorInitialData(data));
+  }, [dispatch, entryData]);
 
-  useEffect(() => {
-    if (!isSuccess || isFetching) return;
-
-    const data = entryData?.["_index"]?.data;
-
-    dispatch(setMetaEditorToIsSuccess(data));
-  }, [dispatch, isSuccess, isFetching, entryData]);
-
-  useEffect(() => {
-    if (!isError) return;
-    dispatch(setMetaEditorToIsError(error));
-  }, [dispatch, isError, error]);
+  // return the edits data for a user to user
 }

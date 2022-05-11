@@ -1,19 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box, Slide } from "@mui/material";
+import { Box, Slide, CircularProgress, Typography } from "@mui/material";
 import { META_EDITOR_WIDTH } from "./constants";
 import { TOOL_BAR_HEIGHT } from "../toolbar";
+import { useGetEntry } from "../../use-get-entry";
+import { selectCmsContext } from "../cms.slice";
 import {
   selectMetaEditorEnabledStatus,
-  selectMetaEditorLoadingStatus,
+  selectMetaEditorData,
 } from "./meta-editor.slice";
+import { MetaEditorFeedbackContainer } from "./meta-editor-feedback-container";
 import { MetaForm } from "./meta-form";
 
 export function MetaEditor() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
-  const { isIdle, isLoading, isError } = useSelector(
-    selectMetaEditorLoadingStatus
-  );
+  const cmsContext = useSelector(selectCmsContext);
+  const { isLoading, isFetching, isError } = useGetEntry(cmsContext);
+  const metaEditorData = useSelector(selectMetaEditorData);
 
   return (
     <Slide in={metaEditorEnabled} direction="left" timeout={350}>
@@ -33,10 +36,26 @@ export function MetaEditor() {
         }}
       >
         <React.Fragment>
-          {isLoading || isIdle ? (
-            <span>Loading meta data</span>
+          {!cmsContext ? (
+            <MetaEditorFeedbackContainer>
+              <Typography>No editor context set</Typography>
+            </MetaEditorFeedbackContainer>
+          ) : isLoading || isFetching ? (
+            <MetaEditorFeedbackContainer>
+              <CircularProgress />
+            </MetaEditorFeedbackContainer>
           ) : isError ? (
-            <span>Error loading meta data </span>
+            <MetaEditorFeedbackContainer>
+              <Typography color="error">
+                Error: Unable to load meta data
+              </Typography>
+            </MetaEditorFeedbackContainer>
+          ) : !metaEditorData.length ? (
+            <MetaEditorFeedbackContainer>
+              <Typography>
+                There is no meta data to edit for this entry
+              </Typography>
+            </MetaEditorFeedbackContainer>
           ) : (
             <MetaForm />
           )}
