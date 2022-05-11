@@ -100,7 +100,7 @@ export function createSeedData() {
         sha: nanoid(),
         collection: "release",
         meta: {
-          title: "Security Patch",
+          title: "Security Patch!",
           parent: "application/ms_teams",
         },
         content: {
@@ -108,7 +108,7 @@ export function createSeedData() {
             matter.stringify(
               "I am branch one body content for Security Patch",
               {
-                title: "Security Patch",
+                title: "Security Patch!",
               }
             )
           ),
