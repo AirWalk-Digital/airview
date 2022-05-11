@@ -19,6 +19,7 @@ export default [
       "gray-matter",
       "@fortawesome/fontawesome-svg-core",
       "@fortawesome/free-solid-svg-icons",
+      "lodash/isEqual",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [

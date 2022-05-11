@@ -3,10 +3,17 @@ import { useSelector } from "react-redux";
 import { Box, Slide } from "@mui/material";
 import { META_EDITOR_WIDTH } from "./constants";
 import { TOOL_BAR_HEIGHT } from "../toolbar";
-import { selectMetaEditorEnabledStatus } from "./meta-editor.slice";
+import {
+  selectMetaEditorEnabledStatus,
+  selectMetaEditorLoadingStatus,
+} from "./meta-editor.slice";
+import { MetaForm } from "./meta-form";
 
 export function MetaEditor() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
+  const { isIdle, isLoading, isError } = useSelector(
+    selectMetaEditorLoadingStatus
+  );
 
   return (
     <Slide in={metaEditorEnabled} direction="left" timeout={350}>
@@ -25,7 +32,15 @@ export function MetaEditor() {
           backgroundColor: "common.white",
         }}
       >
-        <span>Meta editor content</span>
+        <React.Fragment>
+          {isLoading || isIdle ? (
+            <span>Loading meta data</span>
+          ) : isError ? (
+            <span>Error loading meta data </span>
+          ) : (
+            <MetaForm />
+          )}
+        </React.Fragment>
       </Box>
     </Slide>
   );

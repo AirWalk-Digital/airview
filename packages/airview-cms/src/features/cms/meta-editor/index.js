@@ -4,5 +4,13 @@ export {
   metaEditorSlice,
   enableMetaEditor,
   disableMetaEditor,
+  setMetaEditorToIsLoading,
+  setMetaEditorToIsSuccess,
+  setMetaEditorToIsError,
+  persistMetaDataEdit,
+  clearMetaDataEdits,
   selectMetaEditorEnabledStatus,
+  selectDoesMetaEditorHaveEdits,
+  selectMetaEditorLoadingStatus,
+  selectMetaEditorData,
 } from "./meta-editor.slice";

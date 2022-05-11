@@ -1,5 +1,10 @@
 import React from "react";
-import { AirviewCMS, useGetAllEntriesMeta, useGetEntry } from "airview-cms";
+import {
+  AirviewCMS,
+  useGetAllEntriesMeta,
+  useGetEntry,
+  useSetCmsContext,
+} from "airview-cms";
 //import { useState, useEffect, useCallback } from "react";
 //import matter from "gray-matter";
 
@@ -21,6 +26,8 @@ function App() {
 export default App;
 
 function AllEntriesMeta() {
+  useSetCmsContext("release/security_patch");
+
   const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
 
   if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;

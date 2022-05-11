@@ -8,7 +8,9 @@ import { TOOL_BAR_HEIGHT } from "./constants";
 import {
   enableMetaEditor,
   disableMetaEditor,
+  clearMetaDataEdits,
   selectMetaEditorEnabledStatus,
+  selectDoesMetaEditorHaveEdits,
 } from "../meta-editor";
 import { disableCms } from "../cms.slice";
 import {
@@ -20,6 +22,7 @@ export function ToolBar() {
   const dispatch = useDispatch();
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
   const canCreatePullRequest = useSelector(selectCanCreatePullRequest);
+  const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
 
   const handleOnShowMetaClick = () => {
     metaEditorEnabled
@@ -154,10 +157,16 @@ export function ToolBar() {
           >
             Create Pull Request
           </Button>
-          <Button variant="text" size="small" color="error">
+          <Button
+            variant="text"
+            size="small"
+            color="error"
+            disabled={!metaEditorEdits}
+            onClick={() => dispatch(clearMetaDataEdits())}
+          >
             Clear Changes
           </Button>
-          <Button variant="text" size="small">
+          <Button variant="text" size="small" disabled={!metaEditorEdits}>
             Save Changes
           </Button>
           <Box

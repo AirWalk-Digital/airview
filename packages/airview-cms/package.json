@@ -18,7 +18,8 @@
     "react-router-dom": "^6.3.0",
     "prop-types": "^15.8.1",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1"
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
