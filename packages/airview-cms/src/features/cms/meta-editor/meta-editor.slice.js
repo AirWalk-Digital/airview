@@ -48,5 +48,5 @@ export const selectDoesMetaEditorHaveEdits = (state) => {
 };
 
 export const selectMetaEditorData = (state) => {
-  return Object.entries(state.metaEditorSlice.editedData);
+  return state.metaEditorSlice.editedData;
 };

@@ -6,3 +6,5 @@ export const configSlice = createSlice({
 });
 
 export const selectBaseBranch = (state) => state.configSlice.baseBranch;
+
+export const selectAllCollections = (state) => state.configSlice.collections;

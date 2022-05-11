@@ -50,7 +50,7 @@ export function MetaEditor() {
                 Error: Unable to load meta data
               </Typography>
             </MetaEditorFeedbackContainer>
-          ) : !metaEditorData.length ? (
+          ) : !metaEditorData ? (
             <MetaEditorFeedbackContainer>
               <Typography>
                 There is no meta data to edit for this entry

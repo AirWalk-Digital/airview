@@ -23,13 +23,13 @@ export function useSetCmsContext(entryId) {
   } = useGetEntry(entryId);
 
   useEffect(() => {
-    const data = entryData?.["_index"]?.data ?? {};
+    const data = entryData?.["_index"]?.data;
 
     dispatch(setMetaEditorInitialData(data));
   }, [dispatch, entryData]);
 
   return {
-    data: Object.fromEntries(metaEditorData),
+    data: metaEditorData,
     isUninitialized,
     isLoading,
     isFetching,

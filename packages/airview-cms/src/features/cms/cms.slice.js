@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { resetWorkingBranch } from "./toolbar";
+import { setWorkingBranch } from "./toolbar";
+import { selectBaseBranch } from "./config-slice";
 import { selectDoesMetaEditorHaveEdits } from "./meta-editor";
 
 const initialState = {
@@ -32,10 +33,11 @@ export const selectCmsContext = (state) => state.cmsSlice.cmsContext;
 export function disableCms() {
   return (dispatch, getState) => {
     const metaEdits = selectDoesMetaEditorHaveEdits(getState());
+    const baseBranch = selectBaseBranch(getState());
 
     const runDisableActions = () => {
       dispatch(cmsSlice.actions.disableCms());
-      dispatch(resetWorkingBranch());
+      dispatch(setWorkingBranch(baseBranch));
     };
 
     if (metaEdits) {

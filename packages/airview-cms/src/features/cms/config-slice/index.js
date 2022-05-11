@@ -1,1 +1,5 @@
-export { configSlice, selectBaseBranch } from "./config.slice";
+export {
+  configSlice,
+  selectBaseBranch,
+  selectAllCollections,
+} from "./config.slice";

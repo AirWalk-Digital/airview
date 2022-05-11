@@ -7,14 +7,10 @@ export const workingBranchSlice = createSlice({
     setWorkingBranch: (state, action) => {
       state.workingBranch = action.payload;
     },
-    resetWorkingBranch: (state) => {
-      state.workingBranch = state.baseBranch;
-    },
   },
 });
 
-export const { setWorkingBranch, resetWorkingBranch } =
-  workingBranchSlice.actions;
+export const { setWorkingBranch } = workingBranchSlice.actions;
 
 export const selectWorkingBranch = (state) =>
   state.workingBranchSlice.workingBranch;
