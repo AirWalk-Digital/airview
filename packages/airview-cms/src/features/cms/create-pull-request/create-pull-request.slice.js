@@ -24,7 +24,8 @@ export const selectCreatePullRequestModalEnabledStatus = (state) =>
   state.createPullRequestSlice.modalEnabled;
 
 export const selectCanCreatePullRequest = (state) => {
-  const { baseBranch, workingBranch } = state.workingBranchSlice;
+  const { workingBranch } = state.workingBranchSlice;
+  const { baseBranch } = state.configSlice;
 
   return baseBranch !== workingBranch;
 };

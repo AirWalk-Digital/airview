@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { airviewApi } from "./airview-api";
 import {
+  configSlice,
   cmsSlice,
-  createInitialWorkingBranchState,
   workingBranchSlice,
   branchCreatorSlice,
   metaEditorSlice,
@@ -11,15 +11,16 @@ import {
 
 export function initStore(config) {
   const preloadedState = {
-    [workingBranchSlice.name]: createInitialWorkingBranchState(
-      config.baseBranch,
-      config.baseBranch
-    ),
+    [workingBranchSlice.name]: {
+      workingBranch: config.baseBranch,
+    },
+    [configSlice.name]: config,
   };
 
   return configureStore({
     reducer: {
       [airviewApi.reducerPath]: airviewApi.reducer,
+      [configSlice.name]: configSlice.reducer,
       [workingBranchSlice.name]: workingBranchSlice.reducer,
       [branchCreatorSlice.name]: branchCreatorSlice.reducer,
       [metaEditorSlice.name]: metaEditorSlice.reducer,

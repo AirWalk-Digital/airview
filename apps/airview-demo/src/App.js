@@ -10,6 +10,20 @@ import {
 
 const config = {
   baseBranch: "main",
+  collections: {
+    release: {
+      label: "Release",
+      fields: [
+        {
+          label: "Title",
+          name: "title",
+          widget: "string",
+          required: true,
+          placeholder: "Enter a title for the document",
+        },
+      ],
+    },
+  },
 };
 
 function App() {
