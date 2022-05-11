@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
 import { useGetBranchesQuery } from "../../store";
 import { setWorkingBranch, selectWorkingBranch } from "./working-branch.slice";
+import { selectDoesMetaEditorHaveEdits } from "../meta-editor";
 
 export function BranchSwitcher() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export function BranchSwitcher() {
     isFetching,
   } = useGetBranchesQuery();
   const workingBranch = useSelector(selectWorkingBranch);
+  const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
 
   return (
     <Box>
@@ -56,6 +58,7 @@ export function BranchSwitcher() {
               paddingBottom: 1,
             },
           }}
+          disabled={metaEditorEdits}
           onChange={(event) => dispatch(setWorkingBranch(event.target.value))}
         >
           {branches &&

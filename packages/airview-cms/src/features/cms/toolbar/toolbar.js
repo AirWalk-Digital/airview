@@ -104,7 +104,12 @@ export function ToolBar() {
               },
             }}
           >
-            <Button variant="contained" disableElevation size="small">
+            <Button
+              variant="contained"
+              disableElevation
+              size="small"
+              disabled={metaEditorEdits}
+            >
               Create New
             </Button>
             <Button
@@ -146,6 +151,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             onClick={() => dispatch(enableBranchCreatorModal())}
+            disabled={metaEditorEdits}
           >
             Create Branch
           </Button>
@@ -153,7 +159,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             onClick={() => dispatch(enableCreatePullRequestModal())}
-            disabled={!canCreatePullRequest}
+            disabled={!canCreatePullRequest || metaEditorEdits}
           >
             Create Pull Request
           </Button>
