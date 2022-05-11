@@ -1,17 +1,26 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCmsContext } from "../cms.slice";
-import { setMetaEditorInitialData } from "../meta-editor";
+import { setMetaEditorInitialData, selectMetaEditorData } from "../meta-editor";
 import { useGetEntry } from "../../use-get-entry";
 
 export function useSetCmsContext(entryId) {
   const dispatch = useDispatch();
+  const metaEditorData = useSelector(selectMetaEditorData);
 
   useEffect(() => {
     dispatch(setCmsContext(entryId));
   }, [dispatch, entryId]);
 
-  const { data: entryData } = useGetEntry(entryId);
+  const {
+    data: entryData,
+    isUninitialized,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useGetEntry(entryId);
 
   useEffect(() => {
     const data = entryData?.["_index"]?.data ?? {};
@@ -19,5 +28,13 @@ export function useSetCmsContext(entryId) {
     dispatch(setMetaEditorInitialData(data));
   }, [dispatch, entryData]);
 
-  // return the edits data for a user to user
+  return {
+    data: Object.fromEntries(metaEditorData),
+    isUninitialized,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  };
 }

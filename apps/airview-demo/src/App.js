@@ -13,10 +13,10 @@ function App() {
     <AirviewCMS>
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
-          <AllEntriesMeta />
+          <Entry />
         </div>
         <div style={{ width: "50%" }}>
-          <Entry />
+          <AllEntriesMeta />
         </div>
       </div>
     </AirviewCMS>
@@ -26,8 +26,6 @@ function App() {
 export default App;
 
 function AllEntriesMeta() {
-  useSetCmsContext("release/security_patch");
-
   const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
 
   if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
@@ -38,7 +36,7 @@ function AllEntriesMeta() {
 }
 
 function Entry() {
-  const { data, isLoading, isFetching, isError, error } = useGetEntry(
+  const { data, isLoading, isFetching, isError, error } = useSetCmsContext(
     "release/security_patch"
   );
 
