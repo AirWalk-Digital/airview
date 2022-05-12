@@ -2,7 +2,7 @@ import React from "react";
 import {
   AirviewCMS,
   useGetAllEntriesMeta,
-  useGetEntry,
+  //useGetEntry,
   useSetCmsContext,
 } from "airview-cms";
 //import { useState, useEffect, useCallback } from "react";
@@ -20,6 +20,11 @@ const config = {
           widget: "string",
           required: true,
           placeholder: "Enter a title for the document",
+        },
+        {
+          label: "Parent",
+          name: "parent",
+          widget: "parent_select",
         },
       ],
     },

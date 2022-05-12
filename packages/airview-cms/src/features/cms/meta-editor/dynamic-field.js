@@ -1,4 +1,5 @@
 import React from "react";
+import { ParentSelectorWidget } from "../parent-selector-widget";
 import { TextFieldWidget } from "@components";
 
 export function DynamicField({ fieldData, value, onChange }) {
@@ -15,6 +16,11 @@ export function DynamicField({ fieldData, value, onChange }) {
           value={value}
           onChange={onChange}
         />
+      );
+      break;
+    case "parent_select":
+      field = (
+        <ParentSelectorWidget value={value} onChange={onChange} id="test" />
       );
       break;
     default:
