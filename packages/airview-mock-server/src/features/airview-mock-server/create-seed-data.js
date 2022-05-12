@@ -49,6 +49,7 @@ export function createSeedData() {
           _index: btoa(
             matter.stringify("I am body content for Place Call on Hold", {
               title: "Place Call on Hold",
+              parent: "application/ms_teams",
             })
           ),
 
@@ -70,6 +71,7 @@ export function createSeedData() {
           _index: btoa(
             matter.stringify("I am body content for Composing a new message", {
               title: "Composing a new message",
+              parent: "application/ms_teams",
             })
           ),
           section_one: btoa(
@@ -90,6 +92,7 @@ export function createSeedData() {
           _index: btoa(
             matter.stringify("I am body content for Security Patch", {
               title: "Security Patch",
+              parent: "application/ms_teams",
             })
           ),
         },
@@ -109,6 +112,7 @@ export function createSeedData() {
               "I am branch one body content for Security Patch",
               {
                 title: "Security Patch!",
+                parent: "application/ms_teams",
               }
             )
           ),
