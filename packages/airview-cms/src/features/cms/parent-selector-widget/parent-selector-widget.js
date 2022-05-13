@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useId } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import {
@@ -12,7 +12,9 @@ import {
 import { selectCmsContext } from "../cms.slice";
 import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
 
-export function ParentSelectorWidget({ id, value = "", onChange }) {
+export function ParentSelectorWidget({ value = "", onChange }) {
+  const id = useId();
+
   const cmsContext = useSelector(selectCmsContext);
 
   const { data: entries } = useGetAllEntriesMeta(({ data }) => {
@@ -43,6 +45,8 @@ export function ParentSelectorWidget({ id, value = "", onChange }) {
     </Typography>
   );
 
+  const handleOnChange = (event) => onChange(event.target.value);
+
   return (
     <FormControl
       fullWidth
@@ -60,7 +64,7 @@ export function ParentSelectorWidget({ id, value = "", onChange }) {
         id={`parent-select-${id}`}
         value={value}
         label="Parent Entry"
-        onChange={onChange}
+        onChange={handleOnChange}
       >
         <MenuItem value="">{noSelection}</MenuItem>
         {filteredEntries.map((entry) => (
@@ -79,7 +83,6 @@ export function ParentSelectorWidget({ id, value = "", onChange }) {
 }
 
 ParentSelectorWidget.propTypes = {
-  id: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };

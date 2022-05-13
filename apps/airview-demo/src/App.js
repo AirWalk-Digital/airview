@@ -26,6 +26,12 @@ const config = {
           name: "parent",
           widget: "parent_select",
         },
+        {
+          label: "User Facing",
+          name: "user_facing",
+          defaultValue: false,
+          widget: "boolean",
+        },
       ],
     },
   },

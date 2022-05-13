@@ -87,12 +87,14 @@ export function createSeedData() {
         meta: {
           title: "Security Patch",
           parent: "application/ms_teams",
+          user_facing: false,
         },
         content: {
           _index: btoa(
             matter.stringify("I am body content for Security Patch", {
               title: "Security Patch",
               parent: "application/ms_teams",
+              user_facing: false,
             })
           ),
         },
@@ -105,6 +107,7 @@ export function createSeedData() {
         meta: {
           title: "Security Patch!",
           parent: "application/ms_teams",
+          user_facing: true,
         },
         content: {
           _index: btoa(
@@ -113,6 +116,7 @@ export function createSeedData() {
               {
                 title: "Security Patch!",
                 parent: "application/ms_teams",
+                user_facing: true,
               }
             )
           ),

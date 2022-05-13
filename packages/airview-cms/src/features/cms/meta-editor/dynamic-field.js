@@ -1,30 +1,43 @@
 import React from "react";
 import { ParentSelectorWidget } from "../parent-selector-widget";
+import { BooleanWidget } from "../boolean-widget";
 import { TextFieldWidget } from "@components";
 
 export function DynamicField({ fieldData, value, onChange }) {
   let field = null;
 
   switch (fieldData.widget) {
-    case "string":
+    case "string": {
+      const { label, required, placeholder } = fieldData;
+
       field = (
         <TextFieldWidget
-          label={fieldData.label}
-          name={fieldData.name}
-          required={fieldData.required}
-          placeholder={fieldData.placeholder}
           value={value}
           onChange={onChange}
+          {...{ label, required, placeholder }}
         />
       );
       break;
-    case "parent_select":
+    }
+    case "parent_select": {
+      field = <ParentSelectorWidget value={value} onChange={onChange} />;
+      break;
+    }
+    case "boolean": {
+      const { label, defaultValue } = fieldData;
+
       field = (
-        <ParentSelectorWidget value={value} onChange={onChange} id="test" />
+        <BooleanWidget
+          value={value}
+          onChange={onChange}
+          {...{ label, defaultValue }}
+        />
       );
       break;
-    default:
+    }
+    default: {
       field = null;
+    }
   }
 
   return field;

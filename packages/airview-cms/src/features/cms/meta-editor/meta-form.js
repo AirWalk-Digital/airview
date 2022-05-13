@@ -23,11 +23,11 @@ export function MetaForm() {
             key={collectionFieldData.name}
             fieldData={collectionFieldData}
             value={metaEditorData[collectionFieldData.name]}
-            onChange={(event) =>
+            onChange={(value) =>
               dispatch(
                 persistMetaDataEdit({
                   key: collectionFieldData.name,
-                  data: event.target.value,
+                  data: value,
                 })
               )
             }
