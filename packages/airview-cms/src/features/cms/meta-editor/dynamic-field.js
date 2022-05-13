@@ -1,7 +1,7 @@
 import React from "react";
 import { ParentSelectorWidget } from "../parent-selector-widget";
 import { BooleanWidget } from "../boolean-widget";
-import { TextFieldWidget } from "@components";
+import { TextFieldWidget } from "../text-field-widget";
 
 export function DynamicField({ fieldData, value, onChange }) {
   let field = null;
