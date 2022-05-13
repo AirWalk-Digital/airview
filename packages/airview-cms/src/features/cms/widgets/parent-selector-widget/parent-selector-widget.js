@@ -9,8 +9,8 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { selectCmsContext } from "../cms.slice";
-import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
+import { selectCmsContext } from "../../cms.slice";
+import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
 export function ParentSelectorWidget({ value = "", onChange }) {
   const id = useId();
