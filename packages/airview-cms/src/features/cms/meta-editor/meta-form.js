@@ -17,16 +17,16 @@ export function MetaForm() {
 
   return (
     <Box component="form" noValidate autoComplete="off" sx={{ padding: 2 }}>
-      {collectionsFields.map((collectionField) => {
+      {collectionsFields.map((collectionFieldData) => {
         return (
           <DynamicField
-            key={collectionField.name}
-            fieldData={collectionField}
-            value={metaEditorData[collectionField.name]}
+            key={collectionFieldData.name}
+            fieldData={collectionFieldData}
+            value={metaEditorData[collectionFieldData.name]}
             onChange={(event) =>
               dispatch(
                 persistMetaDataEdit({
-                  key: collectionField.name,
+                  key: collectionFieldData.name,
                   data: event.target.value,
                 })
               )

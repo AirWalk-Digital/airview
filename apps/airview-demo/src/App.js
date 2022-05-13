@@ -22,7 +22,7 @@ const config = {
           placeholder: "Enter a title for the document",
         },
         {
-          label: "Parent",
+          label: "Parent Entry",
           name: "parent",
           widget: "parent_select",
         },

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   Select,
   MenuItem,
@@ -11,25 +12,30 @@ import {
 import { selectCmsContext } from "../cms.slice";
 import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
 
-/*
-EDGE CASE:
--------------
-Enter edit mode > switch from branch "main" to "one". Parent is now empty as the selected value (in frontmatter is not present in the selct UI). This is due to "useGetAllEntriesMeta" returning all entries for the working branch, where the selected entry does not exist
-*/
-
 export function ParentSelectorWidget({ id, value = "", onChange }) {
   const cmsContext = useSelector(selectCmsContext);
 
   const { data: entries } = useGetAllEntriesMeta(({ data }) => {
-    const filteredData = data
-      ?.map((dataItem) => ({
-        id: dataItem.id,
-        title: dataItem.meta.title,
-      }))
-      .filter((dataItem) => dataItem.id !== cmsContext);
+    const filteredData = data?.map((dataItem) => ({
+      id: dataItem.id,
+      title: dataItem.meta.title,
+    }));
 
     return { data: filteredData };
   });
+
+  // Remove current context entry to prevent self as parent selection
+  const filteredEntries = useMemo(
+    () => entries.filter((entry) => entry.id !== cmsContext),
+    [entries, cmsContext]
+  );
+
+  // Derrive if working branch no longer has selected parent
+  const isInvalidSelection = useMemo(() => {
+    if (!value) return false;
+
+    return entries.find((entry) => entry.id === value) ? false : true;
+  }, [value, entries]);
 
   const noSelection = (
     <Typography component="em" sx={{ color: "text.disabled" }}>
@@ -38,9 +44,14 @@ export function ParentSelectorWidget({ id, value = "", onChange }) {
   );
 
   return (
-    <FormControl fullWidth size="small" margin="normal">
+    <FormControl
+      fullWidth
+      size="small"
+      margin="normal"
+      error={isInvalidSelection}
+    >
       <InputLabel id={`parent-select-label-${id}`} shrink>
-        Parent
+        Parent Entry
       </InputLabel>
       <Select
         notched
@@ -48,16 +59,21 @@ export function ParentSelectorWidget({ id, value = "", onChange }) {
         labelId={`parent-select-label-${id}`}
         id={`parent-select-${id}`}
         value={value}
-        label="Parent"
+        label="Parent Entry"
         onChange={onChange}
       >
         <MenuItem value="">{noSelection}</MenuItem>
-        {entries.map((entry) => (
+        {filteredEntries.map((entry) => (
           <MenuItem key={entry.id} value={entry.id}>
             {entry.title}
           </MenuItem>
         ))}
       </Select>
+      {isInvalidSelection && (
+        <FormHelperText>
+          Error: selected parent entry does not exist in this branch!
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }
