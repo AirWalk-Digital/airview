@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@mui/material";
 
-export function TextFieldWidget({
+export function StringWidget({
   label,
   value = "",
   required = false,
@@ -26,7 +26,7 @@ export function TextFieldWidget({
   );
 }
 
-TextFieldWidget.propTypes = {
+StringWidget.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   required: PropTypes.bool,

@@ -1,7 +1,7 @@
 import React from "react";
 import { EntrySelectWidget } from "./entry-select-widget";
 import { BooleanWidget } from "./boolean-widget";
-import { TextFieldWidget } from "./text-field-widget";
+import { StringWidget } from "./string-widget";
 import { DateWidget } from "./date-widget";
 
 export function DynamicWidget({ fieldData, value, onChange }) {
@@ -12,7 +12,7 @@ export function DynamicWidget({ fieldData, value, onChange }) {
       const { label, required, placeholder } = fieldData;
 
       field = (
-        <TextFieldWidget
+        <StringWidget
           value={value}
           onChange={onChange}
           {...{ label, required, placeholder }}
