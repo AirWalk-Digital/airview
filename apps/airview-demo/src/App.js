@@ -24,7 +24,8 @@ const config = {
         {
           label: "Parent Entry",
           name: "parent",
-          widget: "parent_select",
+          widget: "entrySelect",
+          excludeSelf: true,
         },
         {
           label: "User Facing",

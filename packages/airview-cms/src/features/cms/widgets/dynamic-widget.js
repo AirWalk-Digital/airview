@@ -1,5 +1,5 @@
 import React from "react";
-import { ParentSelectorWidget } from "./parent-selector-widget";
+import { EntrySelectWidget } from "./entry-select-widget";
 import { BooleanWidget } from "./boolean-widget";
 import { TextFieldWidget } from "./text-field-widget";
 
@@ -19,8 +19,16 @@ export function DynamicWidget({ fieldData, value, onChange }) {
       );
       break;
     }
-    case "parent_select": {
-      field = <ParentSelectorWidget value={value} onChange={onChange} />;
+    case "entrySelect": {
+      const { excludeSelf, collection } = fieldData;
+
+      field = (
+        <EntrySelectWidget
+          value={value}
+          onChange={onChange}
+          {...{ excludeSelf, collection }}
+        />
+      );
       break;
     }
     case "boolean": {

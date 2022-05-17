@@ -12,32 +12,50 @@ import {
 import { selectCmsContext } from "../../cms.slice";
 import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
-export function ParentSelectorWidget({ value = "", onChange }) {
+export function EntrySelectWidget({
+  value = "",
+  onChange,
+  excludeSelf = false,
+  collection,
+}) {
   const id = useId();
-
   const cmsContext = useSelector(selectCmsContext);
 
   const { data: entries } = useGetAllEntriesMeta(({ data }) => {
     const filteredData = data?.map((dataItem) => ({
       id: dataItem.id,
       title: dataItem.meta.title,
+      collection: dataItem.collection,
     }));
 
     return { data: filteredData };
   });
 
   // Remove current context entry to prevent self as parent selection
-  const filteredEntries = useMemo(
-    () => entries.filter((entry) => entry.id !== cmsContext),
-    [entries, cmsContext]
-  );
+  const filteredEntries = useMemo(() => {
+    if (!excludeSelf && !collection) return [...entries];
+
+    let processedEntries;
+
+    if (excludeSelf) {
+      processedEntries = entries.filter((entry) => entry.id !== cmsContext);
+    }
+
+    if (collection) {
+      return processedEntries.filter(
+        (entry) => entry.collection === collection
+      );
+    }
+
+    return processedEntries;
+  }, [entries, cmsContext, excludeSelf, collection]);
 
   // Derrive if working branch no longer has selected parent
   const isInvalidSelection = useMemo(() => {
     if (!value) return false;
 
-    return entries.find((entry) => entry.id === value) ? false : true;
-  }, [value, entries]);
+    return filteredEntries.find((entry) => entry.id === value) ? false : true;
+  }, [value, filteredEntries]);
 
   const noSelection = (
     <Typography component="em" sx={{ color: "text.disabled" }}>
@@ -57,6 +75,7 @@ export function ParentSelectorWidget({ value = "", onChange }) {
       <InputLabel id={`parent-select-label-${id}`} shrink>
         Parent Entry
       </InputLabel>
+
       <Select
         notched
         displayEmpty
@@ -67,11 +86,13 @@ export function ParentSelectorWidget({ value = "", onChange }) {
         onChange={handleOnChange}
       >
         <MenuItem value="">{noSelection}</MenuItem>
-        {filteredEntries.map((entry) => (
-          <MenuItem key={entry.id} value={entry.id}>
-            {entry.title}
-          </MenuItem>
-        ))}
+        {filteredEntries.map((entry) => {
+          return (
+            <MenuItem key={entry.id} value={entry.id}>
+              {entry.title}
+            </MenuItem>
+          );
+        })}
       </Select>
       {isInvalidSelection && (
         <FormHelperText>
@@ -82,7 +103,9 @@ export function ParentSelectorWidget({ value = "", onChange }) {
   );
 }
 
-ParentSelectorWidget.propTypes = {
+EntrySelectWidget.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  excludeSelf: PropTypes.bool,
+  collection: PropTypes.string,
 };
