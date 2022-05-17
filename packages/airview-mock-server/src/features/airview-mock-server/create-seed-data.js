@@ -88,6 +88,7 @@ export function createSeedData() {
           title: "Security Patch",
           parent: "application/ms_teams",
           user_facing: false,
+          publish_date: "2022-05-12T00:00:00Z",
         },
         content: {
           _index: btoa(
@@ -95,6 +96,7 @@ export function createSeedData() {
               title: "Security Patch",
               parent: "application/ms_teams",
               user_facing: false,
+              publish_date: "2022-05-12T00:00:00Z",
             })
           ),
         },
@@ -108,6 +110,7 @@ export function createSeedData() {
           title: "Security Patch!",
           parent: "application/ms_teams",
           user_facing: true,
+          publish_date: "2022-04-12T00:00:00Z",
         },
         content: {
           _index: btoa(
@@ -117,6 +120,7 @@ export function createSeedData() {
                 title: "Security Patch!",
                 parent: "application/ms_teams",
                 user_facing: true,
+                publish_date: "2022-04-12T00:00:00Z",
               }
             )
           ),
