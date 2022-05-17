@@ -27,7 +27,7 @@ export function StringWidget({
 }
 
 StringWidget.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   value: PropTypes.string,
   required: PropTypes.bool,
   placeholder: PropTypes.string,

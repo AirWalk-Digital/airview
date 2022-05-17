@@ -27,6 +27,7 @@ const config = {
           widget: "entrySelect",
           excludeSelf: true,
           // collection: "application"
+          // required: false
         },
         {
           label: "Publish Date",

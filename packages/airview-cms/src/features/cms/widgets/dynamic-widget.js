@@ -21,13 +21,13 @@ export function DynamicWidget({ fieldData, value, onChange }) {
       break;
     }
     case "entrySelect": {
-      const { excludeSelf, collection } = fieldData;
+      const { label, required, excludeSelf, collection } = fieldData;
 
       field = (
         <EntrySelectWidget
           value={value}
           onChange={onChange}
-          {...{ excludeSelf, collection }}
+          {...{ label, required, excludeSelf, collection }}
         />
       );
       break;

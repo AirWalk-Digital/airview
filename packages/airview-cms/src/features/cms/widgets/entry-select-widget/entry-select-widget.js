@@ -13,10 +13,12 @@ import { selectCmsContext } from "../../cms.slice";
 import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
 export function EntrySelectWidget({
+  label,
   value = "",
   onChange,
   excludeSelf = false,
   collection,
+  required,
 }) {
   const id = useId();
   const cmsContext = useSelector(selectCmsContext);
@@ -71,9 +73,10 @@ export function EntrySelectWidget({
       size="small"
       margin="normal"
       error={isInvalidSelection}
+      required={required}
     >
       <InputLabel id={`parent-select-label-${id}`} shrink>
-        Parent Entry
+        {label}
       </InputLabel>
 
       <Select
@@ -82,7 +85,7 @@ export function EntrySelectWidget({
         labelId={`parent-select-label-${id}`}
         id={`parent-select-${id}`}
         value={value}
-        label="Parent Entry"
+        label={label}
         onChange={handleOnChange}
       >
         <MenuItem value="">{noSelection}</MenuItem>
@@ -104,8 +107,10 @@ export function EntrySelectWidget({
 }
 
 EntrySelectWidget.propTypes = {
+  label: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   excludeSelf: PropTypes.bool,
   collection: PropTypes.string,
+  required: PropTypes.bool,
 };
