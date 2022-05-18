@@ -80,7 +80,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
         const id = `${req.params.collection}/${req.params.entity}`;
         const branch = req.params.branch;
 
-        if (persistContent(id, branch, JSON.parse(req.body))) {
+        if (persistContent(id, branch, req.body)) {
           return res(ctx.delay(ARTIFICIAL_DELAY_MS));
         } else {
           return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.status(422));

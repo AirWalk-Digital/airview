@@ -11,12 +11,16 @@ import {
   clearMetaDataEdits,
   selectMetaEditorEnabledStatus,
   selectDoesMetaEditorHaveEdits,
+  selectMetaEditorData,
 } from "../meta-editor";
-import { disableCms } from "../cms.slice";
+import { disableCms, selectCmsContext } from "../cms.slice";
 import {
   enableCreatePullRequestModal,
   selectCanCreatePullRequest,
 } from "../create-pull-request";
+import { usePutEntryMutation } from "../../store";
+import { selectWorkingBranch } from "./working-branch.slice";
+import matter from "gray-matter";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -172,9 +176,7 @@ export function ToolBar() {
           >
             Clear Changes
           </Button>
-          <Button variant="text" size="small" disabled={!metaEditorEdits}>
-            Save Changes
-          </Button>
+          <SaveChanges />
           <Box
             sx={{
               marginLeft: 1,
@@ -195,5 +197,32 @@ export function ToolBar() {
         </Box>
       </Toolbar>
     </AppBar>
+  );
+}
+
+function SaveChanges() {
+  const hasEdits = useSelector(selectDoesMetaEditorHaveEdits);
+  const edits = useSelector(selectMetaEditorData);
+  const [putEntry, { isLoading }] = usePutEntryMutation();
+  const id = useSelector(selectCmsContext);
+  const branch = useSelector(selectWorkingBranch);
+
+  const handleOnClick = () => {
+    const data = {
+      _index: btoa(matter.stringify("", edits)),
+    };
+
+    putEntry({ id, branch, data });
+  };
+
+  return (
+    <Button
+      variant="text"
+      size="small"
+      disabled={!hasEdits || isLoading}
+      onClick={handleOnClick}
+    >
+      Save Changes
+    </Button>
   );
 }

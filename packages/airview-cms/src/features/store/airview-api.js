@@ -62,6 +62,18 @@ export const airviewApi = createApi({
         },
       }),
     }),
+    putEntry: builder.mutation({
+      query: ({ id, branch, data }) => ({
+        url: `content/${id}/${branch}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (_, error) => {
+        if (error) return;
+
+        return ["Branches"];
+      },
+    }),
   }),
 });
 
@@ -71,4 +83,5 @@ export const {
   useGetEntriesQuery,
   useGetEntryQuery,
   useCreatePullRequestMutation,
+  usePutEntryMutation,
 } = airviewApi;
