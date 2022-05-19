@@ -1,9 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { setWorkingBranch } from "./toolbar";
 import { selectBaseBranch } from "./config-slice";
 import { selectDoesMetaEditorHaveEdits } from "./meta-editor";
+import { airviewApi } from "../store";
 
 const initialState = {
+  cmsBusy: false,
   cmsEnabled: false,
   cmsContext: null,
 };
@@ -21,6 +23,49 @@ export const cmsSlice = createSlice({
     setCmsContext: (state, action) => {
       state.cmsContext = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        isAnyOf(
+          airviewApi.endpoints.getBranches.matchPending,
+          airviewApi.endpoints.getEntries.matchPending,
+          airviewApi.endpoints.getEntry.matchPending,
+          airviewApi.endpoints.createBranch.matchPending,
+          airviewApi.endpoints.createPullRequest.matchPending,
+          airviewApi.endpoints.putEntry.matchPending
+        ),
+        (state) => {
+          state.cmsBusy = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          airviewApi.endpoints.getBranches.matchFulfilled,
+          airviewApi.endpoints.getEntries.matchFulfilled,
+          airviewApi.endpoints.getEntry.matchFulfilled,
+          airviewApi.endpoints.createBranch.matchFulfilled,
+          airviewApi.endpoints.createPullRequest.matchFulfilled,
+          airviewApi.endpoints.putEntry.matchFulfilled
+        ),
+        (state) => {
+          state.cmsBusy = false;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          airviewApi.endpoints.getBranches.matchRejected,
+          airviewApi.endpoints.getEntries.matchRejected,
+          airviewApi.endpoints.getEntry.matchRejected,
+          airviewApi.endpoints.createBranch.matchRejected,
+          airviewApi.endpoints.createPullRequest.matchRejected,
+          airviewApi.endpoints.putEntry.matchRejected
+        ),
+        (state, action) => {
+          if (action.meta.condition) return;
+          state.cmsBusy = false;
+        }
+      );
   },
 });
 
@@ -55,3 +100,7 @@ export function disableCms() {
     runDisableActions();
   };
 }
+
+export const selectCmsBusyStatus = (state) => {
+  return state.cmsSlice.cmsBusy;
+};

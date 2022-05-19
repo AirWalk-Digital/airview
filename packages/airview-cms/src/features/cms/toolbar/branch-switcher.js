@@ -4,6 +4,7 @@ import { Box, Typography, Select, MenuItem } from "@mui/material";
 import { useGetBranchesQuery } from "../../store";
 import { setWorkingBranch, selectWorkingBranch } from "./working-branch.slice";
 import { selectDoesMetaEditorHaveEdits } from "../meta-editor";
+import { selectCmsBusyStatus } from "../cms.slice";
 
 export function BranchSwitcher() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export function BranchSwitcher() {
   } = useGetBranchesQuery();
   const workingBranch = useSelector(selectWorkingBranch);
   const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
+  const cmsBusy = useSelector(selectCmsBusyStatus);
 
   return (
     <Box>
@@ -58,7 +60,7 @@ export function BranchSwitcher() {
               paddingBottom: 1,
             },
           }}
-          disabled={metaEditorEdits}
+          disabled={metaEditorEdits || cmsBusy}
           onChange={(event) => dispatch(setWorkingBranch(event.target.value))}
         >
           {branches &&

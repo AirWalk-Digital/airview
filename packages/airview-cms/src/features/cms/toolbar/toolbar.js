@@ -13,7 +13,11 @@ import {
   selectDoesMetaEditorHaveEdits,
   selectMetaEditorData,
 } from "../meta-editor";
-import { disableCms, selectCmsContext } from "../cms.slice";
+import {
+  disableCms,
+  selectCmsContext,
+  selectCmsBusyStatus,
+} from "../cms.slice";
 import {
   enableCreatePullRequestModal,
   selectCanCreatePullRequest,
@@ -27,6 +31,7 @@ export function ToolBar() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
   const canCreatePullRequest = useSelector(selectCanCreatePullRequest);
   const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
+  const cmsBusy = useSelector(selectCmsBusyStatus);
 
   const handleOnShowMetaClick = () => {
     metaEditorEnabled
@@ -112,11 +117,12 @@ export function ToolBar() {
               variant="contained"
               disableElevation
               size="small"
-              disabled={metaEditorEdits}
+              disabled={metaEditorEdits || cmsBusy}
             >
               Create New
             </Button>
             <Button
+              disabled={cmsBusy}
               variant="contained"
               disableElevation
               size="small"
@@ -155,7 +161,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             onClick={() => dispatch(enableBranchCreatorModal())}
-            disabled={metaEditorEdits}
+            disabled={metaEditorEdits || cmsBusy}
           >
             Create Branch
           </Button>
@@ -163,7 +169,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             onClick={() => dispatch(enableCreatePullRequestModal())}
-            disabled={!canCreatePullRequest || metaEditorEdits}
+            disabled={!canCreatePullRequest || metaEditorEdits || cmsBusy}
           >
             Create Pull Request
           </Button>
@@ -171,7 +177,7 @@ export function ToolBar() {
             variant="text"
             size="small"
             color="error"
-            disabled={!metaEditorEdits}
+            disabled={!metaEditorEdits || cmsBusy}
             onClick={() => dispatch(clearMetaDataEdits())}
           >
             Clear Changes

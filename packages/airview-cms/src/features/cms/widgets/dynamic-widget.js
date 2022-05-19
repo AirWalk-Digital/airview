@@ -45,16 +45,8 @@ export function DynamicWidget({ fieldData, value, onChange }) {
       break;
     }
     case "date": {
-      const {
-        label,
-        required,
-        readOnly,
-        disabled,
-        minDate,
-        maxDate,
-        defaultValue,
-        format,
-      } = fieldData;
+      const { label, required, minDate, maxDate, defaultValue, format } =
+        fieldData;
 
       field = (
         <DateWidget
@@ -63,8 +55,6 @@ export function DynamicWidget({ fieldData, value, onChange }) {
           {...{
             label,
             required,
-            readOnly,
-            disabled,
             minDate,
             maxDate,
             defaultValue,

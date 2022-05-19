@@ -4,20 +4,21 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
 import { TextField } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectCmsBusyStatus } from "../../cms.slice";
 
 export function DateWidget({
   value,
   onChange,
   label,
   required = false,
-  readOnly = false,
-  disabled = false,
   minDate,
   maxDate,
   defaultValue = dayjs(),
   format = "DD/MM/YYYY",
 }) {
   const [errorCode, setErrorCode] = useState(null);
+  const cmsBusy = useSelector(selectCmsBusyStatus);
 
   const getErrorText = () => {
     let errorMessage;
@@ -55,8 +56,7 @@ export function DateWidget({
         }}
         onError={(reason) => setErrorCode(reason)}
         inputFormat={format}
-        readOnly={readOnly}
-        disabled={disabled}
+        disabled={cmsBusy}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -89,8 +89,6 @@ DateWidget.propTypes = {
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
   minDate: PropTypes.string,
   maxDate: PropTypes.string,
   defaultValue: PropTypes.string,
