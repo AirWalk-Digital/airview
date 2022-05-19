@@ -12,19 +12,15 @@ import {
   selectDoesMetaEditorHaveEdits,
 } from "../meta-editor";
 import { selectCmsBusyStatus } from "../cms.slice";
-import {
-  enableCreatePullRequestModal,
-  selectCanCreatePullRequest,
-} from "../create-pull-request";
 import { SaveChanges } from "./save-changes";
 import { CreateNewContent } from "./create-new-content";
 import { DisableCms } from "./disable-cms";
 import { CreateBranch } from "./create-branch";
+import { CreatePullRequest } from "./create-pull-request";
 
 export function ToolBar() {
   const dispatch = useDispatch();
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
-  const canCreatePullRequest = useSelector(selectCanCreatePullRequest);
   const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
   const cmsBusy = useSelector(selectCmsBusyStatus);
 
@@ -134,14 +130,7 @@ export function ToolBar() {
           }}
         >
           <CreateBranch />
-          <Button
-            variant="text"
-            size="small"
-            onClick={() => dispatch(enableCreatePullRequestModal())}
-            disabled={!canCreatePullRequest || metaEditorEdits || cmsBusy}
-          >
-            Create Pull Request
-          </Button>
+          <CreatePullRequest />
           <Button
             variant="text"
             size="small"
