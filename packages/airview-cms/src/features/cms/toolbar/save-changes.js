@@ -7,8 +7,7 @@ import {
   selectMetaEditorData,
 } from "../meta-editor";
 import { usePutEntryMutation } from "../../store";
-import { selectCmsContext } from "../cms.slice";
-import { selectWorkingBranch } from "./working-branch.slice";
+import { selectCmsContext, selectWorkingBranch } from "../cms.slice";
 
 export function SaveChanges() {
   const hasEdits = useSelector(selectDoesMetaEditorHaveEdits);

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Typography, Select, MenuItem } from "@mui/material";
 import { useGetBranchesQuery } from "../../store";
-import { setWorkingBranch, selectWorkingBranch } from "./working-branch.slice";
+import { setWorkingBranch, selectWorkingBranch } from "../cms.slice";
 import { selectDoesMetaEditorHaveEdits } from "../meta-editor";
 import { selectCmsBusyStatus } from "../cms.slice";
 

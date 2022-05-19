@@ -21,7 +21,7 @@ import {
   selectCreatePullRequestModalEnabledStatus,
   selectCanCreatePullRequest,
 } from "./create-pull-request.slice";
-import { selectWorkingBranch } from "../toolbar";
+import { selectWorkingBranch } from "../cms.slice";
 import { selectBaseBranch } from "../config-slice";
 import { useCreatePullRequestMutation } from "../../store";
 

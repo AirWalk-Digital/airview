@@ -1,5 +1,4 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { setWorkingBranch } from "./toolbar";
 import { selectBaseBranch } from "./config-slice";
 import { selectDoesMetaEditorHaveEdits } from "./meta-editor";
 import { airviewApi } from "../store";
@@ -8,6 +7,7 @@ const initialState = {
   cmsBusy: false,
   cmsEnabled: false,
   cmsContext: null,
+  workingBranch: null,
 };
 
 export const cmsSlice = createSlice({
@@ -22,6 +22,9 @@ export const cmsSlice = createSlice({
     },
     setCmsContext: (state, action) => {
       state.cmsContext = action.payload;
+    },
+    setWorkingBranch: (state, action) => {
+      state.workingBranch = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -69,11 +72,15 @@ export const cmsSlice = createSlice({
   },
 });
 
-export const { enableCms, setCmsContext } = cmsSlice.actions;
+export const { enableCms, setCmsContext, setWorkingBranch } = cmsSlice.actions;
 
 export const selectCmsEnabledStatus = (state) => state.cmsSlice.cmsEnabled;
 
 export const selectCmsContext = (state) => state.cmsSlice.cmsContext;
+
+export const selectCmsBusyStatus = (state) => state.cmsSlice.cmsBusy;
+
+export const selectWorkingBranch = (state) => state.cmsSlice.workingBranch;
 
 export function disableCms() {
   return (dispatch, getState) => {
@@ -82,7 +89,7 @@ export function disableCms() {
 
     const runDisableActions = () => {
       dispatch(cmsSlice.actions.disableCms());
-      dispatch(setWorkingBranch(baseBranch));
+      dispatch(cmsSlice.actions.setWorkingBranch(baseBranch));
     };
 
     if (metaEdits) {
@@ -100,7 +107,3 @@ export function disableCms() {
     runDisableActions();
   };
 }
-
-export const selectCmsBusyStatus = (state) => {
-  return state.cmsSlice.cmsBusy;
-};

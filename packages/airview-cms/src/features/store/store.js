@@ -3,7 +3,6 @@ import { airviewApi } from "./airview-api";
 import {
   configSlice,
   cmsSlice,
-  workingBranchSlice,
   branchCreatorSlice,
   metaEditorSlice,
   createPullRequestSlice,
@@ -11,7 +10,10 @@ import {
 
 export function initStore(config) {
   const preloadedState = {
-    [workingBranchSlice.name]: {
+    [cmsSlice.name]: {
+      cmsBusy: false,
+      cmsEnabled: false,
+      cmsContext: null,
       workingBranch: config.baseBranch,
     },
     [configSlice.name]: config,
@@ -21,7 +23,6 @@ export function initStore(config) {
     reducer: {
       [airviewApi.reducerPath]: airviewApi.reducer,
       [configSlice.name]: configSlice.reducer,
-      [workingBranchSlice.name]: workingBranchSlice.reducer,
       [branchCreatorSlice.name]: branchCreatorSlice.reducer,
       [metaEditorSlice.name]: metaEditorSlice.reducer,
       [cmsSlice.name]: cmsSlice.reducer,

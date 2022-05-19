@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useCreateBranchMutation, useGetBranchesQuery } from "../../store";
-import { selectWorkingBranch, setWorkingBranch } from "../toolbar";
+import { selectWorkingBranch, setWorkingBranch } from "../cms.slice";
 import {
   selectBranchCreatorBranchName,
   selectBranchCreatorModalEnabledStatus,
