@@ -7,22 +7,18 @@ import { TOOL_BAR_HEIGHT } from "./constants";
 import {
   enableMetaEditor,
   disableMetaEditor,
-  clearMetaDataEdits,
   selectMetaEditorEnabledStatus,
-  selectDoesMetaEditorHaveEdits,
 } from "../meta-editor";
-import { selectCmsBusyStatus } from "../cms.slice";
 import { SaveChanges } from "./save-changes";
 import { CreateNewContent } from "./create-new-content";
 import { DisableCms } from "./disable-cms";
 import { CreateBranch } from "./create-branch";
 import { CreatePullRequest } from "./create-pull-request";
+import { ClearChanges } from "./clear-changes";
 
 export function ToolBar() {
   const dispatch = useDispatch();
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
-  const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
-  const cmsBusy = useSelector(selectCmsBusyStatus);
 
   const handleOnShowMetaClick = () => {
     metaEditorEnabled
@@ -131,15 +127,7 @@ export function ToolBar() {
         >
           <CreateBranch />
           <CreatePullRequest />
-          <Button
-            variant="text"
-            size="small"
-            color="error"
-            disabled={!metaEditorEdits || cmsBusy}
-            onClick={() => dispatch(clearMetaDataEdits())}
-          >
-            Clear Changes
-          </Button>
+          <ClearChanges />
           <SaveChanges />
           <Box
             sx={{
