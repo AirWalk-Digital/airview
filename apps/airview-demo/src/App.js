@@ -34,8 +34,6 @@ const config = {
           name: "publish_date",
           widget: "date",
           //required: true,
-          //readOnly: false,
-          //disabled: false,
           minDate: "2022-05-01T00:00:00Z",
           maxDate: "2022-05-31T00:00:00Z",
           //defaultValue: "2022-01-02",
