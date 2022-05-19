@@ -11,11 +11,8 @@ export const metaEditorSlice = createSlice({
   name: "metaEditorSlice",
   initialState,
   reducers: {
-    enableMetaEditor: (state) => {
-      state.metaEditorEnabled = true;
-    },
-    disableMetaEditor: (state) => {
-      state.metaEditorEnabled = false;
+    toggleMetaEditor: (state) => {
+      state.metaEditorEnabled = !state.metaEditorEnabled;
     },
     setMetaEditorInitialData: (state, action) => {
       state.initialData = action.payload;
@@ -32,8 +29,7 @@ export const metaEditorSlice = createSlice({
 });
 
 export const {
-  enableMetaEditor,
-  disableMetaEditor,
+  toggleMetaEditor,
   setMetaEditorInitialData,
   persistMetaDataEdit,
   clearMetaDataEdits,

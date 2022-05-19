@@ -1,31 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography } from "@mui/material";
 import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
 import { TOOL_BAR_HEIGHT } from "./constants";
-import {
-  enableMetaEditor,
-  disableMetaEditor,
-  selectMetaEditorEnabledStatus,
-} from "../meta-editor";
 import { SaveChanges } from "./save-changes";
 import { CreateNewContent } from "./create-new-content";
 import { DisableCms } from "./disable-cms";
 import { CreateBranch } from "./create-branch";
 import { CreatePullRequest } from "./create-pull-request";
 import { ClearChanges } from "./clear-changes";
+import { ToggleMetaEditor } from "./toggle-meta-editor";
 
 export function ToolBar() {
-  const dispatch = useDispatch();
-  const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
-
-  const handleOnShowMetaClick = () => {
-    metaEditorEnabled
-      ? dispatch(disableMetaEditor())
-      : dispatch(enableMetaEditor());
-  };
-
   return (
     <AppBar
       color="transparent"
@@ -137,14 +123,7 @@ export function ToolBar() {
               borderColor: "grey.300",
             }}
           >
-            <Button
-              variant="text"
-              size="small"
-              onClick={handleOnShowMetaClick}
-              sx={{ minWidth: "140px" }}
-            >
-              {metaEditorEnabled ? "Hide Meta Editor" : "Show Meta Editor"}
-            </Button>
+            <ToggleMetaEditor />
           </Box>
         </Box>
       </Toolbar>

@@ -2,8 +2,7 @@ export { MetaEditor as default } from "./meta-editor";
 export * from "./constants";
 export {
   metaEditorSlice,
-  enableMetaEditor,
-  disableMetaEditor,
+  toggleMetaEditor,
   setMetaEditorInitialData,
   persistMetaDataEdit,
   clearMetaDataEdits,
