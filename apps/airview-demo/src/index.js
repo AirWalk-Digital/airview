@@ -9,7 +9,7 @@ import { AirviewMockServer } from "airview-mock-server";
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
 function prepare() {
-  const { handlers } = new AirviewMockServer(1500);
+  const { handlers } = new AirviewMockServer(500);
   const worker = setupWorker(...handlers);
   worker.start();
 
