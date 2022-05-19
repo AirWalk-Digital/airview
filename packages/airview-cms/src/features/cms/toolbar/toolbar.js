@@ -12,13 +12,14 @@ import {
   selectMetaEditorEnabledStatus,
   selectDoesMetaEditorHaveEdits,
 } from "../meta-editor";
-import { disableCms, selectCmsBusyStatus } from "../cms.slice";
+import { selectCmsBusyStatus } from "../cms.slice";
 import {
   enableCreatePullRequestModal,
   selectCanCreatePullRequest,
 } from "../create-pull-request";
 import { SaveChanges } from "./save-changes";
 import { CreateNewContent } from "./create-new-content";
+import { DisableCms } from "./disable-cms";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -31,10 +32,6 @@ export function ToolBar() {
     metaEditorEnabled
       ? dispatch(disableMetaEditor())
       : dispatch(enableMetaEditor());
-  };
-
-  const handleOnExitClick = () => {
-    dispatch(disableCms());
   };
 
   return (
@@ -108,15 +105,7 @@ export function ToolBar() {
             }}
           >
             <CreateNewContent />
-            <Button
-              disabled={cmsBusy}
-              variant="contained"
-              disableElevation
-              size="small"
-              onClick={handleOnExitClick}
-            >
-              Disable CMS
-            </Button>
+            <DisableCms />
           </Box>
         </Box>
       </Toolbar>
