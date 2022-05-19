@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { version } from "@package";
 import { BranchSwitcher } from "./branch-switcher";
-import { enableBranchCreatorModal } from "../branch-creator";
 import { TOOL_BAR_HEIGHT } from "./constants";
 import {
   enableMetaEditor,
@@ -20,6 +19,7 @@ import {
 import { SaveChanges } from "./save-changes";
 import { CreateNewContent } from "./create-new-content";
 import { DisableCms } from "./disable-cms";
+import { CreateBranch } from "./create-branch";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -133,14 +133,7 @@ export function ToolBar() {
             },
           }}
         >
-          <Button
-            variant="text"
-            size="small"
-            onClick={() => dispatch(enableBranchCreatorModal())}
-            disabled={metaEditorEdits || cmsBusy}
-          >
-            Create Branch
-          </Button>
+          <CreateBranch />
           <Button
             variant="text"
             size="small"
