@@ -18,6 +18,7 @@ import {
   selectCanCreatePullRequest,
 } from "../create-pull-request";
 import { SaveChanges } from "./save-changes";
+import { CreateNewContent } from "./create-new-content";
 
 export function ToolBar() {
   const dispatch = useDispatch();
@@ -106,14 +107,7 @@ export function ToolBar() {
               },
             }}
           >
-            <Button
-              variant="contained"
-              disableElevation
-              size="small"
-              disabled={metaEditorEdits || cmsBusy}
-            >
-              Create New
-            </Button>
+            <CreateNewContent />
             <Button
               disabled={cmsBusy}
               variant="contained"
