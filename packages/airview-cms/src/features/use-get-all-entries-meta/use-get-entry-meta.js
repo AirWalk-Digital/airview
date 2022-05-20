@@ -12,7 +12,7 @@ export function useGetEntryMeta(entryId) {
       error,
     }) => {
       return {
-        data: entries.find((entry) => entry.id === entryId),
+        data: entries?.find((entry) => entry.id === entryId),
         isUninitialized,
         isLoading,
         isFetching,
