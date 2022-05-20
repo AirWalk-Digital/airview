@@ -4,6 +4,7 @@ import {
   useGetEntryMeta,
   useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
+  useGetChildEntriesMeta,
   useSetCmsContext,
 } from "airview-cms";
 
@@ -96,6 +97,12 @@ function App() {
           <h2>All Entries Meta</h2>
           <AllEntriesMeta />
           <hr />
+          <h2>Child Entries Meta</h2>
+          <p>
+            <em>application/ms_teams</em>
+          </p>
+          <ChildEntriesMeta />
+          <hr />
           <h2>Sibling Entries Meta</h2>
           <p>
             <em>knowledge/composing_a_new_message</em>
@@ -121,6 +128,18 @@ function AllEntriesMeta() {
   if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
 
   if (isError) return <div>Error fetching all entries meta</div>;
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
+
+function ChildEntriesMeta() {
+  const { data, isLoading, isFetching, isError } = useGetChildEntriesMeta(
+    "application/ms_teams"
+  );
+
+  if (isLoading || isFetching) return <div>Fetching child entries meta...</div>;
+
+  if (isError) return <div>Error fetching child entries meta</div>;
 
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
