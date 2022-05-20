@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { AirviewProvider } from "@features";
 import { MainView } from "@views";
 
-export function AirviewCMS({ children }) {
+export function AirviewCMS({ config, children }) {
   return (
-    <AirviewProvider>
+    <AirviewProvider config={config}>
       <MainView>{children}</MainView>
     </AirviewProvider>
   );
@@ -13,4 +13,5 @@ export function AirviewCMS({ children }) {
 
 AirviewCMS.propTypes = {
   children: PropTypes.node,
+  config: PropTypes.object.isRequired,
 };

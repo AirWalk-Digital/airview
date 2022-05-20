@@ -6,4 +6,5 @@ export {
   useGetEntriesQuery,
   useGetEntryQuery,
   useCreatePullRequestMutation,
+  usePutEntryMutation,
 } from "./airview-api";

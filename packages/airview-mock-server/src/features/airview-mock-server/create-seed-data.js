@@ -49,6 +49,7 @@ export function createSeedData() {
           _index: btoa(
             matter.stringify("I am body content for Place Call on Hold", {
               title: "Place Call on Hold",
+              parent: "application/ms_teams",
             })
           ),
 
@@ -70,6 +71,7 @@ export function createSeedData() {
           _index: btoa(
             matter.stringify("I am body content for Composing a new message", {
               title: "Composing a new message",
+              parent: "application/ms_teams",
             })
           ),
           section_one: btoa(
@@ -85,11 +87,16 @@ export function createSeedData() {
         meta: {
           title: "Security Patch",
           parent: "application/ms_teams",
+          user_facing: false,
+          publish_date: "2022-05-12T00:00:00Z",
         },
         content: {
           _index: btoa(
             matter.stringify("I am body content for Security Patch", {
               title: "Security Patch",
+              parent: "application/ms_teams",
+              user_facing: false,
+              publish_date: "2022-05-12T00:00:00Z",
             })
           ),
         },
@@ -100,15 +107,20 @@ export function createSeedData() {
         sha: nanoid(),
         collection: "release",
         meta: {
-          title: "Security Patch",
+          title: "Security Patch!",
           parent: "application/ms_teams",
+          user_facing: true,
+          publish_date: "2022-04-12T00:00:00Z",
         },
         content: {
           _index: btoa(
             matter.stringify(
               "I am branch one body content for Security Patch",
               {
-                title: "Security Patch",
+                title: "Security Patch!",
+                parent: "application/ms_teams",
+                user_facing: true,
+                publish_date: "2022-04-12T00:00:00Z",
               }
             )
           ),

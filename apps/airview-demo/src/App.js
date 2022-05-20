@@ -1,17 +1,64 @@
 import React from "react";
-import { AirviewCMS, useGetAllEntriesMeta, useGetEntry } from "airview-cms";
+import {
+  AirviewCMS,
+  useGetAllEntriesMeta,
+  //useGetEntry,
+  useSetCmsContext,
+} from "airview-cms";
 //import { useState, useEffect, useCallback } from "react";
 //import matter from "gray-matter";
 
+const config = {
+  baseBranch: "main",
+  collections: {
+    release: {
+      label: "Release",
+      fields: [
+        {
+          label: "Title",
+          name: "title",
+          widget: "string",
+          required: true,
+          placeholder: "Enter a title for the document",
+        },
+        {
+          label: "Parent Entry",
+          name: "parent",
+          widget: "entrySelect",
+          excludeSelf: true,
+          // collection: "application"
+          // required: false
+        },
+        {
+          label: "Publish Date",
+          name: "publish_date",
+          widget: "date",
+          //required: true,
+          minDate: "2022-05-01T00:00:00Z",
+          maxDate: "2022-05-31T00:00:00Z",
+          //defaultValue: "2022-01-02",
+          //format: "DD/MM/YY",
+        },
+        {
+          label: "User Facing",
+          name: "user_facing",
+          defaultValue: false,
+          widget: "boolean",
+        },
+      ],
+    },
+  },
+};
+
 function App() {
   return (
-    <AirviewCMS>
+    <AirviewCMS config={config}>
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
-          <AllEntriesMeta />
+          <Entry />
         </div>
         <div style={{ width: "50%" }}>
-          <Entry />
+          <AllEntriesMeta />
         </div>
       </div>
     </AirviewCMS>
@@ -31,7 +78,7 @@ function AllEntriesMeta() {
 }
 
 function Entry() {
-  const { data, isLoading, isFetching, isError, error } = useGetEntry(
+  const { data, isLoading, isFetching, isError, error } = useSetCmsContext(
     "release/security_patch"
   );
 

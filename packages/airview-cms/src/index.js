@@ -1,2 +1,2 @@
 export { AirviewCMS } from "@app";
-export { useGetAllEntriesMeta, useGetEntry } from "@features";
+export { useGetAllEntriesMeta, useGetEntry, useSetCmsContext } from "@features";

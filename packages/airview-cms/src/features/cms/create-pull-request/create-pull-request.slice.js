@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { selectWorkingBranch } from "../cms.slice";
+import { selectBaseBranch } from "../config-slice";
 
 const initialState = {
   modalEnabled: false,
@@ -24,7 +26,8 @@ export const selectCreatePullRequestModalEnabledStatus = (state) =>
   state.createPullRequestSlice.modalEnabled;
 
 export const selectCanCreatePullRequest = (state) => {
-  const { baseBranch, workingBranch } = state.workingBranchSlice;
+  const workingBranch = selectWorkingBranch(state);
+  const baseBranch = selectBaseBranch(state);
 
   return baseBranch !== workingBranch;
 };
