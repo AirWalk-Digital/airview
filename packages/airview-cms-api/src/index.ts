@@ -56,7 +56,7 @@ app.put("/content/:collection/:entity", async (req, res, next) => {
         branchName: req.query.branch,
         baseSha: req.query.baseSha,
         content: req.body,
-        author: { name: "Mark", email: "github@metax.dev" },
+        author: { name: "User", email: "user@noreply.com" },
       });
       res.status(201).send();
     }
@@ -84,7 +84,7 @@ app.delete(
           id: `${req.params.collection}/${req.params.entity}`,
           branchName: req.query.branch,
           baseSha: req.query.baseSha,
-          author: { name: "Mark", email: "github@metax.dev" },
+          author: { name: "User", email: "user@noreply.com" },
         });
         res.status(201).send();
       }
