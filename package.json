@@ -1,6 +1,6 @@
 {
   "name": "airview",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "",
   "devDependencies": {
     "eslint": "^8.13.0",
@@ -31,7 +31,8 @@
     "packages/airview-cms",
     "packages/airview-ui",
     "apps/airview-demo",
-    "packages/airview-mock-server"
+    "packages/airview-mock-server",
+    "packages/airview-cms-api"
   ],
   "lint-staged": {
     "*.js": "eslint",
