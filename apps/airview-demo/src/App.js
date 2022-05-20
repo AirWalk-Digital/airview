@@ -1,8 +1,8 @@
 import React from "react";
 import {
   AirviewCMS,
+  useGetEntryMeta,
   useGetAllEntriesMeta,
-  //useGetEntry,
   useGetSiblingEntriesMeta,
   useSetCmsContext,
 } from "airview-cms";
@@ -88,13 +88,16 @@ function App() {
         <div style={{ width: "50%" }}>
           <h2>CMS Context Entry</h2>
           <Entry />
-          <hr />
-          <h2>Sibling Entries Meta</h2>
-          <SiblingEntries />
         </div>
         <div style={{ width: "50%" }}>
           <h2>All Entries Meta</h2>
           <AllEntriesMeta />
+          <hr />
+          <h2>Sibling Entries Meta</h2>
+          <SiblingEntries />
+          <hr />
+          <h2>Single Entry Meta</h2>
+          <EntryMeta />
         </div>
       </div>
     </AirviewCMS>
@@ -102,6 +105,16 @@ function App() {
 }
 
 export default App;
+
+function AllEntriesMeta() {
+  const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
+
+  if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
+
+  if (isError) return <div>Error fetching all entries meta</div>;
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
 
 function SiblingEntries() {
   const { data, isLoading, isFetching, isError } = useGetSiblingEntriesMeta(
@@ -116,12 +129,20 @@ function SiblingEntries() {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
-function AllEntriesMeta() {
-  const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
+function EntryMeta() {
+  const { data, isLoading, isFetching, isError, error } = useGetEntryMeta(
+    "knowledge/place_call_on_hold"
+  );
 
-  if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
+  if (isLoading || isFetching) return <div>Fetching entry meta...</div>;
 
-  if (isError) return <div>Error fetching all entries meta</div>;
+  if (isError)
+    return (
+      <React.Fragment>
+        <div>Error fetching entry meta</div>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </React.Fragment>
+    );
 
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
