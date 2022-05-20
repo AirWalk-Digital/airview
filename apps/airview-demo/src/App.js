@@ -87,17 +87,26 @@ function App() {
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
           <h2>CMS Context Entry</h2>
-          <Entry />
+          <p>
+            <em>release/security_patch</em>
+          </p>
+          <CmsContextEntry />
         </div>
         <div style={{ width: "50%" }}>
           <h2>All Entries Meta</h2>
           <AllEntriesMeta />
           <hr />
           <h2>Sibling Entries Meta</h2>
+          <p>
+            <em>knowledge/composing_a_new_message</em>
+          </p>
           <SiblingEntries />
           <hr />
           <h2>Single Entry Meta</h2>
-          <EntryMeta />
+          <p>
+            <em>knowledge/place_call_on_hold</em>
+          </p>
+          <SingleEntryMeta />
         </div>
       </div>
     </AirviewCMS>
@@ -129,7 +138,7 @@ function SiblingEntries() {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
-function EntryMeta() {
+function SingleEntryMeta() {
   const { data, isLoading, isFetching, isError, error } = useGetEntryMeta(
     "knowledge/place_call_on_hold"
   );
@@ -147,17 +156,17 @@ function EntryMeta() {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
-function Entry() {
+function CmsContextEntry() {
   const { data, isLoading, isFetching, isError, error } = useSetCmsContext(
-    "knowledge/place_call_on_hold"
+    "release/security_patch"
   );
 
-  if (isLoading || isFetching) return <div>Fetching entry...</div>;
+  if (isLoading || isFetching) return <div>Fetching CMS context entry...</div>;
 
   if (isError)
     return (
       <React.Fragment>
-        <div>Error fetching entry</div>
+        <div>Error fetching CMS context entry</div>
         <pre>{JSON.stringify(error, null, 2)}</pre>
       </React.Fragment>
     );
