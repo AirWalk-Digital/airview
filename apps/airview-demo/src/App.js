@@ -5,6 +5,7 @@ import {
   useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
   useGetChildEntriesMeta,
+  useGetCollectionEntries,
   useSetCmsContext,
 } from "airview-cms";
 
@@ -109,6 +110,12 @@ function App() {
           </p>
           <SiblingEntries />
           <hr />
+          <h2>Collection Entries Meta</h2>
+          <p>
+            <em>knowledge</em>
+          </p>
+          <CollectionEntries />
+          <hr />
           <h2>Single Entry Meta</h2>
           <p>
             <em>knowledge/place_call_on_hold</em>
@@ -153,6 +160,18 @@ function SiblingEntries() {
     return <div>Fetching sibling entries meta...</div>;
 
   if (isError) return <div>Error fetching sibling entries meta</div>;
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
+
+function CollectionEntries() {
+  const { data, isLoading, isFetching, isError } =
+    useGetCollectionEntries("knowledge");
+
+  if (isLoading || isFetching)
+    return <div>Fetching collection entries meta...</div>;
+
+  if (isError) return <div>Error fetching collection entries meta</div>;
 
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }

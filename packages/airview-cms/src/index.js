@@ -3,6 +3,7 @@ export {
   useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
   useGetChildEntriesMeta,
+  useGetCollectionEntries,
   useGetEntryMeta,
   useGetEntry,
   useSetCmsContext,
