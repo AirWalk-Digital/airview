@@ -6,7 +6,7 @@ import {
   selectDoesMetaEditorHaveEdits,
   selectMetaEditorData,
 } from "../meta-editor";
-import { usePutEntryMutation } from "../../store";
+import { usePutEntryMutation, useGetBranchesQuery } from "../../store";
 import { selectCmsContext, selectWorkingBranch } from "../cms.slice";
 
 export function SaveChanges() {
@@ -15,13 +15,15 @@ export function SaveChanges() {
   const [putEntry, { isLoading }] = usePutEntryMutation();
   const id = useSelector(selectCmsContext);
   const branch = useSelector(selectWorkingBranch);
+  const { data: branches } = useGetBranchesQuery();
 
   const handleOnClick = () => {
     const data = {
       _index: btoa(matter.stringify("", edits)),
     };
+    const baseSha = branches.find((f) => f.name === branch).sha;
 
-    putEntry({ id, branch, data });
+    putEntry({ id, branch, data, baseSha });
   };
 
   return (

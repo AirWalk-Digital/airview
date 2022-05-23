@@ -35,9 +35,7 @@ export interface GitClient {
 
 export interface CmsEntity {
   id: string;
-  data: {
-    meta: any;
-    collection: string;
-    sha: string;
-  };
+  collection: string;
+  meta: any;
+  sha: string;
 }

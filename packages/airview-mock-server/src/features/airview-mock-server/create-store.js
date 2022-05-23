@@ -65,7 +65,7 @@ export function createStore() {
 
     if (!entry) return false;
 
-    return { content: entry.content };
+    return entry.content;
   };
 
   const persistContent = (entryId, branchName, content) => {
