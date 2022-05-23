@@ -6,6 +6,7 @@ import {
   branchCreatorSlice,
   metaEditorSlice,
   createPullRequestSlice,
+  contentCreatorSlice,
 } from "../cms";
 
 export function initStore(config) {
@@ -27,6 +28,7 @@ export function initStore(config) {
       [metaEditorSlice.name]: metaEditorSlice.reducer,
       [cmsSlice.name]: cmsSlice.reducer,
       [createPullRequestSlice.name]: createPullRequestSlice.reducer,
+      [contentCreatorSlice.name]: contentCreatorSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(airviewApi.middleware),
