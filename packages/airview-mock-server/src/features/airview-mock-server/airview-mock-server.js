@@ -75,10 +75,10 @@ export function AirviewMockServer(delay = 500, domain = "") {
 
     // branchSha, branchName, entrySha (branchSha as q param)
     rest.put(
-      `${domain}/api/content/:collection/:entity/:branch`,
+      `${domain}/api/content/:collection/:entity`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
-        const branch = req.params.branch;
+        const branch = req.url.searchParams.get("branch");
 
         if (persistContent(id, branch, req.body)) {
           return res(ctx.delay(ARTIFICIAL_DELAY_MS));
