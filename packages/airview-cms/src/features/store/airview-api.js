@@ -1,13 +1,23 @@
 import matter from "gray-matter";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+let fetchFresh = false;
+
 export const airviewApi = createApi({
   reducerPath: "airviewApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
   tagTypes: ["Branches"],
   endpoints: (builder) => ({
     getBranches: builder.query({
-      query: () => "branches",
+      query: () => {
+        const headers = { "cache-control": `max-age=${fetchFresh ? 0 : 3600}` };
+        fetchFresh = false;
+
+        return {
+          url: "branches",
+          headers,
+        };
+      },
       providesTags: ["Branches"],
     }),
     createBranch: builder.mutation({
@@ -63,11 +73,14 @@ export const airviewApi = createApi({
       }),
     }),
     putEntry: builder.mutation({
-      query: ({ id, branch, data, baseSha }) => ({
-        url: `content/${id}?branch=${branch}&baseSha=${baseSha}`,
-        method: "PUT",
-        body: data,
-      }),
+      query: ({ id, branch, data, baseSha }) => {
+        fetchFresh = true;
+        return {
+          url: `content/${id}?branch=${branch}&baseSha=${baseSha}`,
+          method: "PUT",
+          body: data,
+        };
+      },
       invalidatesTags: (_, error) => {
         if (error) return;
 
