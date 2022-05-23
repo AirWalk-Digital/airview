@@ -87,9 +87,7 @@ export class CmsBackend {
 
     return results.reduce((ac, a) => ({ ...ac, [a.name]: a.data }), {});
   }
-  async getEntries(
-    sha: string
-  ): Promise<Record<string, Record<string, CmsEntity>>> {
+  async getEntries(sha: string): Promise<CmsEntity[]> {
     const cachedMapping = await cache.get("meta|" + sha);
     if (cachedMapping) return cachedMapping;
 
@@ -108,52 +106,37 @@ export class CmsBackend {
         );
 
         const mapped = await Promise.all(
-          entities
-            .map(async (entity): Promise<CmsEntity | null> => {
-              const id = `${collection.path}/${entity.path}`;
-              const filtered = await this._getFilteredTree(
-                entity.sha,
-                (item: GitTree) =>
-                  item.path === "_index.md" && item.type === "blob"
+          entities.map(async (entity): Promise<CmsEntity | null> => {
+            const id = `${collection.path}/${entity.path}`;
+            const filtered = await this._getFilteredTree(
+              entity.sha,
+              (item: GitTree) =>
+                item.path === "_index.md" && item.type === "blob"
+            );
+
+            if (filtered.length == 1) {
+              const blobFetcher = async () =>
+                await this._client.getBlob(filtered[0].sha);
+              const blob = await this._getCachedResponse(
+                blobFetcher,
+                filtered[0].sha
               );
+              var b = Buffer.from(blob.content, "base64");
+              var s = b.toString();
 
-              if (filtered.length == 1) {
-                const blobFetcher = async () =>
-                  await this._client.getBlob(filtered[0].sha);
-                const blob = await this._getCachedResponse(
-                  blobFetcher,
-                  filtered[0].sha
-                );
-                var b = Buffer.from(blob.content, "base64");
-                var s = b.toString();
-
-                return {
-                  id,
-                  data: {
-                    meta: matter(s).data,
-                    collection: collection.path,
-                    sha: entity.sha,
-                  },
-                };
-              }
-              return null;
-            })
-            .filter((f) => !!f)
+              return {
+                id,
+                collection: collection.path,
+                sha: entity.sha,
+                meta: matter(s).data,
+              };
+            }
+            return null;
+          })
         );
-
-        const data = mapped.reduce(
-          (ac, a) => (a === null ? ac : { ...ac, [a.id]: a.data }),
-          {}
-        );
-        return { collection: collection.path, data };
+        return mapped.filter((x): x is CmsEntity => x !== null);
       })
     );
-
-    const final = results.reduce(
-      (ac, a) => ({ ...ac, [a.collection]: a.data }),
-      {}
-    );
-    await cache.set("meta|" + sha, final);
-    return final;
+    return results.reduce((acc, val) => acc.concat(val), []);
   }
 }

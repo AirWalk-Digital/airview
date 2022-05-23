@@ -38,7 +38,7 @@ export const airviewApi = createApi({
         return `content/${entrySha}`;
       },
       transformResponse: (response) => {
-        const parsedResponse = Object.entries(response.content).map(
+        const parsedResponse = Object.entries(response).map(
           ([key, entryData]) => {
             const { data, content } = matter(atob(entryData));
 
@@ -63,8 +63,8 @@ export const airviewApi = createApi({
       }),
     }),
     putEntry: builder.mutation({
-      query: ({ id, branch, data }) => ({
-        url: `content/${id}/${branch}`,
+      query: ({ id, branch, data, baseSha }) => ({
+        url: `content/${id}?branch=${branch}&baseSha=${baseSha}`,
         method: "PUT",
         body: data,
       }),
