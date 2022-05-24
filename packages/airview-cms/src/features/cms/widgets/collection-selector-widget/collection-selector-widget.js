@@ -1,14 +1,14 @@
 import React, { useId } from "react";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { selectAllCollectionsLabelsAndIds } from "../../config-slice";
 
-export function CollectionSelectorWidget() {
+export function CollectionSelectorWidget({ value, onChange }) {
   const id = useId();
   const collectionLabelsAndIds = useSelector(selectAllCollectionsLabelsAndIds);
 
-  const handleOnChange = () => {};
+  const handleOnChange = (event) => onChange(event.target.value);
 
   return (
     <FormControl
@@ -25,7 +25,7 @@ export function CollectionSelectorWidget() {
         notched
         labelId={`collection-select-label-${id}`}
         id={`collection-select-${id}`}
-        value="application"
+        value={value}
         label="Collection"
         onChange={handleOnChange}
       >
@@ -40,3 +40,8 @@ export function CollectionSelectorWidget() {
     </FormControl>
   );
 }
+
+CollectionSelectorWidget.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};

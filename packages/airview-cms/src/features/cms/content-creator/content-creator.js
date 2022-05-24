@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -10,18 +10,41 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectContentCreatorModalEnabledStatus,
+  selectContentCreatorSelectedCollection,
   disableContentCreatorModal,
+  setInitialCollection,
+  setCollection,
+  setInitialData,
+  selectContentCreatorData,
+  persitData,
 } from "./content-creator.slice";
-import { CollectionSelectorWidget, StringWidget } from "../widgets";
+import { CollectionSelectorWidget, DynamicWidget } from "../widgets";
+import { selectAllCollections } from "../config-slice";
 
 export function ContentCreator() {
   const dispatch = useDispatch();
   const dialogEnabled = useSelector(selectContentCreatorModalEnabledStatus);
+  const selectedCollection = useSelector(
+    selectContentCreatorSelectedCollection
+  );
+  const collectionsData = useSelector(selectAllCollections);
+  const collectionsFields = collectionsData[selectedCollection]?.fields;
+  const formData = useSelector(selectContentCreatorData);
+
+  console.log("collectionsFields", collectionsFields);
+  console.log("formData", formData);
 
   const handleOnClose = () => {
     dispatch(disableContentCreatorModal());
   };
-  const handleOnExit = () => {};
+
+  useEffect(() => {
+    dispatch(setInitialCollection());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setInitialData());
+  }, [selectedCollection, dispatch]);
 
   return (
     <Dialog
@@ -30,7 +53,7 @@ export function ContentCreator() {
       maxWidth="xs"
       onClose={handleOnClose}
       TransitionProps={{
-        onExit: handleOnExit,
+        onExited: () => dispatch(setInitialCollection()),
       }}
     >
       <DialogTitle>Create New</DialogTitle>
@@ -41,14 +64,29 @@ export function ContentCreator() {
           noValidate
           autoComplete="off"
         >
-          <StringWidget
-            label="Title"
-            value=""
-            placeholder="Enter a title for this content"
-            onChange={() => {}}
-            required
+          <CollectionSelectorWidget
+            value={selectedCollection}
+            onChange={(collection) => dispatch(setCollection(collection))}
           />
-          <CollectionSelectorWidget />
+          {selectedCollection
+            ? collectionsFields.map((collectionFieldData) => {
+                return (
+                  <DynamicWidget
+                    key={collectionFieldData.name}
+                    fieldData={collectionFieldData}
+                    value={formData[collectionFieldData.name]}
+                    onChange={(value) =>
+                      dispatch(
+                        persitData({
+                          key: collectionFieldData.name,
+                          data: value,
+                        })
+                      )
+                    }
+                  />
+                );
+              })
+            : null}
         </Box>
       </DialogContent>
       <DialogActions>
