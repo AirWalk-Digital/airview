@@ -1,15 +1,19 @@
 import express, { Response, Request, Router, NextFunction } from "express"; //
 import { CmsBackend } from "./backend.js";
+import { SqliteCache } from "./cache.js";
+import { S3Cache } from "./s3cache.js";
 import { GithubClient } from "./githubClient.js";
 
 const client = new GithubClient();
-const backend = new CmsBackend(client);
+// const cache = new SqliteCache();
+const cache = new S3Cache();
+const backend = new CmsBackend(client, cache);
 
 const app = express();
 
 app.use(express.json());
 
-const port = 3000;
+const port = 3001;
 
 app.get(
   "/search/:sha",
