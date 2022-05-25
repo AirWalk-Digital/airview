@@ -64,12 +64,15 @@ export function ContentCreator() {
           noValidate
           autoComplete="off"
         >
-          <CollectionSelectorWidget
-            value={selectedCollection}
-            onChange={(collection) => dispatch(setCollection(collection))}
-          />
-          {selectedCollection
-            ? collectionsFields.map((collectionFieldData) => {
+          {selectedCollection && (
+            <React.Fragment>
+              <CollectionSelectorWidget
+                label="Collection"
+                value={selectedCollection}
+                onChange={(collection) => dispatch(setCollection(collection))}
+              />
+
+              {collectionsFields.map((collectionFieldData) => {
                 return (
                   <DynamicWidget
                     key={collectionFieldData.name}
@@ -85,8 +88,9 @@ export function ContentCreator() {
                     }
                   />
                 );
-              })
-            : null}
+              })}
+            </React.Fragment>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>

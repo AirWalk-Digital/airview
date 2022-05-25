@@ -61,6 +61,11 @@ export function setInitialData() {
       getState()
     );
 
+    if (!selectedCollection) {
+      dispatch(initData({}));
+      return;
+    }
+
     const initialData = collections[selectedCollection].fields.map((field) => {
       return [field.name, field?.defaultValue ?? undefined];
     });

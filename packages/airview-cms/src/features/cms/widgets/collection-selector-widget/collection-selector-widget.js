@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { selectAllCollectionsLabelsAndIds } from "../../config-slice";
+import { selectCmsBusyStatus } from "../../cms.slice";
 
 export function CollectionSelectorWidget({ value, onChange }) {
   const id = useId();
   const collectionLabelsAndIds = useSelector(selectAllCollectionsLabelsAndIds);
-
+  const cmsBusy = useSelector(selectCmsBusyStatus);
+  const label = "Collection";
   const handleOnChange = (event) => onChange(event.target.value);
 
   return (
@@ -15,10 +17,11 @@ export function CollectionSelectorWidget({ value, onChange }) {
       fullWidth
       size="small"
       margin="normal"
-      //disabled={cmsBusy}
+      disabled={cmsBusy}
+      required={true}
     >
       <InputLabel id={`collection-select-label-${id}`} shrink>
-        Collection
+        {label}
       </InputLabel>
 
       <Select
@@ -26,7 +29,7 @@ export function CollectionSelectorWidget({ value, onChange }) {
         labelId={`collection-select-label-${id}`}
         id={`collection-select-${id}`}
         value={value}
-        label="Collection"
+        label={label}
         onChange={handleOnChange}
       >
         {collectionLabelsAndIds.map(({ id, label }) => {
@@ -42,6 +45,6 @@ export function CollectionSelectorWidget({ value, onChange }) {
 }
 
 CollectionSelectorWidget.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
