@@ -18,6 +18,11 @@ export function initStore(config) {
       workingBranch: config.baseBranch,
     },
     [configSlice.name]: config,
+    [contentCreatorSlice.name]: {
+      modalEnabled: false,
+      collection: Object.keys(config.collections)[0],
+      data: {},
+    },
   };
 
   return configureStore({

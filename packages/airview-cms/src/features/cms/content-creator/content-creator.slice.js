@@ -3,7 +3,7 @@ import { selectAllCollections } from "../config-slice";
 
 const initialState = {
   modalEnabled: false,
-  collection: null, // set when init store
+  collection: null,
   data: {},
 };
 

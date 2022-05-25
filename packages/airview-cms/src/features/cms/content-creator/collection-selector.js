@@ -7,7 +7,6 @@ import {
   selectContentCreatorSelectedCollection,
   setCollection,
   setInitialData,
-  setInitialCollection,
 } from "./content-creator.slice";
 
 export function CollectionSelector() {
@@ -23,10 +22,6 @@ export function CollectionSelector() {
   const handleOnChange = (event) => {
     dispatch(setCollection(event.target.value));
   };
-
-  useEffect(() => {
-    dispatch(setInitialCollection());
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(setInitialData());
