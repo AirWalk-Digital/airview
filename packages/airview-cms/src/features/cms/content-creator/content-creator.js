@@ -18,7 +18,8 @@ import {
   selectContentCreatorData,
   persitData,
 } from "./content-creator.slice";
-import { CollectionSelectorWidget, DynamicWidget } from "../widgets";
+import { CollectionSelector } from "./collection-selector";
+import { DynamicWidget } from "../widgets";
 import { selectAllCollections } from "../config-slice";
 
 export function ContentCreator() {
@@ -66,7 +67,7 @@ export function ContentCreator() {
         >
           {selectedCollection && (
             <React.Fragment>
-              <CollectionSelectorWidget
+              <CollectionSelector
                 label="Collection"
                 value={selectedCollection}
                 onChange={(collection) => dispatch(setCollection(collection))}

@@ -2,10 +2,10 @@ import React, { useId } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { selectAllCollectionsLabelsAndIds } from "../../config-slice";
-import { selectCmsBusyStatus } from "../../cms.slice";
+import { selectAllCollectionsLabelsAndIds } from "../config-slice";
+import { selectCmsBusyStatus } from "../cms.slice";
 
-export function CollectionSelectorWidget({ value, onChange }) {
+export function CollectionSelector({ value, onChange }) {
   const id = useId();
   const collectionLabelsAndIds = useSelector(selectAllCollectionsLabelsAndIds);
   const cmsBusy = useSelector(selectCmsBusyStatus);
@@ -44,7 +44,7 @@ export function CollectionSelectorWidget({ value, onChange }) {
   );
 }
 
-CollectionSelectorWidget.propTypes = {
+CollectionSelector.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
