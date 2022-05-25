@@ -5,8 +5,8 @@ import { selectAllCollectionsLabelsAndIds } from "../config-slice";
 import { selectCmsBusyStatus } from "../cms.slice";
 import {
   selectContentCreatorSelectedCollection,
-  setCollection,
-  setInitialData,
+  setSelectedCollection,
+  setInitialFormData,
 } from "./content-creator.slice";
 
 export function CollectionSelector() {
@@ -20,11 +20,11 @@ export function CollectionSelector() {
   const label = "Collection";
 
   const handleOnChange = (event) => {
-    dispatch(setCollection(event.target.value));
+    dispatch(setSelectedCollection(event.target.value));
   };
 
   useEffect(() => {
-    dispatch(setInitialData());
+    dispatch(setInitialFormData());
   }, [selectedCollection, dispatch]);
 
   if (!selectedCollection) return null;

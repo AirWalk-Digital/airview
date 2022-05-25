@@ -17,7 +17,7 @@ export const contentCreatorSlice = createSlice({
     disableContentCreatorModal: (state) => {
       state.modalEnabled = false;
     },
-    setCollection: (state, action) => {
+    setSelectedCollection: (state, action) => {
       state.collection = action.payload;
     },
     initData: (state, action) => {
@@ -32,7 +32,7 @@ export const contentCreatorSlice = createSlice({
 export const {
   enableContentCreatorModal,
   disableContentCreatorModal,
-  setCollection,
+  setSelectedCollection,
   initData,
   persitData,
 } = contentCreatorSlice.actions;
@@ -50,11 +50,11 @@ export function setInitialCollection() {
   return (dispatch, getState) => {
     const collections = selectAllCollections(getState());
 
-    dispatch(setCollection(Object.keys(collections)[0]));
+    dispatch(setSelectedCollection(Object.keys(collections)[0]));
   };
 }
 
-export function setInitialData() {
+export function setInitialFormData() {
   return (dispatch, getState) => {
     const collections = selectAllCollections(getState());
     const selectedCollection = selectContentCreatorSelectedCollection(

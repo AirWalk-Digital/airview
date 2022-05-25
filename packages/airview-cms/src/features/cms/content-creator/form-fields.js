@@ -15,16 +15,18 @@ export function FormFields() {
   );
   const collectionsData = useSelector(selectAllCollections);
   const collectionsFields = collectionsData[selectedCollection]?.fields;
-  const formFieldData = useSelector(selectContentCreatorData);
+  const formFieldsData = useSelector(selectContentCreatorData);
 
-  if (!collectionsFields || !formFieldData) return null;
+  console.log(formFieldsData);
+
+  if (!collectionsFields || !formFieldsData) return null;
 
   return collectionsFields.map((collectionFieldData) => {
     return (
       <DynamicWidget
         key={collectionFieldData.name}
         fieldData={collectionFieldData}
-        value={formFieldData[collectionFieldData.name]}
+        value={formFieldsData[collectionFieldData.name]}
         onChange={(value) =>
           dispatch(
             persitData({
