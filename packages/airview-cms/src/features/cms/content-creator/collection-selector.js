@@ -1,16 +1,24 @@
 import React, { useId } from "react";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { selectAllCollectionsLabelsAndIds } from "../config-slice";
 import { selectCmsBusyStatus } from "../cms.slice";
+import {
+  selectContentCreatorSelectedCollection,
+  setCollection,
+} from "./content-creator.slice";
 
-export function CollectionSelector({ value, onChange }) {
+export function CollectionSelector() {
+  const dispatch = useDispatch();
   const id = useId();
   const collectionLabelsAndIds = useSelector(selectAllCollectionsLabelsAndIds);
+  const selectedCollection = useSelector(
+    selectContentCreatorSelectedCollection
+  );
   const cmsBusy = useSelector(selectCmsBusyStatus);
   const label = "Collection";
-  const handleOnChange = (event) => onChange(event.target.value);
+
+  const handleOnChange = (event) => dispatch(setCollection(event.target.value));
 
   return (
     <FormControl
@@ -28,7 +36,7 @@ export function CollectionSelector({ value, onChange }) {
         notched
         labelId={`collection-select-label-${id}`}
         id={`collection-select-${id}`}
-        value={value}
+        value={selectedCollection}
         label={label}
         onChange={handleOnChange}
       >
@@ -43,8 +51,3 @@ export function CollectionSelector({ value, onChange }) {
     </FormControl>
   );
 }
-
-CollectionSelector.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
