@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { useId, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { selectAllCollectionsLabelsAndIds } from "../config-slice";
@@ -6,6 +6,8 @@ import { selectCmsBusyStatus } from "../cms.slice";
 import {
   selectContentCreatorSelectedCollection,
   setCollection,
+  setInitialData,
+  setInitialCollection,
 } from "./content-creator.slice";
 
 export function CollectionSelector() {
@@ -18,7 +20,19 @@ export function CollectionSelector() {
   const cmsBusy = useSelector(selectCmsBusyStatus);
   const label = "Collection";
 
-  const handleOnChange = (event) => dispatch(setCollection(event.target.value));
+  const handleOnChange = (event) => {
+    dispatch(setCollection(event.target.value));
+  };
+
+  useEffect(() => {
+    dispatch(setInitialCollection());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setInitialData());
+  }, [selectedCollection, dispatch]);
+
+  if (!selectedCollection) return null;
 
   return (
     <FormControl

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -10,42 +10,19 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectContentCreatorModalEnabledStatus,
-  selectContentCreatorSelectedCollection,
   disableContentCreatorModal,
   setInitialCollection,
-  setCollection,
-  setInitialData,
-  selectContentCreatorData,
-  persitData,
 } from "./content-creator.slice";
 import { CollectionSelector } from "./collection-selector";
-import { DynamicWidget } from "../widgets";
-import { selectAllCollections } from "../config-slice";
+import { FormFields } from "./form-fields";
 
 export function ContentCreator() {
   const dispatch = useDispatch();
   const dialogEnabled = useSelector(selectContentCreatorModalEnabledStatus);
-  const selectedCollection = useSelector(
-    selectContentCreatorSelectedCollection
-  );
-  const collectionsData = useSelector(selectAllCollections);
-  const collectionsFields = collectionsData[selectedCollection]?.fields;
-  const formData = useSelector(selectContentCreatorData);
-
-  console.log("collectionsFields", collectionsFields);
-  console.log("formData", formData);
 
   const handleOnClose = () => {
     dispatch(disableContentCreatorModal());
   };
-
-  useEffect(() => {
-    dispatch(setInitialCollection());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(setInitialData());
-  }, [selectedCollection, dispatch]);
 
   return (
     <Dialog
@@ -65,33 +42,8 @@ export function ContentCreator() {
           noValidate
           autoComplete="off"
         >
-          {selectedCollection && (
-            <React.Fragment>
-              <CollectionSelector
-                label="Collection"
-                value={selectedCollection}
-                onChange={(collection) => dispatch(setCollection(collection))}
-              />
-
-              {collectionsFields.map((collectionFieldData) => {
-                return (
-                  <DynamicWidget
-                    key={collectionFieldData.name}
-                    fieldData={collectionFieldData}
-                    value={formData[collectionFieldData.name]}
-                    onChange={(value) =>
-                      dispatch(
-                        persitData({
-                          key: collectionFieldData.name,
-                          data: value,
-                        })
-                      )
-                    }
-                  />
-                );
-              })}
-            </React.Fragment>
-          )}
+          <CollectionSelector />
+          <FormFields />
         </Box>
       </DialogContent>
       <DialogActions>
