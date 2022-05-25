@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 import {
   AirviewCMS,
   useGetEntryMeta,
@@ -66,10 +67,10 @@ const config = {
           label: "Publish Date",
           name: "publish_date",
           widget: "date",
-          //required: true,
-          minDate: "2022-05-01T00:00:00Z",
-          maxDate: "2022-05-31T00:00:00Z",
-          //defaultValue: "2022-01-02",
+          required: true,
+          //minDate: "2022-05-01T00:00:00Z",
+          //maxDate: "2022-05-31T00:00:00Z",
+          defaultValue: dayjs().toISOString(),
           //format: "DD/MM/YY",
         },
         {

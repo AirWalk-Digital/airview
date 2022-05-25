@@ -14,7 +14,7 @@ export function DateWidget({
   required = false,
   minDate,
   maxDate,
-  defaultValue = dayjs(),
+  defaultValue,
   format = "DD/MM/YYYY",
 }) {
   const [errorCode, setErrorCode] = useState(null);
