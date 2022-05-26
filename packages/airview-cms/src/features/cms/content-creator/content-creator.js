@@ -15,6 +15,7 @@ import {
 } from "./content-creator.slice";
 import { CollectionSelector } from "./collection-selector";
 import { FormFields } from "./form-fields";
+import { prepareEntryPayload } from "./prepare-entry-payload";
 
 export function ContentCreator() {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ export function ContentCreator() {
           variant="contained"
           size="small"
           disableElevation
-          //onClick={handleOnSubmit}
+          onClick={() => dispatch(prepareEntryPayload())}
           // disabled={
           //   !validBranchName ||
           //   createBranchIsLoading ||
