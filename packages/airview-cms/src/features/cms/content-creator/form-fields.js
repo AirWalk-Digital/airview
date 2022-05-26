@@ -17,8 +17,6 @@ export function FormFields() {
   const collectionsFields = collectionsData[selectedCollection]?.fields;
   const formFieldsData = useSelector(selectContentCreatorData);
 
-  console.log(formFieldsData);
-
   if (!collectionsFields || !formFieldsData) return null;
 
   return collectionsFields.map((collectionFieldData) => {
