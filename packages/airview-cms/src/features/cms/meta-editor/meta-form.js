@@ -5,7 +5,7 @@ import { selectMetaEditorData, persistMetaDataEdit } from "./meta-editor.slice";
 import { selectAllCollections } from "../config-slice";
 import { useGetEntryMeta } from "../../use-get-all-entries-meta";
 import { selectCmsContext } from "../cms.slice";
-import { DynamicWidget } from "../widgets";
+import { DynamicWidget, StringWidget } from "../widgets";
 
 export function MetaForm() {
   const dispatch = useDispatch();
@@ -15,8 +15,24 @@ export function MetaForm() {
   const { data: entryMetaData } = useGetEntryMeta(cmsContext);
   const collectionsFields = collectionsData[entryMetaData.collection].fields;
 
+  const handleOnChange = (key, data) => {
+    dispatch(
+      persistMetaDataEdit({
+        key,
+        data,
+      })
+    );
+  };
+
   return (
     <Box component="form" noValidate autoComplete="off" sx={{ padding: 2 }}>
+      <StringWidget
+        label="Title"
+        required={true}
+        placeholder="Enter a title for the document"
+        value={metaEditorData?.title}
+        onChange={(value) => handleOnChange("title", value)}
+      />
       {collectionsFields.map((collectionFieldData) => {
         return (
           <DynamicWidget
@@ -24,12 +40,7 @@ export function MetaForm() {
             fieldData={collectionFieldData}
             value={metaEditorData[collectionFieldData.name]}
             onChange={(value) =>
-              dispatch(
-                persistMetaDataEdit({
-                  key: collectionFieldData.name,
-                  data: value,
-                })
-              )
+              handleOnChange(collectionFieldData.name, value)
             }
           />
         );
