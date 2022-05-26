@@ -6,8 +6,10 @@ import {
   DialogActions,
   Button,
   Box,
+  DialogContentText,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { usePutEntryMutation } from "../../store";
 import {
   selectContentCreatorModalEnabledStatus,
   disableContentCreatorModal,
@@ -20,9 +22,21 @@ import { prepareEntryPayload } from "./prepare-entry-payload";
 export function ContentCreator() {
   const dispatch = useDispatch();
   const dialogEnabled = useSelector(selectContentCreatorModalEnabledStatus);
+  const [putEntry, { isLoading, isError, error }] = usePutEntryMutation();
 
-  const handleOnClose = () => {
+  const closeModal = () => {
     dispatch(disableContentCreatorModal());
+  };
+
+  const handleOnSubmit = async () => {
+    const payload = dispatch(prepareEntryPayload());
+
+    try {
+      await putEntry(payload).unwrap();
+      closeModal();
+    } catch {
+      return;
+    }
   };
 
   return (
@@ -30,13 +44,24 @@ export function ContentCreator() {
       open={dialogEnabled}
       fullWidth
       maxWidth="xs"
-      onClose={handleOnClose}
+      onClose={closeModal}
       TransitionProps={{
         onExited: () => dispatch(setInitialCollection()),
       }}
     >
       <DialogTitle>Create New</DialogTitle>
       <DialogContent dividers>
+        {isError && (
+          <DialogContentText color="error" role="alert">
+            <strong>Error: </strong>
+            {error?.data?.message ?? "Unable to create entry, please try again"}
+          </DialogContentText>
+        )}
+
+        <DialogContentText variant="body1" color="text.primary">
+          <strong>Note:</strong> fields marked with an asterisk are required
+        </DialogContentText>
+
         <Box
           id="contentCreatorForm"
           component="form"
@@ -51,8 +76,8 @@ export function ContentCreator() {
         <Button
           variant="outlined"
           size="small"
-          onClick={handleOnClose}
-          //disabled={createBranchIsLoading}
+          onClick={closeModal}
+          disabled={isLoading}
         >
           Cancel
         </Button>
@@ -62,15 +87,10 @@ export function ContentCreator() {
           variant="contained"
           size="small"
           disableElevation
-          onClick={() => dispatch(prepareEntryPayload())}
-          // disabled={
-          //   !validBranchName ||
-          //   createBranchIsLoading ||
-          //   !workingBranchSha ||
-          //   !isBranchNameUnique()
-          // }
+          onClick={handleOnSubmit}
+          disabled={isLoading}
         >
-          Create
+          {isLoading ? "Working..." : "Create"}
         </Button>
       </DialogActions>
     </Dialog>
