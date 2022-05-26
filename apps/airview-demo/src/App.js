@@ -15,26 +15,11 @@ const config = {
   collections: {
     application: {
       label: "Application",
-      fields: [
-        {
-          label: "Title",
-          name: "title",
-          widget: "string",
-          required: true,
-          placeholder: "Enter a title for the document",
-        },
-      ],
+      fields: [],
     },
     knowledge: {
       label: "Knowledge",
       fields: [
-        {
-          label: "Title",
-          name: "title",
-          widget: "string",
-          required: true,
-          placeholder: "Enter a title for the document",
-        },
         {
           label: "Parent Entry",
           name: "parent",
@@ -48,13 +33,6 @@ const config = {
     release: {
       label: "Release",
       fields: [
-        {
-          label: "Title",
-          name: "title",
-          widget: "string",
-          required: true,
-          placeholder: "Enter a title for the document",
-        },
         {
           label: "Parent Entry",
           name: "parent",
