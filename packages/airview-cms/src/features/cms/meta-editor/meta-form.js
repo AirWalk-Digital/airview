@@ -13,6 +13,9 @@ export function MetaForm() {
   const collectionsData = useSelector(selectAllCollections);
   const cmsContext = useSelector(selectCmsContext);
   const { data: entryMetaData } = useGetEntryMeta(cmsContext);
+
+  if (!entryMetaData) return null;
+
   const collectionsFields = collectionsData[entryMetaData.collection].fields;
 
   const handleOnChange = (key, data) => {

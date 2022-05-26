@@ -2,7 +2,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { selectDoesMetaEditorHaveEdits } from "../meta-editor";
-import { selectCmsBusyStatus } from "../cms.slice";
+import {
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../cms.slice";
 import {
   enableContentCreatorModal,
   selectContentCreatorModalEnabledStatus,
@@ -15,6 +18,8 @@ export function CreateNewContent() {
   const contentCreatorModalEnabled = useSelector(
     selectContentCreatorModalEnabledStatus
   );
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
+
   const handleOnClick = () => dispatch(enableContentCreatorModal());
 
   return (
@@ -22,7 +27,12 @@ export function CreateNewContent() {
       variant="contained"
       disableElevation
       size="small"
-      disabled={metaEditorEdits || cmsBusy || contentCreatorModalEnabled}
+      disabled={
+        metaEditorEdits ||
+        cmsBusy ||
+        contentCreatorModalEnabled ||
+        protectedBranch
+      }
       onClick={handleOnClick}
     >
       Create New

@@ -82,6 +82,19 @@ export const selectCmsBusyStatus = (state) => state.cmsSlice.cmsBusy;
 
 export const selectWorkingBranch = (state) => state.cmsSlice.workingBranch;
 
+export const selectIsWorkingBranchProtected = (state) => {
+  const getBranchesResult = airviewApi.endpoints.getBranches.select()(state);
+  const { data: branches } = getBranchesResult;
+  const workingBranch = selectWorkingBranch(state);
+
+  if (!branches) return;
+
+  return (
+    branches.find((branch) => branch.name === workingBranch)?.isProtected ??
+    false
+  );
+};
+
 export function disableCms() {
   return (dispatch, getState) => {
     const metaEdits = selectDoesMetaEditorHaveEdits(getState());
