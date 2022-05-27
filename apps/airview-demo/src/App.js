@@ -2,16 +2,14 @@ import React from "react";
 
 import {
   AirviewCMS,
-  useGetEntry,
   useGetEntryMeta,
   useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
   useGetChildEntriesMeta,
   useGetCollectionEntries,
-  useSetCmsContext,
 } from "airview-cms";
 import { config } from "./config";
-import { CmsContextEntry } from "./features";
+import { CmsContextEntry, StaticEntry } from "./features";
 
 function App() {
   return (
@@ -123,24 +121,6 @@ function SingleEntryMeta() {
     return (
       <React.Fragment>
         <div>Error fetching entry meta</div>
-        <pre>{JSON.stringify(error, null, 2)}</pre>
-      </React.Fragment>
-    );
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
-}
-
-function StaticEntry() {
-  const { data, isLoading, isFetching, isError, error } = useGetEntry(
-    "knowledge/place_call_on_hold"
-  );
-
-  if (isLoading || isFetching) return <div>Fetching static entry...</div>;
-
-  if (isError)
-    return (
-      <React.Fragment>
-        <div>Error fetching static entry</div>
         <pre>{JSON.stringify(error, null, 2)}</pre>
       </React.Fragment>
     );
