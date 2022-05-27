@@ -10,59 +10,7 @@ import {
   useGetCollectionEntries,
   useSetCmsContext,
 } from "airview-cms";
-
-const config = {
-  baseBranch: "main",
-  collections: {
-    application: {
-      label: "Application",
-      fields: [],
-    },
-    knowledge: {
-      label: "Knowledge",
-      fields: [
-        {
-          label: "Parent Entry",
-          name: "parent",
-          widget: "entrySelect",
-          excludeSelf: true,
-          collection: "application",
-          required: true,
-        },
-      ],
-      additionalFiles: ["section_one", "section_two"],
-    },
-    release: {
-      label: "Release",
-      fields: [
-        {
-          label: "Parent Entry",
-          name: "parent",
-          widget: "entrySelect",
-          excludeSelf: true,
-          collection: "application",
-          required: true,
-        },
-        {
-          label: "Publish Date",
-          name: "publish_date",
-          widget: "date",
-          required: true,
-          //minDate: "2022-05-01T00:00:00Z",
-          //maxDate: "2022-05-31T00:00:00Z",
-          defaultValue: dayjs().toISOString(),
-          //format: "DD/MM/YY",
-        },
-        {
-          label: "User Facing",
-          name: "user_facing",
-          defaultValue: false,
-          widget: "boolean",
-        },
-      ],
-    },
-  },
-};
+import { config } from "./config";
 
 function App() {
   return (
@@ -71,7 +19,7 @@ function App() {
         <div style={{ width: "50%" }}>
           <h2>CMS Context Entry</h2>
           <p>
-            <em>release/security_patch</em>
+            <em>knowledge/place_call_on_hold</em>
           </p>
           <CmsContextEntry />
           <hr />
@@ -183,7 +131,7 @@ function SingleEntryMeta() {
 
 function CmsContextEntry() {
   const { data, isLoading, isFetching, isError, error } = useSetCmsContext(
-    "release/security_patch"
+    "knowledge/place_call_on_hold"
   );
 
   if (isLoading || isFetching) return <div>Fetching CMS context entry...</div>;
