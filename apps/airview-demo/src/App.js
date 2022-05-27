@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AirviewCMS } from "airview-cms";
 import { config } from "./config";
 import {
@@ -8,11 +8,17 @@ import {
   ChildEntriesMeta,
   SiblingEntries,
   SingleEntryMeta,
+  EntrySelector,
 } from "./features";
 
 function App() {
+  const [selectedEntry, setSelectedEntry] = useState("");
+
   return (
     <AirviewCMS config={config}>
+      <div style={{ padding: "48px 16px 16px 16px" }}>
+        <EntrySelector value={selectedEntry} onChange={setSelectedEntry} />
+      </div>
       <div style={{ display: "flex", padding: "16px" }}>
         <div style={{ width: "50%" }}>
           <CmsContextEntry />
