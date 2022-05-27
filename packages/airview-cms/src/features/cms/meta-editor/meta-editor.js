@@ -4,7 +4,7 @@ import { Box, Slide, CircularProgress, Typography } from "@mui/material";
 import { META_EDITOR_WIDTH } from "./constants";
 import { TOOL_BAR_HEIGHT } from "../toolbar";
 import { useGetEntry } from "../../use-get-entry";
-import { selectCmsContext, selectIsWorkingBranchProtected } from "../cms.slice";
+import { selectCmsContext } from "../cms.slice";
 import {
   selectMetaEditorEnabledStatus,
   selectMetaEditorData,
@@ -17,7 +17,6 @@ export function MetaEditor() {
   const cmsContext = useSelector(selectCmsContext);
   const { isLoading, isFetching, isError } = useGetEntry(cmsContext);
   const metaEditorData = useSelector(selectMetaEditorData);
-  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   return (
     <Slide in={metaEditorEnabled} direction="left" timeout={350}>
@@ -55,12 +54,6 @@ export function MetaEditor() {
             <MetaEditorFeedbackContainer>
               <Typography>
                 There is no meta data to edit for this entry
-              </Typography>
-            </MetaEditorFeedbackContainer>
-          ) : protectedBranch ? (
-            <MetaEditorFeedbackContainer>
-              <Typography>
-                Protected branch, unable to allow edits for this entry
               </Typography>
             </MetaEditorFeedbackContainer>
           ) : (

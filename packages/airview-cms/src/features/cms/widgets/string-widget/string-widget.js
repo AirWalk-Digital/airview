@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@mui/material";
 import { useSelector } from "react-redux";
-import { selectCmsBusyStatus } from "../../cms.slice";
+import {
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../../cms.slice";
 
 export function StringWidget({
   label,
@@ -13,6 +16,7 @@ export function StringWidget({
 }) {
   const handleOnChange = (event) => onChange(event.target.value);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   return (
     <TextField
@@ -25,7 +29,7 @@ export function StringWidget({
       required={required}
       placeholder={placeholder}
       onChange={handleOnChange}
-      disabled={cmsBusy}
+      disabled={cmsBusy || protectedBranch}
     />
   );
 }

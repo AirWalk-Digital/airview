@@ -9,7 +9,11 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { selectCmsContext, selectCmsBusyStatus } from "../../cms.slice";
+import {
+  selectCmsContext,
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../../cms.slice";
 import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
 export function EntrySelectWidget({
@@ -23,6 +27,7 @@ export function EntrySelectWidget({
   const id = useId();
   const cmsContext = useSelector(selectCmsContext);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   const { data: entries } = useGetAllEntriesMeta(({ data }) => {
     const filteredData = data?.map((dataItem) => ({
@@ -75,7 +80,7 @@ export function EntrySelectWidget({
       margin="normal"
       error={isInvalidSelection}
       required={required}
-      disabled={cmsBusy}
+      disabled={cmsBusy || protectedBranch}
     >
       <InputLabel id={`parent-select-label-${id}`} shrink>
         {label}
