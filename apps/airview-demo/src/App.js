@@ -1,16 +1,12 @@
 import React from "react";
-import {
-  AirviewCMS,
-  useGetEntryMeta,
-  useGetSiblingEntriesMeta,
-  useGetCollectionEntries,
-} from "airview-cms";
+import { AirviewCMS, useGetEntryMeta } from "airview-cms";
 import { config } from "./config";
 import {
   CmsContextEntry,
   StaticEntry,
   AllEntriesMeta,
   ChildEntriesMeta,
+  SiblingEntries,
 } from "./features";
 
 function App() {
@@ -46,12 +42,6 @@ function App() {
           </p>
           <SiblingEntries />
           <hr />
-          <h2>Collection Entries Meta</h2>
-          <p>
-            <em>knowledge</em>
-          </p>
-          <CollectionEntries />
-          <hr />
           <h2>Single Entry Meta</h2>
           <p>
             <em>knowledge/place_call_on_hold</em>
@@ -64,31 +54,6 @@ function App() {
 }
 
 export default App;
-
-function SiblingEntries() {
-  const { data, isLoading, isFetching, isError } = useGetSiblingEntriesMeta(
-    "knowledge/composing_a_new_message"
-  );
-
-  if (isLoading || isFetching)
-    return <div>Fetching sibling entries meta...</div>;
-
-  if (isError) return <div>Error fetching sibling entries meta</div>;
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
-}
-
-function CollectionEntries() {
-  const { data, isLoading, isFetching, isError } =
-    useGetCollectionEntries("knowledge");
-
-  if (isLoading || isFetching)
-    return <div>Fetching collection entries meta...</div>;
-
-  if (isError) return <div>Error fetching collection entries meta</div>;
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
-}
 
 function SingleEntryMeta() {
   const { data, isLoading, isFetching, isError, error } = useGetEntryMeta(
