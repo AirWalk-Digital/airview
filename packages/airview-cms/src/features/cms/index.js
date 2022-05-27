@@ -1,5 +1,6 @@
 export { CMS } from "./cms";
 export { EnableCmsButton } from "./enable-cms-button";
+export { MainContent } from "./main-content";
 export {
   cmsSlice,
   setCmsContext,
