@@ -2,6 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import {
   AirviewCMS,
+  useGetEntry,
   useGetEntryMeta,
   useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
@@ -29,6 +30,7 @@ const config = {
           required: true,
         },
       ],
+      additionalFiles: ["section_one", "section_two"],
     },
     release: {
       label: "Release",
@@ -72,6 +74,12 @@ function App() {
             <em>release/security_patch</em>
           </p>
           <CmsContextEntry />
+          <hr />
+          <h2>Static Entry</h2>
+          <p>
+            <em>knowledge/place_call_on_hold</em>
+          </p>
+          <StaticEntry />
         </div>
         <div style={{ width: "50%" }}>
           <h2>All Entries Meta</h2>
@@ -184,6 +192,24 @@ function CmsContextEntry() {
     return (
       <React.Fragment>
         <div>Error fetching CMS context entry</div>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </React.Fragment>
+    );
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
+
+function StaticEntry() {
+  const { data, isLoading, isFetching, isError, error } = useGetEntry(
+    "knowledge/place_call_on_hold"
+  );
+
+  if (isLoading || isFetching) return <div>Fetching static entry...</div>;
+
+  if (isError)
+    return (
+      <React.Fragment>
+        <div>Error fetching static entry</div>
         <pre>{JSON.stringify(error, null, 2)}</pre>
       </React.Fragment>
     );

@@ -52,10 +52,14 @@ export function createSeedData() {
               parent: "application/ms_teams",
             })
           ),
-
           section_one: btoa(
             matter.stringify(
               "I am body content for Place Call on Hold - section one"
+            )
+          ),
+          section_two: btoa(
+            matter.stringify(
+              "I am body content for Place Call on Hold - section two"
             )
           ),
         },
@@ -77,6 +81,11 @@ export function createSeedData() {
           section_one: btoa(
             matter.stringify(
               "I am body content for Composing a new message - section one"
+            )
+          ),
+          section_two: btoa(
+            matter.stringify(
+              "I am body content for Composing a new message - section two"
             )
           ),
         },
