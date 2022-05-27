@@ -4,3 +4,4 @@ export { StaticEntry } from "./static-entry";
 export { ChildEntriesMeta } from "./child-entries-meta";
 export { SiblingEntries } from "./sibling-entries";
 export { CollectionEntries } from "./collection-entries";
+export { SingleEntryMeta } from "./single-entry-meta";
