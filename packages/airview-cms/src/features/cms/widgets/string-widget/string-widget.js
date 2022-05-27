@@ -9,12 +9,13 @@ import {
 
 export function StringWidget({
   label,
-  value = "",
+  value,
   required = false,
   placeholder,
   onChange,
 }) {
-  const handleOnChange = (event) => onChange(event.target.value);
+  const handleOnChange = (event) =>
+    onChange(event.target.value ? event.target.value : null);
   const cmsBusy = useSelector(selectCmsBusyStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
@@ -25,7 +26,7 @@ export function StringWidget({
       fullWidth
       size="small"
       margin="normal"
-      value={value}
+      value={value ?? ""}
       required={required}
       placeholder={placeholder}
       onChange={handleOnChange}

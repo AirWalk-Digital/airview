@@ -62,8 +62,10 @@ export function setInitialFormData() {
     );
 
     const initialData = collections[selectedCollection].fields.map((field) => {
-      return [field.name, field?.defaultValue ?? undefined];
+      return [field.name, field?.defaultValue ?? null];
     });
+
+    initialData.push(["title", null]);
 
     dispatch(initData(Object.fromEntries(initialData)));
   };

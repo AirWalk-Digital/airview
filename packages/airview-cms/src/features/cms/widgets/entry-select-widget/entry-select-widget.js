@@ -18,7 +18,7 @@ import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
 export function EntrySelectWidget({
   label,
-  value = "",
+  value,
   onChange,
   excludeSelf = false,
   collection,
@@ -71,7 +71,9 @@ export function EntrySelectWidget({
     </Typography>
   );
 
-  const handleOnChange = (event) => onChange(event.target.value);
+  const handleOnChange = (event) => {
+    onChange(event.target.value ? event.target.value : null);
+  };
 
   return (
     <FormControl
@@ -91,7 +93,7 @@ export function EntrySelectWidget({
         displayEmpty
         labelId={`parent-select-label-${id}`}
         id={`parent-select-${id}`}
-        value={value}
+        value={value ?? ""}
         label={label}
         onChange={handleOnChange}
       >
