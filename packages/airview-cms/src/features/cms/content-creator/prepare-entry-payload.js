@@ -1,7 +1,7 @@
 import slugify from "slugify";
 import matter from "gray-matter";
 import { selectWorkingBranch } from "../cms.slice";
-//import { selectAllCollections } from "../config-slice";
+import { selectAllCollections } from "../config-slice";
 import {
   selectContentCreatorSelectedCollection,
   selectContentCreatorData,
@@ -11,7 +11,7 @@ export function prepareEntryPayload() {
   return (_, getState) => {
     const state = getState();
     const workingBranch = selectWorkingBranch(state);
-    //const collections = selectAllCollections(state);
+    const collections = selectAllCollections(state);
     const selectedEntryCollection =
       selectContentCreatorSelectedCollection(state);
     const entryMetaData = selectContentCreatorData(state);
@@ -20,11 +20,19 @@ export function prepareEntryPayload() {
       entryMetaData.title
     )}`;
 
+    const { additionalFiles } = collections[selectedEntryCollection];
+
     return {
       id: entryId,
       branch: workingBranch,
       data: {
         _index: btoa(matter.stringify("", entryMetaData)),
+        ...(additionalFiles &&
+          Object.fromEntries(
+            additionalFiles.map((file) => {
+              return [file, btoa(matter.stringify("", {}))];
+            })
+          )),
       },
     };
   };
