@@ -2,10 +2,8 @@ import React from "react";
 import { useGetEntry } from "airview-cms";
 import { DataOutput } from "../components";
 
-export function StaticEntry() {
-  const { data, isLoading, isFetching, isError, error } = useGetEntry(
-    "knowledge/place_call_on_hold"
-  );
+export function StaticEntry({ entryId }) {
+  const { data, isLoading, isFetching, isError, error } = useGetEntry(entryId);
 
   return (
     <DataOutput

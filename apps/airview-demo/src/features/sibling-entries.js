@@ -1,9 +1,9 @@
 import { useGetSiblingEntriesMeta } from "airview-cms";
 import { DataOutput } from "../components";
 
-export function SiblingEntries() {
+export function SiblingEntries({ entryId }) {
   const { data, isLoading, isFetching, isError, error } =
-    useGetSiblingEntriesMeta("knowledge/composing_a_new_message");
+    useGetSiblingEntriesMeta(entryId);
 
   return (
     <DataOutput

@@ -11,6 +11,7 @@ export function EntrySelector({ value, onChange }) {
   } = useGetAllEntriesMeta();
 
   const handleOnChange = (event) => {
+    event.preventDefault();
     onChange(event.target.value);
   };
 
@@ -22,7 +23,7 @@ export function EntrySelector({ value, onChange }) {
     return <div>Error loading entries selection</div>;
   }
 
-  if (isSuccess && !entries) return <div>No entries</div>;
+  if (isSuccess && (!entries || !entries.length)) return <div>No entries</div>;
 
   if (entries)
     return (

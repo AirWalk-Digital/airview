@@ -1,9 +1,9 @@
 import { useGetChildEntriesMeta } from "airview-cms";
 import { DataOutput } from "../components";
 
-export function ChildEntriesMeta() {
+export function ChildEntriesMeta({ entryId }) {
   const { data, isLoading, isFetching, isError, error } =
-    useGetChildEntriesMeta("application/ms_teams");
+    useGetChildEntriesMeta(entryId);
 
   return (
     <DataOutput
