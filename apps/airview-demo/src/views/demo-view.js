@@ -12,8 +12,6 @@ import {
 export function DemoView() {
   const [selectedEntry, setSelectedEntry] = useState("");
 
-  console.log(selectedEntry);
-
   return (
     <React.Fragment>
       <div style={{ padding: "48px 16px 16px 16px" }}>
