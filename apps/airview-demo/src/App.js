@@ -9,7 +9,7 @@ import {
   useGetCollectionEntries,
 } from "airview-cms";
 import { config } from "./config";
-import { CmsContextEntry, StaticEntry } from "./features";
+import { CmsContextEntry, StaticEntry, AllEntriesMeta } from "./features";
 
 function App() {
   return (
@@ -62,16 +62,6 @@ function App() {
 }
 
 export default App;
-
-function AllEntriesMeta() {
-  const { data, isLoading, isFetching, isError } = useGetAllEntriesMeta();
-
-  if (isLoading || isFetching) return <div>Fetching all entries meta...</div>;
-
-  if (isError) return <div>Error fetching all entries meta</div>;
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
-}
 
 function ChildEntriesMeta() {
   const { data, isLoading, isFetching, isError } = useGetChildEntriesMeta(
