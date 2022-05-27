@@ -1,15 +1,16 @@
 import { useGetCollectionEntries } from "airview-cms";
+import { DataOutput } from "../components";
 
 // REQUIRES hook to get collections
 
 export function CollectionEntries() {
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, error } =
     useGetCollectionEntries("knowledge");
 
-  if (isLoading || isFetching)
-    return <div>Fetching collection entries meta...</div>;
-
-  if (isError) return <div>Error fetching collection entries meta</div>;
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return (
+    <DataOutput
+      title="Collection Entries"
+      {...{ isLoading, isFetching, isError, error, data }}
+    />
+  );
 }
