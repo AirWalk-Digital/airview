@@ -41,7 +41,7 @@ export function EntrySelectWidget({
 
   // Remove current context entry to prevent self as parent selection
   const filteredEntries = useMemo(() => {
-    if (!excludeSelf && !collection) return [...entries];
+    if (!excludeSelf || !collection) return [...entries];
 
     let processedEntries;
 
