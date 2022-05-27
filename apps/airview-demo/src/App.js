@@ -1,15 +1,17 @@
 import React from "react";
-
 import {
   AirviewCMS,
   useGetEntryMeta,
-  useGetAllEntriesMeta,
   useGetSiblingEntriesMeta,
-  useGetChildEntriesMeta,
   useGetCollectionEntries,
 } from "airview-cms";
 import { config } from "./config";
-import { CmsContextEntry, StaticEntry, AllEntriesMeta } from "./features";
+import {
+  CmsContextEntry,
+  StaticEntry,
+  AllEntriesMeta,
+  ChildEntriesMeta,
+} from "./features";
 
 function App() {
   return (
@@ -62,18 +64,6 @@ function App() {
 }
 
 export default App;
-
-function ChildEntriesMeta() {
-  const { data, isLoading, isFetching, isError } = useGetChildEntriesMeta(
-    "application/ms_teams"
-  );
-
-  if (isLoading || isFetching) return <div>Fetching child entries meta...</div>;
-
-  if (isError) return <div>Error fetching child entries meta</div>;
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
-}
 
 function SiblingEntries() {
   const { data, isLoading, isFetching, isError } = useGetSiblingEntriesMeta(
