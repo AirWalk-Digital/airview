@@ -28,7 +28,8 @@ export function ContentCreator() {
     dispatch(disableContentCreatorModal());
   };
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
     const payload = dispatch(prepareEntryPayload());
 
     try {
