@@ -83,7 +83,7 @@ export function ContentCreator() {
         </Button>
         <Button
           type="submit"
-          form="branchCreatorForm"
+          form="contentCreatorForm"
           variant="contained"
           size="small"
           disableElevation
