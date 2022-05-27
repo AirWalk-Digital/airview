@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  selectCmsContext,
   selectCmsBusyStatus,
   selectIsWorkingBranchProtected,
 } from "../../cms.slice";
@@ -20,12 +19,10 @@ export function EntrySelectWidget({
   label,
   value,
   onChange,
-  excludeSelf = false,
   collection,
   required,
 }) {
   const id = useId();
-  const cmsContext = useSelector(selectCmsContext);
   const cmsBusy = useSelector(selectCmsBusyStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
@@ -41,22 +38,10 @@ export function EntrySelectWidget({
 
   // Remove current context entry to prevent self as parent selection
   const filteredEntries = useMemo(() => {
-    if (!excludeSelf || !collection) return [...entries];
+    if (!collection) return [...entries];
 
-    let processedEntries;
-
-    if (excludeSelf) {
-      processedEntries = entries.filter((entry) => entry.id !== cmsContext);
-    }
-
-    if (collection) {
-      return processedEntries.filter(
-        (entry) => entry.collection === collection
-      );
-    }
-
-    return processedEntries;
-  }, [entries, cmsContext, excludeSelf, collection]);
+    return entries.filter((entry) => entry.collection === collection);
+  }, [entries, collection]);
 
   // Derrive if working branch no longer has selected parent
   const isInvalidSelection = useMemo(() => {
@@ -119,7 +104,6 @@ EntrySelectWidget.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  excludeSelf: PropTypes.bool,
   collection: PropTypes.string,
   required: PropTypes.bool,
 };
