@@ -1,19 +1,23 @@
-import express, { Response, Request, Router, NextFunction } from "express"; //
+import express, { Response, Request, NextFunction } from "express"; //
 import { CmsBackend } from "./backend.js";
-import { SqliteCache } from "./cache.js";
 import { S3Cache } from "./s3cache.js";
 import { GithubClient } from "./githubClient.js";
 
+const bucket = process.env.AWS_S3_BUCKET;
+const region = process.env.AWS_S3_REGION;
+if (bucket === undefined) throw Error("No S3 Bucket defined");
+
+if (region === undefined) throw Error("No S3 Region defined");
+
 const client = new GithubClient();
-// const cache = new SqliteCache();
-const cache = new S3Cache();
+const cache = new S3Cache(region, bucket);
 const backend = new CmsBackend(client, cache);
 
 const app = express();
 
 app.use(express.json());
 
-const port = 3001;
+const port = 3000;
 
 app.get(
   "/search/:sha",

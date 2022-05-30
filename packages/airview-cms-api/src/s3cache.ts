@@ -1,14 +1,20 @@
 import { CmsCache } from "interfaces";
 import AWS from "aws-sdk";
-AWS.config.update({ region: "eu-west-1" });
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
 export class S3Cache implements CmsCache {
+  private readonly _bucket: string;
+
+  constructor(region: string, bucket: string) {
+    this._bucket = bucket;
+    AWS.config.update({ region });
+  }
+
   async get(key: string): Promise<any> {
     try {
       const file = await s3
         .getObject({
-          Bucket: "msc-demo-s3-bucket",
+          Bucket: this._bucket,
           Key: key,
         })
         .promise();
