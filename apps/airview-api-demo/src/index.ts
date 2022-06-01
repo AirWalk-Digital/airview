@@ -1,4 +1,4 @@
-import express, { Response, Request, NextFunction } from "express"; //
+import express, { Response, Request, NextFunction } from "express";
 import { CmsBackend, S3Cache, GithubClient } from "airview-cms-api";
 
 const bucket = process.env.AWS_S3_BUCKET;
