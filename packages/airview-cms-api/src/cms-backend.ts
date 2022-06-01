@@ -1,4 +1,3 @@
-// import cache from "./cache.js";
 import {
   GitClient,
   GitBranch,
@@ -42,7 +41,7 @@ export class CmsBackend {
 
     const data = await fetcher();
 
-    await this._cache.set(cacheKey, data); //, expireSecs);
+    await this._cache.set(cacheKey, data);
     return data;
   }
 
@@ -50,7 +49,6 @@ export class CmsBackend {
     return await this._getCachedResponse(
       async () => this._client.getBranches(), //needs fat arrow to avoid losing 'this' context.
       "branches"
-      // 10
     );
   }
 
@@ -63,12 +61,10 @@ export class CmsBackend {
 
   async deleteEntity(content: InboundEntity): Promise<void> {
     await this._client.deleteEntity(content);
-    // await cache.expire("branches");
   }
 
   async searchContent(branchSha: string, query: string) {
     return [];
-    // return await cache.query(branchSha, query);
   }
 
   async getContent(sha: string): Promise<Record<string, string>> {
