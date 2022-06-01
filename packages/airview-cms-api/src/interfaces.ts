@@ -33,6 +33,11 @@ export interface GitClient {
   deleteEntity(content: InboundEntity): Promise<any>;
 }
 
+export interface CmsCache {
+  get(key: string): Promise<any | undefined>;
+  set(key: string, value: any): Promise<void>;
+}
+
 export interface CmsEntity {
   id: string;
   collection: string;

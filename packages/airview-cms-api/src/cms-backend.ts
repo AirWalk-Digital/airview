@@ -1,4 +1,3 @@
-import cache from "./cache.js";
 import {
   GitClient,
   GitBranch,
@@ -6,15 +5,18 @@ import {
   CmsEntity,
   InboundContent,
   InboundEntity,
+  CmsCache,
 } from "./interfaces";
 import matter from "gray-matter";
 
 export class CmsBackend {
   readonly _client: GitClient;
+  readonly _cache: CmsCache;
   readonly _exclusions: string[];
 
-  constructor(client: GitClient) {
+  constructor(client: GitClient, cache: CmsCache) {
     this._client = client;
+    this._cache = cache;
     this._exclusions =
       process.env.EXCLUSIONS == undefined
         ? []
@@ -31,44 +33,38 @@ export class CmsBackend {
     return filtered;
   }
 
-  private async _getCachedResponse<T>(
-    fetcher: any,
-    cacheKey: string,
-    expireSecs?: number
-  ) {
-    const cached = await cache.get(cacheKey);
+  private async _getCachedResponse<T>(fetcher: any, cacheKey: string) {
+    const cached = await this._cache.get(cacheKey);
     if (cached) {
       return cached;
     }
 
     const data = await fetcher();
 
-    await cache.set(cacheKey, data, expireSecs);
+    await this._cache.set(cacheKey, data);
     return data;
   }
 
   async getBranches(): Promise<GitBranch[]> {
     return await this._getCachedResponse(
       async () => this._client.getBranches(), //needs fat arrow to avoid losing 'this' context.
-      "branches",
-      10
+      "branches"
     );
   }
 
   async setContent(inboundContent: InboundContent): Promise<void> {
     const content = await this._client.setContent(inboundContent);
     for (const item of content) {
-      await cache.set(item.sha, item);
+      await this._cache.set(item.sha, item);
     }
   }
 
   async deleteEntity(content: InboundEntity): Promise<void> {
     await this._client.deleteEntity(content);
-    await cache.expire("branches");
   }
 
   async searchContent(branchSha: string, query: string) {
-    return await cache.query(branchSha, query);
+    return [];
   }
 
   async getContent(sha: string): Promise<Record<string, string>> {
@@ -88,7 +84,7 @@ export class CmsBackend {
     return results.reduce((ac, a) => ({ ...ac, [a.name]: a.data }), {});
   }
   async getEntries(sha: string): Promise<CmsEntity[]> {
-    const cachedMapping = await cache.get("meta|" + sha);
+    const cachedMapping = await this._cache.get("meta|" + sha);
     if (cachedMapping) return cachedMapping;
 
     const collections = await this._getFilteredTree(
@@ -107,6 +103,9 @@ export class CmsBackend {
 
         const mapped = await Promise.all(
           entities.map(async (entity): Promise<CmsEntity | null> => {
+            const cachedTree = await this._cache.get(`tree|${entity.sha}`);
+            if (cachedTree) return cachedTree;
+
             const id = `${collection.path}/${entity.path}`;
             const filtered = await this._getFilteredTree(
               entity.sha,
@@ -124,12 +123,14 @@ export class CmsBackend {
               var b = Buffer.from(blob.content, "base64");
               var s = b.toString();
 
-              return {
+              const thisTree = {
                 id,
                 collection: collection.path,
                 sha: entity.sha,
                 meta: matter(s).data,
               };
+              await this._cache.set(`tree|${entity.sha}`, thisTree);
+              return thisTree;
             }
             return null;
           })
