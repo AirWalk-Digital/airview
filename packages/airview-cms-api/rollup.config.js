@@ -9,6 +9,7 @@ export default {
     "node-fetch",
     "sqlite3",
     "fs",
+    "slugify",
   ],
   output: [{ dir: `dist`, format: "es" }],
   plugins: [typescript()],

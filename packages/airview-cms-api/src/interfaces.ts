@@ -14,14 +14,30 @@ export interface GitBlob {
   content: string;
 }
 
-export interface InboundEntity {
-  id: string;
+interface InboundItemDescriptor {
   baseSha: string;
   branchName: string;
   author: { name: string; email: string };
 }
 
-export interface InboundContent extends InboundEntity {
+export interface IdentifiableEntity extends InboundItemDescriptor {
+  id: string;
+}
+
+export interface InboundEntity extends InboundItemDescriptor {
+  name: string;
+  collection: string;
+  content: Record<string, string>;
+}
+
+export interface OutboundEntity {
+  id: string;
+  name: string;
+  collection: string;
+  entity: string;
+}
+
+export interface InboundContent extends IdentifiableEntity {
   content: Record<string, string>;
 }
 
@@ -30,7 +46,7 @@ export interface GitClient {
   getTree(sha: string): Promise<GitTree[]>;
   getBlob(sha: string): Promise<GitBlob>;
   setContent(content: InboundContent): Promise<GitBlob[]>;
-  deleteEntity(content: InboundEntity): Promise<any>;
+  deleteEntity(content: IdentifiableEntity): Promise<any>;
 }
 
 export interface CmsCache {

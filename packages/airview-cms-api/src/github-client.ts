@@ -7,12 +7,12 @@ import {
   GitBranch,
   InboundContent,
   InboundEntity,
+  IdentifiableEntity,
 } from "./interfaces";
 import fetch from "node-fetch";
 
 const appId = process.env.APP_ID;
 const installationId = process.env.INSTALLATION_ID;
-const privateKeyPath: string = process.env.PRIVATE_KEY_FILE || "";
 const repo = process.env.REPO;
 const org = process.env.ORG;
 
@@ -21,22 +21,11 @@ interface Token {
   expiry: number;
 }
 
-let token: Token;
-const privateKey = fs.readFileSync(privateKeyPath);
+export function getTokenFromPrivateKeyCb(privateKeyPath: string) {
+  let token: Token;
+  const privateKey = fs.readFileSync(privateKeyPath);
 
-export class GithubClient implements GitClient {
-  private async _fetchWithHeaders(url: string, options: any = {}) {
-    const headers = {
-      ...(options?.headers || {}),
-      Accept: "application/vnd.github.v3+json",
-      Authorization: `token ${await this._getToken()}`,
-    };
-
-    const resp = await fetch(url, { ...options, headers });
-    return resp;
-  }
-
-  private async _getToken(): Promise<string> {
+  async function getToken(): Promise<string> {
     if (token === undefined || token.expiry < new Date().getTime() + 1000) {
       const timeSinceEpoch: number = new Date().getTime() / 1000;
       const payload = {
@@ -61,6 +50,24 @@ export class GithubClient implements GitClient {
       token = { value: data.token, expiry: Date.parse(data.expires_at) };
     }
     return token.value;
+  }
+  return getToken;
+}
+
+export class GithubClient implements GitClient {
+  private _getToken!: () => Promise<string>;
+  constructor(getTokenCallback: () => Promise<string>) {
+    this._getToken = getTokenCallback;
+  }
+  private async _fetchWithHeaders(url: string, options: any = {}) {
+    const headers = {
+      ...(options?.headers || {}),
+      Accept: "application/vnd.github.v3+json",
+      Authorization: `token ${await this._getToken()}`,
+    };
+
+    const resp = await fetch(url, { ...options, headers });
+    return resp;
   }
 
   private async _deletePath(id: string, baseSha: string) {
@@ -254,7 +261,7 @@ export class GithubClient implements GitClient {
     return blobs;
   }
 
-  async deleteEntity(inboundEntity: InboundEntity) {
+  async deleteEntity(inboundEntity: IdentifiableEntity) {
     const treeSha = await this._deletePath(
       inboundEntity.id,
       inboundEntity.baseSha

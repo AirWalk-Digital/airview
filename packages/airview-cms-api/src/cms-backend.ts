@@ -6,8 +6,11 @@ import {
   InboundContent,
   InboundEntity,
   CmsCache,
+  IdentifiableEntity,
+  OutboundEntity,
 } from "./interfaces";
 import matter from "gray-matter";
+import slugify from "slugify";
 
 export class CmsBackend {
   readonly _client: GitClient;
@@ -46,10 +49,7 @@ export class CmsBackend {
   }
 
   async getBranches(): Promise<GitBranch[]> {
-    return await this._getCachedResponse(
-      async () => this._client.getBranches(), //needs fat arrow to avoid losing 'this' context.
-      "branches"
-    );
+    return await this._client.getBranches();
   }
 
   async setContent(inboundContent: InboundContent): Promise<void> {
@@ -59,8 +59,25 @@ export class CmsBackend {
     }
   }
 
-  async deleteEntity(content: InboundEntity): Promise<void> {
+  async deleteEntity(content: IdentifiableEntity): Promise<void> {
     await this._client.deleteEntity(content);
+  }
+
+  async createEntity(entity: InboundEntity): Promise<OutboundEntity> {
+    // We cannot enforce names as being unique across all the collection
+    // Use the current timestamp in hex format to unique-ify the id
+    const ts = Math.floor(new Date().getTime()).toString(16);
+    const slugifiedName = `${slugify(entity.name)}-${ts}`;
+    const id = `${entity.collection}/${slugifiedName}`;
+
+    await this.setContent({ ...entity, id });
+
+    return {
+      id,
+      name: entity.name,
+      collection: entity.collection,
+      entity: slugifiedName,
+    };
   }
 
   async searchContent(branchSha: string, query: string) {
@@ -83,7 +100,7 @@ export class CmsBackend {
 
     return results.reduce((ac, a) => ({ ...ac, [a.name]: a.data }), {});
   }
-  async getEntries(sha: string): Promise<CmsEntity[]> {
+  async getCollections(sha: string): Promise<CmsEntity[]> {
     const cachedMapping = await this._cache.get("meta|" + sha);
     if (cachedMapping) return cachedMapping;
 
