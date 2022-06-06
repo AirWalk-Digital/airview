@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AirviewProvider } from "@features";
+import {
+  AirviewProvider,
+  AirviewRouter,
+  airviewRouterHistory,
+} from "@features";
 import { MainView } from "@views";
 
 export function AirviewCMS({ config, children }) {
   return (
     <AirviewProvider config={config}>
-      <MainView>{children}</MainView>
+      <AirviewRouter history={airviewRouterHistory}>
+        <MainView>{children}</MainView>
+      </AirviewRouter>
     </AirviewProvider>
   );
 }
