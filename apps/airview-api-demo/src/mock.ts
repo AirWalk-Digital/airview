@@ -1,6 +1,11 @@
-import { rest } from "msw";
+import { MockedRequest, rest } from "msw";
+import { randomUUID } from "crypto";
 //@ts-ignore
 import { setupServer } from "msw/lib/node/index.js";
+
+interface InboundBlob {
+  content: string;
+}
 
 const branches = [
   {
@@ -95,6 +100,17 @@ const server = setupServer(
       }
       const tree = trees[sha];
       return res(ctx.json(tree));
+    }
+  ),
+  rest.post(
+    "https://api.github.com/repos/mock-org/mock-repo/git/blobs",
+    (req, res, ctx) => {
+      const { content } = <any>req.body;
+
+      const sha = randomUUID();
+      trees[sha] = { sha, type: "blob", content: content };
+
+      return res(ctx.status(201), ctx.json({ sha }));
     }
   )
 );

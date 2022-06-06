@@ -64,6 +64,7 @@ export class GithubClient implements GitClient {
       ...(options?.headers || {}),
       Accept: "application/vnd.github.v3+json",
       Authorization: `token ${await this._getToken()}`,
+      "Content-Type": "application/json",
     };
 
     const resp = await fetch(url, { ...options, headers });
@@ -121,6 +122,7 @@ export class GithubClient implements GitClient {
     );
 
     const tree = { base_tree: baseSha, tree: mapped };
+    console.log(tree);
     const url = `https://api.github.com/repos/${org}/${repo}/git/trees`;
     const resp = await this._fetchWithHeaders(url, {
       method: "POST",
