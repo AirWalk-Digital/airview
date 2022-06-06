@@ -24,6 +24,7 @@ export default [
       "@fortawesome/free-solid-svg-icons",
       "lodash/isEqual",
       "slugify",
+      "react-router-dom",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
