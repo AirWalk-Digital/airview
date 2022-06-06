@@ -1,5 +1,6 @@
 export { CMS } from "./cms";
 export { EnableCmsButton } from "./enable-cms-button";
+export { MainContent } from "./main-content";
 export {
   cmsSlice,
   setCmsContext,
@@ -8,6 +9,7 @@ export {
   selectCmsEnabledStatus,
   selectCmsContext,
 } from "./cms.slice";
+export { contentCreatorSlice } from "./content-creator";
 export { branchCreatorSlice } from "./branch-creator";
 export { metaEditorSlice } from "./meta-editor";
 export { createPullRequestSlice } from "./create-pull-request";

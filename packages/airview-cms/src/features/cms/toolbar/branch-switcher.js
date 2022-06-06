@@ -66,7 +66,7 @@ export function BranchSwitcher() {
           {branches &&
             branches.map((branch) => (
               <MenuItem value={branch.name} key={branch.name} dense>
-                {branch.name}
+                {`${branch.name} ${branch.isProtected ? "(protected)" : ""} `}
               </MenuItem>
             ))}
         </Select>

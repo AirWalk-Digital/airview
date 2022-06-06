@@ -5,7 +5,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
 import { TextField } from "@mui/material";
 import { useSelector } from "react-redux";
-import { selectCmsBusyStatus } from "../../cms.slice";
+import {
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../../cms.slice";
 
 export function DateWidget({
   value,
@@ -14,11 +17,12 @@ export function DateWidget({
   required = false,
   minDate,
   maxDate,
-  defaultValue = dayjs(),
+  defaultValue,
   format = "DD/MM/YYYY",
 }) {
   const [errorCode, setErrorCode] = useState(null);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   const getErrorText = () => {
     let errorMessage;
@@ -56,7 +60,7 @@ export function DateWidget({
         }}
         onError={(reason) => setErrorCode(reason)}
         inputFormat={format}
-        disabled={cmsBusy}
+        disabled={cmsBusy || protectedBranch}
         renderInput={(params) => (
           <TextField
             {...params}

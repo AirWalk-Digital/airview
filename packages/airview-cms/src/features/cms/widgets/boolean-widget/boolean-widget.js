@@ -2,14 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { FormControl, FormControlLabel, Switch } from "@mui/material";
-import { selectCmsBusyStatus } from "../../cms.slice";
+import {
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../../cms.slice";
 
 export function BooleanWidget({ label, value, defaultValue, onChange }) {
   const handleOnChange = (event) => onChange(event.target.checked);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   return (
-    <FormControl fullWidth margin="normal" disabled={cmsBusy}>
+    <FormControl
+      fullWidth
+      margin="normal"
+      disabled={cmsBusy || protectedBranch}
+    >
       <FormControlLabel
         control={
           <Switch checked={value ?? defaultValue} onChange={handleOnChange} />

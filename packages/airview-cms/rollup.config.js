@@ -23,6 +23,7 @@ export default [
       "@fortawesome/fontawesome-svg-core",
       "@fortawesome/free-solid-svg-icons",
       "lodash/isEqual",
+      "slugify",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [

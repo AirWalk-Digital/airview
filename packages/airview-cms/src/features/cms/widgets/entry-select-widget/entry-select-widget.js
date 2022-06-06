@@ -9,20 +9,22 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { selectCmsContext, selectCmsBusyStatus } from "../../cms.slice";
+import {
+  selectCmsBusyStatus,
+  selectIsWorkingBranchProtected,
+} from "../../cms.slice";
 import { useGetAllEntriesMeta } from "../../../use-get-all-entries-meta";
 
 export function EntrySelectWidget({
   label,
-  value = "",
+  value,
   onChange,
-  excludeSelf = false,
   collection,
   required,
 }) {
   const id = useId();
-  const cmsContext = useSelector(selectCmsContext);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+  const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
   const { data: entries } = useGetAllEntriesMeta(({ data }) => {
     const filteredData = data?.map((dataItem) => ({
@@ -36,22 +38,10 @@ export function EntrySelectWidget({
 
   // Remove current context entry to prevent self as parent selection
   const filteredEntries = useMemo(() => {
-    if (!excludeSelf && !collection) return [...entries];
+    if (!collection) return [...entries];
 
-    let processedEntries;
-
-    if (excludeSelf) {
-      processedEntries = entries.filter((entry) => entry.id !== cmsContext);
-    }
-
-    if (collection) {
-      return processedEntries.filter(
-        (entry) => entry.collection === collection
-      );
-    }
-
-    return processedEntries;
-  }, [entries, cmsContext, excludeSelf, collection]);
+    return entries.filter((entry) => entry.collection === collection);
+  }, [entries, collection]);
 
   // Derrive if working branch no longer has selected parent
   const isInvalidSelection = useMemo(() => {
@@ -66,7 +56,9 @@ export function EntrySelectWidget({
     </Typography>
   );
 
-  const handleOnChange = (event) => onChange(event.target.value);
+  const handleOnChange = (event) => {
+    onChange(event.target.value ? event.target.value : null);
+  };
 
   return (
     <FormControl
@@ -75,7 +67,7 @@ export function EntrySelectWidget({
       margin="normal"
       error={isInvalidSelection}
       required={required}
-      disabled={cmsBusy}
+      disabled={cmsBusy || protectedBranch}
     >
       <InputLabel id={`parent-select-label-${id}`} shrink>
         {label}
@@ -86,7 +78,7 @@ export function EntrySelectWidget({
         displayEmpty
         labelId={`parent-select-label-${id}`}
         id={`parent-select-${id}`}
-        value={value}
+        value={value ?? ""}
         label={label}
         onChange={handleOnChange}
       >
@@ -112,7 +104,6 @@ EntrySelectWidget.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  excludeSelf: PropTypes.bool,
   collection: PropTypes.string,
   required: PropTypes.bool,
 };
