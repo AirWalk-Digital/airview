@@ -1,9 +1,9 @@
 import React from "react";
 import { AirviewCMS } from "airview-cms";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { config } from "./config";
 import { MainLayout } from "./layouts";
-import { DemoView } from "./views";
+import { DemoView, NotFoundView } from "./views";
 
 function App() {
   return (
@@ -19,12 +19,3 @@ function App() {
 }
 
 export default App;
-
-function NotFoundView() {
-  return (
-    <div>
-      <h1>404: Not Found</h1>
-      <Link to="/">Home</Link>
-    </div>
-  );
-}
