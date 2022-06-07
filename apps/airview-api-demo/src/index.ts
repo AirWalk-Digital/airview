@@ -7,6 +7,7 @@ import {
   getTokenFromPrivateKeyCb,
 } from "airview-cms-api";
 import { startMockServer } from "./mock.js";
+import fetch from "node-fetch";
 
 const useMock = true;
 
@@ -43,6 +44,13 @@ app.use(express.json());
 
 const port = 3000;
 
+app.post("/test", async (req: Request, res: Response, next: NextFunction) => {
+  const resp = await fetch(
+    "https://api.github.com/repos/mock-org/mock-repo/git/test",
+    { method: "POST" }
+  );
+  res.status(200).send();
+});
 app.get(
   "/search/:sha",
   async (req: Request, res: Response, next: NextFunction) => {

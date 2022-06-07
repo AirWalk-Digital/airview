@@ -10,6 +10,7 @@ export default {
     "sqlite3",
     "fs",
     "slugify",
+    "axios",
   ],
   output: [{ dir: `dist`, format: "es" }],
   plugins: [typescript()],

@@ -1,4 +1,5 @@
 import fs from "fs";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 import {
   GitClient,
@@ -66,8 +67,10 @@ export class GithubClient implements GitClient {
       Authorization: `token ${await this._getToken()}`,
       "Content-Type": "application/json",
     };
+    console.log("calling ", url);
 
     const resp = await fetch(url, { ...options, headers });
+    console.log(resp);
     return resp;
   }
 
@@ -108,12 +111,13 @@ export class GithubClient implements GitClient {
     content: Record<string, string>,
     baseSha: string
   ): Promise<[string, GitBlob[]]> {
-    const mapped = await Promise.all(
-      Object.entries(content).map(async ([k, v]) => {
-        const sha = await this._createBlob(v);
-        return { path: `${path}/${k}`, mode: "100644", type: "blob", sha };
-      })
-    );
+    // const mapped = await Promise.all(
+    // Object.entries(content).map(async ([k, v]) => {
+    // const sha = await this._createBlob(v);
+    // return { path: `${path}/${k}`, mode: "100644", type: "blob", sha };
+    // })
+    // );
+    const mapped = new Array();
     const response = mapped.map(
       (m: any): GitBlob => ({
         sha: m.sha,
@@ -122,14 +126,32 @@ export class GithubClient implements GitClient {
     );
 
     const tree = { base_tree: baseSha, tree: mapped };
-    console.log(tree);
-    const url = `https://api.github.com/repos/${org}/${repo}/git/trees`;
-    const resp = await this._fetchWithHeaders(url, {
-      method: "POST",
-      body: JSON.stringify(tree),
-    });
-    const data: any = await resp.json();
-    console.log(response);
+    const url = `http://api.github.com/repos/${org}/${repo}/git/trees`;
+    console.log("calling fetch");
+
+    // const resp = await this._fetchWithHeaders(url, {
+    // const resp = await fetch(url, {
+    // method: "POST",
+    // body: JSON.stringify(tree),
+    // });
+    try {
+      console.log(url);
+      // const resp = await fetch(url, {
+      // method: "POST",
+      // body: JSON.stringify(tree),
+      // });
+      let resp = await axios.post(url, tree);
+      console.log(resp);
+      // const j: any = await resp.json();
+      // console.log(j);
+      // const res = "rr";
+    } catch (err) {
+      console.log(err);
+    }
+
+    const data = { sha: "xxx" };
+
+    return [data.sha, response];
     return [data.sha, response];
   }
 
@@ -254,6 +276,8 @@ export class GithubClient implements GitClient {
       inboundContent.content,
       inboundContent.baseSha
     );
+    return blobs;
+    // console.log(treeSha, blobs);
     const commitSha = await this._commitTree(
       treeSha,
       inboundContent.baseSha,
