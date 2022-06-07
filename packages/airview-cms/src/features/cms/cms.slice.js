@@ -23,6 +23,9 @@ export const cmsSlice = createSlice({
     setCmsContext: (state, action) => {
       state.cmsContext = action.payload;
     },
+    clearCmsContext: (state) => {
+      state.cmsContext = null;
+    },
     setWorkingBranch: (state, action) => {
       state.workingBranch = action.payload;
     },
@@ -72,7 +75,8 @@ export const cmsSlice = createSlice({
   },
 });
 
-export const { enableCms, setCmsContext, setWorkingBranch } = cmsSlice.actions;
+export const { enableCms, setCmsContext, clearCmsContext, setWorkingBranch } =
+  cmsSlice.actions;
 
 export const selectCmsEnabledStatus = (state) => state.cmsSlice.cmsEnabled;
 
