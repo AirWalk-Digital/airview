@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
+import { useHandleOnContentCreation } from "airview-cms";
 import { EntrySelector } from "../features";
 
 export function MainLayout() {
   const { collection, entry } = useParams();
   const navigate = useNavigate();
+  useHandleOnContentCreation(handleOnContentCreation);
 
   const value = useMemo(() => {
     if (!collection || !entry) return "";
@@ -22,4 +24,8 @@ export function MainLayout() {
       <Outlet />
     </div>
   );
+}
+
+function handleOnContentCreation(args) {
+  console.log(args);
 }

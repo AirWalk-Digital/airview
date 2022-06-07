@@ -18,3 +18,4 @@ export { configSlice } from "./config-slice";
 export { useInvalidateBranches } from "./use-invalidate-branches";
 export { useUnsavedEditsNavPrompt } from "./use-unsaved-edits-nav-prompt";
 export { useClearCmsContext } from "./use-clear-cms-context";
+export { useHandleOnContentCreation } from "./use-handle-on-content-creation";
