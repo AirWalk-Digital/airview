@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import {
   CmsContextEntry,
   StaticEntry,
@@ -6,18 +7,19 @@ import {
   ChildEntriesMeta,
   SiblingEntries,
   SingleEntryMeta,
-  EntrySelector,
 } from "../features";
 
 export function DemoView() {
-  const [selectedEntry, setSelectedEntry] = useState("");
+  const { collection, entry } = useParams();
+
+  const selectedEntry = useMemo(() => {
+    if (!collection || !entry) return "";
+
+    return `${collection}/${entry}`;
+  }, [collection, entry]);
 
   return (
     <React.Fragment>
-      <div style={{ padding: "48px 16px 16px 16px" }}>
-        <EntrySelector value={selectedEntry} onChange={setSelectedEntry} />
-      </div>
-
       {selectedEntry && (
         <div style={{ display: "flex", padding: "16px" }}>
           <div style={{ width: "50%" }}>

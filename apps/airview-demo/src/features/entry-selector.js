@@ -16,21 +16,22 @@ export function EntrySelector({ value, onChange }) {
   };
 
   if (isLoading) {
-    return <div>Loading entires selection</div>;
+    return <div>Loading navigation</div>;
   }
 
   if (isError) {
-    return <div>Error loading entries selection</div>;
+    return <div>Error loading navigation</div>;
   }
 
-  if (isSuccess && (!entries || !entries.length)) return <div>No entries</div>;
+  if (isSuccess && (!entries || !entries.length))
+    return <div>No content to navigate</div>;
 
   if (entries)
     return (
       <select value={value} onChange={handleOnChange} disabled={isFetching}>
-        <option value="">Choose an entry</option>
+        <option value="/">Home</option>
         {entries.map((entry) => (
-          <option value={entry.id} key={entry.id}>
+          <option value={`/${entry.id}`} key={entry.id}>
             {entry.meta.title}
           </option>
         ))}
