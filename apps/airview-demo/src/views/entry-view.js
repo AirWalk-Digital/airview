@@ -9,7 +9,7 @@ import {
   SingleEntryMeta,
 } from "../features";
 
-export function DemoView() {
+export function EntryView() {
   const { collection, entry } = useParams();
 
   const selectedEntry = useMemo(() => {
