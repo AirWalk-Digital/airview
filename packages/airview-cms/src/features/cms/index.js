@@ -15,3 +15,4 @@ export { metaEditorSlice } from "./meta-editor";
 export { createPullRequestSlice } from "./create-pull-request";
 export { useSetCmsContext } from "./use-set-cms-context";
 export { configSlice } from "./config-slice";
+export { useInvalidateBranches } from "./use-invalidate-branches";

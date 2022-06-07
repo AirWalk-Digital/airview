@@ -6,10 +6,12 @@ import {
   EnableCmsButton,
   selectCmsEnabledStatus,
   MainContent,
+  useInvalidateBranches,
 } from "@features";
 
 export function MainView({ children }) {
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
+  useInvalidateBranches();
 
   return (
     <React.Fragment>
