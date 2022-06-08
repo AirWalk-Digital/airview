@@ -16,8 +16,9 @@ function createTree(item: any) {
   const entityName = item.tree[0].path.split("/")[1];
 
   const collection = branch.tree.find((f: any) => f.path === collectionName);
-  const entities = trees[collection.sha].tree;
-  const entity = entities.find((f: any) => f.path === entityName);
+  let entities;
+  if (collection) entities = trees[collection.sha].tree;
+  else entities = [];
 
   const branchSha = randomUUID();
   const collectionSha = randomUUID();
@@ -26,21 +27,14 @@ function createTree(item: any) {
   const newCollections = branch.tree.filter(
     (f: any) => f.path !== collectionName
   );
-  newCollections.push({ ...collection, sha: collectionSha });
-  // let index = branch.tree.indexOf(collection);
-  // if (~index) {
-  // branch.tree.splice(index, 1);
-  // console.log(branch);
-  // }
-  // branch.tree.push({ ...collection, sha: collectionSha });
+  newCollections.push({
+    path: collectionName,
+    type: "tree",
+    sha: collectionSha,
+  });
 
   const newEntities = entities.filter((f: any) => f.path !== entityName);
-  newEntities.push({ ...entity, sha: entitySha });
-  // index = entities.indexOf(entity);
-  // if (~index) {
-  // entities.splice(index, 1);
-  // }
-  // entities.push({ ...entity, sha: entitySha });
+  newEntities.push({ path: entityName, type: "tree", sha: entitySha });
 
   const content = {
     sha: entitySha,
@@ -62,8 +56,6 @@ function createTree(item: any) {
   }
   fs.writeFileSync("/tmp/branches.json", JSON.stringify(branches));
   fs.writeFileSync("/tmp/trees.json", JSON.stringify(trees));
-  // const protected = thisBranch ? thisBranch.protected: false;
-  // const newBranch = {name: "main", commit: {sha: branchSha}, protected}
 }
 
 let branches = [
