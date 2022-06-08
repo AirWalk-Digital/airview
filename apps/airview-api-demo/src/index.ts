@@ -6,23 +6,65 @@ import {
   CmsCache,
   getTokenFromPrivateKeyCb,
 } from "airview-cms-api";
-import { startMockServer } from "./mock.js";
+// import { startMockServer } from "./mock.js";
+// import { setupServer } from "msw/lib/node/index.js";
+import fetch from "node-fetch";
+
+import server from "./mock.js";
+
+// import { rest } from "msw";
 
 const useMock = true;
 
-class MockCache implements CmsCache {
-  get = async (key: string) => undefined;
-  set = async (key: string, value: any) => {};
+class MockCache {
+  get = async (key: any) => undefined;
+  set = async (key: any, value: any) => {};
 }
+
+// const tokenCallback = async () => "none";
+// const cache = new MockCache();
+
+// const client = new GithubClient(tokenCallback);
+// const backend = new CmsBackend(client, cache);
+
+// const server = setupServer(
+//   rest.post(
+//     "http://api.github.com/repos/mock-org/mock-repo/git/trees",
+//     (req, res, ctx) => {
+//       // try {
+//       console.log(req);
+//       console.log("begin");
+//       // const body = <any>req.body;
+//       // createTree(body);
+//       return res(
+//         // ctx.set("Content-Type", "application/vnd.github.v3+json"),
+//         ctx.json({ sha: "dummy" })
+//       );
+//       // } catch {
+//       // console.log("error");
+//       // return res(ctx.status(500));
+//       // }
+//     }
+//   )
+// );
+
+// server.listen();
+
+// const useMock = true;
+
+// class MockCache implements CmsCache {
+//   get = async (key: string) => undefined;
+//   set = async (key: string, value: any) => {};
+// }
 
 let tokenCallback;
 let cache;
 console.log(process.env.USE_MOCK);
 if (process.env.USE_MOCK === "true") {
+  console.log("mocked");
   tokenCallback = async () => "none";
   cache = new MockCache();
-
-  startMockServer();
+  server.listen();
 } else {
   const privateKeyPath: string = process.env.PRIVATE_KEY_FILE || "";
   tokenCallback = getTokenFromPrivateKeyCb(privateKeyPath);
@@ -43,6 +85,13 @@ app.use(express.json());
 
 const port = 3000;
 
+app.post("/test", async (req: Request, res: Response, next: NextFunction) => {
+  const resp = await fetch(
+    "https://api.github.com/repos/mock-org/mock-repo/git/test",
+    { method: "POST" }
+  );
+  res.status(200).send();
+});
 app.get(
   "/search/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
