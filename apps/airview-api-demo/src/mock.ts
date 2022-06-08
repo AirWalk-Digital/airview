@@ -4,12 +4,7 @@ import { randomUUID } from "crypto";
 import { setupServer } from "msw/lib/node/index.js";
 import fs from "fs";
 
-// interface InboundBlob {
-//   content: string;
-// }
-
 function createTree(item: any) {
-  // return;
   const branch = trees[item.base_tree];
 
   const collectionName = item.tree[0].path.split("/")[0];
@@ -80,7 +75,7 @@ const trees: any = {
     sha: "ccc",
     tree: [
       {
-        path: "applications",
+        path: "release",
         type: "tree",
         sha: "ddd",
       },
@@ -90,7 +85,7 @@ const trees: any = {
     sha: "ddd",
     tree: [
       {
-        path: "article_new",
+        path: "security_patch",
         type: "tree",
         sha: "fff",
       },
@@ -109,7 +104,7 @@ const trees: any = {
   ggg: {
     sha: "ggg",
     content:
-      "LS0tCnRpdGxlOiBLQiBPbmUKcGFyZW50OiBhcHBsaWNhdGlvbi90ZXN0X2Fw\ncAotLS0KCg==\n",
+      "LS0tCnRpdGxlOiBNUyBUZWFtcyAtIEFjdGl2aXR5IEZlZWQgR3VpZGUKdXNlckZhY2luZzogZmFsc2UKcHVibGlzaF9kYXRlOiBLQlMwMDAwNDUKLS0tCgoxLiBUZXN0IGNoYW5nZQo=",
   },
 };
 
