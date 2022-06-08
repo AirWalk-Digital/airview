@@ -83,15 +83,8 @@ const app = express();
 
 app.use(express.json());
 
-const port = 3000;
+const port = 3001;
 
-app.post("/test", async (req: Request, res: Response, next: NextFunction) => {
-  const resp = await fetch(
-    "https://api.github.com/repos/mock-org/mock-repo/git/test",
-    { method: "POST" }
-  );
-  res.status(200).send();
-});
 app.get(
   "/search/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -109,7 +102,7 @@ app.get(
 );
 
 app.get(
-  "/content/:sha",
+  "/api/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getContent(req.params.sha);
@@ -120,7 +113,7 @@ app.get(
   }
 );
 
-app.put("/content/:collection/:entity", async (req, res, next) => {
+app.put("/api/content/:collection/:entity", async (req, res, next) => {
   try {
     if (typeof req.query.branch !== "string") {
       res.status(400).send();
@@ -148,7 +141,7 @@ app.put("/content/:collection/:entity", async (req, res, next) => {
 });
 
 app.post(
-  "/entries/",
+  "/api/entries/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.branch !== "string") {
@@ -179,7 +172,7 @@ app.post(
 );
 
 app.delete(
-  "/entries/:collection/:entity",
+  "/api/entries/:collection/:entity",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.branch !== "string") {
@@ -208,7 +201,7 @@ app.delete(
 );
 
 app.get(
-  "/collections/:sha",
+  "/api/collections/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getCollections(req.params.sha);
@@ -220,7 +213,7 @@ app.get(
 );
 
 app.get(
-  "/branches",
+  "/api/branches",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getBranches();

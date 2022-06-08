@@ -62,7 +62,7 @@ let branches = [
   {
     name: "main",
     commit: {
-      sha: "aaa",
+      sha: "ccc",
     },
     protected: true,
   },
