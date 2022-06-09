@@ -18,11 +18,14 @@ import {
 import { CollectionSelector } from "./collection-selector";
 import { FormFields } from "./form-fields";
 import { prepareEntryPayload } from "./prepare-entry-payload";
+import { PUT_ENTRY_FIXED_CACHE_KEY } from "./constants";
 
 export function ContentCreator() {
   const dispatch = useDispatch();
   const dialogEnabled = useSelector(selectContentCreatorModalEnabledStatus);
-  const [putEntry, { isLoading, isError, error }] = usePutEntryMutation();
+  const [putEntry, { isLoading, isError, error }] = usePutEntryMutation({
+    fixedCacheKey: PUT_ENTRY_FIXED_CACHE_KEY,
+  });
 
   const closeModal = () => {
     dispatch(disableContentCreatorModal());

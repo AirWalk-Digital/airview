@@ -1,28 +1,28 @@
 {
   "name": "airview-cms",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
     "./dist"
   ],
   "peerDependencies": {
+    "@date-io/dayjs": "^2.14.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.3",
     "@mui/x-date-pickers": "^5.0.0-alpha.3",
     "@reduxjs/toolkit": "^1.8.1",
-    "@date-io/dayjs": "^2.14.0",
     "dayjs": "^1.11.2",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
-    "prop-types": "^15.8.1",
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "lodash": "^4.17.21",
     "slugify": "^1.6.5"
   },
   "devDependencies": {

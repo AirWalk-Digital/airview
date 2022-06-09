@@ -7,4 +7,5 @@ export {
   useGetEntryMeta,
   useGetEntry,
   useSetCmsContext,
+  useHandleOnContentCreation,
 } from "@features";
