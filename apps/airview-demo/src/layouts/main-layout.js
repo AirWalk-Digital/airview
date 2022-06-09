@@ -1,36 +1,33 @@
 import React, { useMemo } from "react";
+import { TopBar } from "airview-ui";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
-//import { useHandleOnContentCreation } from "airview-cms";
 import { EntrySelector } from "../features";
 
 export function MainLayout() {
-  const { collection, entry } = useParams();
-  const navigate = useNavigate();
+  // const { collection, entry } = useParams();
+  // const navigate = useNavigate();
 
-  // const handleOnContentCreation = useCallback(
-  //   (contentData) => {
-  //     console.log(contentData);
-  //     navigate(`/application/q`, { replace: false });
-  //   },
-  //   [navigate]
-  // );
+  // const value = useMemo(() => {
+  //   if (!collection || !entry) return "";
 
-  // useHandleOnContentCreation(handleOnContentCreation);
+  //   return `/${collection}/${entry}`;
+  // }, [collection, entry]);
 
-  const value = useMemo(() => {
-    if (!collection || !entry) return "";
-
-    return `/${collection}/${entry}`;
-  }, [collection, entry]);
-
-  const handleOnChange = (selection) => {
-    navigate(selection, { replace: true });
-  };
+  // const handleOnChange = (selection) => {
+  //   navigate(selection, { replace: true });
+  // };
 
   return (
-    <div style={{ padding: "48px 16px 16px 16px" }}>
-      <EntrySelector value={value} onChange={handleOnChange} />
+    <React.Fragment>
+      <TopBar onMenuButtonClick={() => {}} title="AirviewCMS Demo" />
       <Outlet />
-    </div>
+    </React.Fragment>
   );
+
+  // return (
+  //   <div style={{ padding: "48px 16px 16px 16px" }}>
+  //     <EntrySelector value={value} onChange={handleOnChange} />
+  //     <Outlet />
+  //   </div>
+  // );
 }

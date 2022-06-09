@@ -9,7 +9,12 @@ const projectRootDir = path.resolve(__dirname);
 export default [
   {
     input: "src/index.js",
-    external: ["react", "@mui/material", "prop-types"],
+    external: [
+      "react",
+      "@mui/material",
+      "@mui/icons-material/Menu",
+      "prop-types",
+    ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
       resolve({
@@ -30,8 +35,8 @@ export default [
             replacement: path.resolve(projectRootDir, "package.json"),
           },
           {
-            find: "@components",
-            replacement: path.resolve(projectRootDir, "src/components"),
+            find: "@features",
+            replacement: path.resolve(projectRootDir, "src/features"),
           },
         ],
       }),
