@@ -8,13 +8,11 @@ import {
   MainContent,
   useInvalidateBranches,
   useUnsavedEditsNavPrompt,
-  useClearCmsContext,
 } from "@features";
 
 export function MainView({ children }) {
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   useUnsavedEditsNavPrompt();
-  useClearCmsContext();
   useInvalidateBranches();
 
   return (
