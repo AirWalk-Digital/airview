@@ -1,33 +1,24 @@
-import React, { useMemo } from "react";
-import { TopBar } from "airview-ui";
-import { Outlet, useParams, useNavigate } from "react-router-dom";
-import { EntrySelector } from "../features";
+import React from "react";
+import { Box } from "@mui/material";
+import { useCMSViewportOffset } from "airview-cms";
+import { TopBar, NavigationDrawer } from "airview-ui";
+import { Outlet } from "react-router-dom";
 
 export function MainLayout() {
-  // const { collection, entry } = useParams();
-  // const navigate = useNavigate();
-
-  // const value = useMemo(() => {
-  //   if (!collection || !entry) return "";
-
-  //   return `/${collection}/${entry}`;
-  // }, [collection, entry]);
-
-  // const handleOnChange = (selection) => {
-  //   navigate(selection, { replace: true });
-  // };
+  const viewportOffset = useCMSViewportOffset();
 
   return (
-    <React.Fragment>
-      <TopBar onMenuButtonClick={() => {}} title="AirviewCMS Demo" />
-      <Outlet />
-    </React.Fragment>
+    <div>
+      <TopBar
+        onMenuButtonClick={() => {}}
+        title="AirviewCMS Demo"
+        position="fixed"
+        top={viewportOffset}
+      />
+      {/* <NavigationDrawer /> */}
+      <Box sx={{ marginTop: `${viewportOffset + 64}px` }}>
+        <Outlet />
+      </Box>
+    </div>
   );
-
-  // return (
-  //   <div style={{ padding: "48px 16px 16px 16px" }}>
-  //     <EntrySelector value={value} onChange={handleOnChange} />
-  //     <Outlet />
-  //   </div>
-  // );
 }

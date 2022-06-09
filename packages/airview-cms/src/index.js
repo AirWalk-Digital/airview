@@ -8,4 +8,5 @@ export {
   useGetEntry,
   useSetCmsContext,
   useHandleOnContentCreation,
+  useCMSViewportOffset,
 } from "@features";

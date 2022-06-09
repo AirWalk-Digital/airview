@@ -3,10 +3,14 @@ import PropTypes from "prop-types";
 import { AppBar, Box, Toolbar, Typography, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export function TopBar({ onMenuButtonClick, title, color }) {
+export function TopBar({ onMenuButtonClick, title, color, position, top = 0 }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" {...{ color }}>
+      <AppBar
+        position="static"
+        {...{ color, position }}
+        sx={{ top: top, boxShadow: 0 }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -31,4 +35,6 @@ TopBar.propTypes = {
   onMenuButtonClick: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   color: PropTypes.string,
+  position: PropTypes.string,
+  top: PropTypes.number,
 };
