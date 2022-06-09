@@ -12,10 +12,11 @@ export function MainLayout() {
   return (
     <div>
       <TopBar
-        onMenuButtonClick={() => setNavOpen((prevState) => !prevState)}
+        onNavButtonClick={() => setNavOpen((prevState) => !prevState)}
         title="AirviewCMS Demo"
         position="fixed"
         top={viewportOffset}
+        {...{ navOpen }}
       />
       <NavigationDrawer top={viewportOffset + topBarHeight} open={navOpen} />
       <Box sx={{ marginTop: `${viewportOffset + topBarHeight}px` }}>

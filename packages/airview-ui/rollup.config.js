@@ -13,6 +13,7 @@ export default [
       "react",
       "@mui/material",
       "@mui/icons-material/Menu",
+      "@mui/icons-material/Close",
       "prop-types",
     ],
     output: [{ dir: `dist`, format: "es" }],
