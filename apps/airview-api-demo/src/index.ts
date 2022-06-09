@@ -15,10 +15,10 @@ const app = express();
 
 app.use(express.json());
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.get(
-  "/search/:sha",
+  "/api/search/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.query !== "string") {
@@ -34,7 +34,7 @@ app.get(
 );
 
 app.get(
-  "/content/:sha",
+  "/api/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getContent(req.params.sha);
@@ -45,7 +45,7 @@ app.get(
   }
 );
 
-app.put("/content/:collection/:entity", async (req, res, next) => {
+app.put("/api/content/:collection/:entity", async (req, res, next) => {
   try {
     if (typeof req.query.branch !== "string") {
       res.status(400).send();
@@ -73,7 +73,7 @@ app.put("/content/:collection/:entity", async (req, res, next) => {
 });
 
 app.delete(
-  "/content/:collection/:entity",
+  "/api/content/:collection/:entity",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.branch !== "string") {
@@ -102,7 +102,7 @@ app.delete(
 );
 
 app.get(
-  "/entries/:sha",
+  "/api/entries/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getEntries(req.params.sha);
@@ -114,7 +114,7 @@ app.get(
 );
 
 app.get(
-  "/branches",
+  "/api/branches",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getBranches();

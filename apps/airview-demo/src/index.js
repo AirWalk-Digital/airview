@@ -9,9 +9,11 @@ import { AirviewMockServer } from "airview-mock-server";
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
 function prepare() {
-  const { handlers } = new AirviewMockServer(500);
-  const worker = setupWorker(...handlers);
-  worker.start();
+  if (process.env.REACT_APP_USE_MOCK === "true") {
+    const { handlers } = new AirviewMockServer(500);
+    const worker = setupWorker(...handlers);
+    worker.start();
+  }
 
   return Promise.resolve();
 }
