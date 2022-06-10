@@ -149,8 +149,3 @@ Menu.propTypes = {
   linkComponent: PropTypes.any,
   currentRoute: PropTypes.string.isRequired,
 };
-
-/*
-To do:
-- Overflow scroll on drawer
-*/

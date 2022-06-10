@@ -19,6 +19,7 @@ export function NavigationDrawer({ open, top = 0, children }) {
           boxSizing: "border-box",
           backgroundColor: "common.white",
           zIndex: 1200,
+          overflowY: "auto",
         }}
       >
         {children}
