@@ -14,6 +14,8 @@ export default [
       "@mui/material",
       "@mui/icons-material/Menu",
       "@mui/icons-material/Close",
+      "@mui/icons-material/KeyboardArrowRight",
+      "@mui/icons-material/KeyboardArrowDown",
       "prop-types",
     ],
     output: [{ dir: `dist`, format: "es" }],
@@ -38,6 +40,10 @@ export default [
           {
             find: "@features",
             replacement: path.resolve(projectRootDir, "src/features"),
+          },
+          {
+            find: "@util",
+            replacement: path.resolve(projectRootDir, "src/util"),
           },
         ],
       }),

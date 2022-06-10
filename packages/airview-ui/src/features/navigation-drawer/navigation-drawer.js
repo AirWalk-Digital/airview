@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Slide } from "@mui/material";
 
-export function NavigationDrawer({ open, top = 0 }) {
+export function NavigationDrawer({ open, top = 0, children }) {
   return (
     <Slide in={open} direction="right" timeout={350}>
       <Box
@@ -15,13 +15,13 @@ export function NavigationDrawer({ open, top = 0 }) {
           width: 350,
           borderRight: 1,
           borderColor: "grey.300",
-          padding: 1,
+          padding: 3,
           boxSizing: "border-box",
           backgroundColor: "common.white",
           zIndex: 1200,
         }}
       >
-        <span>Nav</span>
+        {children}
       </Box>
     </Slide>
   );
@@ -30,4 +30,5 @@ export function NavigationDrawer({ open, top = 0 }) {
 NavigationDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   top: PropTypes.number,
+  children: PropTypes.node,
 };
