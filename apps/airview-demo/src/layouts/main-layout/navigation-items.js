@@ -4,10 +4,15 @@ import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import { useGetNavigationItemsData } from "./use-get-navigation-items-data";
 
 export function NavigationItems({ open }) {
-  const navigationData = useGetNavigationItemsData();
+  const { isLoading, isError, data } = useGetNavigationItemsData();
   const location = useLocation();
 
-  return navigationData.map(({ application, menuItems }, index) => {
+  if (isError) {
+    console.log("error");
+    return null;
+  }
+
+  return data?.map(({ application, menuItems }, index) => {
     return (
       <Menu
         key={index}
@@ -19,6 +24,7 @@ export function NavigationItems({ open }) {
         }}
         linkComponent={ReactRouterLink}
         currentRoute={location.pathname}
+        //loading={isLoading}
       />
     );
   });

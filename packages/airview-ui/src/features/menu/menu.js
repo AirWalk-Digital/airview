@@ -83,7 +83,7 @@ export function Menu({
                   fontSize: 12,
                 }}
               >
-                {groupTitle}
+                {loading ? <Skeleton width="90%" /> : groupTitle}
               </Typography>
             )}
             <Box
