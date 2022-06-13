@@ -22,6 +22,7 @@ export function Menu({
   initialCollapsed = true,
   linkComponent,
   currentRoute,
+  sx,
   ...rest
 }) {
   const [collapsed, setCollapsed] = useState(
@@ -31,13 +32,14 @@ export function Menu({
   return (
     <Box
       component="nav"
-      {...rest}
       sx={{
         ...(fetching && {
           opacity: 0.5,
           pointerEvents: "none",
         }),
+        ...sx,
       }}
+      {...rest}
     >
       <Box
         component="header"
@@ -159,4 +161,5 @@ Menu.propTypes = {
   initialCollapsed: PropTypes.bool,
   linkComponent: PropTypes.any,
   currentRoute: PropTypes.string.isRequired,
+  sx: PropTypes.object,
 };
