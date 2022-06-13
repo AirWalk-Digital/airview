@@ -15,9 +15,6 @@ export function useGetNavigationItemsData() {
     isError: entriesIsError,
   } = useGetAllEntriesMeta();
 
-  //console.log(applications);
-  //console.log(entries);
-
   const navData = applications?.map((application) => {
     const knowledgeEntries = entries.filter(
       (entry) =>
