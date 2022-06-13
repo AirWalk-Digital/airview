@@ -87,10 +87,4 @@ export function useGetNavigationItemsData() {
 
 /* toDo
 - Sort links alphabetical order
-- Switching branch with CMS enabled renders no nav items
-- False unsaved changes
-  - create new branch "test_branch"
-  - create new knowledge doc "Test doc" as child of Microsoft Teams
-  - navigate to Test Doc and edit title to "Test Document" and save changes
-  - Disable CMS, you should see a unsaved changes message, clicking okay will 404
 */
