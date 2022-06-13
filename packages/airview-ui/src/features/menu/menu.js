@@ -16,6 +16,7 @@ export function Menu({
   menuTitle,
   menuTitleElement = "h3",
   loading = false,
+  fetching = false,
   menuItems,
   collapsible = true,
   initialCollapsed = true,
@@ -28,7 +29,16 @@ export function Menu({
   );
 
   return (
-    <Box component="nav" {...rest}>
+    <Box
+      component="nav"
+      {...rest}
+      sx={{
+        ...(fetching && {
+          opacity: 0.5,
+          pointerEvents: "none",
+        }),
+      }}
+    >
       <Box
         component="header"
         sx={{
@@ -133,6 +143,7 @@ Menu.propTypes = {
   menuTitle: PropTypes.string.isRequired,
   menuTitleElement: PropTypes.string,
   loading: PropTypes.bool,
+  fetching: PropTypes.bool,
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       groupTitle: PropTypes.string,

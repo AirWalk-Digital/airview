@@ -4,7 +4,7 @@ import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import { useGetNavigationItemsData } from "./use-get-navigation-items-data";
 
 export function NavigationItems({ open }) {
-  const { isLoading, isError, data } = useGetNavigationItemsData();
+  const { isLoading, isFetching, isError, data } = useGetNavigationItemsData();
   const location = useLocation();
 
   if (isError) {
@@ -24,7 +24,8 @@ export function NavigationItems({ open }) {
         }}
         linkComponent={ReactRouterLink}
         currentRoute={location.pathname}
-        //loading={isLoading}
+        loading={isLoading}
+        fetching={isFetching}
       />
     );
   });

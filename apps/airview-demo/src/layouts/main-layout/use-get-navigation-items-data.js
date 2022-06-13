@@ -15,8 +15,8 @@ export function useGetNavigationItemsData() {
     isError: entriesIsError,
   } = useGetAllEntriesMeta();
 
-  console.log(applications);
-  console.log(entries);
+  //console.log(applications);
+  //console.log(entries);
 
   const navData = applications?.map((application) => {
     const knowledgeEntries = entries.filter(
@@ -81,12 +81,19 @@ export function useGetNavigationItemsData() {
   });
 
   return {
-    isLoading:
-      applicationsIsLoading ||
-      entriesIsLoading ||
-      applicationsIsFetching ||
-      entriesIsFetching,
+    isLoading: applicationsIsLoading || entriesIsLoading,
+    isFetching: applicationsIsFetching || entriesIsFetching,
     isError: applicationsIsError || entriesIsError,
     data: navData,
   };
 }
+
+/* toDo
+- Sort links alphabetical order
+- Switching branch with CMS enabled renders no nav items
+- False unsaved changes
+  - create new branch "test_branch"
+  - create new knowledge doc "Test doc" as child of Microsoft Teams
+  - navigate to Test Doc and edit title to "Test Document" and save changes
+  - Disable CMS, you should see a unsaved changes message, clicking okay will 404
+*/
