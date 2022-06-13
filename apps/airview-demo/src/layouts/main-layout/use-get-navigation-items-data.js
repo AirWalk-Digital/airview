@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 
 export function useGetNavigationItemsData() {
@@ -15,87 +16,91 @@ export function useGetNavigationItemsData() {
     isError: entriesIsError,
   } = useGetAllEntriesMeta();
 
-  const navData = applications
-    ?.sort((applicationA, applicationB) => {
-      return applicationA.meta.title.toUpperCase() <
-        applicationB.meta.title.toUpperCase()
-        ? -1
-        : 1;
-    })
-    .map((application) => {
-      const knowledgeEntries = entries
-        .filter(
-          (entry) =>
-            entry.meta?.parent === application.id &&
-            entry?.collection === "knowledge"
-        )
-        ?.sort((entryA, entryB) =>
-          entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
+  const navData = useMemo(
+    () =>
+      applications
+        ?.sort((applicationA, applicationB) => {
+          return applicationA.meta.title.toUpperCase() <
+            applicationB.meta.title.toUpperCase()
             ? -1
-            : 1
-        );
+            : 1;
+        })
+        .map((application) => {
+          const knowledgeEntries = entries
+            .filter(
+              (entry) =>
+                entry.meta?.parent === application.id &&
+                entry?.collection === "knowledge"
+            )
+            ?.sort((entryA, entryB) =>
+              entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
+                ? -1
+                : 1
+            );
 
-      const releaseEntries = entries
-        .filter(
-          (entry) =>
-            entry.meta?.parent === application.id &&
-            entry?.collection === "release"
-        )
-        ?.sort((entryA, entryB) =>
-          entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
-            ? -1
-            : 1
-        );
+          const releaseEntries = entries
+            .filter(
+              (entry) =>
+                entry.meta?.parent === application.id &&
+                entry?.collection === "release"
+            )
+            ?.sort((entryA, entryB) =>
+              entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
+                ? -1
+                : 1
+            );
 
-      return {
-        application: application.meta.title,
-        menuItems: [
-          {
-            groupTitle: "Application",
-            links: [
+          return {
+            application: application.meta.title,
+            menuItems: [
               {
-                label: "Overview",
-                url: `/${application.id}`,
+                groupTitle: "Application",
+                links: [
+                  {
+                    label: "Overview",
+                    url: `/${application.id}`,
+                  },
+                ],
               },
+              ...(knowledgeEntries.length > 0
+                ? [
+                    {
+                      groupTitle: "Knowledge",
+                      links: [
+                        {
+                          label: "View all",
+                          url: `/${application.id}/knowledge`,
+                        },
+                        ...knowledgeEntries.map((entry) => ({
+                          label: entry.meta.title,
+                          url: `/${entry.id}`,
+                        })),
+                      ],
+                    },
+                  ]
+                : []),
+              ...(releaseEntries.length > 0
+                ? [
+                    {
+                      groupTitle: "Release",
+                      links: [
+                        {
+                          label: "View all",
+                          url: `/${application.id}/release`,
+                        },
+                        ...releaseEntries.map((entry) => ({
+                          label: entry.meta.title,
+                          url: `/${entry.id}`,
+                        })),
+                      ],
+                    },
+                  ]
+                : []),
             ],
-          },
-          ...(knowledgeEntries.length > 0
-            ? [
-                {
-                  groupTitle: "Knowledge",
-                  links: [
-                    {
-                      label: "View all",
-                      url: `/${application.id}/knowledge`,
-                    },
-                    ...knowledgeEntries.map((entry) => ({
-                      label: entry.meta.title,
-                      url: `/${entry.id}`,
-                    })),
-                  ],
-                },
-              ]
-            : []),
-          ...(releaseEntries.length > 0
-            ? [
-                {
-                  groupTitle: "Release",
-                  links: [
-                    {
-                      label: "View all",
-                      url: `/${application.id}/release`,
-                    },
-                    ...releaseEntries.map((entry) => ({
-                      label: entry.meta.title,
-                      url: `/${entry.id}`,
-                    })),
-                  ],
-                },
-              ]
-            : []),
-        ],
-      };
-    });
+          };
+        }),
+    [applications, entries]
+  );
 
   return {
     isLoading: applicationsIsLoading || entriesIsLoading,
