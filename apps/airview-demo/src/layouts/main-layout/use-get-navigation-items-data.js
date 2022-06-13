@@ -15,67 +15,87 @@ export function useGetNavigationItemsData() {
     isError: entriesIsError,
   } = useGetAllEntriesMeta();
 
-  const navData = applications?.map((application) => {
-    const knowledgeEntries = entries.filter(
-      (entry) =>
-        entry.meta?.parent === application.id &&
-        entry?.collection === "knowledge"
-    );
+  const navData = applications
+    ?.sort((applicationA, applicationB) => {
+      return applicationA.meta.title.toUpperCase() <
+        applicationB.meta.title.toUpperCase()
+        ? -1
+        : 1;
+    })
+    .map((application) => {
+      const knowledgeEntries = entries
+        .filter(
+          (entry) =>
+            entry.meta?.parent === application.id &&
+            entry?.collection === "knowledge"
+        )
+        ?.sort((entryA, entryB) =>
+          entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
+            ? -1
+            : 1
+        );
 
-    const releaseEntries = entries.filter(
-      (entry) =>
-        entry.meta?.parent === application.id && entry?.collection === "release"
-    );
+      const releaseEntries = entries
+        .filter(
+          (entry) =>
+            entry.meta?.parent === application.id &&
+            entry?.collection === "release"
+        )
+        ?.sort((entryA, entryB) =>
+          entryA.meta.title.toUpperCase() < entryB.meta.title.toUpperCase()
+            ? -1
+            : 1
+        );
 
-    return {
-      application: application.meta.title,
-      menuItems: [
-        {
-          groupTitle: "Application",
-          links: [
-            {
-              label: "Overview",
-              url: `/${application.id}`,
-            },
-          ],
-        },
-        ...(knowledgeEntries.length > 0
-          ? [
+      return {
+        application: application.meta.title,
+        menuItems: [
+          {
+            groupTitle: "Application",
+            links: [
               {
-                groupTitle: "Knowledge",
-                links: [
-                  {
-                    label: "View all",
-                    url: `/${application.id}/knowledge`,
-                  },
-                  ...knowledgeEntries.map((entry) => ({
-                    label: entry.meta.title,
-                    url: `/${entry.id}`,
-                  })),
-                ],
+                label: "Overview",
+                url: `/${application.id}`,
               },
-            ]
-          : []),
-        ...(releaseEntries.length > 0
-          ? [
-              {
-                groupTitle: "Release",
-                links: [
-                  {
-                    label: "View all",
-                    url: `/${application.id}/release`,
-                  },
-                  ...releaseEntries.map((entry) => ({
-                    label: entry.meta.title,
-                    url: `/${entry.id}`,
-                  })),
-                ],
-              },
-            ]
-          : []),
-      ],
-    };
-  });
+            ],
+          },
+          ...(knowledgeEntries.length > 0
+            ? [
+                {
+                  groupTitle: "Knowledge",
+                  links: [
+                    {
+                      label: "View all",
+                      url: `/${application.id}/knowledge`,
+                    },
+                    ...knowledgeEntries.map((entry) => ({
+                      label: entry.meta.title,
+                      url: `/${entry.id}`,
+                    })),
+                  ],
+                },
+              ]
+            : []),
+          ...(releaseEntries.length > 0
+            ? [
+                {
+                  groupTitle: "Release",
+                  links: [
+                    {
+                      label: "View all",
+                      url: `/${application.id}/release`,
+                    },
+                    ...releaseEntries.map((entry) => ({
+                      label: entry.meta.title,
+                      url: `/${entry.id}`,
+                    })),
+                  ],
+                },
+              ]
+            : []),
+        ],
+      };
+    });
 
   return {
     isLoading: applicationsIsLoading || entriesIsLoading,
@@ -84,7 +104,3 @@ export function useGetNavigationItemsData() {
     data: navData,
   };
 }
-
-/* toDo
-- Sort links alphabetical order
-*/
