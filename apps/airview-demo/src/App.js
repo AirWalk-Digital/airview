@@ -9,12 +9,14 @@ import { NotFoundView, DocumentView } from "./views";
 function App() {
   return (
     <AirviewCMS config={config}>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path=":collection/:entry" element={<DocumentView />} />
-        </Route>
-        <Route path="*" element={<NotFoundView />} />
-      </Routes>
+      <AirviewUiThemeProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route path=":collection/:entry" element={<DocumentView />} />
+          </Route>
+          <Route path="*" element={<NotFoundView />} />
+        </Routes>
+      </AirviewUiThemeProvider>
     </AirviewCMS>
   );
 }
