@@ -28,7 +28,7 @@ export function DocumentView() {
       </LayoutMain>
       <LayoutAside>
         <TableOfContents />
-        <RelatedContent />
+        {/* <RelatedContent /> */}
       </LayoutAside>
     </LayoutContainer>
   );
