@@ -4,7 +4,7 @@ import { Container as MuiContainer, Box } from "@mui/material";
 
 export function LayoutContainer({ children }) {
   return (
-    <MuiContainer maxWidth={false} sx={{ paddingTop: 6, paddingBottom: 6 }}>
+    <MuiContainer maxWidth={false} sx={{ paddingTop: 3, paddingBottom: 3 }}>
       <Box sx={{ display: "flex" }}>{children}</Box>
     </MuiContainer>
   );
@@ -30,7 +30,7 @@ export function LayoutAside({ children }) {
   return (
     <Box
       component="aside"
-      sx={{ flex: "0 0 auto", width: 350, paddingLeft: 2 }}
+      sx={{ flex: "0 0 auto", width: 300, paddingLeft: 2 }}
     >
       {children}
     </Box>
