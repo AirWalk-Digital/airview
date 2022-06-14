@@ -3,6 +3,7 @@ import { Container, Box } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import { useSetCmsContext } from "airview-cms";
 import { useGetEntryId } from "./use-get-entry-id";
+import { TableOfContents } from "./table-of-contents";
 import { RelatedContent } from "./related-content";
 
 export function DocumentView() {
@@ -24,6 +25,7 @@ export function DocumentView() {
           component="aside"
           sx={{ flex: "0 0 auto", width: 350, paddingLeft: 2 }}
         >
+          <TableOfContents />
           <RelatedContent />
         </Box>
       </Box>
