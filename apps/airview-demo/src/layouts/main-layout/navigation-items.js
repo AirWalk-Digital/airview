@@ -26,6 +26,7 @@ export function NavigationItems({ open }) {
         currentRoute={location.pathname}
         loading={isLoading}
         fetching={isFetching}
+        initialCollapsed={false}
       />
     );
   });
