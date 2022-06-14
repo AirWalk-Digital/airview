@@ -160,6 +160,6 @@ Menu.propTypes = {
   collapsible: PropTypes.bool,
   initialCollapsed: PropTypes.bool,
   linkComponent: PropTypes.any,
-  currentRoute: PropTypes.string.isRequired,
+  currentRoute: PropTypes.string,
   sx: PropTypes.object,
 };
