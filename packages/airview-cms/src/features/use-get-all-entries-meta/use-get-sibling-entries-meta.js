@@ -16,8 +16,7 @@ export function useGetSiblingEntriesMeta(entryId) {
     const siblings = entries.filter(
       (entryItem) =>
         entryItem.meta?.parent === entryParent &&
-        entryItem.collection === collection &&
-        entryItem.id !== entryId
+        entryItem.collection === collection
     );
 
     return siblings.length

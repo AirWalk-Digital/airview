@@ -4,14 +4,14 @@ import { AirviewUiThemeProvider } from "airview-ui";
 import { Routes, Route } from "react-router-dom";
 import { config } from "./config";
 import { MainLayout } from "./layouts";
-import { EntryView, NotFoundView } from "./views";
+import { NotFoundView, DocumentView } from "./views";
 
 function App() {
   return (
     <AirviewCMS config={config}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path=":collection/:entry" element={<EntryView />} />
+          <Route path=":collection/:entry" element={<DocumentView />} />
         </Route>
         <Route path="*" element={<NotFoundView />} />
       </Routes>
