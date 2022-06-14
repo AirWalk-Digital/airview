@@ -5,7 +5,6 @@ export function createSeedData() {
   const branches = {
     main: { name: "main", sha: nanoid(), isProtected: true },
     one: { name: "one", sha: nanoid(), isProtected: false },
-    two: { name: "two", sha: nanoid(), isProtected: false },
   };
 
   const entries = {
@@ -112,6 +111,20 @@ export function createSeedData() {
       },
     },
     [branches.one.name]: {
+      "application/ms_teams": {
+        sha: nanoid(),
+        collection: "application",
+        meta: {
+          title: "Microsoft Teams",
+        },
+        content: {
+          _index: btoa(
+            matter.stringify("I am body content for Microsoft Teams", {
+              title: "Microsoft Teams",
+            })
+          ),
+        },
+      },
       "release/security_patch": {
         sha: nanoid(),
         collection: "release",
@@ -136,7 +149,6 @@ export function createSeedData() {
         },
       },
     },
-    [branches.two.name]: {},
   };
 
   return {

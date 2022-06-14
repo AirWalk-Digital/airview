@@ -2,6 +2,7 @@ import slugify from "slugify";
 import matter from "gray-matter";
 import { selectWorkingBranch } from "../cms.slice";
 import { selectAllCollections } from "../config-slice";
+import { airviewApi } from "../../store";
 import {
   selectContentCreatorSelectedCollection,
   selectContentCreatorData,
@@ -11,6 +12,9 @@ export function prepareEntryPayload() {
   return (_, getState) => {
     const state = getState();
     const workingBranch = selectWorkingBranch(state);
+    const branchesResult = airviewApi.endpoints.getBranches.select()(state);
+    const { data: branches } = branchesResult;
+
     const collections = selectAllCollections(state);
     const selectedEntryCollection =
       selectContentCreatorSelectedCollection(state);
@@ -21,6 +25,10 @@ export function prepareEntryPayload() {
     )}`;
 
     const { additionalFiles } = collections[selectedEntryCollection];
+
+    const baseSha = branches.find(
+      (branch) => branch.name === workingBranch
+    ).sha;
 
     return {
       id: entryId,
@@ -34,6 +42,7 @@ export function prepareEntryPayload() {
             })
           )),
       },
+      baseSha,
     };
   };
 }

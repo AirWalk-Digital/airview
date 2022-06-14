@@ -33,6 +33,7 @@ export function MetaEditor() {
           padding: 1,
           boxSizing: "border-box",
           backgroundColor: "common.white",
+          zIndex: 1200,
         }}
       >
         <React.Fragment>

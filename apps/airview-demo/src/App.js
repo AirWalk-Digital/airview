@@ -1,5 +1,6 @@
 import React from "react";
 import { AirviewCMS } from "airview-cms";
+import { AirviewUiThemeProvider } from "airview-ui";
 import { Routes, Route } from "react-router-dom";
 import { config } from "./config";
 import { MainLayout } from "./layouts";
