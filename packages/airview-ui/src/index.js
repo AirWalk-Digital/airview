@@ -3,4 +3,5 @@ export {
   TopBar,
   NavigationDrawer,
   Menu,
+  PageTitle,
 } from "@features";
