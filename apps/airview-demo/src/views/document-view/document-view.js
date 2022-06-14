@@ -1,8 +1,8 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import { useSetCmsContext } from "airview-cms";
 import { useGetEntryId } from "./use-get-entry-id";
+import { LayoutContainer, LayoutMain, LayoutAside } from "./layout";
 import { TableOfContents } from "./table-of-contents";
 import { RelatedContent } from "./related-content";
 
@@ -16,19 +16,14 @@ export function DocumentView() {
   }
 
   return (
-    <Container maxWidth={false} sx={{ paddingTop: 6, paddingBottom: 6 }}>
-      <Box sx={{ display: "flex" }}>
-        <Box component="main" sx={{ flex: "1 1 auto", paddingRight: 2 }}>
-          <span>Main content</span>
-        </Box>
-        <Box
-          component="aside"
-          sx={{ flex: "0 0 auto", width: 350, paddingLeft: 2 }}
-        >
-          <TableOfContents />
-          <RelatedContent />
-        </Box>
-      </Box>
-    </Container>
+    <LayoutContainer>
+      <LayoutMain>
+        <span>Main content</span>
+      </LayoutMain>
+      <LayoutAside>
+        <TableOfContents />
+        <RelatedContent />
+      </LayoutAside>
+    </LayoutContainer>
   );
 }
