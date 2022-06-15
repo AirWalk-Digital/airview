@@ -67,10 +67,6 @@ export function useGetNavigationItemsData() {
                     {
                       groupTitle: "Knowledge",
                       links: [
-                        {
-                          label: "View all",
-                          url: `/${application.id}/knowledge`,
-                        },
                         ...knowledgeEntries.map((entry) => ({
                           label: entry.meta.title,
                           url: `/${entry.id}`,
@@ -84,10 +80,6 @@ export function useGetNavigationItemsData() {
                     {
                       groupTitle: "Release",
                       links: [
-                        {
-                          label: "View all",
-                          url: `/${application.id}/release`,
-                        },
                         ...releaseEntries.map((entry) => ({
                           label: entry.meta.title,
                           url: `/${entry.id}`,
