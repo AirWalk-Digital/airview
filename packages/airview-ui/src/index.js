@@ -7,4 +7,5 @@ export {
   AsideAndMainContainer,
   Aside,
   Main,
+  StyledWysiwyg,
 } from "@features";
