@@ -4,7 +4,7 @@ import { useSetCmsContext } from "airview-cms";
 import { PageTitle, AsideAndMainContainer, Aside, Main } from "airview-ui";
 import { useGetEntryId } from "./use-get-entry-id";
 import { TableOfContents } from "./table-of-contents";
-import { RelatedContent } from "./related-content";
+import { DocumentContent } from "./document-content";
 
 export function DocumentView() {
   const entryId = useGetEntryId();
@@ -24,10 +24,10 @@ export function DocumentView() {
           loading={isLoading}
           fetching={isFetching}
         />
+        <DocumentContent />
       </Main>
       <Aside>
         <TableOfContents />
-        {/* <RelatedContent /> */}
       </Aside>
     </AsideAndMainContainer>
   );
