@@ -14,7 +14,13 @@ export function PageTitle({
     <Typography
       variant="h1"
       gutterBottom
-      sx={{ ...(fetching && { opacity: 0.5 }), ...sx }}
+      sx={{
+        fontSize: 36,
+        fontWeight: "500",
+        marginBottom: 4,
+        ...(fetching && { opacity: 0.5 }),
+        ...sx,
+      }}
       {...{ component, ...rest }}
     >
       {loading ? <Skeleton /> : title}
