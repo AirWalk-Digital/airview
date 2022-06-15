@@ -4,4 +4,7 @@ export {
   NavigationDrawer,
   Menu,
   PageTitle,
+  AsideAndMainContainer,
+  Aside,
+  Main,
 } from "@features";
