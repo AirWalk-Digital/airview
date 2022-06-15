@@ -2,8 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import { red } from "@mui/material/colors";
+import { StyledWysiwygLoading } from "./styled-wysiwyg-loading";
 
-export function StyledWysiwyg({ children, sx, ...rest }) {
+export function StyledWysiwyg({
+  children,
+  sx,
+  loading = false,
+  fetching = false,
+  ...rest
+}) {
+  if (loading) return <StyledWysiwygLoading />;
+
   return (
     <Box
       sx={{
@@ -168,6 +177,7 @@ export function StyledWysiwyg({ children, sx, ...rest }) {
             },
           }),
         },
+        ...(fetching && { opacity: 0.5, pointerEvents: "none" }),
         ...sx,
       }}
       {...rest}
@@ -180,4 +190,6 @@ export function StyledWysiwyg({ children, sx, ...rest }) {
 StyledWysiwyg.propTypes = {
   children: PropTypes.node,
   sx: PropTypes.object,
+  loading: PropTypes.bool,
+  fetching: PropTypes.bool,
 };
