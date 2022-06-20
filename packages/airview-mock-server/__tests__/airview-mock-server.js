@@ -142,7 +142,7 @@ describe("AirviewMockServer", () => {
       {
         method: "PUT",
         body: JSON.stringify({
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify(entryData.content, { title: entryData.title })
           ),
         }),
@@ -189,11 +189,11 @@ describe("AirviewMockServer", () => {
 
     expect(entryContentData).toEqual({
       content: expect.objectContaining({
-        _index: expect.any(String),
+        "_index.md": expect.any(String),
       }),
     });
 
-    const markdownContent = matter(atob(entryContentData.content["_index"]));
+    const markdownContent = matter(atob(entryContentData.content["_index.md"]));
 
     expect(markdownContent.content).toEqual(
       expect.stringContaining(entryData.content)
@@ -234,7 +234,7 @@ describe("AirviewMockServer", () => {
       {
         method: "PUT",
         body: JSON.stringify({
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify(entryData.content, { title: entryData.title })
           ),
         }),
