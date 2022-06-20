@@ -46,10 +46,7 @@ export class CmsBackend {
   }
 
   async getBranches(): Promise<GitBranch[]> {
-    return await this._getCachedResponse(
-      async () => this._client.getBranches(), //needs fat arrow to avoid losing 'this' context.
-      "branches"
-    );
+    return this._client.getBranches();
   }
 
   async setContent(inboundContent: InboundContent): Promise<void> {
