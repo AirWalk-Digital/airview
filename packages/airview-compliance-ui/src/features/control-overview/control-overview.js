@@ -7,7 +7,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { ControlOverviewHeader } from "./control-overview-header";
 import { ControlOverviewGroup } from "./control-overview-group";
 import { ControlOverviewItem } from "./control-overview-item";
-import { Message } from "../../components/message";
+import { Message } from "../../components";
 import { ControlOverviewItemDetail } from "./control-overview-item-detail";
 import { ControlOverviewItemResources } from "./control-overview-item-resources";
 import { ControlOverviewLoadingIndicator } from "./control-overview-loading-indicator";
