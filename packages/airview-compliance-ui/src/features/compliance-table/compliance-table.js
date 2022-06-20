@@ -13,7 +13,7 @@ import { ComplianceTableToolbar } from "./compliance-table-toolbar";
 import { ComplianceTableHead } from "./compliance-table-head";
 import { ComplianceTableRow } from "./compliance-table-row";
 import { ComplianceTableRowDetail } from "./compliance-table-row-detail";
-import { Message } from "../message";
+import { Message } from "../../components/message/message";
 
 function ComplianceTable({
   title,
