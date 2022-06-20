@@ -24,7 +24,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { FormLabel } from "@material-ui/core";
 import WarningIcon from "@material-ui/icons/Warning";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { IconChip } from "../icon-chip";
+import { IconChip } from "./icon-chip";
 
 export function ComplianceTableAcceptRiskDialog({
   open,
