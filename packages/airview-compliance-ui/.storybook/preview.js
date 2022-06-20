@@ -5,10 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { create } from "jss";
 import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import compose from "jss-plugin-compose";
-import { BrowserRouter as Router } from "react-router-dom";
-//import { initMswWorker } from "./initMswWorker";
-
-//initMswWorker();
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -22,12 +18,12 @@ export const decorators = [
     });
 
     return (
-      <Router>
+      <React.Fragment>
         <StylesProvider jss={jss}>
           <CssBaseline />
           <Story />
         </StylesProvider>
-      </Router>
+      </React.Fragment>
     );
   },
 ];
