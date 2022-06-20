@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import { NavigationItems } from "./navigation-items";
 
 export function MainLayout() {
-  const [navOpen, setNavOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(true);
   const viewportOffset = useCMSViewportOffset();
   const topBarHeight = 64;
 
@@ -23,7 +23,12 @@ export function MainLayout() {
         <NavigationItems />
       </NavigationDrawer>
 
-      <Box sx={{ marginTop: `${viewportOffset + topBarHeight}px` }}>
+      <Box
+        sx={{
+          marginTop: `${viewportOffset + topBarHeight}px`,
+          paddingLeft: navOpen ? "300px" : 0,
+        }}
+      >
         <Outlet />
       </Box>
     </div>

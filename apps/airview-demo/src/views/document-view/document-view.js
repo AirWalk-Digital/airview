@@ -1,29 +1,34 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useSetCmsContext } from "airview-cms";
+import { PageTitle, AsideAndMainContainer, Aside, Main } from "airview-ui";
 import { useGetEntryId } from "./use-get-entry-id";
-import { LayoutContainer, LayoutMain, LayoutAside } from "./layout";
 import { TableOfContents } from "./table-of-contents";
-import { RelatedContent } from "./related-content";
+import { DocumentContent } from "./document-content";
 
 export function DocumentView() {
   const entryId = useGetEntryId();
 
-  const { isError, error } = useSetCmsContext(entryId);
+  const { data, isError, error, isLoading, isFetching } =
+    useSetCmsContext(entryId);
 
   if (isError && error.type === 404) {
     return <Navigate to="/not-found" replace={true} />;
   }
 
   return (
-    <LayoutContainer>
-      <LayoutMain>
-        <span>Main content</span>
-      </LayoutMain>
-      <LayoutAside>
+    <AsideAndMainContainer>
+      <Main>
+        <PageTitle
+          title={data?.title ?? ""}
+          loading={isLoading}
+          fetching={isFetching}
+        />
+        <DocumentContent loading={isLoading} fetching={isFetching} />
+      </Main>
+      <Aside>
         <TableOfContents />
-        <RelatedContent />
-      </LayoutAside>
-    </LayoutContainer>
+      </Aside>
+    </AsideAndMainContainer>
   );
 }
