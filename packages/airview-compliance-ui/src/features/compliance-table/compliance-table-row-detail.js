@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Button from "@material-ui/core/Button";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
-import { getRisk } from "../../lib/get-risk";
+import { getRisk } from "./get-risk";
 import { complianceTableRowDetailStyles } from "./compliance-table-row-detail.styles";
 import { ComplianceTableAcceptRiskDialog } from "./compliance-table-accept-risk-dialog";
 
