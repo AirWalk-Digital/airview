@@ -16,7 +16,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { WorkingOverlay } from "../working-overlay";
+import { WorkingOverlay } from "./working-overlay";
 
 export function ControlOverviewResourceManager({
   open,
