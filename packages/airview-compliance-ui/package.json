@@ -1,0 +1,15 @@
+{
+  "name": "airview-compliance-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "storybook": "start-storybook -p 6006"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/react": "^6.5.9"
+  }
+}
