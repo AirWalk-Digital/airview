@@ -1,0 +1,6 @@
+FROM node:16.15.1-stretch
+
+ADD . /workspace
+
+RUN cd /workspace && npm install
+# RUN cd /workspace/packages/airview-compliance-ui && npm install
