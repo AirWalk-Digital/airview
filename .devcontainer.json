@@ -5,7 +5,7 @@
 	// "extensions": ["ms-python.python"],
 	"remoteUser": "node",
 	"mounts": [
-		"source=/home/ubuntu/vscode/.ssh/id_rsa,target=/home/node/.ssh/id_rsa,type=bind,consistency=cached",
+		"source=/home/ubuntu/vscode/.ssh,target=/home/node/.vscode,type=bind,consistency=cached",
 		// "source=/home/ubuntu/vscode/GitHub/${env:workspaceFolderBasename},target=/app,type=bind,consistency=cached"
 		// "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
 		
@@ -27,7 +27,7 @@
 	// 	"-v", "/home/ubuntu/Downloads:/tmp/downloads,type=bind,consistency=cached"
     // ],
     // Copy the contents to the correct location and set permissions
-	// "postCreateCommand": "mkdir -p ~/.ssh && cp -r ~/.ssh-localhost/* ~/.ssh && chmod 700 ~/.ssh && chmod 600 ~/.ssh/*",
+	"postCreateCommand": "mkdir -p ~/.ssh && cp -r ~/.vscode/* ~/.ssh && chmod 700 ~/.ssh && chmod 600 ~/.ssh/*",
 	"env": {
         "VSCODE_DEBUG_MODE": "true"
     }
