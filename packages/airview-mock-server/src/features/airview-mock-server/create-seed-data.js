@@ -16,7 +16,7 @@ export function createSeedData() {
           title: "Microsoft Teams",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Microsoft Teams", {
               title: "Microsoft Teams",
             })
@@ -30,7 +30,7 @@ export function createSeedData() {
           title: "Microsoft Outlook",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Microsoft Outlook", {
               title: "Microsoft Outlook",
             })
@@ -45,7 +45,7 @@ export function createSeedData() {
           parent: "application/ms_teams",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Place Call on Hold", {
               title: "Place Call on Hold",
               parent: "application/ms_teams",
@@ -71,7 +71,7 @@ export function createSeedData() {
           parent: "application/ms_teams",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Composing a new message", {
               title: "Composing a new message",
               parent: "application/ms_teams",
@@ -99,7 +99,7 @@ export function createSeedData() {
           publish_date: "2022-05-12T00:00:00Z",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Security Patch", {
               title: "Security Patch",
               parent: "application/ms_teams",
@@ -118,7 +118,7 @@ export function createSeedData() {
           title: "Microsoft Teams",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify("I am body content for Microsoft Teams", {
               title: "Microsoft Teams",
             })
@@ -135,7 +135,7 @@ export function createSeedData() {
           publish_date: "2022-04-12T00:00:00Z",
         },
         content: {
-          _index: btoa(
+          "_index.md": btoa(
             matter.stringify(
               "I am branch one body content for Security Patch",
               {

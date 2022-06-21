@@ -75,7 +75,7 @@ export function createStore() {
 
     branches[branchName].sha = newBranchSha;
 
-    const meta = matter(atob(content["_index"])).data;
+    const meta = matter(atob(content["_index.md"])).data;
     const collection = entryId.split("/")[0];
 
     entries[branchName][entryId] = {

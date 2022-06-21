@@ -34,7 +34,7 @@ export function prepareEntryPayload() {
       id: entryId,
       branch: workingBranch,
       data: {
-        _index: btoa(matter.stringify("", entryMetaData)),
+        "_index.md": btoa(matter.stringify("", entryMetaData)),
         ...(additionalFiles &&
           Object.fromEntries(
             additionalFiles.map((file) => {

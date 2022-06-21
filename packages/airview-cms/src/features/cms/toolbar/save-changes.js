@@ -19,7 +19,7 @@ export function SaveChanges() {
 
   const handleOnClick = () => {
     const data = {
-      _index: btoa(matter.stringify("", edits)),
+      "_index.md": btoa(matter.stringify("", edits)),
     };
     const baseSha = branches.find((f) => f.name === branch).sha;
 
