@@ -22,9 +22,9 @@ export function AirviewMockServer(delay = 500, domain = "") {
     }),
 
     rest.post(`${domain}/api/branches`, function (req, res, ctx) {
-      const { baseBranchSha, branchName } = req.body;
+      const { baseSha, name } = req.body;
 
-      const branches = createBranch(baseBranchSha, branchName);
+      const branches = createBranch(baseSha, name);
 
       if (branches) {
         return res(ctx.delay(ARTIFICIAL_DELAY_MS));

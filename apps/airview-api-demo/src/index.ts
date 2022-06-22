@@ -125,6 +125,22 @@ app.get(
   }
 );
 
+app.post(
+  "/api/branches",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const baseSha = req.body.baseSha;
+      const branchName = req.body.name;
+
+      const isSuccess = await backend.createBranch(baseSha, branchName);
+      if (isSuccess) res.status(201).send(null);
+      else res.status(422).send(null);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
