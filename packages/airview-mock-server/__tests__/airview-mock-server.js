@@ -46,8 +46,8 @@ describe("AirviewMockServer", () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        baseBranchSha: branchOneSha,
-        branchName: newBranchName,
+        baseSha: branchOneSha,
+        name: newBranchName,
       }),
     });
 

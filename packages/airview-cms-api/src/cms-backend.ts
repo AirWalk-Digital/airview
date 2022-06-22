@@ -49,6 +49,10 @@ export class CmsBackend {
     return this._client.getBranches();
   }
 
+  async createBranch(baseSha: string, branchName: string): Promise<boolean> {
+    return this._client.createBranch(baseSha, branchName);
+  }
+
   async setContent(inboundContent: InboundContent): Promise<void> {
     const content = await this._client.setContent(inboundContent);
     for (const item of content) {

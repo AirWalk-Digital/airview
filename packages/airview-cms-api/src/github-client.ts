@@ -266,4 +266,23 @@ export class GithubClient implements GitClient {
     );
     await this._updateBranch(commitSha, inboundEntity.branchName);
   }
+
+  async createBranch(baseSha: string, branchName: string): Promise<boolean> {
+    const resp = await this._fetchWithHeaders(
+      `https://api.github.com/repos/${org}/${repo}/git/refs`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          ref: `refs/heads/${branchName}`,
+          sha: baseSha,
+        }),
+      }
+    );
+    if (resp.status == 201) return true;
+    if (resp.status == 422) return false;
+
+    throw Error(
+      `Bad status creating branch ${resp.status} ${await resp.text()})`
+    );
+  }
 }
