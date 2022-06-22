@@ -1,6 +1,7 @@
 export {
   bodyEditorSlice,
   setBodyEditorContent,
-  selectBodyEditorData,
+  selectDoesBodyEditorHaveEdits,
+  clearBodyEditorEdits,
 } from "./body-editor.slice";
 export { MarkdownEditor } from "./markdown-editor";

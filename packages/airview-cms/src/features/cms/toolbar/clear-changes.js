@@ -5,20 +5,30 @@ import {
   selectDoesMetaEditorHaveEdits,
   clearMetaDataEdits,
 } from "../meta-editor";
+import {
+  selectDoesBodyEditorHaveEdits,
+  clearBodyEditorEdits,
+} from "../body-editor";
 import { selectCmsBusyStatus } from "../cms.slice";
 
 export function ClearChanges() {
   const dispatch = useDispatch();
   const metaEditorEdits = useSelector(selectDoesMetaEditorHaveEdits);
+  const bodyEditorEdits = useSelector(selectDoesBodyEditorHaveEdits);
   const cmsBusy = useSelector(selectCmsBusyStatus);
+
+  const handleOnClick = () => {
+    dispatch(clearMetaDataEdits());
+    dispatch(clearBodyEditorEdits());
+  };
 
   return (
     <Button
       variant="text"
       size="small"
       color="error"
-      disabled={!metaEditorEdits || cmsBusy}
-      onClick={() => dispatch(clearMetaDataEdits())}
+      disabled={!(metaEditorEdits || bodyEditorEdits) || cmsBusy}
+      onClick={handleOnClick}
     >
       Clear Changes
     </Button>

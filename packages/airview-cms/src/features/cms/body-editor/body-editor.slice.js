@@ -3,7 +3,7 @@ import { nanoid } from "@reduxjs/toolkit";
 //const isEqual = require("lodash/isEqual");
 
 const initialState = {
-  editorKey: nanoid(),
+  editorKey: null,
   initialData: null,
   editedData: null,
 };
@@ -21,28 +21,44 @@ export const bodyEditorSlice = createSlice({
     setBodyEditorIntialData: (state, action) => {
       state.initialData = action.payload;
     },
-    persitBodyEditorEdit: (state, action) => {
+    setBodyEditorEditedData: (state, action) => {
       state.editedData = action.payload;
-    },
-    clearBodyEditorEdits: (state) => {
-      state.editedData = null;
     },
   },
 });
 
-const {
-  //setEditorKey,
-  setBodyEditorIntialData,
-  //persitBodyEditorEdit,
-  clearBodyEditorEdits,
-} = bodyEditorSlice.actions;
+const { setEditorKey, setBodyEditorIntialData, setBodyEditorEditedData } =
+  bodyEditorSlice.actions;
 
 export const setBodyEditorContent = (data) => {
   return (dispatch) => {
     dispatch(setBodyEditorIntialData(data));
-    dispatch(clearBodyEditorEdits());
+    dispatch(setBodyEditorEditedData(data));
+    dispatch(setEditorKey());
   };
 };
 
+export const persitBodyEditorContent = (data) => {
+  return (dispatch) => {
+    dispatch(setBodyEditorEditedData(data));
+  };
+};
+
+export const clearBodyEditorEdits = () => {
+  return (dispatch, getState) => {
+    const { initialData } = getState().bodyEditorSlice;
+
+    dispatch(setBodyEditorEditedData(initialData));
+    dispatch(setEditorKey());
+  };
+};
+
+export const selectEditorKey = (state) => state.bodyEditorSlice.editorKey;
+
 export const selectBodyEditorData = (state) =>
   state.bodyEditorSlice.initialData;
+
+export const selectDoesBodyEditorHaveEdits = (state) => {
+  const { initialData, editedData } = state.bodyEditorSlice;
+  return initialData !== editedData;
+};
