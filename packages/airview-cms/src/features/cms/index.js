@@ -12,7 +12,7 @@ export {
 export { contentCreatorSlice } from "./content-creator";
 export { branchCreatorSlice } from "./branch-creator";
 export { metaEditorSlice } from "./meta-editor";
-export { bodyEditorSlice } from "./body-editor";
+export { bodyEditorSlice, MarkdownEditor } from "./body-editor";
 export { createPullRequestSlice } from "./create-pull-request";
 export { useSetCmsContext } from "./use-set-cms-context";
 export { configSlice } from "./config-slice";

@@ -24,12 +24,7 @@ export function useSetCmsContext(entryId) {
   } = useGetEntry(entryId);
 
   useEffect(() => {
-    console.log(entryData);
-
     const { data, content } = entryData?.["_index"] ?? {};
-
-    console.log(content);
-
     dispatch(setMetaEditorInitialData(data));
     dispatch(setBodyEditorContent(content));
   }, [dispatch, entryData]);

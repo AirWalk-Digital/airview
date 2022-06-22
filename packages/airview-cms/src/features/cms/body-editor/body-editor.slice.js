@@ -43,3 +43,6 @@ export const setBodyEditorContent = (data) => {
     dispatch(clearBodyEditorEdits());
   };
 };
+
+export const selectBodyEditorData = (state) =>
+  state.bodyEditorSlice.initialData;
