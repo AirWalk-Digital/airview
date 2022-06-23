@@ -55,8 +55,7 @@ export const clearBodyEditorEdits = () => {
 
 export const selectEditorKey = (state) => state.bodyEditorSlice.editorKey;
 
-export const selectBodyEditorData = (state) =>
-  state.bodyEditorSlice.initialData;
+export const selectBodyEditorData = (state) => state.bodyEditorSlice.editedData;
 
 export const selectDoesBodyEditorHaveEdits = (state) => {
   const { initialData, editedData } = state.bodyEditorSlice;

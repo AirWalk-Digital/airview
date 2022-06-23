@@ -6,12 +6,18 @@ import {
   selectDoesMetaEditorHaveEdits,
   selectMetaEditorData,
 } from "../meta-editor";
+import {
+  selectDoesBodyEditorHaveEdits,
+  selectBodyEditorData,
+} from "../body-editor";
 import { usePutEntryMutation, useGetBranchesQuery } from "../../store";
 import { selectCmsContext, selectWorkingBranch } from "../cms.slice";
 
 export function SaveChanges() {
-  const hasEdits = useSelector(selectDoesMetaEditorHaveEdits);
-  const edits = useSelector(selectMetaEditorData);
+  const metaEditorHasEdits = useSelector(selectDoesMetaEditorHaveEdits);
+  const bodyEditorHasEdits = useSelector(selectDoesBodyEditorHaveEdits);
+  const metaEdits = useSelector(selectMetaEditorData);
+  const bodyEdits = useSelector(selectBodyEditorData);
   const [putEntry, { isLoading }] = usePutEntryMutation();
   const id = useSelector(selectCmsContext);
   const branch = useSelector(selectWorkingBranch);
@@ -19,8 +25,9 @@ export function SaveChanges() {
 
   const handleOnClick = () => {
     const data = {
-      "_index.md": btoa(matter.stringify("", edits)),
+      "_index.md": btoa(matter.stringify(bodyEdits, metaEdits)),
     };
+
     const baseSha = branches.find((f) => f.name === branch).sha;
 
     putEntry({ id, branch, data, baseSha });
@@ -30,7 +37,7 @@ export function SaveChanges() {
     <Button
       variant="text"
       size="small"
-      disabled={!hasEdits || isLoading}
+      disabled={!(metaEditorHasEdits || bodyEditorHasEdits) || isLoading}
       onClick={handleOnClick}
     >
       Save Changes
