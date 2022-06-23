@@ -65,8 +65,8 @@ export function BranchCreator() {
   const handleOnSubmit = async () => {
     try {
       await createBranch({
-        baseBranchSha: workingBranchSha,
-        branchName,
+        baseSha: workingBranchSha,
+        name: branchName,
       }).unwrap();
       dispatch(disableBranchCreatorModal());
       dispatch(setWorkingBranch(branchName));

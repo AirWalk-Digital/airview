@@ -24,7 +24,7 @@ export function useSetCmsContext(entryId) {
   } = useGetEntry(entryId);
 
   useEffect(() => {
-    const { data, content } = entryData?.["_index"] ?? {};
+    const { data, content } = entryData?.["_index.md"] ?? {};
     dispatch(setMetaEditorInitialData(data));
     dispatch(setBodyEditorContent(content));
   }, [dispatch, entryData]);

@@ -21,12 +21,12 @@ export const airviewApi = createApi({
       providesTags: ["Branches"],
     }),
     createBranch: builder.mutation({
-      query: ({ baseBranchSha, branchName }) => ({
+      query: ({ baseSha, name }) => ({
         url: "branches",
         method: "POST",
         body: {
-          baseBranchSha,
-          branchName,
+          baseSha,
+          name,
         },
       }),
       invalidatesTags: (_, error) => {

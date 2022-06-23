@@ -33,6 +33,7 @@
     "apps/airview-demo",
     "packages/airview-mock-server",
     "packages/airview-cms-api",
+    "packages/airview-compliance-ui",
     "apps/airview-api-demo"
   ],
   "lint-staged": {

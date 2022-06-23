@@ -7,24 +7,24 @@ export function createStore() {
 
   const getBranches = () => Object.values(branches);
 
-  const createBranch = (baseBranchSha, branchName) => {
+  const createBranch = (baseSha, name) => {
     const baseBranch = Object.values(branches).find(
-      (branch) => branch.sha === baseBranchSha
+      (branch) => branch.sha === baseSha
     );
 
-    if (!baseBranch || branches[branchName]) {
+    if (!baseBranch || branches[name]) {
       return false;
     }
 
     const branchSha = nanoid();
 
-    branches[branchName] = {
-      name: branchName,
+    branches[name] = {
+      name: name,
       sha: branchSha,
       isProtected: false,
     };
 
-    entries[branchName] = { ...entries[baseBranch.name] };
+    entries[name] = { ...entries[baseBranch.name] };
 
     return true;
   };
@@ -75,7 +75,7 @@ export function createStore() {
 
     branches[branchName].sha = newBranchSha;
 
-    const meta = matter(atob(content["_index"])).data;
+    const meta = matter(atob(content["_index.md"])).data;
     const collection = entryId.split("/")[0];
 
     entries[branchName][entryId] = {
