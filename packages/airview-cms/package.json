@@ -25,7 +25,8 @@
     "react-router-dom": "^6.3.0",
     "slugify": "^1.6.5",
     "react-markdown": "^8.0.3",
-    "@uiw/react-md-editor": "^3.14.4"
+    "@uiw/react-md-editor": "^3.14.4",
+    "rehype-sanitize": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
