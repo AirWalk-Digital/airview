@@ -25,7 +25,9 @@ export default [
       "lodash/isEqual",
       "slugify",
       "react-router-dom",
-      "react-markdown",
+      "@uiw/react-md-editor",
+      "rehype-sanitize",
+      "unist-util-visit",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
