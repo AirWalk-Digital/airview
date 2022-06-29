@@ -1,10 +1,9 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import { TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 import {
   selectBodyEditorData,
-  selectEditorKey,
   persitBodyEditorContent,
 } from "./body-editor.slice";
 import {
@@ -16,25 +15,32 @@ export function MarkdownEditor() {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
-  const editorKey = useSelector(selectEditorKey);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
-  const handleOnChange = (event) => {
-    dispatch(persitBodyEditorContent(event.target.value));
+  const handleOnChange = (value) => {
+    dispatch(persitBodyEditorContent(value));
   };
 
-  if (cmsEnabled) {
+  if (cmsEnabled && !protectedBranch) {
     return (
-      <TextField
-        defaultValue={markdownContent}
-        multiline
-        fullWidth
-        key={editorKey}
+      <MDEditor
+        value={markdownContent}
         onChange={handleOnChange}
-        disabled={protectedBranch}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+        autoFocus={false}
+        preview="edit"
       />
     );
   }
 
-  return <ReactMarkdown>{markdownContent}</ReactMarkdown>;
+  return (
+    <MDEditor.Markdown
+      source={markdownContent}
+      previewOptions={{
+        rehypePlugins: [[rehypeSanitize]],
+      }}
+    />
+  );
 }
