@@ -15,12 +15,15 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 
+function makeImage(file) {
+  return URL.createObjectURL(file);
+}
+
 function FileInput({ onChange }) {
   let fileInputRef = useRef(null);
 
   useEffect(() => {
     console.log("mounting file input");
-
     return () => console.log("unmounting file input");
   });
 
@@ -57,9 +60,19 @@ const image = {
       console.log("doing on change");
       root.unmount();
       console.log(event.target.files);
+
+      const imageURL = makeImage(event.target.files[0]);
+
+      api.replaceSelection(`![alt text](${imageURL})`);
     };
 
-    const root = ReactDOM.createRoot(document.createElement("div"));
+    const container = document.createElement("div");
+
+    container.setAttribute("id", "markdown-file-input");
+
+    console.log(container);
+
+    const root = ReactDOM.createRoot(container);
 
     root.render(<FileInput onChange={onChange} />);
   },
@@ -80,9 +93,9 @@ export function MarkdownEditor() {
       <MDEditor
         value={markdownContent}
         onChange={handleOnChange}
-        previewOptions={{
-          rehypePlugins: [[rehypeSanitize]],
-        }}
+        // previewOptions={{
+        //   rehypePlugins: [[rehypeSanitize]],
+        // }} // disabled, prevents the use of images using URL.createObjectURL
         autoFocus={false}
         preview="edit"
         commands={[image]}
