@@ -11,6 +11,7 @@ export default [
     input: "src/index.js",
     external: [
       "react",
+      "react-dom/client",
       "@reduxjs/toolkit",
       "@reduxjs/toolkit/query/react",
       "react-redux",
