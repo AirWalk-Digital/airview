@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom/client";
 import { useDispatch, useSelector } from "react-redux";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeSvgIcon } from "@components";
@@ -15,32 +14,54 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 
-function makeImage(file) {
-  return URL.createObjectURL(file);
+function FileInputUi({ onSubmit, onCancel }) {
+  const [file, setFile] = useState();
+  const [description, setDescription] = useState("");
+  const fileInputRef = useRef();
+
+  const reset = () => {
+    setFile(null);
+    setDescription("");
+    fileInputRef.current.value = null;
+  };
+
+  const handleOnCancel = () => {
+    reset();
+    onCancel();
+  };
+
+  const handleOnSubmit = () => {
+    onSubmit(file, description);
+  };
+
+  return (
+    <div style={{ width: 120, padding: 10 }}>
+      <input
+        type="text"
+        name="description"
+        value={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
+      <input
+        type="file"
+        name="file"
+        onChange={(event) => setFile(event.target.files[0])}
+        ref={fileInputRef}
+      />
+      <button onClick={handleOnCancel}>Cancel</button>
+      <button onClick={handleOnSubmit}>Add</button>
+    </div>
+  );
 }
 
-function FileInput({ onChange }) {
-  let fileInputRef = useRef(null);
-
-  useEffect(() => {
-    console.log("mounting file input");
-    return () => console.log("unmounting file input");
-  });
-
-  useEffect(() => {
-    fileInputRef.current.click();
-  }, []);
-
-  return <input type="file" ref={fileInputRef} onChange={onChange} />;
-}
-
-FileInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
+FileInputUi.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
-const image = {
-  name: "image",
-  keyCommand: "image",
+const imagePicker = {
+  name: "image_picker",
+  groupName: "image_picker",
   buttonProps: {
     "aria-label": "Insert Image",
   },
@@ -52,29 +73,15 @@ const image = {
       sx={{ width: 12, height: 12 }}
     />
   ),
-  execute: (state, api) => {
-    console.log(state);
-    console.log(api);
-
-    const onChange = (event) => {
-      console.log("doing on change");
-      root.unmount();
-      console.log(event.target.files);
-
-      const imageURL = makeImage(event.target.files[0]);
-
-      api.replaceSelection(`![alt text](${imageURL})`);
+  children: ({ close, textApi }) => {
+    const handleOnSubmit = (url, description) => {
+      textApi.replaceSelection(
+        `![${description}](${URL.createObjectURL(url)})`
+      );
+      close();
     };
 
-    const container = document.createElement("div");
-
-    container.setAttribute("id", "markdown-file-input");
-
-    console.log(container);
-
-    const root = ReactDOM.createRoot(container);
-
-    root.render(<FileInput onChange={onChange} />);
+    return <FileInputUi onCancel={close} onSubmit={handleOnSubmit} />;
   },
 };
 
@@ -98,7 +105,7 @@ export function MarkdownEditor() {
         // }} // disabled, prevents the use of images using URL.createObjectURL
         autoFocus={false}
         preview="edit"
-        commands={[image]}
+        commands={[commands.group([], imagePicker)]}
       />
     );
   }
