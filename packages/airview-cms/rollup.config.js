@@ -23,6 +23,7 @@ export default [
       "gray-matter",
       "@fortawesome/fontawesome-svg-core",
       "@fortawesome/free-solid-svg-icons",
+      "@mui/icons-material/DriveFolderUpload",
       "lodash/isEqual",
       "slugify",
       "react-router-dom",
