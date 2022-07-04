@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 
-export function FilePicker({ onSubmit, onCancel }) {
+export function FilePicker({ onSubmit, onCancel, accept }) {
   const [file, setFile] = useState();
   const [description, setDescription] = useState("");
   const fileInputRef = useRef();
@@ -50,6 +50,7 @@ export function FilePicker({ onSubmit, onCancel }) {
         hidden
         onChange={(event) => setFile(event.target.files[0])}
         ref={fileInputRef}
+        accept={accept}
       />
       <FormControl
         vaiant="outlined"
@@ -104,4 +105,5 @@ export function FilePicker({ onSubmit, onCancel }) {
 FilePicker.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  accept: PropTypes.string,
 };
