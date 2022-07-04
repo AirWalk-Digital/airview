@@ -46,6 +46,22 @@ const imagePicker = {
   },
 };
 
+const titleSelector = commands.group(
+  [
+    commands.title1,
+    commands.title2,
+    commands.title3,
+    commands.title4,
+    commands.title5,
+    commands.title6,
+  ],
+  {
+    name: "title",
+    groupName: "title",
+    buttonProps: { "aria-label": "Insert title" },
+  }
+);
+
 export function MarkdownEditor() {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
@@ -63,7 +79,21 @@ export function MarkdownEditor() {
         onChange={handleOnChange}
         autoFocus={false}
         preview="edit"
-        commands={[commands.group([], imagePicker)]}
+        commands={[
+          titleSelector,
+          commands.bold,
+          commands.italic,
+          commands.strikethrough,
+          commands.hr,
+          commands.quote,
+          commands.code,
+          commands.codeBlock,
+          commands.unorderedListCommand,
+          commands.orderedListCommand,
+          commands.checkedListCommand,
+          commands.link,
+          commands.group([], imagePicker),
+        ]}
       />
     );
   }
