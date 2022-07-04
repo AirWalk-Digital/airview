@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
@@ -8,43 +8,51 @@ import { FilePicker } from "./file-picker";
 import {
   selectBodyEditorData,
   persitBodyEditorContent,
+  createObjectURLfromFileData,
+  setImageData,
 } from "./body-editor.slice";
 import {
   selectCmsEnabledStatus,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 
-const imagePicker = {
-  name: "image_picker",
-  groupName: "image_picker",
-  buttonProps: {
-    "aria-label": "Insert Image",
-  },
-  icon: (
-    <FontAwesomeSvgIcon
-      icon={faImage}
-      width={12}
-      height={12}
-      sx={{ width: 12, height: 12 }}
-    />
-  ),
-  children: ({ close, textApi }) => {
-    const handleOnSubmit = (url, description) => {
-      textApi.replaceSelection(
-        `![${description}](${URL.createObjectURL(url)})`
-      );
-      close();
-    };
-
-    return (
-      <FilePicker
-        onCancel={close}
-        onSubmit={handleOnSubmit}
-        accept=".jpeg,.jpg,.gif,.png"
+function imagePicker(dispatch) {
+  return {
+    name: "image_picker",
+    groupName: "image_picker",
+    buttonProps: {
+      "aria-label": "Insert Image",
+    },
+    icon: (
+      <FontAwesomeSvgIcon
+        icon={faImage}
+        width={12}
+        height={12}
+        sx={{ width: 12, height: 12 }}
       />
-    );
-  },
-};
+    ),
+    children: ({ close, textApi }) => {
+      const handleOnSubmit = (file, description) => {
+        const imageData = createObjectURLfromFileData(file);
+
+        dispatch(setImageData(imageData));
+
+        textApi.replaceSelection(
+          `![${description}](${URL.createObjectURL(file)})`
+        );
+        close();
+      };
+
+      return (
+        <FilePicker
+          onCancel={close}
+          onSubmit={handleOnSubmit}
+          accept=".jpeg,.jpg,.gif,.png"
+        />
+      );
+    },
+  };
+}
 
 const titleSelector = commands.group(
   [
@@ -72,6 +80,8 @@ export function MarkdownEditor() {
     dispatch(persitBodyEditorContent(value));
   };
 
+  const markdownImagePicker = useMemo(() => imagePicker(dispatch), [dispatch]);
+
   if (cmsEnabled && !protectedBranch) {
     return (
       <MDEditor
@@ -92,7 +102,7 @@ export function MarkdownEditor() {
           commands.orderedListCommand,
           commands.checkedListCommand,
           commands.link,
-          commands.group([], imagePicker),
+          commands.group([], markdownImagePicker),
         ]}
       />
     );
