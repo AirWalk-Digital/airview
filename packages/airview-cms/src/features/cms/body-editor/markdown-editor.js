@@ -36,7 +36,13 @@ const imagePicker = {
       close();
     };
 
-    return <FilePicker onCancel={close} onSubmit={handleOnSubmit} />;
+    return (
+      <FilePicker
+        onCancel={close}
+        onSubmit={handleOnSubmit}
+        accept=".jpeg,.jpg,.gif,.png"
+      />
+    );
   },
 };
 
