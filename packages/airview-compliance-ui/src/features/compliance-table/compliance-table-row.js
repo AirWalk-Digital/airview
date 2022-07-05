@@ -1,26 +1,17 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import SecurityIcon from "@material-ui/icons/Security";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Tooltip from "@material-ui/core/Tooltip";
-import Chip from "@material-ui/core/Chip";
-import IconButton from "@material-ui/core/IconButton";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Collapse from "@material-ui/core/Collapse";
+import SecurityIcon from "@mui/icons-material/Security";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Tooltip from "@mui/material/Tooltip";
+import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Collapse from "@mui/material/Collapse";
+import Box from "@mui/material/Box";
 import { complianceTableCommonStyles } from "./compliance-table.common-styles";
 import { complianceTableRowStyles } from "./compliance-table-row.styles";
-
-const useComplianceTableCommonStyles = makeStyles(() =>
-  complianceTableCommonStyles()
-);
-
-const useComplianceTableRowStyles = makeStyles((theme) =>
-  complianceTableRowStyles(theme)
-);
 
 function ComplianceTableRow({
   environment,
@@ -32,8 +23,8 @@ function ComplianceTableRow({
   tickets,
   children,
 }) {
-  const classes = useComplianceTableRowStyles();
-  const sharedClasses = useComplianceTableCommonStyles();
+  const classes = complianceTableRowStyles();
+  const sharedClasses = complianceTableCommonStyles();
   const [open, setOpen] = useState(false);
 
   const IconComponent = useMemo(() => {
@@ -49,7 +40,7 @@ function ComplianceTableRow({
 
   return (
     <React.Fragment>
-      <TableRow classes={{ root: classes.tableBodyRowRoot }}>
+      <TableRow sx={{ "&.MuiTableRow-root": classes.tableBodyRowRoot }}>
         <TableCell aria-label="status">
           <Tooltip
             title={`Control type: ${qualityModel}. Severity: ${severity}`}
@@ -57,60 +48,62 @@ function ComplianceTableRow({
           >
             <IconComponent
               fontSize="small"
-              classes={{
-                root: clsx(
-                  classes.controlStatusIconRoot,
-                  classes[`controlStatusIconSeverity_${severity}`]
-                ),
-                fontSizeSmall: classes.controlStatusIconFontSmall,
+              sx={{
+                "&.MuiSvgIcon-root": {
+                  ...classes.controlStatusIconRoot,
+                  ...classes[`controlStatusIconSeverity_${severity}`],
+                },
               }}
             />
           </Tooltip>
 
-          <span className={sharedClasses.visuallyHidden}>
+          <Box component="span" sx={sharedClasses.visuallyHidden}>
             {`Control type: ${qualityModel}. Severity: ${severity}`}
-          </span>
+          </Box>
         </TableCell>
 
-        <TableCell classes={{ root: sharedClasses.applicationTableCell }}>
-          <span className={classes.nameEnvBase} aria-label="name">
+        <TableCell
+          sx={{ "&.MuiTableCell-root": sharedClasses.applicationTableCell }}
+        >
+          <Box component="span" sx={classes.nameEnvBase} aria-label="name">
             {name}
-          </span>
-          <span
-            className={clsx(classes.nameEnvBase, classes.env)}
+          </Box>
+          <Box
+            component="span"
+            sx={{ ...classes.env, ...classes.nameEnvBase }}
             aria-label="environment"
           >
             {environment}
-          </span>
+          </Box>
         </TableCell>
 
         <TableCell aria-label="tickets">
-          <div className={classes.applicationTicketsContainer}>
+          <Box component="div" sx={classes.applicationTicketsContainer}>
             {tickets?.map((ticket, index) => (
               <Chip
                 key={index}
                 size="small"
                 label={ticket.reference}
-                classes={{
-                  root: clsx(
-                    classes.applicationTicketRoot,
-                    classes[`applicationTicketType_${ticket.type}`]
-                  ),
-                  label: classes.applicationTicketLabel,
+                sx={{
+                  "&.MuiChip-root": {
+                    ...classes.applicationTicketRoot,
+                    ...classes[`applicationTicketType_${ticket.type}`],
+                  },
+                  "&.MuiChip-label": classes.applicationTicketLabel,
                 }}
                 aria-label={`Ticket type: ${ticket.type}`}
               />
             ))}
-          </div>
+          </Box>
         </TableCell>
 
         <TableCell>
-          <span className={classes.age} aria-label="Time since raised">
+          <Box component="span" sx={classes.age} aria-label="Time since raised">
             {timeSinceRaised}
-          </span>
-          <span className={classes.raisedDate} aria-label="Raised date">
+          </Box>
+          <Box sx={classes.raisedDate} aria-label="Raised date">
             ({raisedDate})
-          </span>
+          </Box>
         </TableCell>
 
         <TableCell>
