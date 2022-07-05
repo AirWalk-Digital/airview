@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
 
 import { complianceTableToolbarStyles } from "./compliance-table-toolbar.styles";
-
-const useComplianceTableToolbarStyles = makeStyles((theme) =>
-  complianceTableToolbarStyles(theme)
-);
 
 function ComplianceTableToolbar({
   title,
@@ -25,7 +21,7 @@ function ComplianceTableToolbar({
   onFilterChange,
   testid,
 }) {
-  const classes = useComplianceTableToolbarStyles();
+  const classes = complianceTableToolbarStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -40,7 +36,10 @@ function ComplianceTableToolbar({
   if (!title && (!filters || filters.length < 2)) return null;
 
   return (
-    <Toolbar classes={{ gutters: classes.toolbar }} data-testid={testid}>
+    <Toolbar
+      sx={{ "&.MuiToolbar-gutters": classes.toolbar }}
+      data-testid={testid}
+    >
       {title && (
         <Typography variant="h6" component="div">
           {title}
@@ -48,7 +47,7 @@ function ComplianceTableToolbar({
       )}
 
       {filters && filters.length > 1 && (
-        <div className={classes.toolbarFilters}>
+        <Box component="div" sx={classes.toolbarFilters}>
           <Tooltip title="Filter" placement="bottom-end">
             <span>
               <IconButton
@@ -88,16 +87,18 @@ function ComplianceTableToolbar({
                 dense
                 key={filter}
               >
-                <ListItemIcon classes={{ root: classes.checkboxContainer }}>
+                <ListItemIcon
+                  sx={{ "&.MuiListItemIcon-root": classes.checkboxContainer }}
+                >
                   <Checkbox
                     checked={activeFilters.includes(filter)}
                     color="default"
                     disableRipple
                     tabIndex={-1}
                     size="small"
-                    classes={{
-                      root: classes.checkbox,
-                      checked: classes.checkboxChecked,
+                    sx={{
+                      "&.MuiCheckbox-root": classes.checkbox,
+                      "&.Mui-checked": classes.checkboxChecked,
                     }}
                     inputProps={{
                       "aria-labelledby": filter,
@@ -110,7 +111,7 @@ function ComplianceTableToolbar({
               </MenuItem>
             ))}
           </Menu>
-        </div>
+        </Box>
       )}
     </Toolbar>
   );
