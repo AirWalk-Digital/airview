@@ -67,7 +67,6 @@ function ComplianceTableToolbar({
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
-            getContentAnchorEl={null}
             anchorOrigin={{
               vertical: 12,
               horizontal: 36,
