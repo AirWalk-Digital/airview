@@ -415,6 +415,7 @@ export function ComplianceTableAcceptRiskDialog({
                     />
                   )}
                   disabled={submitting}
+                  PopperProps={{ placement: "auto" }}
                 />
               </LocalizationProvider>
             )}
