@@ -56,8 +56,8 @@ export function complianceTableRowDetailStyles() {
         content: "','",
       },
 
-      "&:not(:first-child)": {
-        marginLeft: 4,
+      "&:not(:first-of-type)": {
+        marginLeft: 400,
       },
     },
 

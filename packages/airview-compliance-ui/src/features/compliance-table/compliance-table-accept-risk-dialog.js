@@ -477,7 +477,7 @@ export function ComplianceTableAcceptRiskDialog({
         </Box>
 
         <Button
-          sx={{ "&:not(:first-child)": { marginLeft: "8px" } }}
+          sx={{ "&:not(first-of-type)": { marginLeft: "8px" } }}
           onClick={onClose}
           variant="contained"
           disableElevation
