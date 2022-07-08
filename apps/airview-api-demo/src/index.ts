@@ -23,7 +23,11 @@ const client = new GithubClient({
   organisation: org,
 });
 
-const cache = new S3Cache(region, bucket);
+const cache = new S3Cache({
+  bucketRegion: region,
+  bucketName: bucket,
+});
+
 const backend = new CmsBackend(client, cache);
 
 const app = express();

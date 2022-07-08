@@ -14,7 +14,7 @@ interface Token {
   expiry: number;
 }
 
-interface GithubClientConstructorNameedParameters {
+interface GithubClientConstructorNamedParameters {
   applicationId: string;
   installationId: string;
   privateKey: string;
@@ -33,7 +33,7 @@ export class GithubClient implements GitClient {
   private repositoryName: string;
   private organisation: string;
 
-  constructor(private params: GithubClientConstructorNameedParameters) {
+  constructor(private params: GithubClientConstructorNamedParameters) {
     this.applicationId = params.applicationId;
     this.installationId = params.installationId;
     this.privateKey = params.privateKey;
