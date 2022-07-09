@@ -2,7 +2,7 @@ import { CmsCache } from "./interfaces";
 import AWS from "aws-sdk";
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
-interface S3CacheConstructorNamedParameters {
+export interface S3CacheConstructorNamedParameters {
   bucketRegion: string;
   bucketName: string;
 }

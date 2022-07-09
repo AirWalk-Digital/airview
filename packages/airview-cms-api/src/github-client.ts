@@ -14,24 +14,24 @@ interface Token {
   expiry: number;
 }
 
-interface GithubClientConstructorNamedParameters {
+export interface GithubClientConstructorNamedParameters {
   applicationId: string;
   installationId: string;
   privateKey: string;
   repositoryName: string;
   organisation: string;
+  githubApiBaseUri?: string;
 }
 
 let token: Token;
 
 export class GithubClient implements GitClient {
-  private githubApiBaseUri: string = "https://api.github.com";
-
   private applicationId: string;
   private installationId: string;
   private privateKey: string;
   private repositoryName: string;
   private organisation: string;
+  private githubApiBaseUri: string;
 
   constructor(private params: GithubClientConstructorNamedParameters) {
     this.applicationId = params.applicationId;
@@ -39,6 +39,9 @@ export class GithubClient implements GitClient {
     this.privateKey = params.privateKey;
     this.repositoryName = params.repositoryName;
     this.organisation = params.organisation;
+    this.githubApiBaseUri = params.githubApiBaseUri
+      ? params.githubApiBaseUri
+      : "https://api.github.com";
   }
 
   private githubRepoURI() {
