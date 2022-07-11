@@ -23,7 +23,7 @@ export function complianceTableRowDetailStyles() {
 
       "&:not(:last-of-type)": {
         borderBottom: 1,
-        borderTopColor: "divider",
+        borderBottomColor: "divider",
       },
 
       "& > span:first-of-type": {
