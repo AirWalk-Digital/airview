@@ -30,6 +30,7 @@ export default [
       "@uiw/react-md-editor",
       "rehype-sanitize",
       "unist-util-visit",
+      "mime",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [

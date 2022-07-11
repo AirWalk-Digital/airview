@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import matter from "gray-matter";
+import { MarkdownResolverUtils } from "./markdown-resolver";
+
+const resolveMarkdown = new MarkdownResolverUtils();
 
 const initialState = {
   initialData: null,
@@ -35,10 +39,18 @@ const {
 export { setImageData };
 
 export const setBodyEditorContent = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
+    if (!data) return;
+
+    const { content: markdownBody } = matter(atob(data?.["_index.md"]));
+
+    const { resolvedMarkdown, resolvedImages } =
+      await resolveMarkdown.resolveInbound(markdownBody, data);
+
     dispatch(revokeImageDataObjectURLs());
-    dispatch(setBodyEditorIntialData(data));
-    dispatch(setBodyEditorEditedData(data));
+    dispatch(setBodyEditorIntialData(resolvedMarkdown));
+    dispatch(setBodyEditorEditedData(resolvedMarkdown));
+    dispatch(setImageData(resolvedImages));
   };
 };
 

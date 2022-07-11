@@ -31,10 +31,15 @@ export function createSeedData() {
         },
         content: {
           "_index.md": btoa(
-            matter.stringify("I am body content for Microsoft Outlook", {
-              title: "Microsoft Outlook",
-            })
+            matter.stringify(
+              "I am body content for Microsoft Outlook \n\n  ![Test Image](test-img.jpeg)",
+              {
+                title: "Microsoft Outlook",
+              }
+            )
           ),
+          "test-img.jpeg":
+            "iVBORw0KGgoAAAANSUhEUgAAAIwAAABkBAMAAACm+cXiAAAAG1BMVEXMzMyWlpacnJzFxcW3t7e+vr6jo6OxsbGqqqqoPjQzAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA2ElEQVRYhe3SMQ6CQBAF0GGBQCkBrFU0sRziBcR4AJELyA2INpRUyLFdBhIoASuS/6rNL34ms0MEAAAAAACwboqJYrYO11FwO9IomCTRNTmn93AI7CB5jIIpDI/JzvlL5RC4hVMNwSR2yqRSPtGT6E21BOph7ySYMw5TaXBEsd7KJ5RAsbmRYFaNGRnst3XWtpJAP30JZtW4RT+NXvUf0yjPC7pV7PuaRbsxL3HWtB/jnF/deJVTNfN+SlZgdHcTZ92KF9xNXyNHW+svl2DBFQMAAAAAwOr9AMPbIYfChnnxAAAAAElFTkSuQmCC",
         },
       },
       "knowledge/place_call_on_hold": {

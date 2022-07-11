@@ -117,3 +117,10 @@ export function MarkdownEditor() {
     />
   );
 }
+
+/*
+body: {
+  _index.md: base64 String,
+  cat.jpg: base64 String
+}
+*/

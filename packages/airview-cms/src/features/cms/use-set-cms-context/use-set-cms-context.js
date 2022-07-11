@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCmsContext } from "../cms.slice";
-import { setMetaEditorInitialData, selectMetaEditorData } from "../meta-editor";
+import {
+  //setMetaEditorInitialData,
+  selectMetaEditorData,
+} from "../meta-editor";
 import { setBodyEditorContent } from "../body-editor";
 import { useGetEntry } from "../../use-get-entry";
 
@@ -24,10 +27,8 @@ export function useSetCmsContext(entryId) {
   } = useGetEntry(entryId);
 
   useEffect(() => {
-    const { data, content } = entryData?.["_index.md"] ?? {};
-
-    dispatch(setMetaEditorInitialData(data));
-    dispatch(setBodyEditorContent(content));
+    //dispatch(setMetaEditorInitialData(data));
+    dispatch(setBodyEditorContent(entryData));
   }, [dispatch, entryData]);
 
   return {

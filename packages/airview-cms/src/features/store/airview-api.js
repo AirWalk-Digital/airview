@@ -1,4 +1,4 @@
-import matter from "gray-matter";
+//import matter from "gray-matter";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 let fetchFresh = false;
@@ -47,17 +47,17 @@ export const airviewApi = createApi({
       query: (entrySha) => {
         return `content/${entrySha}`;
       },
-      transformResponse: (response) => {
-        const parsedResponse = Object.entries(response).map(
-          ([key, entryData]) => {
-            const { data, content } = matter(atob(entryData));
+      // transformResponse: (response) => {
+      //   const parsedResponse = Object.entries(response).map(
+      //     ([key, entryData]) => {
+      //       const { data, content } = matter(atob(entryData));
 
-            return [key, { data, content }];
-          }
-        );
+      //       return [key, { data, content }];
+      //     }
+      //   );
 
-        return Object.fromEntries(parsedResponse);
-      },
+      //   return Object.fromEntries(parsedResponse);
+      // },
       providesTags: (result, error, entrySha) => [
         { type: "Entry", id: entrySha },
       ],
