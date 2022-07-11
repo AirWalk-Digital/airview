@@ -18,6 +18,9 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/lab": "^5.0.0-alpha.86",
+    "@mui/material": "^5.8.4",
+    "@mui/x-date-pickers": "^5.0.0-alpha.3",
     "dayjs": "^1.10.4",
     "jss-plugin-compose": "^10.5.1"
   }

@@ -1,4 +1,4 @@
-export function complianceTableRowStyles(theme) {
+export function complianceTableRowStyles() {
   return {
     // Table body rows
     tableBodyRowRoot: {
@@ -11,7 +11,7 @@ export function complianceTableRowStyles(theme) {
     controlStatusIconRoot: {
       width: 26,
       height: 26,
-      padding: 4,
+      padding: "4px",
       borderRadius: "100%",
       color: "#fff",
       display: "block",
@@ -22,15 +22,15 @@ export function complianceTableRowStyles(theme) {
     },
 
     controlStatusIconSeverity_high: {
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: "error.main",
     },
 
     controlStatusIconSeverity_medium: {
-      backgroundColor: theme.palette.warning.main,
+      backgroundColor: "warning.light",
     },
 
     controlStatusIconSeverity_low: {
-      backgroundColor: theme.palette.grey["500"],
+      backgroundColor: "grey.500",
     },
 
     // Name / Environment information
@@ -40,8 +40,8 @@ export function complianceTableRowStyles(theme) {
     },
 
     env: {
-      color: theme.palette.grey["600"],
-      fontSize: theme.typography.pxToRem(12),
+      color: "grey.600",
+      fontSize: 12,
     },
 
     // Application tickets
@@ -52,29 +52,29 @@ export function complianceTableRowStyles(theme) {
     },
 
     applicationTicketLabel: {
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: "medium",
     },
 
     applicationTicketRoot: {
-      margin: theme.spacing(0.5),
-      borderRadius: theme.shape.borderRadius,
+      margin: 0.5,
+      borderRadius: 1,
       flex: "1 1 auto",
       maxWidth: 250,
     },
 
     applicationTicketType_incident: {
-      backgroundColor: theme.palette.error.main,
-      color: theme.palette.error.contrastText,
+      backgroundColor: "error.main",
+      color: "error.contrastText",
     },
 
     applicationTicketType_problem: {
-      backgroundColor: theme.palette.warning.main,
-      color: theme.palette.warning.contrastText,
+      backgroundColor: "warning.light",
+      color: "rgba(0, 0, 0, 0.87)",
     },
 
     applicationTicketType_risk: {
-      backgroundColor: theme.palette.grey["400"],
-      color: theme.palette.getContrastText(theme.palette.grey["400"]),
+      backgroundColor: "grey.400",
+      color: "rgba(0, 0, 0, 0.87)",
     },
 
     // Age information
@@ -88,8 +88,8 @@ export function complianceTableRowStyles(theme) {
 
     raisedDate: {
       composes: "$ageInfoBase",
-      color: theme.palette.grey["600"],
-      fontSize: theme.typography.pxToRem(12),
+      color: "grey.600",
+      fontSize: 12,
     },
   };
 }

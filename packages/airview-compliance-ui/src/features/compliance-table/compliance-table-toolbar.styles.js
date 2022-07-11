@@ -1,8 +1,8 @@
-export function complianceTableToolbarStyles(theme) {
+export function complianceTableToolbarStyles() {
   return {
     toolbar: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
+      paddingLeft: 2,
+      paddingRight: 1,
     },
 
     toolbarFilters: {
