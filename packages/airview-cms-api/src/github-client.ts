@@ -1,4 +1,3 @@
-import fs from "fs";
 import jwt from "jsonwebtoken";
 import {
   GitClient,
@@ -10,21 +9,45 @@ import {
 } from "./interfaces";
 import fetch from "node-fetch";
 
-const appId = process.env.APP_ID;
-const installationId = process.env.INSTALLATION_ID;
-const privateKeyPath: string = process.env.PRIVATE_KEY_FILE || "";
-const repo = process.env.REPO;
-const org = process.env.ORG;
-
 interface Token {
   value: string;
   expiry: number;
 }
 
+export interface GithubClientConstructorNamedParameters {
+  applicationId: string;
+  installationId: string;
+  privateKey: string;
+  repositoryName: string;
+  organisation: string;
+  githubApiBaseUri?: string;
+}
+
 let token: Token;
-const privateKey = fs.readFileSync(privateKeyPath);
 
 export class GithubClient implements GitClient {
+  private applicationId: string;
+  private installationId: string;
+  private privateKey: string;
+  private repositoryName: string;
+  private organisation: string;
+  private githubApiBaseUri: string;
+
+  constructor(private params: GithubClientConstructorNamedParameters) {
+    this.applicationId = params.applicationId;
+    this.installationId = params.installationId;
+    this.privateKey = params.privateKey;
+    this.repositoryName = params.repositoryName;
+    this.organisation = params.organisation;
+    this.githubApiBaseUri = params.githubApiBaseUri
+      ? params.githubApiBaseUri
+      : "https://api.github.com";
+  }
+
+  private githubRepoURI() {
+    return `${this.githubApiBaseUri}/repos/${this.organisation}/${this.repositoryName}`;
+  }
+
   private async _fetchWithHeaders(url: string, options: any = {}) {
     const headers = {
       ...(options?.headers || {}),
@@ -42,13 +65,13 @@ export class GithubClient implements GitClient {
       const payload = {
         iat: Math.floor(timeSinceEpoch - 100),
         exp: Math.floor(timeSinceEpoch + 100),
-        iss: appId,
+        iss: this.applicationId,
       };
-      const encodedJwt: string = jwt.sign(payload, privateKey, {
+      const encodedJwt: string = jwt.sign(payload, this.privateKey, {
         algorithm: "RS256",
       });
       const resp = await fetch(
-        `https://api.github.com/app/installations/${installationId}/access_tokens`,
+        `${this.githubApiBaseUri}/app/installations/${this.installationId}/access_tokens`,
         {
           method: "POST",
           headers: {
@@ -64,7 +87,7 @@ export class GithubClient implements GitClient {
   }
 
   private async _deletePath(id: string, baseSha: string) {
-    const url = `https://api.github.com/repos/${org}/${repo}/contents/${id}?ref=${baseSha}`;
+    const url = `${this.githubRepoURI()}/contents/${id}?ref=${baseSha}`;
     const resp = await this._fetchWithHeaders(url);
     const data: any = await resp.json();
     if (resp.status != 200)
@@ -80,7 +103,7 @@ export class GithubClient implements GitClient {
       sha: null,
     }));
     const tree = { base_tree: baseSha, tree: treeContent };
-    const treeUrl = `https://api.github.com/repos/${org}/${repo}/git/trees`;
+    const treeUrl = `${this.githubRepoURI()}/git/trees`;
     const treeResp = await this._fetchWithHeaders(treeUrl, {
       method: "POST",
       body: JSON.stringify(tree),
@@ -114,7 +137,7 @@ export class GithubClient implements GitClient {
     );
 
     const tree = { base_tree: baseSha, tree: mapped };
-    const url = `https://api.github.com/repos/${org}/${repo}/git/trees`;
+    const url = `${this.githubRepoURI()}/git/trees`;
     const resp = await this._fetchWithHeaders(url, {
       method: "POST",
       body: JSON.stringify(tree),
@@ -125,12 +148,12 @@ export class GithubClient implements GitClient {
   }
 
   private async _updateBranch(commitSha: string, branchName: string) {
-    const url = `https://api.github.com/repos/${org}/${repo}/git/refs/heads/${branchName}`;
+    const url = `${this.githubRepoURI()}/git/refs/heads/${branchName}`;
     const getResp = await this._fetchWithHeaders(url);
 
     if (getResp.status === 404) {
       const resp = await this._fetchWithHeaders(
-        `https://api.github.com/repos/${org}/${repo}/git/refs`,
+        `${this.githubRepoURI()}/git/refs`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -158,7 +181,7 @@ export class GithubClient implements GitClient {
   }
 
   private async _createBlob(content: string): Promise<string> {
-    const url = `https://api.github.com/repos/${org}/${repo}/git/blobs`;
+    const url = `${this.githubRepoURI()}/git/blobs`;
     const resp = await this._fetchWithHeaders(url, {
       method: "POST",
       body: JSON.stringify({ content, encoding: "base64" }),
@@ -176,7 +199,7 @@ export class GithubClient implements GitClient {
     baseSha: string,
     author: any
   ): Promise<string> {
-    const url = `https://api.github.com/repos/${org}/${repo}/git/commits`;
+    const url = `${this.githubRepoURI()}/git/commits`;
     const resp = await this._fetchWithHeaders(url, {
       method: "POST",
       body: JSON.stringify({
@@ -195,7 +218,7 @@ export class GithubClient implements GitClient {
   }
 
   async getBranches(): Promise<GitBranch[]> {
-    const url = `https://api.github.com/repos/${org}/${repo}/branches`;
+    const url = `${this.githubRepoURI()}/branches`;
     const resp = await this._fetchWithHeaders(url);
     if (resp.status != 200)
       throw Error(
@@ -211,7 +234,7 @@ export class GithubClient implements GitClient {
   }
 
   async getTree(sha: string): Promise<GitTree[]> {
-    const url = `https://api.github.com/repos/${org}/${repo}/git/trees/${sha}`;
+    const url = `${this.githubRepoURI()}/git/trees/${sha}`;
     const resp = await this._fetchWithHeaders(url);
     if (resp.status != 200)
       throw Error(
@@ -227,7 +250,7 @@ export class GithubClient implements GitClient {
   }
 
   async getBlob(sha: string): Promise<GitBlob> {
-    const url = `https://api.github.com/repos/${org}/${repo}/git/blobs/${sha}`;
+    const url = `${this.githubRepoURI()}/git/blobs/${sha}`;
     const resp = await this._fetchWithHeaders(url);
     if (resp.status != 200)
       throw Error(
@@ -269,7 +292,7 @@ export class GithubClient implements GitClient {
 
   async createBranch(baseSha: string, branchName: string): Promise<boolean> {
     const resp = await this._fetchWithHeaders(
-      `https://api.github.com/repos/${org}/${repo}/git/refs`,
+      `${this.githubRepoURI()}/git/refs`,
       {
         method: "POST",
         body: JSON.stringify({
