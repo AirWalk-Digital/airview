@@ -9,7 +9,7 @@ import {
   selectBodyEditorData,
   persitBodyEditorContent,
   createObjectURLfromFileData,
-  setImageData,
+  setEditedImagesData,
 } from "./body-editor.slice";
 import {
   selectCmsEnabledStatus,
@@ -35,7 +35,7 @@ function imagePicker(dispatch) {
       const handleOnSubmit = (file, description) => {
         const imageData = createObjectURLfromFileData(file);
 
-        dispatch(setImageData(imageData));
+        dispatch(setEditedImagesData(imageData));
 
         textApi.replaceSelection(`![${description}](${imageData[file.name]})`);
         close();

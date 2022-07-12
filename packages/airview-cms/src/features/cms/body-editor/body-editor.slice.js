@@ -7,7 +7,8 @@ const resolveMarkdown = new MarkdownResolverUtils();
 const initialState = {
   initialData: null,
   editedData: null,
-  imagesData: [],
+  initialImagesData: {},
+  editedImagesData: {},
 };
 
 export const bodyEditorSlice = createSlice({
@@ -20,11 +21,23 @@ export const bodyEditorSlice = createSlice({
     setBodyEditorEditedData: (state, action) => {
       state.editedData = action.payload;
     },
-    setImageData: (state, action) => {
-      state.imagesData.push(action.payload);
+    setInitialImagesData: (state, action) => {
+      state.initialImagesData = {
+        ...state.initialImagesData,
+        ...action.payload,
+      };
     },
-    clearImageData: (state) => {
-      state.imagesData = [];
+    setEditedImagesData: (state, action) => {
+      state.editedImagesData = {
+        ...state.editedImagesData,
+        ...action.payload,
+      };
+    },
+    clearInitialImagesData: (state) => {
+      state.initialImagesData = {};
+    },
+    clearEditedImagesDataData: (state) => {
+      state.editedImagesData = {};
     },
   },
 });
@@ -32,11 +45,13 @@ export const bodyEditorSlice = createSlice({
 const {
   setBodyEditorIntialData,
   setBodyEditorEditedData,
-  setImageData,
-  clearImageData,
+  setInitialImagesData,
+  setEditedImagesData,
+  clearInitialImagesData,
+  clearEditedImagesDataData,
 } = bodyEditorSlice.actions;
 
-export { setImageData };
+export { setEditedImagesData };
 
 export const setBodyEditorContent = (data) => {
   return async (dispatch) => {
@@ -45,10 +60,11 @@ export const setBodyEditorContent = (data) => {
     const { resolvedMarkdown, resolvedImages } =
       await resolveMarkdown.resolveInbound(markdownBody, data);
 
-    dispatch(revokeImageDataObjectURLs());
+    dispatch(revokeInitialImagesDataObjectURLs());
+    dispatch(revokeEditedImagesDataObjectURLs());
     dispatch(setBodyEditorIntialData(resolvedMarkdown));
     dispatch(setBodyEditorEditedData(resolvedMarkdown));
-    dispatch(setImageData(resolvedImages));
+    dispatch(setInitialImagesData(resolvedImages));
   };
 };
 
@@ -58,15 +74,27 @@ export const persitBodyEditorContent = (data) => {
   };
 };
 
-const revokeImageDataObjectURLs = () => {
+const revokeInitialImagesDataObjectURLs = () => {
   return (dispatch, getState) => {
-    const { imagesData } = getState().bodyEditorSlice;
+    const { initialImagesData } = getState().bodyEditorSlice;
 
-    Object.values(imagesData).forEach((objectURL) => {
+    Object.values(initialImagesData).forEach((objectURL) => {
       URL.revokeObjectURL(objectURL);
     });
 
-    dispatch(clearImageData());
+    dispatch(clearInitialImagesData());
+  };
+};
+
+const revokeEditedImagesDataObjectURLs = () => {
+  return (dispatch, getState) => {
+    const { editedImagesData } = getState().bodyEditorSlice;
+
+    Object.values(editedImagesData).forEach((objectURL) => {
+      URL.revokeObjectURL(objectURL);
+    });
+
+    dispatch(clearEditedImagesDataData());
   };
 };
 
@@ -80,8 +108,8 @@ export const clearBodyEditorEdits = () => {
   return (dispatch, getState) => {
     const { initialData } = getState().bodyEditorSlice;
 
-    // Should also remove any uploaded images!
     dispatch(setBodyEditorEditedData(initialData));
+    dispatch(revokeEditedImagesDataObjectURLs());
   };
 };
 
