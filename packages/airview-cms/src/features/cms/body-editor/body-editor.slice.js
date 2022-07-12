@@ -64,7 +64,7 @@ const revokeImageDataObjectURLs = () => {
   return (dispatch, getState) => {
     const { imagesData } = getState().bodyEditorSlice;
 
-    imagesData.forEach(({ objectURL }) => {
+    Object.values(imagesData).forEach((objectURL) => {
       URL.revokeObjectURL(objectURL);
     });
 
@@ -81,6 +81,7 @@ export const createObjectURLfromFileData = (file) => {
 export const clearBodyEditorEdits = () => {
   return (dispatch, getState) => {
     const { initialData } = getState().bodyEditorSlice;
+
     dispatch(setBodyEditorEditedData(initialData));
   };
 };

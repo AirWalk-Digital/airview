@@ -35,8 +35,6 @@ function imagePicker(dispatch) {
       const handleOnSubmit = (file, description) => {
         const imageData = createObjectURLfromFileData(file);
 
-        console.log(imageData);
-
         dispatch(setImageData(imageData));
 
         textApi.replaceSelection(`![${description}](${imageData[file.name]})`);
