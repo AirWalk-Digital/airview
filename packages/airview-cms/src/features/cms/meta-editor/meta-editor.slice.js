@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import matter from "gray-matter";
 const isEqual = require("lodash/isEqual");
 
 const initialState = {
@@ -14,9 +15,16 @@ export const metaEditorSlice = createSlice({
     toggleMetaEditor: (state) => {
       state.metaEditorEnabled = !state.metaEditorEnabled;
     },
-    setMetaEditorInitialData: (state, action) => {
-      state.initialData = action.payload;
-      state.editedData = action.payload;
+    setMetaEditorInitialData: {
+      reducer: (state, action) => {
+        state.initialData = action.payload;
+        state.editedData = action.payload;
+      },
+      prepare: (entryData) => {
+        const { data } = matter(atob(entryData?.["_index.md"] ?? ""));
+
+        return { payload: data };
+      },
     },
     persistMetaDataEdit: (state, action) => {
       const { key, data } = action.payload;

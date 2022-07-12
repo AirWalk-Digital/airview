@@ -40,9 +40,7 @@ export { setImageData };
 
 export const setBodyEditorContent = (data) => {
   return async (dispatch) => {
-    if (!data) return;
-
-    const { content: markdownBody } = matter(atob(data?.["_index.md"]));
+    const { content: markdownBody } = matter(atob(data?.["_index.md"] ?? ""));
 
     const { resolvedMarkdown, resolvedImages } =
       await resolveMarkdown.resolveInbound(markdownBody, data);
@@ -82,6 +80,7 @@ export const clearBodyEditorEdits = () => {
   return (dispatch, getState) => {
     const { initialData } = getState().bodyEditorSlice;
 
+    // Should also remove any uploaded images!
     dispatch(setBodyEditorEditedData(initialData));
   };
 };
