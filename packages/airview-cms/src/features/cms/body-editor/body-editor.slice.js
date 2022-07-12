@@ -74,8 +74,7 @@ const revokeImageDataObjectURLs = () => {
 
 export const createObjectURLfromFileData = (file) => {
   return {
-    originalURL: file.name,
-    objectURL: URL.createObjectURL(file),
+    [`${file.name}`]: URL.createObjectURL(file),
   };
 };
 

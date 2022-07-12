@@ -56,8 +56,6 @@ export function MarkdownResolverUtils() {
   ) {
     let parsedMarkdown = markdownString;
 
-    console.log(replacements);
-
     replacements.forEach((replacement) => {
       parsedMarkdown = parsedMarkdown.replace(
         replacement.original,
