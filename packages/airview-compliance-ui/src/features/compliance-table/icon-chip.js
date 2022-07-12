@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import Box from "@mui/material/Box";
 
 const IconChip = React.forwardRef(
   (
@@ -15,17 +14,19 @@ const IconChip = React.forwardRef(
     },
     ref
   ) => {
-    const classes = useIconChipStyles({ color, labelColor, dense });
+    const classes = useIconChipStyles(color, labelColor, dense);
 
-    const { className, ...otherProps } = rest;
+    const { ...otherProps } = rest;
 
     return (
-      <div className={clsx(classes.root, className)} {...otherProps} ref={ref}>
-        <div className={classes.iconContainer}>{icon}</div>
-        <div className={classes.labelContainer}>
+      <Box component="div" sx={classes.root} {...otherProps} ref={ref}>
+        <Box component="div" sx={classes.iconContainer}>
+          {icon}
+        </Box>
+        <Box component="div" sx={classes.labelContainer}>
           <span>{label}</span>
-        </div>
-      </div>
+        </Box>
+      </Box>
     );
   }
 );
@@ -55,46 +56,45 @@ IconChip.propTypes = {
   dense: PropTypes.bool,
 };
 
-const useIconChipStyles = makeStyles((theme) => {
+function useIconChipStyles(color, labelColor, dense) {
   return {
-    root: (props) => ({
+    root: {
       display: "inline-flex",
       justifyContent: "space-between",
-      border: `1px solid ${props.color}`,
-      borderRadius: theme.shape.borderRadius,
+      border: `1px solid ${color}`,
+      borderRadius: 1,
       backgroundColor: "#fff",
-    }),
+    },
 
-    iconContainer: (props) => ({
+    iconContainer: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      padding: props.dense
-        ? theme.spacing(0.25, 0.5)
-        : theme.spacing(0.5, 0.75),
-      color: props.color,
-
+      py: dense ? 0.25 : 0.5,
+      px: dense ? 0.5 : 0.75,
+      color: color,
       "& > .MuiSvgIcon-root": {
-        fontSize: theme.typography.pxToRem(16),
+        fontSize: 16,
       },
-    }),
+    },
 
-    labelContainer: (props) => ({
+    labelContainer: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      padding: props.dense
-        ? theme.spacing(0.25, 0.5)
-        : theme.spacing(0.5, 0.75),
-      backgroundColor: props.color,
-      color: props.labelColor,
-      ...theme.typography.body2,
-      fontWeight: theme.typography.fontWeightBold,
+      py: dense ? 0.25 : 0.5,
+      px: dense ? 0.5 : 0.75,
+      backgroundColor: color,
+      color: labelColor,
+      typography: "body1",
+      fontWeight: "bold",
       textAlign: "left",
-      minWidth: props.dense ? 24 : 30,
+      minWidth: dense ? 24 : 30,
       minHeight: 24,
-    }),
+      fontSize: 14,
+      lineHeight: 1.43,
+    },
   };
-});
+}
 
 export { IconChip };
