@@ -93,4 +93,48 @@ export function MarkdownResolverUtils() {
 
     return { resolvedMarkdown, resolvedImages };
   };
+
+  this.resolveOutbound = async function (markdownBody, images) {
+    console.log(markdownBody);
+    console.log(images);
+
+    // const markdownImageURLs = this.searchMarkdownStringForImages(markdownBody);
+
+    // let replacements = [];
+
+    // Object.entries(images).forEach(([key, value]) => {
+    //   if (markdownImageURLs.includes(value)) {
+    //     replacements.push({ original: value, replacement: key });
+    //   }
+    // });
+
+    // const resolvedMarkdown = this.findAndReplaceImagesWithinMarkdownString(
+    //   markdownBody,
+    //   replacements
+    // );
+
+    // let resolvedImages = {};
+
+    // for (const replacement of replacements) {
+    //   console.log(replacement);
+
+    //   resolvedImages[`${replacement.replacement}`] =
+    //     await this.convertObjectURLtoBase64String(replacement.orginal);
+    // }
+
+    const imageString =
+      "iVBORw0KGgoAAAANSUhEUgAAAIwAAABkBAMAAACm+cXiAAAAG1BMVEXMzMyWlpacnJzFxcW3t7e+vr6jo6OxsbGqqqqoPjQzAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA2ElEQVRYhe3SMQ6CQBAF0GGBQCkBrFU0sRziBcR4AJELyA2INpRUyLFdBhIoASuS/6rNL34ms0MEAAAAAACwboqJYrYO11FwO9IomCTRNTmn93AI7CB5jIIpDI/JzvlL5RC4hVMNwSR2yqRSPtGT6E21BOph7ySYMw5TaXBEsd7KJ5RAsbmRYFaNGRnst3XWtpJAP30JZtW4RT+NXvUf0yjPC7pV7PuaRbsxL3HWtB/jnF/deJVTNfN+SlZgdHcTZ92KF9xNXyNHW+svl2DBFQMAAAAAwOr9AMPbIYfChnnxAAAAAElFTkSuQmCC";
+    console.log("imageString", imageString);
+
+    const imageURL = await this.createObjectURLfromBase64String(
+      "test-image.jpg",
+      imageString
+    );
+    console.log("imageURL", imageURL);
+
+    const convertedImageURL = await this.convertObjectURLtoBase64String(
+      imageURL
+    );
+    console.log("convertedImageURL", convertedImageURL);
+  };
 }

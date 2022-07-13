@@ -121,3 +121,9 @@ export const selectDoesBodyEditorHaveEdits = (state) => {
   const { initialData, editedData } = state.bodyEditorSlice;
   return initialData !== editedData;
 };
+
+export const selectInitialImagesData = (state) =>
+  state.bodyEditorSlice.initialImagesData;
+
+export const selectEditedImagesData = (state) =>
+  state.bodyEditorSlice.editedImagesData;
