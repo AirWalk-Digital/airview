@@ -23,7 +23,12 @@
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "react-markdown": "^8.0.3",
+    "@uiw/react-md-editor": "^3.14.4",
+    "rehype-sanitize": "^5.0.1",
+    "unist-util-visit": "^4.1.0",
+    "mime": "3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

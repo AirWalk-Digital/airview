@@ -9,4 +9,5 @@ export {
   useSetCmsContext,
   useHandleOnContentCreation,
   useCMSViewportOffset,
+  MarkdownEditor,
 } from "@features";

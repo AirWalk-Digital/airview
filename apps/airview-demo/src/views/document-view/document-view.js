@@ -24,7 +24,7 @@ export function DocumentView() {
           loading={isLoading}
           fetching={isFetching}
         />
-        <DocumentContent loading={isLoading} fetching={isFetching} />
+        <DocumentContent loading={false} fetching={false} />
       </Main>
       <Aside>
         <TableOfContents />

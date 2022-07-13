@@ -11,6 +11,7 @@ export default [
     input: "src/index.js",
     external: [
       "react",
+      "react-dom/client",
       "@reduxjs/toolkit",
       "@reduxjs/toolkit/query/react",
       "react-redux",
@@ -22,9 +23,14 @@ export default [
       "gray-matter",
       "@fortawesome/fontawesome-svg-core",
       "@fortawesome/free-solid-svg-icons",
+      "@mui/icons-material/DriveFolderUpload",
       "lodash/isEqual",
       "slugify",
       "react-router-dom",
+      "@uiw/react-md-editor",
+      "rehype-sanitize",
+      "unist-util-visit",
+      "mime",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
