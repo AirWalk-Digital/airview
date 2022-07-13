@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { useTheme } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import TableContainer from "@material-ui/core/TableContainer";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import Skeleton from "@material-ui/lab/Skeleton";
+import { useTheme } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import Skeleton from "@mui/lab/Skeleton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -196,15 +196,8 @@ ComplianceTable.propTypes = {
   applications: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      qualityModel: PropTypes.oneOf([
-        "log_excellence",
-        "security",
-        "reliability",
-        "performance_efficiency",
-        "cost_optimisation",
-        "portability",
-        "usability_and_compatibility",
-      ]).isRequired,
+      qualityModel: PropTypes.oneOf(["security", "operational", "task"])
+        .isRequired,
       severity: PropTypes.oneOf(["high", "medium", "low"]).isRequired,
       name: PropTypes.string.isRequired,
       tickets: PropTypes.arrayOf(

@@ -1,24 +1,19 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import Button from "@material-ui/core/Button";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import { getRisk } from "./get-risk";
 import { complianceTableRowDetailStyles } from "./compliance-table-row-detail.styles";
 import { ComplianceTableAcceptRiskDialog } from "./compliance-table-accept-risk-dialog";
-
-const useComplianceTableRowDetailStyles = makeStyles((theme) =>
-  complianceTableRowDetailStyles(theme)
-);
 
 function ComplianceTableRowDetail({
   detailData,
   onAcceptOfRisk,
   applicationId,
 }) {
-  const classes = useComplianceTableRowDetailStyles();
+  const classes = complianceTableRowDetailStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleOnClose = () => setDialogOpen(false);
 
@@ -29,34 +24,30 @@ function ComplianceTableRowDetail({
 
   return (
     <React.Fragment>
-      <div
-        className={classes.additionalInfoContainer}
-        aria-label="Additional data"
-      >
-        <ul className={classes.instanceInfo}>
-          <li className={classes.instanceInfoItem}>
+      <Box sx={classes.additionalInfoContainer} aria-label="Additional data">
+        <Box component="ul" sx={classes.instanceInfo}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>Resources:</span>
-            <ul className={classes.instances}>
+            <Box component="ul" sx={classes.instances}>
               {detailData.instances.map((instance) => (
-                <li
+                <Box
+                  component="li"
                   key={instance.id}
-                  className={clsx(
+                  sx={[
                     classes.instanceItem,
-                    instance.status === "pending"
-                      ? classes.pendingInstance
-                      : null
-                  )}
+                    instance.status === "pending" && classes.pendingInstance,
+                  ]}
                 >
                   {instance.name}
                   {instance.status === "pending" && " (pending)"}
-                </li>
+                </Box>
               ))}
-            </ul>
-          </li>
+            </Box>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>Control:</span>
-            <span className={classes.control}>
+            <Box component="span" sx={classes.control}>
               {detailData.control.name}
               <Button
                 size="small"
@@ -67,10 +58,10 @@ function ComplianceTableRowDetail({
               >
                 View
               </Button>
-            </span>
-          </li>
+            </Box>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>Frameworks:</span>
             <span>
               {detailData.frameworks?.map((framework, index) => {
@@ -88,30 +79,30 @@ function ComplianceTableRowDetail({
                 );
               })}
             </span>
-          </li>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>Assignment Group:</span>
             <span>{detailData.assignmentGroup}</span>
-          </li>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>Assignee:</span>
             <span>{detailData.assignee}</span>
-          </li>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>System Source:</span>
             <span>{detailData.systemSource}</span>
-          </li>
+          </Box>
 
-          <li className={classes.instanceInfoItem}>
+          <Box component="li" sx={classes.instanceInfoItem}>
             <span>System Stage:</span>
             <span>{detailData.systemStage}</span>
-          </li>
-        </ul>
+          </Box>
+        </Box>
 
-        <div className={classes.instanceActions}>
+        <Box component="div" sx={classes.instanceActions}>
           <Button
             variant="contained"
             disableElevation
@@ -132,8 +123,8 @@ function ComplianceTableRowDetail({
           >
             Create Problem
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
       <ComplianceTableAcceptRiskDialog
         open={dialogOpen}
         onClose={handleOnClose}
