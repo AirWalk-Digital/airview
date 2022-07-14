@@ -160,6 +160,21 @@ app.post(
   }
 );
 
+app.post(
+  "/api/pulls",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { baseBranch, headBranch } = req.body;
+
+      const isSuccess = await backend.createPullRequest(baseBranch, headBranch);
+      if (isSuccess) res.status(201).send(null);
+      else res.status(422).send(null);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

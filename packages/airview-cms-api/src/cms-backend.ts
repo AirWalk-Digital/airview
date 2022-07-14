@@ -53,6 +53,13 @@ export class CmsBackend {
     return this._client.createBranch(baseSha, branchName);
   }
 
+  async createPullRequest(
+    baseBranch: string,
+    headBranch: string
+  ): Promise<boolean> {
+    return this._client.createPullRequest(baseBranch, headBranch);
+  }
+
   async setContent(inboundContent: InboundContent): Promise<void> {
     const content = await this._client.setContent(inboundContent);
     for (const item of content) {

@@ -32,6 +32,7 @@ export interface GitClient {
   setContent(content: InboundContent): Promise<GitBlob[]>;
   deleteEntity(content: InboundEntity): Promise<any>;
   createBranch(baseSha: string, branchName: string): Promise<boolean>;
+  createPullRequest(baseBranch: string, headBranch: string): Promise<boolean>;
 }
 
 export interface CmsCache {

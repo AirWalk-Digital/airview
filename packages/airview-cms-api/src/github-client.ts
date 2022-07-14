@@ -308,4 +308,26 @@ export class GithubClient implements GitClient {
       `Bad status creating branch ${resp.status} ${await resp.text()})`
     );
   }
+
+  async createPullRequest(
+    baseBranch: string,
+    headBranch: string
+  ): Promise<boolean> {
+    console.log(baseBranch, headBranch);
+    const resp = await this._fetchWithHeaders(`${this.githubRepoURI()}/pulls`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: `Merge ${headBranch} into ${baseBranch}`,
+        base: baseBranch,
+        head: headBranch,
+      }),
+    });
+    console.log(await resp.text());
+    if (resp.status == 201) return true;
+    if (resp.status == 422) return false;
+
+    throw Error(
+      `Bad status creating branch ${resp.status} ${await resp.text()})`
+    );
+  }
 }
