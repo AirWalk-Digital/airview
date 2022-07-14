@@ -70,7 +70,11 @@ npm run build
 
 **Building for development:**
 
-For development, a build script is available that will bundle the source in watch mode; you can continue to work on the package source and the bundle will be automatically rebuilt each time a file within the `dist` directory is modified. **Note:** the bundle within the `dist` directory SHOULD NOT be deployed to production. To build for development run
+For development, a build script is available that will bundle the source in watch mode; you can continue to work on the package source and the bundle will be automatically rebuilt each time a file within the `dist` directory is modified.
+
+**Note:** the bundle within the `dist` directory SHOULD NOT be deployed to production.
+
+To build for development run
 
 ```bash
 npm run dev
@@ -81,6 +85,8 @@ npm run dev
 All peer dependencies should be manually added to the `peerDependencies` key within the `package.json` file in the `airview-ui` root. Only dev dependencies should be added using the `npm install` command.
 
 To optimise the bundle size, peer dependencies need to be flagged within `rollup.config.js` file, under the `external` array. This will prevent the peer dependency source from being bundled into the package source.
+
+You can learn more about declaring external dependencies within a Rollup config [here](https://rollupjs.org/guide/en/#peer-dependencies)
 
 ### Additional requrements for contributing
 
