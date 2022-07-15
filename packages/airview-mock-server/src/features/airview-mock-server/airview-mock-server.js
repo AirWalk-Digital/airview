@@ -110,7 +110,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
       if (baseBranch !== headBranch) {
         return res(
           ctx.delay(ARTIFICIAL_DELAY_MS),
-          ctx.json("http://github.com")
+          ctx.json({ url: "http://github.com" })
         );
       } else {
         return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.status(422));
