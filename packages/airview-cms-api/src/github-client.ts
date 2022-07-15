@@ -4,6 +4,8 @@ import {
   GitTree,
   GitBlob,
   GitBranch,
+  GitPullRequest,
+  CmsResult,
   InboundContent,
   InboundEntity,
 } from "./interfaces";
@@ -290,7 +292,10 @@ export class GithubClient implements GitClient {
     await this._updateBranch(commitSha, inboundEntity.branchName);
   }
 
-  async createBranch(baseSha: string, branchName: string): Promise<boolean> {
+  async createBranch(
+    baseSha: string,
+    branchName: string
+  ): Promise<CmsResult<void>> {
     const resp = await this._fetchWithHeaders(
       `${this.githubRepoURI()}/git/refs`,
       {
@@ -301,8 +306,8 @@ export class GithubClient implements GitClient {
         }),
       }
     );
-    if (resp.status == 201) return true;
-    if (resp.status == 422) return false;
+    if (resp.status == 201) return {};
+    if (resp.status == 422) return { error: "conflict" };
 
     throw Error(
       `Bad status creating branch ${resp.status} ${await resp.text()})`
@@ -310,21 +315,21 @@ export class GithubClient implements GitClient {
   }
 
   async createPullRequest(
-    baseBranch: string,
-    headBranch: string
-  ): Promise<boolean> {
-    console.log(baseBranch, headBranch);
+    pullRequest: GitPullRequest
+  ): Promise<CmsResult<GitPullRequest>> {
     const resp = await this._fetchWithHeaders(`${this.githubRepoURI()}/pulls`, {
       method: "POST",
       body: JSON.stringify({
-        title: `Merge ${headBranch} into ${baseBranch}`,
-        base: baseBranch,
-        head: headBranch,
+        title: `Merge ${pullRequest.headBranch} into ${pullRequest.baseBranch}`,
+        base: pullRequest.baseBranch,
+        head: pullRequest.headBranch,
       }),
     });
-    console.log(await resp.text());
-    if (resp.status == 201) return true;
-    if (resp.status == 422) return false;
+    // console.log(await resp.text());
+    const { html_url } = await resp.json();
+    if (resp.status == 201) return { value: { ...pullRequest, url: html_url } };
+
+    if (resp.status == 422) return { error: "conflict" };
 
     throw Error(
       `Bad status creating branch ${resp.status} ${await resp.text()})`

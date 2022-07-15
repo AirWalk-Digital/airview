@@ -151,9 +151,9 @@ app.post(
       const baseSha = req.body.baseSha;
       const branchName = req.body.name;
 
-      const isSuccess = await backend.createBranch(baseSha, branchName);
-      if (isSuccess) res.status(201).send(null);
-      else res.status(422).send(null);
+      const result = await backend.createBranch(baseSha, branchName);
+      if (!result.error) res.status(201).send(null);
+      else if (result.error === "conflict") res.status(422).send(null);
     } catch (err) {
       next(err);
     }
@@ -164,11 +164,9 @@ app.post(
   "/api/pulls",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { baseBranch, headBranch } = req.body;
-
-      const isSuccess = await backend.createPullRequest(baseBranch, headBranch);
-      if (isSuccess) res.status(201).send(null);
-      else res.status(422).send(null);
+      const data = await backend.createPullRequest(req.body);
+      if (data.value) res.status(200).send(data.value);
+      else if (data.error === "conflict") res.status(422).send(null);
     } catch (err) {
       next(err);
     }
