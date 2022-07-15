@@ -325,7 +325,6 @@ export class GithubClient implements GitClient {
         head: pullRequest.headBranch,
       }),
     });
-    // console.log(await resp.text());
     const { html_url } = await resp.json();
     if (resp.status == 201) return { value: { ...pullRequest, url: html_url } };
 
