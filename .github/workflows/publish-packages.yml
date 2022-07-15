@@ -21,7 +21,7 @@ jobs:
       - name: Publish airview-cms-api
         run: |
           npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/} 
-          npm ci --workspace=packages/airview-cms-api/
+          npm ci 
           # npm publish --workspace=packages/airview-cms-api/
       - run: npm ci
         env:
