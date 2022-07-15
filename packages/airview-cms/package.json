@@ -17,6 +17,7 @@
     "@mui/x-date-pickers": "^5.0.0-alpha.3",
     "@reduxjs/toolkit": "^1.8.1",
     "dayjs": "^1.11.2",
+    "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
