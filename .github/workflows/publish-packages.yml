@@ -18,11 +18,11 @@ jobs:
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
 
+      - name: NPM CI
+        run: npm ci
       - name: Publish airview-cms-api
         run: |
           npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/} 
-          npm ci 
-          # npm publish --workspace=packages/airview-cms-api/
-      - run: npm ci
+          npm publish --workspace=packages/airview-cms-api/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
