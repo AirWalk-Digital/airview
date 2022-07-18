@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { isLinkInternal } from "@util";
+import { isLinkInternal } from "../../util";
 
 export function Menu({
   menuTitle,
