@@ -33,7 +33,6 @@
     "apps/airview-demo",
     "packages/airview-mock-server",
     "packages/airview-cms-api",
-    "packages/airview-cms-api-aws-lambda-wrapper",
     "packages/airview-compliance-ui",
     "apps/airview-api-demo"
   ],

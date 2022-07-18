@@ -13,7 +13,7 @@
   "license": "",
   "dependencies": {
     "ts-lambda-handler": "^0.0.12",
-    "airview-cms-api": "file:../airview-cms-api"
+    "airview-cms-api": "=v1.0.0"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
