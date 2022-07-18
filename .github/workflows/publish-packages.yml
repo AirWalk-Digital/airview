@@ -33,3 +33,7 @@ jobs:
         run: |
           npm version --no-git-tag-version --workspace=packages/airview-ui/ ${GITHUB_REF##*/} 
           npm publish --workspace=packages/airview-ui/
+      - name: Publish airview-cms-api-aws-lambda-wrapper
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-cms-api-aws-lambda-wrapper/ ${GITHUB_REF##*/} 
+          npm publish --workspace=packages/airview-cms-api-aws-lambda-wrapper/
