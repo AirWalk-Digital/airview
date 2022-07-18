@@ -1,6 +1,6 @@
 {
   "name": "airview-mock-server",
-  "version": "0.3.2",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/airview-mock-server.esm.min.js",
   "files": [

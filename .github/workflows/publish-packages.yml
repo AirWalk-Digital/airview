@@ -1,0 +1,35 @@
+name: Publish Package to npmjs
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Set Git Config
+        run: |
+          git config user.name $GITHUB_ACTOR
+          git config user.email gh-actions-${GITHUB_ACTOR}@github.com
+
+      - name: NPM CI
+        run: npm ci
+      - name: Publish airview-cms-api
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/} 
+          npm publish --workspace=packages/airview-cms-api/
+      - name: Publish airview-cms
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-cms/ ${GITHUB_REF##*/} 
+          npm publish --workspace=packages/airview-cms/
+      - name: Publish airview-ui
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-ui/ ${GITHUB_REF##*/} 
+          npm publish --workspace=packages/airview-ui/

@@ -145,7 +145,6 @@ export class GithubClient implements GitClient {
       body: JSON.stringify(tree),
     });
     const data: any = await resp.json();
-    console.log(response);
     return [data.sha, response];
   }
 

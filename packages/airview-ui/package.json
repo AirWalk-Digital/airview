@@ -1,6 +1,6 @@
 {
   "name": "airview-ui",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -24,7 +24,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
