@@ -7,15 +7,6 @@ export default {
   parameters: {
     layout: "centered",
   },
-  decorators: [
-    (Story) => {
-      return (
-        <div style={{ width: "300px" }}>
-          <Story />
-        </div>
-      );
-    },
-  ],
 };
 
 const menuItems = [
@@ -48,8 +39,10 @@ const menuItems = [
 ];
 
 const Template = (args) => {
-  return <Menu {...args} />;
+  return <Menu {...args} sx={{ width: 300 }} />;
 };
+
+Template.displayName = "Menu";
 
 Template.args = {
   menuTitle: "Navigation",
