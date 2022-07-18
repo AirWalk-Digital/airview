@@ -12,6 +12,28 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { isLinkInternal } from "../../util";
 
+/**
+ *
+ * The Menu component is used to display a list of navigation options to a user, for example in an aside list or main site navigation.
+ *
+ * ## Menu States
+ *
+ * The Menu can be rendered in three states, namely:
+ *
+ * **Loading - ** The data to render the menu is not yet ready, a loading UI will present to the user to indicate the state
+ *
+ * **Fetching - ** The data has been loaded previously and is now updating, the opacity of the UI will change to indicate a disabled state. All user interaction with the Menu will be disabled.
+ *
+ * **Loaded - ** The data is in a ready state, the user can freely interact with the Menu component
+ *
+ * ## Importing the component
+ *
+ * You can import the Menu component as a named import from the airview-ui library
+ *
+ * ```javascript
+ * import { Menu } from "airview-ui"
+ * ```
+ */
 export function Menu({
   menuTitle,
   menuTitleElement = "h3",
@@ -142,10 +164,25 @@ export function Menu({
 }
 
 Menu.propTypes = {
+  /**
+   * Sets the title of the Menu
+   */
   menuTitle: PropTypes.string.isRequired,
+  /**
+   * Sets the HTML tag of the Menu title
+   */
   menuTitleElement: PropTypes.string,
+  /**
+   * Renders the Menu in a loading state
+   */
   loading: PropTypes.bool,
+  /**
+   * Renders the Menu in a fetching state
+   */
   fetching: PropTypes.bool,
+  /**
+   * Defines the data for the Menu navigation items
+   */
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       groupTitle: PropTypes.string,
@@ -157,9 +194,24 @@ Menu.propTypes = {
       ).isRequired,
     })
   ).isRequired,
+  /**
+   * Enables the Menu to collpase
+   */
   collapsible: PropTypes.bool,
+  /**
+   * Sets the intial collapsed state, if collapsible Menu is enabled
+   */
   initialCollapsed: PropTypes.bool,
+  /**
+   * Allows the passing of a Link Component (i.e React Router Link)
+   */
   linkComponent: PropTypes.any,
+  /**
+   * Enables highlighting of the current route to the user
+   */
   currentRoute: PropTypes.string,
+  /**
+   * Allows passthrough of SX styling props (see Material UI SX docs for more info)
+   */
   sx: PropTypes.object,
 };
