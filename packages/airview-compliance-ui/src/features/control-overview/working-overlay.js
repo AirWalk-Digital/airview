@@ -1,39 +1,40 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 export function WorkingOverlay({ open, color, ...rest }) {
-  const styles = useWorkingOverlayStyles({ color });
+  const classes = workingOverlayStyles(color);
 
-  const { className, ...otherProps } = rest;
+  const { ...otherProps } = rest;
 
   if (!open) return null;
 
   return (
-    <div className={clsx(styles.root, className)} {...otherProps}>
-      <CircularProgress classes={{ circle: styles.circle }} />
-    </div>
+    <Box component="div" sx={classes.root} {...otherProps}>
+      <CircularProgress sx={classes.circle} />
+    </Box>
   );
 }
 
-const useWorkingOverlayStyles = makeStyles((theme) => ({
-  root: {
-    position: "absolute",
-    backgroundColor: "rgba(0,0,0, 0.1)",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  circle: ({ color }) => ({
-    color: color ?? theme.palette.primary.main,
-  }),
-}));
+function workingOverlayStyles(color) {
+  return {
+    root: {
+      position: "absolute",
+      backgroundColor: "rgba(0,0,0, 0.1)",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    circle: {
+      color: color ?? "primary.main",
+    },
+  };
+}
 
 WorkingOverlay.propTypes = {
   /**

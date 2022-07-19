@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Dialog,
   DialogTitle,
@@ -9,13 +8,12 @@ import {
   Button,
   Divider,
   Typography,
-} from "@material-ui/core";
-import DayjsUtils from "@date-io/dayjs";
+  Box,
+  TextField,
+} from "@mui/material";
 import dayjs from "dayjs";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { WorkingOverlay } from "./working-overlay";
 
 export function ControlOverviewResourceManager({
@@ -25,7 +23,7 @@ export function ControlOverviewResourceManager({
   onResourceExemptionDelete,
   onResourceExemptionSave,
 }) {
-  const classes = useStyles();
+  const classes = controlOverviewResoueceManagerStyles();
 
   const [revisedExpiryDate, setRevisedExpiryDate] = useState(
     resourceData?.expires
@@ -84,22 +82,14 @@ export function ControlOverviewResourceManager({
       </DialogTitle>
 
       <DialogContent dividers>
-        <Typography
-          variant="h6"
-          component="h3"
-          className={classes.sectionHeader}
-        >
+        <Typography variant="h6" component="h3" sx={classes.sectionHeader}>
           Ticket:
         </Typography>
         <Typography variant="body2">{resourceData.ticket}</Typography>
 
-        <Divider className={classes.sectionDivider} />
+        <Divider sx={classes.sectionDivider} />
 
-        <Typography
-          variant="h6"
-          component="h3"
-          className={classes.sectionHeader}
-        >
+        <Typography variant="h6" component="h3" sx={classes.sectionHeader}>
           Expires:
         </Typography>
 
@@ -108,48 +98,39 @@ export function ControlOverviewResourceManager({
           current expiry date.
         </Typography>
 
-        <MuiPickersUtilsProvider utils={DayjsUtils}>
-          <KeyboardDatePicker
-            name="reviewDate"
-            disableToolbar
-            variant="inline"
-            inputVariant="outlined"
-            format="DD/MM/YYYY"
-            margin="normal"
-            size="small"
-            fullWidth
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            inputFormat="DD/MM/YYYY"
             disablePast
-            invalidDateMessage="Invalid date, please format as DD/MM/YYYY"
-            minDateMessage="Date should not be a past date"
             value={revisedExpiryDate}
             onChange={(date) => setRevisedExpiryDate(date)}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-              size: "small",
-              edge: "end",
-            }}
-            required
+            renderInput={(params) => (
+              <TextField
+                required
+                fullWidth
+                margin="normal"
+                size="small"
+                {...params}
+              />
+            )}
             disabled={working}
+            PopperProps={{ placement: "auto" }}
           />
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
 
-        <Divider className={classes.sectionDivider} />
+        <Divider sx={classes.sectionDivider} />
 
-        <Typography
-          variant="h6"
-          component="h3"
-          className={classes.sectionHeader}
-        >
+        <Typography variant="h6" component="h3" sx={classes.sectionHeader}>
           Resources:
         </Typography>
 
-        <ul className={classes.resourcesList}>
+        <Box component="ul" sx={classes.resourcesList}>
           {resourceData.resources.map((resource) => (
             <Typography component="li" variant="body2" key={resource}>
               {resource}
             </Typography>
           ))}
-        </ul>
+        </Box>
       </DialogContent>
 
       <DialogActions>
@@ -188,18 +169,22 @@ export function ControlOverviewResourceManager({
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  sectionHeader: {
-    fontSize: theme.typography.pxToRem(15),
-  },
-  sectionDivider: {
-    margin: theme.spacing(2, 0),
-  },
-  resourcesList: {
-    margin: 0,
-    padding: "0 0 0 18px",
-  },
-}));
+function controlOverviewResoueceManagerStyles() {
+  return {
+    sectionHeader: {
+      fontSize: 15,
+      fontWeight: 600,
+    },
+    sectionDivider: {
+      marginTop: 2,
+      marginBottom: 2,
+    },
+    resourcesList: {
+      margin: 0,
+      padding: "0 0 0 18px",
+    },
+  };
+}
 
 ControlOverviewResourceManager.propTypes = {
   open: PropTypes.bool.isRequired,
