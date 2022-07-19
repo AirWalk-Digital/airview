@@ -12,8 +12,8 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "ts-lambda-handler": "^0.0.12",
-    "airview-cms-api": "=v0.0.0"
+    "airview-cms-api": "^0.0.10",
+    "ts-lambda-handler": "^0.0.12"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
