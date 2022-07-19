@@ -6,6 +6,9 @@
   "files": [
     "./dist"
   ],
+  "dependencies": {
+    "@mui/material": "^5.6.3"
+  },
   "peerDependencies": {
     "@mui/material": "^5.6.3",
     "react": "^18.0.0",
@@ -15,6 +18,7 @@
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@mdx-js/react": "^2.1.2",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-json": "^4.1.0",
@@ -25,6 +29,7 @@
     "@storybook/addon-links": "^6.5.9",
     "@storybook/builder-webpack4": "^6.5.9",
     "@storybook/manager-webpack4": "^6.5.9",
+    "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^8.2.5",
@@ -46,6 +51,5 @@
   "bugs": {
     "url": "https://github.com/AirWalk-Digital/airview/issues"
   },
-  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
 }
