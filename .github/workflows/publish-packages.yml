@@ -23,13 +23,20 @@ jobs:
         run: npm ci
       - name: Publish airview-cms-api
         run: |
-          npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/} 
+          npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/}
           npm publish --workspace=packages/airview-cms-api/
       - name: Publish airview-cms
         run: |
-          npm version --no-git-tag-version --workspace=packages/airview-cms/ ${GITHUB_REF##*/} 
+          npm version --no-git-tag-version --workspace=packages/airview-cms/ ${GITHUB_REF##*/}
           npm publish --workspace=packages/airview-cms/
       - name: Publish airview-ui
         run: |
-          npm version --no-git-tag-version --workspace=packages/airview-ui/ ${GITHUB_REF##*/} 
+          npm version --no-git-tag-version --workspace=packages/airview-ui/ ${GITHUB_REF##*/}
           npm publish --workspace=packages/airview-ui/
+
+      - name: Publish airview-cms-api-aws-lambda-wrapper
+        run: |
+          cd deployment/airview-cms-api-aws-lambda-wrapper/
+          npm version --no-git-tag-version ${GITHUB_REF##*/} 
+          npm install airview-cms-api@${GITHUB_REF##*/} --save-exact
+          npm publish
