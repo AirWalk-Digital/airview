@@ -2,9 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container as MuiContainer, Box } from "@mui/material";
 
-export function AsideAndMainContainer({ children }) {
+export function AsideAndMainContainer({ children, ...rest }) {
   return (
-    <MuiContainer maxWidth={false} sx={{ paddingTop: 6, paddingBottom: 6 }}>
+    <MuiContainer
+      maxWidth={false}
+      sx={{ paddingTop: 6, paddingBottom: 6 }}
+      {...rest}
+    >
       <Box sx={{ display: "flex" }}>{children}</Box>
     </MuiContainer>
   );
