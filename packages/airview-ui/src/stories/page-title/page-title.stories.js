@@ -1,11 +1,17 @@
 import React from "react";
-import { PageTitle } from "../features";
+import { PageTitle } from "../../features";
+import Documentation from "./page-title.doc.md";
 
 export default {
   title: "Components/Page Title",
   component: PageTitle,
   parameters: {
     layout: "centered",
+    docs: {
+      description: {
+        component: Documentation,
+      },
+    },
   },
 };
 
