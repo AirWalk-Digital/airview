@@ -1,5 +1,6 @@
 import React from "react";
-import { TopBar } from "../features";
+import { TopBar } from "../../features";
+import Documentation from "./top-bar.doc.md";
 
 export default {
   title: "Components/Top Bar",
@@ -8,6 +9,9 @@ export default {
     docs: {
       // Opt-out of inline rendering
       inlineStories: false,
+      description: {
+        component: Documentation,
+      },
     },
   },
 };
