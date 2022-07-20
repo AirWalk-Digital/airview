@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Title, Description } from "@storybook/addon-docs";
 import {
   TopBar,
   AsideAndMainContainer,
@@ -9,11 +10,23 @@ import {
   PageTitle,
   StyledWysiwyg,
 } from "../../features";
+import documentation from "./documentation-view.doc.md";
 
 export default {
   title: "Compositions/Documentation View",
   parameters: {
     layout: "fullscreen",
+    controls: false,
+    docs: {
+      page: () => {
+        return (
+          <>
+            <Title />
+            <Description>{documentation}</Description>
+          </>
+        );
+      },
+    },
   },
 };
 
