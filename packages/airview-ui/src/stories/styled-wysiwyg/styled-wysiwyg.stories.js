@@ -1,9 +1,17 @@
 import React from "react";
-import { StyledWysiwyg } from "../features";
+import { StyledWysiwyg } from "../../features";
+import Documentation from "./styled-wysiwyg.doc.md";
 
 export default {
   title: "Components/Styled Wysiwyg",
   component: StyledWysiwyg,
+  parameters: {
+    docs: {
+      description: {
+        component: Documentation,
+      },
+    },
+  },
 };
 
 const content = (
