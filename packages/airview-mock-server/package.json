@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c --environment NODE_ENV:production",
+    "prepare": "npm run build",
     "dev": "npm run build -- -w --environment NODE_ENV:development",
     "test": "jest",
     "test:watch": "npm run test -- --watch --coverage=false",
