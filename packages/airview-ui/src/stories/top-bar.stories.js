@@ -15,7 +15,7 @@ export default {
 const Template = (args) => <TopBar {...args} />;
 
 Template.args = {
-  title: "Navigation Bar",
+  title: "Top Bar",
   navOpen: false,
 };
 
