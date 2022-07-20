@@ -19,7 +19,7 @@ const content = (
     <h1>First level header</h1>
     <h2>Second level header</h2>
     <h3>Third level header</h3>
-    <h4>Fouth level header</h4>
+    <h4>Forth level header</h4>
     <h5>Fifth level header</h5>
     <h6>Sixth level header</h6>
     <hr />
