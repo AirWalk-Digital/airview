@@ -1,11 +1,17 @@
 import React from "react";
-import { Menu } from "../features";
+import { Menu } from "../../features";
+import Documentation from "./menu.doc.md";
 
 export default {
   title: "Components/Menu",
   component: Menu,
   parameters: {
     layout: "centered",
+    docs: {
+      description: {
+        component: Documentation,
+      },
+    },
   },
 };
 
