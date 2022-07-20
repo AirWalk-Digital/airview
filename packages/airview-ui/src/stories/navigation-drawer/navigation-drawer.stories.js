@@ -1,5 +1,6 @@
 import React from "react";
-import { NavigationDrawer } from "../features";
+import { NavigationDrawer } from "../../features";
+import Documentation from "./navigation-drawer.doc.md";
 
 export default {
   title: "Components/Navigation Drawer",
@@ -8,6 +9,9 @@ export default {
     docs: {
       // Opt-out of inline rendering
       inlineStories: false,
+      description: {
+        component: Documentation,
+      },
     },
   },
 };
