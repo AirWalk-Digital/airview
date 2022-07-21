@@ -332,6 +332,56 @@ function MainNavigationController() {
 }
 ```
 
+### useGetCollectionEntries
+
+To request frontmatter for all markdown entries of a specific collection call `useGetCollectionEntries`, passing the collection name (key in config) as the argument. The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
+
+**Signature:**
+
+- **Hook Name:** `useGetCollectionEntries`
+- **Arguments:** `collectionName` - string
+- **Returns:** `object`
+- - `data` - the frontmatter for all markdown entries of the passed collection - array of objects
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+**Example:**
+
+```jsx
+import React from "react";
+import { useGetCollectionEntries } from "airview-cms";
+
+// Fictional controller to get data for coffee accessories index page
+function CoffeeAccessoriesIndexViewController() {
+  // Call hook with collection name as argument, will return entries meta only for entries of passed collection
+  const {
+    data,
+    isUninitialized,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useGetCollectionEntries("coffee_accessories");
+
+  // If we have an error render custom error component and pass error result
+  if (isError) return <ErrorComponent error={error} />;
+
+  // Else return navigation component, pass required data and fetch status
+  return (
+    <CoffeeAccessoriesIndexView
+      data={data}
+      loading={isLoading}
+      fetching={isFetching}
+    />
+  );
+}
+```
+
 ## Components
 
 ## Contributing to the package
