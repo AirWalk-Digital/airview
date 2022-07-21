@@ -222,7 +222,115 @@ The entry select widget is used to select an entry from a specific collection. Y
 }
 ```
 
-### Hooks
+### CMS Context
+
+The core functionality of the CMS is to provide data for a specific markdown document (body and frontmatter). You can choose to get a static representation of this data, or a contextual version. Static data is read only, contextual data allows both read and write.
+
+The recommended approach to writing your app is to identify the current page your user is requesting and set the cms equal to the entry ID for that page. Once set, the CMS will fetch the data for the given entry ID and setup the CMS to allow editing of the frontmatter and markdown body.
+
+Airview CMS exports a utility hook to allow you to set the CMS context, `useSetCmsContext`. The hook accepts an entryId, which is [collection name]/[entry name]. The hook will return frontmatter for the markdown file, a set of booleans relating to the fetch state of the data and an error object (if applicable).
+
+**Signature:**
+
+- **Hook Name:** `useSetCmsContext`
+- **Arguments:** `entryId` - string
+- **Returns:** `object`
+- - `data` - the frontmatter for the markdown file - object
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+**Example:**
+
+```jsx
+import React from "react";
+import { useSetCmsContext } from "airview-cms";
+
+// Fictional controller to get data for a coffee product page
+function CoffeeProductViewController() {
+  // Call hook and pass entry ID as argument
+  const {
+    data,
+    isUninitialized,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useSetCmsContext("coffee/house-roast");
+
+  // If we have an error render custom error component and pass error result
+  if (isError) return <ErrorComponent error={error} />;
+
+  // Else return view component, pass required data and fetch status
+  return (
+    <CoffeeProductView
+      pageData={data}
+      loading={isLoading}
+      fetching={isFetching}
+    />
+  );
+}
+```
+
+### Routing
+
+To do
+
+### Additional hooks
+
+#### useGetAllEntriesMeta
+
+To request frontmatter for all markdown entries call `useGetAllEntriesMeta`. The hook will return an array of entries frontmatter and various status booleans.
+
+**Signature:**
+
+- **Hook Name:** `useGetAllEntriesMeta`
+- **Arguments:** none
+- **Returns:** `object`
+- - `data` - the frontmatter for all markdown entries - array of objects
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+**Example:**
+
+```jsx
+import React from "react";
+import { useGetAllEntriesMeta } from "airview-cms";
+
+// Fictional controller to get data for main navigation component
+function MainNavigationController() {
+  // Call hook
+  const {
+    data,
+    isUninitialized,
+    isLoading,
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useGetAllEntriesMeta();
+
+  // If we have an error render custom error component and pass error result
+  if (isError) return <ErrorComponent error={error} />;
+
+  // Else return navigation component, pass required data and fetch status
+  return (
+    <MainNavigation
+      navigationData={data}
+      loading={isLoading}
+      fetching={isFetching}
+    />
+  );
+}
+```
 
 ### Components
 
