@@ -58,7 +58,7 @@ function App() {
 
 The `AirviewCMS` component requires a configuration object, this is used to personalise the gitflow workflow and define your collections frontmatter. You may find it helpful to refer to the [airview-demo config](https://github.com/AirWalk-Digital/airview/blob/main/apps/airview-demo/src/config.js) for an example of how this works.
 
-### Base Branch
+#### Base Branch
 
 _This setting is required_
 
@@ -74,7 +74,7 @@ const config = {
 };
 ```
 
-### Collections
+#### Collections
 
 _This setting is required_
 
@@ -110,7 +110,7 @@ const config = {
 };
 ```
 
-#### Collection Fields
+##### Collection Fields
 
 _This setting is required_
 
@@ -124,11 +124,11 @@ The key should be an object containing the following values:
 
 **Note:** Additional key values for the field will be required based on the chosen widget, for example `defaultValue` when using the `boolean` widget
 
-#### Available collection Field Widgets
+## Field Widgets
 
 A number of widgets are availble for specific data capture requirements:
 
-##### String Widget
+### String Widget
 
 The string widget is used to capture a string input from a user (not multiline input). You can include the string widget within your collection field by passing `string` as the value to the `widget` key.
 
@@ -150,7 +150,7 @@ The string widget is used to capture a string input from a user (not multiline i
 }
 ```
 
-#### Boolean Widget
+### Boolean Widget
 
 The boolean widget is used to capture a boolean value from a user. You can include the boolean widget within your collection field by passing `boolean` as the value to the `widget` key.
 
@@ -172,7 +172,7 @@ The boolean widget is used to capture a boolean value from a user. You can inclu
 }
 ```
 
-#### Date Widget
+### Date Widget
 
 The date widget is used to capture a date from a user. You can include the date widget within your collection field by passing `date` as the value to the `widget` key.
 
@@ -200,7 +200,7 @@ The date widget is used to capture a date from a user. You can include the date 
 }
 ```
 
-#### Entry Select
+### Entry Select Widget
 
 The entry select widget is used to select an entry from a specific collection. You can include the entry select widget within your collection field by passing `entrySelect` as the value to the `widget` key.
 
@@ -222,7 +222,7 @@ The entry select widget is used to select an entry from a specific collection. Y
 }
 ```
 
-### CMS Context
+## CMS Context
 
 The core functionality of the CMS is to provide data for a specific markdown document (body and frontmatter). You can choose to get a static representation of this data, or a contextual version. Static data is read only, contextual data allows both read and write.
 
@@ -276,13 +276,13 @@ function CoffeeProductViewController() {
 }
 ```
 
-### Routing
+## Routing
 
 To do
 
-### Additional hooks
+## Additional hooks
 
-#### useGetAllEntriesMeta
+### useGetAllEntriesMeta
 
 To request frontmatter for all markdown entries call `useGetAllEntriesMeta`. The hook will return an array of entries frontmatter and various status booleans.
 
@@ -332,14 +332,6 @@ function MainNavigationController() {
 }
 ```
 
-### Components
+## Components
 
 ## Contributing to the package
-
-```
-
-```
-
-```
-
-```
