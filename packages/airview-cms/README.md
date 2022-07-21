@@ -39,7 +39,7 @@ To begin using Airview CMS, you must wrap you application with the `AirviewCMS` 
 
 ### Mounting the AirviewCMS component
 
-The `AirviewCMS` component should remain mounted for the entire lifecyle of you app, it is therefore recommended you place this component at the root of your application tree.
+The `AirviewCMS` component should remain mounted for the entire lifecyle of your app; it is recommended you place this component at the root of your application tree.
 
 Airview CMS provides the context for the various utility hooks, which can be called from any component that is a direct child of the `AirviewCMS` component.
 
@@ -124,7 +124,7 @@ The key should be an object containing the following values:
 
 **Note:** Additional key values for the field will be required based on the chosen widget, for example `defaultValue` when using the `boolean` widget
 
-#### Collection Field Widgets
+#### Available collection Field Widgets
 
 A number of widgets are availble for specific data capture requirements:
 
@@ -150,8 +150,88 @@ The string widget is used to capture a string input from a user (not multiline i
 }
 ```
 
+#### Boolean Widget
+
+The boolean widget is used to capture a boolean value from a user. You can include the boolean widget within your collection field by passing `boolean` as the value to the `widget` key.
+
+- **Name:** `boolean`
+- **UI:** Checkbox input
+- **Data type:** boolean
+- **Options:**
+- - `label`: string - A human readable label for the UI - _required_
+- - `defaultValue`: boolean - Sets the default value for the UI - _required_
+
+**Example:**
+
+```javascript
+{
+  label: "In Stock",
+  name: "in_stock",
+  defaultValue: false,
+  widget: "boolean",
+}
+```
+
+#### Date Widget
+
+The date widget is used to capture a date from a user. You can include the date widget within your collection field by passing `date` as the value to the `widget` key.
+
+- **Name:** `date`
+- **UI:** Date select input
+- **Data type:** ISO date string
+- **Options:**
+- - `label`: string - A human readable label for the UI - _required_
+- - `defaultValue`: ISO date string - Sets the default value for the UI - _required_
+- - `format`: string - Formats the display of the date to the user, pass a valid [Day.js format string](https://day.js.org/docs/en/display/format). Defaults to `DD/MM/YYYY`
+- - `minDate`: ISO date string - Sets an optional minimum selectable date.
+- - `maxDate`: ISO date string - Sets an optional maximum selectable date.
+
+**Example:**
+
+```javascript
+{
+  label: "Available From",
+  name: "available_from",
+  widget: "date",
+  minDate: "2022-05-01T00:00:00Z",
+  maxDate: "2022-05-31T00:00:00Z",
+  defaultValue: "2022-05-01T00:00:00Z",
+  format: "DD/MM/YY"
+}
+```
+
+#### Entry Select
+
+The entry select widget is used to select an entry from a specific collection. You can include the entry select widget within your collection field by passing `entrySelect` as the value to the `widget` key.
+
+- **Name:** `entrySelect`
+- **UI:** Select Picker UI
+- **Data type:** string (entryID)
+- **Options:**
+- - `label`: string - A human readable label for the UI - _required_
+- - `collection`: string - The specific collection key, ued to populate the select picker with the relevant entries for the passed collection - _required_
+
+**Example:**
+
+```javascript
+{
+  label: "Related Coffee",
+  name: "related_coffee",
+  widget: "entrySelect",
+  collection: "coffee"
+}
+```
+
 ### Hooks
 
 ### Components
 
 ## Contributing to the package
+
+```
+
+```
+
+```
+
+```
