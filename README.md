@@ -30,7 +30,7 @@ In addition to the above packages, two demo apps exist, these showcase the compo
 
 ### Airview Demo
 
-A demonostration of the integration of `airview-ui`, `airview-cms`, `airview-mock-server` and `airview-cms-api` packages. The demo acts as a development environment and an ideal canvas to talk through features or issues, without having to hit a real GitHub repo or GitHub API. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/apps/airview-demo)
+A demonstration of the integration of `airview-ui`, `airview-cms`, `airview-mock-server` and `airview-cms-api` packages. The demo acts as a development environment and an ideal canvas to talk through features or issues, without having to hit a real GitHub repo or GitHub API. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/apps/airview-demo)
 
 ### Airview API Demo
 
