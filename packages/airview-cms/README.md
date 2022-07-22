@@ -283,6 +283,88 @@ To request frontmatter for all markdown entries of a specific collection call `u
 - - `isError` - Request to fetch data is complete and was unsuccessful - boolean
 - - `error` - Error result, if applicable - unknown
 
+### useGetChildEntriesMeta
+
+To request frontmatter for all markdown entry children of a specific entry call `useGetChildEntriesMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
+
+**Signature:**
+
+- **Hook Name:** `useGetChildEntriesMeta`
+- **Arguments:** `entryId` - string
+- **Returns:** `object`
+- - `data` - the frontmatter for all markdown entry children of the passed entryID - array of objects
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+### useGetSiblingEntriesMeta
+
+To request frontmatter for all markdown entry siblings of a specific entry call `useGetSiblingEntriesMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
+
+**Signature:**
+
+- **Hook Name:** `useGetSiblingEntriesMeta`
+- **Arguments:** `entryId` - string
+- **Returns:** `object`
+- - `data` - the frontmatter for all markdown entry siblings of the passed entryID - array of objects
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+### useGetEntryMeta
+
+To request frontmatter for a single entry, call `useGetEntryMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an object of frontmatter and various booleans relating the the status of the data fetching process.
+
+**Signature:**
+
+- **Hook Name:** `useGetEntryMeta`
+- **Arguments:** `entryId` - string
+- **Returns:** `object`
+- - `data` - the frontmatter for all markdown entry siblings of the passed entryID - object
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+### useGetEntry
+
+To request frontmatter and body content for a single entry, call `useGetEntry`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of objects, containing markdown content and various booleans relating the the status of the data fetching process.
+
+**Note:** This is a static representation of this data, it will not reflect CMS edits made in real time, use `useSetCmsContext` and the `MarkdownEditor` if you need this functionality.
+
+**Signature:**
+
+- **Hook Name:** `useGetEntry`
+- **Arguments:** `entryId` - string
+- **Returns:** `object`
+- - `data` - the frontmatter any body content for the passed entryID - array of objects
+- - `isUninitialized` - Request to fetch data has not started yet - boolean
+- - `isLoading` - Request to fetch data is in flight for the first time - boolean
+- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
+- - `isSuccess` - Request to fetch data is complete and was a success - boolean
+- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
+- - `error` - Error result, if applicable - unknown
+
+### useCMSViewportOffset
+
+Airview CMS presents a persistant toolbar as part of the UI; this topbar is positioned outside of the document flow and will require an offet in your UI to prevent content being obscured from view.
+
+A hook is available that will return an integer value with the required toolbar offset.
+
+**Signature:**
+
+- **Hook Name:** `useCMSViewportOffset`
+- **Arguments:** none
+- **Returns:** `integer` - The pixel value of the CMS topbar offset
+
 ## Components
 
 ## Contributing to the package
