@@ -245,7 +245,7 @@ Airview CMS exports a utility hook to allow you to set the CMS context, `useSetC
 
 ## Routing
 
-To do
+AirviewCMS uses [React Router v6](https://reactrouter.com/), it is recommended you use this package for your apps routing too.
 
 ## Additional hooks
 
@@ -367,4 +367,29 @@ A hook is available that will return an integer value with the required toolbar 
 
 ## Components
 
+### MarkdownEditor
+
+AirviewCMS exports a `MarkdownEditor` component, this provides realtime editing of markdown content for the current CMS Context.
+
+**Example:**
+
+```jsx
+import React from "react";
+import { useSetCmsContext, MarkdownEditor } from "airview-cms";
+
+function EditableMarkdown() {
+  // Set our CMS context, we don't require the return values in this example
+  useSetCmsContext("coffee/house-blend");
+
+  // MarkdownEditor component will parse the markdown file within the set context and present a WYSIWYG editing interface. Note: This will be read only for protected branches and when not in edit mode.
+  return <MarkdownEditor />;
+}
+```
+
 ## Contributing to the package
+
+Please see our documentation [here](https://github.com/AirWalk-Digital/airview#contributing) for guidance
+
+## Issues, bugs and feature requests
+
+Please see our documentation [here](https://github.com/AirWalk-Digital/airview#issues-bugs-and-feature-requests) for guidance
