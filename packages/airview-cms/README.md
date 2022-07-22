@@ -1,4 +1,4 @@
-# Airview CMS ReadMe
+# Airview CMS
 
 Airview CMS is a React based client side content management system framework to allow CRU~~D~~ workflow for GitHub persisted Markdown documentation.
 
@@ -243,39 +243,6 @@ Airview CMS exports a utility hook to allow you to set the CMS context, `useSetC
 - - `isError` - Request to fetch data is complete and was unsuccessful - boolean
 - - `error` - Error result, if applicable - unknown
 
-**Example:**
-
-```jsx
-import React from "react";
-import { useSetCmsContext } from "airview-cms";
-
-// Fictional controller to get data for a coffee product page
-function CoffeeProductViewController() {
-  // Call hook and pass entry ID as argument
-  const {
-    data,
-    isUninitialized,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isError,
-    error,
-  } = useSetCmsContext("coffee/house-roast");
-
-  // If we have an error render custom error component and pass error result
-  if (isError) return <ErrorComponent error={error} />;
-
-  // Else return view component, pass required data and fetch status
-  return (
-    <CoffeeProductView
-      pageData={data}
-      loading={isLoading}
-      fetching={isFetching}
-    />
-  );
-}
-```
-
 ## Routing
 
 To do
@@ -299,39 +266,6 @@ To request frontmatter for all markdown entries call `useGetAllEntriesMeta`. The
 - - `isError` - Request to fetch data is complete and was unsuccessful - boolean
 - - `error` - Error result, if applicable - unknown
 
-**Example:**
-
-```jsx
-import React from "react";
-import { useGetAllEntriesMeta } from "airview-cms";
-
-// Fictional controller to get data for main navigation component
-function MainNavigationController() {
-  // Call hook
-  const {
-    data,
-    isUninitialized,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isError,
-    error,
-  } = useGetAllEntriesMeta();
-
-  // If we have an error render custom error component and pass error result
-  if (isError) return <ErrorComponent error={error} />;
-
-  // Else return navigation component, pass required data and fetch status
-  return (
-    <MainNavigation
-      navigationData={data}
-      loading={isLoading}
-      fetching={isFetching}
-    />
-  );
-}
-```
-
 ### useGetCollectionEntries
 
 To request frontmatter for all markdown entries of a specific collection call `useGetCollectionEntries`, passing the collection name (key in config) as the argument. The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
@@ -348,39 +282,6 @@ To request frontmatter for all markdown entries of a specific collection call `u
 - - `isSuccess` - Request to fetch data is complete and was a success - boolean
 - - `isError` - Request to fetch data is complete and was unsuccessful - boolean
 - - `error` - Error result, if applicable - unknown
-
-**Example:**
-
-```jsx
-import React from "react";
-import { useGetCollectionEntries } from "airview-cms";
-
-// Fictional controller to get data for coffee accessories index page
-function CoffeeAccessoriesIndexViewController() {
-  // Call hook with collection name as argument, will return entries meta only for entries of passed collection
-  const {
-    data,
-    isUninitialized,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isError,
-    error,
-  } = useGetCollectionEntries("coffee_accessories");
-
-  // If we have an error render custom error component and pass error result
-  if (isError) return <ErrorComponent error={error} />;
-
-  // Else return navigation component, pass required data and fetch status
-  return (
-    <CoffeeAccessoriesIndexView
-      data={data}
-      loading={isLoading}
-      fetching={isFetching}
-    />
-  );
-}
-```
 
 ## Components
 
