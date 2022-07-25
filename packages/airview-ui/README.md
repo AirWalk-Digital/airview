@@ -4,7 +4,11 @@ Airview UI is a collection of React UI components; these components can be compo
 
 ## Consuming the package
 
-Currently the package is not published to npm, you will therefore need to: [INSERT SOLUTION HERE]
+The package can be installed via npm, within your working directory run:
+
+```bash
+npm i airview-ui
+```
 
 ### Peer dependencies
 
