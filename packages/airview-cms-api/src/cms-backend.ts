@@ -2,10 +2,12 @@ import {
   GitClient,
   GitBranch,
   GitTree,
+  GitPullRequest,
   CmsEntity,
   InboundContent,
   InboundEntity,
   CmsCache,
+  CmsResult,
 } from "./interfaces";
 import matter from "gray-matter";
 
@@ -49,8 +51,17 @@ export class CmsBackend {
     return this._client.getBranches();
   }
 
-  async createBranch(baseSha: string, branchName: string): Promise<boolean> {
+  async createBranch(
+    baseSha: string,
+    branchName: string
+  ): Promise<CmsResult<void>> {
     return this._client.createBranch(baseSha, branchName);
+  }
+
+  async createPullRequest(
+    pullRequest: GitPullRequest
+  ): Promise<CmsResult<GitPullRequest>> {
+    return this._client.createPullRequest(pullRequest);
   }
 
   async setContent(inboundContent: InboundContent): Promise<void> {
@@ -86,7 +97,9 @@ export class CmsBackend {
   }
   async getEntries(sha: string): Promise<CmsEntity[]> {
     const cachedMapping = await this._cache.get("meta|" + sha);
-    if (cachedMapping) return cachedMapping;
+    if (cachedMapping) {
+      return cachedMapping;
+    }
 
     const collections = await this._getFilteredTree(
       sha,
@@ -139,6 +152,9 @@ export class CmsBackend {
         return mapped.filter((x): x is CmsEntity => x !== null);
       })
     );
-    return results.reduce((acc, val) => acc.concat(val), []);
+
+    const final = results.reduce((acc, val) => acc.concat(val), []);
+    await this._cache.set(`meta|${sha}`, final);
+    return final;
   }
 }

@@ -1,30 +1,28 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Paper from "@material-ui/core/Paper";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import Box from "@material-ui/core/Box";
-import SettingsIcon from "@material-ui/icons/Settings";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import InfoIcon from "@material-ui/icons/Info";
-import clsx from "clsx";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Paper from "@mui/material/Paper";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
+import SettingsIcon from "@mui/icons-material/Settings";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import InfoIcon from "@mui/icons-material/Info";
 import dayjs from "dayjs";
 
 export function ControlOverviewItemResources({
@@ -32,7 +30,7 @@ export function ControlOverviewItemResources({
   onManageResourceClick,
   onViewResourceEvidence,
 }) {
-  const classes = useControlOverviewItemResourcesStyles();
+  const classes = controlOverviewItemResourcesStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeFilters, setActiveFilters] = useState([]);
@@ -126,9 +124,9 @@ export function ControlOverviewItemResources({
   };
 
   return (
-    <Paper variant="outlined" className={classes.container}>
+    <Paper variant="outlined" sx={classes.container}>
       <TableContainer>
-        <Toolbar variant="dense" className={classes.toolbar}>
+        <Toolbar variant="dense" sx={{ "&.MuiToolbar-root": classes.toolbar }}>
           <Typography variant="subtitle2" component="p">
             Resources
           </Typography>
@@ -155,7 +153,6 @@ export function ControlOverviewItemResources({
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleOnFilterClose}
-                getContentAnchorEl={null}
                 anchorOrigin={{
                   vertical: 8,
                   horizontal: 28,
@@ -176,16 +173,17 @@ export function ControlOverviewItemResources({
                       dense
                       key={filter}
                     >
-                      <ListItemIcon classes={{ root: classes.filterItem }}>
+                      <ListItemIcon
+                        sx={{ "&.MuiListItemIcon-root": classes.filterItem }}
+                      >
                         <Checkbox
                           checked={activeFilters.includes(filter)}
                           color="default"
                           disableRipple
                           tabIndex={-1}
                           size="small"
-                          classes={{
-                            root: classes.filterCheckbox,
-                            checked: classes.filterCheckboxChecked,
+                          sx={{
+                            "&.MuiCheckbox-root": classes.filterCheckbox,
                           }}
                           inputProps={{
                             "aria-labelledby": filter,
@@ -210,7 +208,7 @@ export function ControlOverviewItemResources({
         </Toolbar>
 
         <Table size="small">
-          <TableHead className={classes.tableHead}>
+          <TableHead sx={classes.tableHead}>
             <TableRow>
               <TableCell>Type</TableCell>
               <TableCell>Resource</TableCell>
@@ -224,14 +222,15 @@ export function ControlOverviewItemResources({
                     aria-label="Sort by last seen"
                   >
                     Last seen
-                    <span
-                      className={classes.visuallyHidden}
+                    <Box
+                      component="span"
+                      sx={classes.visuallyHidden}
                       aria-label="Sorting order"
                     >
                       {lastSeenOrder === "desc"
                         ? "Last seen sorted descending"
                         : "Last seen sorted ascending"}
-                    </span>
+                    </Box>
                   </TableSortLabel>
                 ) : (
                   "Last seen"
@@ -244,7 +243,7 @@ export function ControlOverviewItemResources({
             </TableRow>
           </TableHead>
 
-          <TableBody className={classes.tableBody}>
+          <TableBody sx={classes.tableBody}>
             {processedResourcesData.map((resource) => {
               return (
                 <TableRow key={resource.id}>
@@ -255,14 +254,15 @@ export function ControlOverviewItemResources({
                     {dayjs(resource.lastSeen).format("MMM D YYYY h:mm A")}
                   </TableCell>
                   <TableCell>
-                    <span
-                      className={clsx(
-                        classes.statusLabel,
-                        classes[getStatusLabelClassName(resource.status)]
-                      )}
+                    <Box
+                      component="span"
+                      sx={{
+                        ...classes.statusLabel,
+                        ...classes[getStatusLabelClassName(resource.status)],
+                      }}
                     >
                       {resource.status}
-                    </span>
+                    </Box>
                   </TableCell>
                   <TableCell>
                     {resource.pending ? (
@@ -332,15 +332,15 @@ ControlOverviewItemResources.propTypes = {
   onViewResourceEvidence: PropTypes.func.isRequired,
 };
 
-const useControlOverviewItemResourcesStyles = makeStyles((theme) => {
+function controlOverviewItemResourcesStyles() {
   return {
     container: {
-      marginTop: theme.spacing(2),
+      marginTop: 2,
     },
     toolbar: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      backgroundColor: theme.palette.grey[50],
+      paddingLeft: 2,
+      paddingRight: 2,
+      backgroundColor: "grey.50",
     },
     filterItem: { minWidth: 30 },
     filterCheckbox: {
@@ -363,7 +363,7 @@ const useControlOverviewItemResourcesStyles = makeStyles((theme) => {
       width: 1,
     },
     tableHead: {
-      backgroundColor: theme.palette.grey[50],
+      backgroundColor: "grey.50",
     },
     tableBody: {
       "& > tr:last-of-type > td": {
@@ -371,32 +371,32 @@ const useControlOverviewItemResourcesStyles = makeStyles((theme) => {
       },
     },
     statusLabel: {
-      ...theme.typography.body2,
+      ..."typography.body2",
       textTransform: "capitalize",
-      fontSize: theme.typography.pxToRem(12),
-      fontWeight: theme.typography.fontWeightBold,
-      border: `1px solid ${theme.palette.primary.main}`,
-      borderRadius: theme.shape.borderRadius,
+      fontSize: 12,
+      fontWeight: "bolc",
+      border: `1px solid primary.main`,
+      borderRadius: 1,
       padding: "2px 8px",
       whiteSpace: "nowrap",
     },
 
     statusLabelMonitoring: {
-      backgroundColor: theme.palette.success.main,
-      borderColor: theme.palette.success.dark,
-      color: theme.palette.common.white,
+      backgroundColor: "success.main",
+      borderColor: "success.dark",
+      color: "common.white",
     },
 
     statusLabelNonCompliant: {
-      backgroundColor: theme.palette.error.main,
-      borderColor: theme.palette.error.dark,
-      color: theme.palette.common.white,
+      backgroundColor: "error.main",
+      borderColor: "error.dark",
+      color: "common.white",
     },
 
     statusLabelExempt: {
-      backgroundColor: theme.palette.grey[300],
-      borderColor: theme.palette.grey[400],
-      color: theme.palette.grey[800],
+      backgroundColor: "grey.300",
+      borderColor: "grey.400",
+      color: "grey.800",
     },
   };
-});
+}

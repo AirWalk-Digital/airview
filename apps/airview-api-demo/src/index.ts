@@ -7,20 +7,20 @@ const region = process.env.AWS_S3_REGION;
 if (bucket === undefined) throw Error("No S3 Bucket defined");
 if (region === undefined) throw Error("No S3 Region defined");
 
-const appId = process.env.APP_ID;
-const installationId = process.env.INSTALLATION_ID;
-const privateKeyPath: string = process.env.PRIVATE_KEY_FILE || "";
-const repo = process.env.REPO;
-const org = process.env.ORG;
+const appId = process.env.GITHUB_APP_ID;
+const installationId = process.env.GITHUB_INSTALLATION_ID;
+const privateKeyPath: string = process.env.GITHUB_PRIVATE_KEY_FILE || "";
+const repo = process.env.GITHUB_REPO_NAME;
+const org = process.env.GITHUB_ORG_NAME;
 
-const privateKey = fs.readFileSync(privateKeyPath);
+const privateKey = fs.readFileSync(privateKeyPath, "utf-8");
 
 const client = new GithubClient({
-  applicationId: appId,
-  installationId: installationId,
+  applicationId: appId!,
+  installationId: installationId!,
   privateKey: privateKey,
-  repositoryName: repo,
-  organisation: org,
+  repositoryName: repo!,
+  organisation: org!,
 });
 
 const cache = new S3Cache({
@@ -151,9 +151,22 @@ app.post(
       const baseSha = req.body.baseSha;
       const branchName = req.body.name;
 
-      const isSuccess = await backend.createBranch(baseSha, branchName);
-      if (isSuccess) res.status(201).send(null);
-      else res.status(422).send(null);
+      const result = await backend.createBranch(baseSha, branchName);
+      if (!result.error) res.status(201).send(null);
+      else if (result.error === "conflict") res.status(422).send(null);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+app.post(
+  "/api/pulls",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await backend.createPullRequest(req.body);
+      if (data.value) res.status(200).send(data.value);
+      else if (data.error === "conflict") res.status(422).send(null);
     } catch (err) {
       next(err);
     }

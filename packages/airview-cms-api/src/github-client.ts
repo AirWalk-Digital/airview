@@ -4,6 +4,8 @@ import {
   GitTree,
   GitBlob,
   GitBranch,
+  GitPullRequest,
+  CmsResult,
   InboundContent,
   InboundEntity,
 } from "./interfaces";
@@ -143,7 +145,6 @@ export class GithubClient implements GitClient {
       body: JSON.stringify(tree),
     });
     const data: any = await resp.json();
-    console.log(response);
     return [data.sha, response];
   }
 
@@ -290,7 +291,10 @@ export class GithubClient implements GitClient {
     await this._updateBranch(commitSha, inboundEntity.branchName);
   }
 
-  async createBranch(baseSha: string, branchName: string): Promise<boolean> {
+  async createBranch(
+    baseSha: string,
+    branchName: string
+  ): Promise<CmsResult<void>> {
     const resp = await this._fetchWithHeaders(
       `${this.githubRepoURI()}/git/refs`,
       {
@@ -301,8 +305,29 @@ export class GithubClient implements GitClient {
         }),
       }
     );
-    if (resp.status == 201) return true;
-    if (resp.status == 422) return false;
+    if (resp.status == 201) return {};
+    if (resp.status == 422) return { error: "conflict" };
+
+    throw Error(
+      `Bad status creating branch ${resp.status} ${await resp.text()})`
+    );
+  }
+
+  async createPullRequest(
+    pullRequest: GitPullRequest
+  ): Promise<CmsResult<GitPullRequest>> {
+    const resp = await this._fetchWithHeaders(`${this.githubRepoURI()}/pulls`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: `Merge ${pullRequest.headBranch} into ${pullRequest.baseBranch}`,
+        base: pullRequest.baseBranch,
+        head: pullRequest.headBranch,
+      }),
+    });
+    const { html_url } = await resp.json();
+    if (resp.status == 201) return { value: { ...pullRequest, url: html_url } };
+
+    if (resp.status == 422) return { error: "conflict" };
 
     throw Error(
       `Bad status creating branch ${resp.status} ${await resp.text()})`

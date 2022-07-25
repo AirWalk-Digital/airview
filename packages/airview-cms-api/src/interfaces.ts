@@ -14,6 +14,12 @@ export interface GitBlob {
   content: string;
 }
 
+export interface GitPullRequest {
+  baseBranch: string;
+  headBranch: string;
+  url?: string;
+}
+
 export interface InboundEntity {
   id: string;
   baseSha: string;
@@ -25,13 +31,21 @@ export interface InboundContent extends InboundEntity {
   content: Record<string, string>;
 }
 
+export interface CmsResult<T> {
+  value?: T;
+  error?: "conflict";
+}
+
 export interface GitClient {
   getBranches(): Promise<GitBranch[]>;
   getTree(sha: string): Promise<GitTree[]>;
   getBlob(sha: string): Promise<GitBlob>;
   setContent(content: InboundContent): Promise<GitBlob[]>;
   deleteEntity(content: InboundEntity): Promise<any>;
-  createBranch(baseSha: string, branchName: string): Promise<boolean>;
+  createBranch(baseSha: string, branchName: string): Promise<CmsResult<void>>;
+  createPullRequest(
+    pullRequest: GitPullRequest
+  ): Promise<CmsResult<GitPullRequest>>;
 }
 
 export interface CmsCache {
