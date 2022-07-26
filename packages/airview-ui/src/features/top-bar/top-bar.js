@@ -40,10 +40,34 @@ export function TopBar({
 }
 
 TopBar.propTypes = {
+  /**
+   * Callback for when a user clicks the toggle nav button. **Signature:** `function() => void`
+   */
   onNavButtonClick: PropTypes.func.isRequired,
+  /**
+   * Sets a title for the TopBar
+   */
   title: PropTypes.string.isRequired,
+  /**
+   * Sets the color of the TopBar
+   */
   color: PropTypes.string,
-  position: PropTypes.string,
+  /**
+   * Sets the CSS positioning of the TopBar (defaults to "fixed")
+   */
+  position: PropTypes.oneOf([
+    "absolute",
+    "fixed",
+    "relative",
+    "static",
+    "sticky",
+  ]),
+  /**
+   * Offsets the topbar from the top of the viewport equal to the value passed
+   */
   top: PropTypes.number,
+  /**
+   * Renders the toggle nav button in an open or closed state
+   */
   navOpen: PropTypes.bool.isRequired,
 };

@@ -188,8 +188,20 @@ export function StyledWysiwyg({
 }
 
 StyledWysiwyg.propTypes = {
+  /**
+   * HTML DOM nodes to render as children of the component
+   */
   children: PropTypes.node,
+  /**
+   * Allows passthrough of SX styling props (see Material UI SX docs for more info)
+   */
   sx: PropTypes.object,
+  /**
+   * Renders the component in a loading state
+   */
   loading: PropTypes.bool,
+  /**
+   * Renders the component in a fetching state
+   */
   fetching: PropTypes.bool,
 };

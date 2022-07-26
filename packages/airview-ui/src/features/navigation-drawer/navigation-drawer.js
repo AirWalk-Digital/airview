@@ -34,8 +34,20 @@ export function NavigationDrawer({
 }
 
 NavigationDrawer.propTypes = {
+  /**
+   * Sets the component visibility to the user
+   */
   open: PropTypes.bool.isRequired,
+  /**
+   * Determine the top offset from the viewport
+   */
   top: PropTypes.number,
+  /**
+   * Allows the passing of child nodes, that will will be rendered within the drawer
+   */
   children: PropTypes.node,
+  /**
+   * Sets the width of the drawer UI
+   */
   drawerWidth: PropTypes.number,
 };
