@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Typography from "@mui/material/Typography";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ExpandMoreIcon,
+  Typography,
+} from "@mui/material";
 
 export function ControlOverviewGroup({ groupTitle, id, onChange, children }) {
   const classes = controlOverviewGroupStyles();

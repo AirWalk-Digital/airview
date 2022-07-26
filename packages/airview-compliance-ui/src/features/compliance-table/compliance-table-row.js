@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import SecurityIcon from "@mui/icons-material/Security";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import Tooltip from "@mui/material/Tooltip";
-import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Collapse from "@mui/material/Collapse";
-import Box from "@mui/material/Box";
+import {
+  SecurityIcon,
+  TableRow,
+  TableCell,
+  Tooltip,
+  Chip,
+  IconButton,
+  KeyboardArrowDownIcon,
+  KeyboardArrowUpIcon,
+  Collapse,
+  Box,
+} from "@mui/material";
 import { complianceTableCommonStyles } from "./compliance-table.common-styles";
 import { complianceTableRowStyles } from "./compliance-table-row.styles";
 

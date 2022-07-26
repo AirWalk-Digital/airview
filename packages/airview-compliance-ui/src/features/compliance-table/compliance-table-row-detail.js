@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
+import { Box, Button } from "@mui/material";
+import { OpenInNewIcon } from "@mui/icons-material";
 
 import { getRisk } from "./get-risk";
 import { complianceTableRowDetailStyles } from "./compliance-table-row-detail.styles";

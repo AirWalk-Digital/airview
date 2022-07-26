@@ -1,10 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Box from "@mui/material/Box";
+
+import {
+  TableHead,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+  Box,
+} from "@mui/material";
+
+// import TableHead from "@mui/material/TableHead";
+// import TableRow from "@mui/material/TableRow";
+// import TableCell from "@mui/material/TableCell";
+// import TableSortLabel from "@mui/material/TableSortLabel";
+// import Box from "@mui/material/Box";
 
 import { complianceTableCommonStyles } from "./compliance-table.common-styles";
 import { complianceTableHeadStyles } from "./compliance-table-head.styles";
