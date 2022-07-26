@@ -52,7 +52,7 @@ As part of the installation process, [husky](https://typicode.github.io/husky/#/
 
 ## Contributing
 
-Currently requirements around contributing are fairly loose; we do aim to ensure all pull requests are of a satisfactory quality, meet the requirements of a given task and don't introduce errors into the production codebase. We've yet to have any automated tasks run for a PR into main, nor do we have any tests; we are solely reliant on the dudiligence of the contributor at this point in time.
+Currently requirements around contributing are fairly loose; we do aim to ensure all pull requests are of a satisfactory quality, meet the requirements of a given task and don't introduce errors into the production codebase. We've yet to have any automated tasks run for a PR into main, nor do we have any tests; we are solely reliant on the due diligence of the contributor at this point in time.
 
 ### Branching
 
@@ -66,7 +66,9 @@ There is no specific format for pull request information, we would ask that you 
 
 ### Versioning releases
 
-Although not yet published to npm, we are attempting to align the project and the packages within using [semvar](https://semver.org/). Ideally this task should be automated, for now we ask that you manually bump the package versions on each pull request to main.
+Packages are pushed to npm:
+
+When a semver style version tag it pushed to the repository, the packages are built and pushed to npm under the corresponding version tag/package name - see https://www.npmjs.com/~airwalk-digital for current packages. Note, we rebuild & publish all packages, even if there are no changes, to ensure consistency in version numbers across the packages
 
 ## Issues, bugs and feature requests
 

@@ -13,7 +13,7 @@ Airview CMS is a React based client side content management system framework to 
 
 1. A flexible React CMS, it can suit the needs of any project via a provided configuration
 2. A set of React hooks, these simplify the request of CMS data from the remote repository
-3. A React components for inline, real-time WYSIWYG markdown editing
+3. React components for inline, real-time WYSIWYG markdown editing
 
 ### Collections
 
@@ -226,7 +226,7 @@ The entry select widget is used to select an entry from a specific collection. Y
 
 The core functionality of the CMS is to provide data for a specific markdown document (body and frontmatter). You can choose to get a static representation of this data, or a contextual version. Static data is read only, contextual data allows both read and write.
 
-The recommended approach to writing your app is to identify the current page your user is requesting and set the cms equal to the entry ID for that page. Once set, the CMS will fetch the data for the given entry ID and setup the CMS to allow editing of the frontmatter and markdown body.
+The recommended approach to writing your app is to identify the current page your user is requesting and set the cms context equal to the entry ID for that page. Once set, the CMS will fetch the data for the given entry ID and setup the CMS to allow editing of the frontmatter and markdown body.
 
 Airview CMS exports a utility hook to allow you to set the CMS context, `useSetCmsContext`. The hook accepts an entryId, which is [collection name]/[entry name]. The hook will return frontmatter for the markdown file, a set of booleans relating to the fetch state of the data and an error object (if applicable).
 
@@ -355,7 +355,7 @@ To request frontmatter and body content for a single entry, call `useGetEntry`, 
 
 ### useCMSViewportOffset
 
-Airview CMS presents a persistant toolbar as part of the UI; this topbar is positioned outside of the document flow and will require an offet in your UI to prevent content being obscured from view.
+Airview CMS presents a persistant toolbar as part of the UI; this topbar is positioned outside of the document flow and will require an offset in your UI to prevent content being obscured from view.
 
 A hook is available that will return an integer value with the required toolbar offset.
 
