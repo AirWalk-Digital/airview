@@ -37,6 +37,10 @@ jobs:
         run: |
           npm version --no-git-tag-version --workspace=packages/airview-mock-server/ ${GITHUB_REF##*/}
           npm publish --workspace=packages/airview-mock-server/
+      - name: Publish airview-compliance-ui
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-compliance-ui ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-compliance-ui/
 
       - name: Publish airview-cms-api-aws-lambda-wrapper
         run: |

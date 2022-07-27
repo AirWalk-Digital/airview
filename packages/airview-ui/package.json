@@ -36,6 +36,7 @@
     "rollup": "^2.70.2"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1",
