@@ -7,9 +7,9 @@ import {
   Chip,
   Collapse,
   Box,
+  IconButton,
 } from "@mui/material";
 import SecurityIcon from "@mui/icons-material/Security";
-import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { complianceTableCommonStyles } from "./compliance-table.common-styles";
