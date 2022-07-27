@@ -1,28 +1,32 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Paper from "@mui/material/Paper";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Paper,
+  Toolbar,
+  Typography,
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemText,
+  Checkbox,
+  Box,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-import Box from "@mui/material/Box";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import InfoIcon from "@mui/icons-material/Info";
+
 import dayjs from "dayjs";
 
 export function ControlOverviewItemResources({

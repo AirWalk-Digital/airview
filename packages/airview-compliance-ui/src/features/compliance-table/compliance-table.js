@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { useTheme } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import Skeleton from "@mui/lab/Skeleton";
+import { useTheme } from "@mui/material/styles";
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TableBody,
+  Skeleton,
+} from "@mui/material";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";

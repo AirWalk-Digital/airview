@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
+import {
+  Toolbar,
+  Typography,
+  Tooltip,
+  Menu,
+  MenuItem,
+  ListItemText,
+  Checkbox,
+  Box,
+  IconButton,
+  ListItemIcon,
+} from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-import Box from "@mui/material/Box";
-
 import { complianceTableToolbarStyles } from "./compliance-table-toolbar.styles";
 
 function ComplianceTableToolbar({

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { CircularProgress, Box } from "@mui/material";
 
 export function WorkingOverlay({ open, color, ...rest }) {
   const classes = workingOverlayStyles(color);

@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Tooltip,
+  Box,
+} from "@mui/material";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import Box from "@mui/material/Box";
 import ErrorIcon from "@mui/icons-material/Error";
 
 export function ControlOverviewItem({

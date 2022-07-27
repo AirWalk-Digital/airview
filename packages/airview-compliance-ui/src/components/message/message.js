@@ -1,52 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import clsx from "clsx";
+import { Paper, Typography } from "@mui/material";
 
-const Message = React.forwardRef(
-  ({ borderColor = "#000", title, message, ...rest }, ref) => {
-    const classes = useStyles({ borderColor });
+function Message({ borderColor = "#000", title, message, sx, ...rest }) {
+  return (
+    <Paper
+      variant="outlined"
+      sx={{
+        padding: 2,
+        borderTop: 4,
+        borderTopColor: borderColor,
+        ...sx,
+      }}
+      {...rest}
+    >
+      {title && (
+        <Typography align="center" variant="subtitle1">
+          {title}
+        </Typography>
+      )}
 
-    const { className, ...otherProps } = rest;
-
-    return (
-      <Paper
-        className={clsx(classes.root, className)}
-        variant="outlined"
-        ref={ref}
-        {...otherProps}
-      >
-        {title && (
-          <Typography align="center" variant="subtitle1">
-            {title}
-          </Typography>
-        )}
-
-        {message && (
-          <Typography align="center" variant="body2">
-            {message}
-          </Typography>
-        )}
-      </Paper>
-    );
-  }
-);
-
-const useStyles = makeStyles((theme) => ({
-  root: ({ borderColor }) => ({
-    padding: theme.spacing(2),
-    borderTop: `${theme.spacing(0.5)}px solid ${borderColor}`,
-  }),
-}));
+      {message && (
+        <Typography align="center" variant="body2">
+          {message}
+        </Typography>
+      )}
+    </Paper>
+  );
+}
 
 Message.propTypes = {
   borderColor: PropTypes.string,
   title: PropTypes.string,
   message: PropTypes.string,
+  sx: PropTypes.object,
 };
-
-Message.displayName = "Message";
 
 export { Message };
