@@ -36,6 +36,13 @@ function DocumentationView() {
       >
         <AsideAndMainContainer>
           <Main>
+            <Breadcrumb
+              currentRoute={pageTitle}
+              loading={args.loading}
+              fetching={args.fetching}
+              links={breadcrumbItems}
+              sx={{ marginBottom: 4 }}
+            />
             <PageTitle
               title="Documentation View"
               loading={args.loading}
