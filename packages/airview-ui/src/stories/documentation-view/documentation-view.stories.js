@@ -9,6 +9,7 @@ import {
   NavigationDrawer,
   PageTitle,
   StyledWysiwyg,
+  Breadcrumb,
 } from "../../features";
 import documentation from "./documentation-view.doc.md";
 
@@ -94,6 +95,8 @@ const tocItems = [
     ],
   },
 ];
+
+const breadcrumbItems = [{ label: "Home", url: "" }];
 
 const content = (
   <React.Fragment>
@@ -245,6 +248,8 @@ const content = (
   </React.Fragment>
 );
 
+const pageTitle = "Documentation View";
+
 const Template = (args) => {
   const navDrawerWidth = 300;
   const topBarHeight = 64;
@@ -280,8 +285,15 @@ const Template = (args) => {
       >
         <AsideAndMainContainer>
           <Main>
+            <Breadcrumb
+              currentRoute={pageTitle}
+              loading={args.loading}
+              fetching={args.fetching}
+              links={breadcrumbItems}
+              sx={{ marginBottom: 4 }}
+            />
             <PageTitle
-              title="Documentation View"
+              title={pageTitle}
               loading={args.loading}
               fetching={args.fetching}
             />
