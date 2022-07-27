@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ToolBar, Typography } from "@mui/material";
+import { Toolbar, Typography } from "@mui/material";
 
 export function ControlOverviewHeader({ title }) {
   const classes = controlOverviewHeaderStyles();
 
   return (
-    <ToolBar sx={classes.header} disableGutters>
+    <Toolbar sx={classes.header} disableGutters>
       <Typography
         sx={{ fontWeight: 600, fontSize: "18px" }}
         variant="h6"
@@ -14,7 +14,7 @@ export function ControlOverviewHeader({ title }) {
       >
         {title}
       </Typography>
-    </ToolBar>
+    </Toolbar>
   );
 }
 

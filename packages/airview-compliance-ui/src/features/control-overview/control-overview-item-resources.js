@@ -13,19 +13,20 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  IconButton,
-  FilterListIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
   ListItemText,
   Checkbox,
   Box,
-  SettingsIcon,
-  CheckIcon,
-  ClearIcon,
-  InfoIcon,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import SettingsIcon from "@mui/icons-material/Settings";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import InfoIcon from "@mui/icons-material/Info";
+
 import dayjs from "dayjs";
 
 export function ControlOverviewItemResources({

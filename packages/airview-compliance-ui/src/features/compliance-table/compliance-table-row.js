@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
-  SecurityIcon,
   TableRow,
   TableCell,
   Tooltip,
   Chip,
-  IconButton,
-  KeyboardArrowDownIcon,
-  KeyboardArrowUpIcon,
   Collapse,
   Box,
 } from "@mui/material";
+import SecurityIcon from "@mui/icons-material/Security";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { complianceTableCommonStyles } from "./compliance-table.common-styles";
 import { complianceTableRowStyles } from "./compliance-table-row.styles";
 
@@ -38,7 +38,7 @@ function ComplianceTableRow({
     if (qualityModel === "operational") return PowerSettingsNewIcon;
     if (qualityModel === "task") return AssignmentTurnedInIcon;
     */
-  }, [qualityModel]);
+  }, []);
 
   return (
     <React.Fragment>

@@ -17,10 +17,10 @@ import {
   FormControl,
   Select,
   ButtonGroup,
-  WarningIcon,
   CircularProgress,
   InputLabel,
 } from "@mui/material";
+import WarningIcon from "@mui/icons-material/Warning";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

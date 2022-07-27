@@ -5,16 +5,16 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  IconButton,
-  FilterListIcon,
   Menu,
   MenuItem,
-  ListItemIcon,
   ListItemText,
   Checkbox,
   Box,
 } from "@mui/material";
 
+import IconButton from "@mui/material/IconButton";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { complianceTableToolbarStyles } from "./compliance-table-toolbar.styles";
 
 function ComplianceTableToolbar({

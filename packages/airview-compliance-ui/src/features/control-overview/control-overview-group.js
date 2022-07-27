@@ -4,9 +4,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ExpandMoreIcon,
   Typography,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export function ControlOverviewGroup({ groupTitle, id, onChange, children }) {
   const classes = controlOverviewGroupStyles();

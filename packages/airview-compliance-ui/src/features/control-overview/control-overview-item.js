@@ -4,12 +4,13 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ExpandMoreIcon,
   Typography,
   Tooltip,
   Box,
-  ErrorIcon,
 } from "@mui/material";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ErrorIcon from "@mui/icons-material/Error";
 
 export function ControlOverviewItem({
   id,
