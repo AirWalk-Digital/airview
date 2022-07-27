@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, Button, Typography, OpenInNewIcon, Box } from "@mui/material";
+import { Grid, Button, Typography, Box } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export function ControlOverviewItemDetail({
   control,
