@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Title, Description } from "@storybook/addon-docs";
+import { styled } from "@mui/material/styles";
 import {
   TopBar,
   AsideAndMainContainer,
@@ -12,6 +13,7 @@ import {
   Breadcrumb,
 } from "../../features";
 import documentation from "./documentation-view.doc.md";
+import logo from "./logo.svg";
 
 export default {
   title: "Compositions/Documentation View",
@@ -250,6 +252,12 @@ const content = (
 
 const pageTitle = "Documentation View";
 
+const Logo = styled("img")({
+  display: "block",
+  width: "auto",
+  height: 30,
+});
+
 const Template = (args) => {
   const navDrawerWidth = 300;
   const topBarHeight = 64;
@@ -263,7 +271,9 @@ const Template = (args) => {
         onNavButtonClick={handleOnNavButtonClick}
         title="Top Bar Title"
         navOpen={menuOpen}
-      />
+      >
+        <Logo src={logo} alt="Logo alt text" />
+      </TopBar>
       <NavigationDrawer
         open={menuOpen}
         top={topBarHeight}

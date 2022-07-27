@@ -19,7 +19,6 @@ export default {
 const Template = (args) => <TopBar {...args} />;
 
 Template.args = {
-  title: "Top Bar",
   navOpen: false,
 };
 
@@ -31,6 +30,9 @@ Template.argTypes = {
     control: false,
   },
   color: {
+    control: false,
+  },
+  children: {
     control: false,
   },
 };
