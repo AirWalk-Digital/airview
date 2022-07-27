@@ -58,6 +58,13 @@ function App() {
 
 The `AirviewCMS` component requires a configuration object, this is used to personalise the gitflow workflow and define your collections frontmatter. You may find it helpful to refer to the [airview-demo config](https://github.com/AirWalk-Digital/airview/blob/main/apps/airview-demo/src/config.js) for an example of how this works.
 
+### Base Url
+
+_This setting is optional_
+The `baseUrl` is the root url at which the cms api is located.
+
+The default is `/api`. It should be a string value of a path relative to the site root, or a full host/port/path combination. e.g /api/cms or https://myhost.com:1234/api
+
 #### Base Branch
 
 _This setting is required_
