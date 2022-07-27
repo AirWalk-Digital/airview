@@ -13,10 +13,10 @@ export default [
     external: [
       "react",
       "@mui/material",
-      "@mui/lab",
+      //"@mui/lab",
       "prop-types",
       "dayjs",
-      "jss-plugin-compose",
+      //"jss-plugin-compose",
       "@mui/icons-material/OpenINew",
       "@mui/material/IconButton",
       "@mui/icons-material/FilterList",
