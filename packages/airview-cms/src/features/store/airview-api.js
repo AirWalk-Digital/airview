@@ -1,11 +1,18 @@
-//import matter from "gray-matter";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 let fetchFresh = false;
 
+const baseQuery = async (args, api, extraOptions) => {
+  const state = api.getState();
+  const rawBaseQuery = fetchBaseQuery({
+    baseUrl: state.configSlice.baseUrl,
+  });
+  return rawBaseQuery(args, api, extraOptions);
+};
+
 export const airviewApi = createApi({
   reducerPath: "airviewApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api/" }),
+  baseQuery,
   tagTypes: ["Branches"],
   endpoints: (builder) => ({
     getBranches: builder.query({
