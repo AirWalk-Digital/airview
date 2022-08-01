@@ -15,7 +15,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import parse from "html-react-parser";
 import { useSearch } from "./use-search";
-import { isLinkInternal } from "../../util";
 
 export function Search({
   open,
@@ -27,8 +26,6 @@ export function Search({
 
   const { state, reset, handleOnChange, handleOnReady } =
     useSearch(onQueryChange);
-
-  //const styles = useStyles({});
 
   const handleOnRequestToClose = () => onRequestToClose();
 
@@ -48,14 +45,11 @@ export function Search({
         onEntered: handleOnReady,
       }}
       sx={{
-        alignItems: "flex-start",
-        maxHeight: 600,
         "& .MuiDialog-paper": {
           width: "100%",
           overflow: "hidden",
         },
       }}
-      //classes={{ container: styles.rootContainer, paper: styles.rootPaper }}
     >
       <Box
         sx={{
@@ -64,15 +58,11 @@ export function Search({
           alignItems: "center",
           padding: "20px",
         }}
-        //className={styles.searchInputContainer}
       >
         {state.working ? (
           <CircularProgress size={28} />
         ) : (
-          <SearchIcon
-            //className={styles.icon}
-            sx={{ fontSize: "1.75rem" }}
-          />
+          <SearchIcon sx={{ fontSize: "1.75rem" }} />
         )}
 
         <InputBase
@@ -80,7 +70,6 @@ export function Search({
           autoCapitalize="off"
           spellCheck={false}
           placeholder="Search..."
-          //className={styles.searchInput}
           sx={{
             height: "40px",
             fontSize: 21,
@@ -104,7 +93,6 @@ export function Search({
           <IconButton
             aria-label="Clear query"
             size="small"
-            //className={styles.clearQueryBtn}
             sx={{
               marginRight: 2,
             }}
@@ -126,17 +114,14 @@ export function Search({
 
       {state.errorMessage || state.results ? (
         <Box
-          //className={styles.searchBody}
           sx={{
+            maxHeight: 400,
             overflow: "auto",
             borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           {state.errorMessage || state.results.length < 1 ? (
-            <Box
-              // className={styles.searchFeedback}
-              sx={{ padding: "40px 20px" }}
-            >
+            <Box sx={{ padding: "40px 20px" }}>
               <Typography align="center" aria-label="Feedback">
                 {state.errorMessage ?? (
                   <>
@@ -151,7 +136,6 @@ export function Search({
           {!state.errorMessage && state.results?.length >= 1 ? (
             <Box
               component="ul"
-              //className={styles.results}
               sx={{
                 margin: 0,
                 padding: "0px 20px",
@@ -167,11 +151,7 @@ export function Search({
                   <li key={index}>
                     <Link
                       component={linkComponent}
-                      {...(linkComponent === "a"
-                        ? { href: result.path }
-                        : { to: result.path })}
-                      target={isLinkInternal(result.path) ? "_self" : "_blank"}
-                      //className={styles.resultLink}
+                      {...result.linkProps}
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -190,7 +170,6 @@ export function Search({
                       }}
                     >
                       <Box
-                        //className={styles.resultDetail}
                         sx={{
                           marginRight: "20px",
 
@@ -201,17 +180,12 @@ export function Search({
                           },
                         }}
                       >
-                        <Box
-                          component="span"
-                          //className={styles.resultTitle}
-                          sx={{ display: "block" }}
-                        >
+                        <Box component="span" sx={{ display: "block" }}>
                           {parse(result.title)}
                         </Box>
                         {result?.summary ? (
                           <Box
                             component="span"
-                            //className={styles.resultSummary}
                             sx={{ color: "text.secondary" }}
                           >
                             {parse(result.summary)}
@@ -220,8 +194,7 @@ export function Search({
                       </Box>
 
                       <ChevronRightIcon
-                        //className={styles.resultIcon}
-                        sx={{ marginLeft: "auto" }}
+                        sx={{ marginLeft: "auto", color: "primary.main" }}
                       />
                     </Link>
                   </li>
@@ -245,13 +218,13 @@ Search.propTypes = {
    */
   onRequestToClose: PropTypes.func,
   /**
-   * Callback fired when the user has changed the query input value, expects the return of a resolved or rejected promise. **Signature:** `function(query:String) => Promise.resolve([{title:String, summary?:String, path:String }]) || Promise.reject({message:String})`
+   * Callback fired when the user has changed the query input value, expects the return of a resolved or rejected promise. **Signature:** `function(query:String) => Promise.resolve([{title:String, summary?:String, linkProps:Object }]) || Promise.reject({message:String})`
    */
   onQueryChange: PropTypes.func,
   /**
-   * Component for routing
+   * Component used for routing i.e React Router `Link`
    */
-  linkComponent: PropTypes.oneOf([PropTypes.node, "a"]),
+  linkComponent: PropTypes.node,
 };
 
 // const useStyles = makeStyles((theme) => ({
