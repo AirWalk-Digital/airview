@@ -48,6 +48,7 @@ export function Search({
         "& .MuiDialog-paper": {
           width: "100%",
           overflow: "hidden",
+          minHeight: 80,
         },
       }}
     >
