@@ -1,16 +1,23 @@
 import React from "react";
+import { Title, Description, ArgsTable } from "@storybook/addon-docs";
 import { screen, userEvent } from "@storybook/testing-library";
 import { action } from "@storybook/addon-actions";
 import { Search } from "../../features";
-import Documentation from "./search.doc.md";
+import documentation from "./search.doc.md";
 
 export default {
   title: "Components/Search",
   component: Search,
   parameters: {
     docs: {
-      description: {
-        component: Documentation,
+      page: () => {
+        return (
+          <>
+            <Title />
+            <Description>{documentation}</Description>
+            <ArgsTable />
+          </>
+        );
       },
     },
   },
