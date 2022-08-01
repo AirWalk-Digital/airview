@@ -9,15 +9,7 @@ const projectRootDir = path.resolve(__dirname);
 export default [
   {
     input: "src/index.js",
-    external: [
-      "react",
-      "@mui/material",
-      "@mui/icons-material/Menu",
-      "@mui/icons-material/Close",
-      "@mui/icons-material/KeyboardArrowRight",
-      "@mui/icons-material/KeyboardArrowDown",
-      "prop-types",
-    ],
+    external: [/node_modules/],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
       resolve({
