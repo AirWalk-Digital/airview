@@ -9,6 +9,7 @@ import {
 } from "airview-cms-api";
 import { getEnvVar } from "../Utilities/Functions.js";
 import { SecretsManager } from "aws-sdk";
+import jwt_decode from "jwt-decode";
 
 export abstract class CmsApiHandler extends Handlers.AbstractHandler {
   private s3CacheBucketConfig!: S3CacheConstructorNamedParameters;
@@ -47,6 +48,26 @@ export abstract class CmsApiHandler extends Handlers.AbstractHandler {
       this.githubClient = new GithubClient(this.githubClientConfig);
       this.cmsBackend = new CmsBackend(this.githubClient, this.s3CacheBucket);
     });
+  }
+
+  public async getAuthorDetails(cookieStr: string): Promise<any> {
+    Utilities.Functions.print_debug("getting user details");
+    const jwt = this._getIdTokenFromCookieString(cookieStr);
+    const { name, email }: any = jwt_decode(jwt);
+    return { name, email };
+  }
+  private _getIdTokenFromCookieString(cookieStr: string): string {
+    const regex = new RegExp(`CognitoIdentityServiceProvider(.*?)idToken`);
+    const cookies = cookieStr.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const [a, b] = cookies[i].split("=");
+      const matches = a.match(regex);
+      if (matches) {
+        return b;
+      }
+    }
+
+    throw Error("Id token not found");
   }
 
   private async getGithubSecretPemValue(): Promise<string> {

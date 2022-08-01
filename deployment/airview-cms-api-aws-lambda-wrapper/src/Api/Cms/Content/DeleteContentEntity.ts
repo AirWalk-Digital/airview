@@ -15,11 +15,14 @@ export class DeleteContentEntity extends CmsApiHandler {
       let entityId = `${request.getPathParameter(
         "collection"
       )}/${request.getPathParameter("entity")}`;
+
+      const cookie = request.getHeader("cookie");
+      const author = await this.getAuthorDetails(cookie);
       await this.cmsBackend.deleteEntity({
         id: entityId,
         branchName: branch,
         baseSha: baseSha,
-        author: { name: "User", email: "user@noreply.com" },
+        author,
       });
       response.setStatusCode(201).send();
     } catch (error) {
