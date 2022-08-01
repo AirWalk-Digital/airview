@@ -213,17 +213,17 @@ Search.propTypes = {
   /**
    * Toggles the visibility of the search UI modal
    */
-  open: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
   /**
    * Callback fired when the modal requests to close **Signature:** `function() => void`
    */
-  onRequestToClose: PropTypes.func,
+  onRequestToClose: PropTypes.func.isRequired,
   /**
    * Callback fired when the user has changed the query input value, expects the return of a resolved or rejected promise. **Signature:** `function(query:String) => Promise.resolve([{title:String, summary?:String, linkProps:Object }]) || Promise.reject({message:String})`
    */
-  onQueryChange: PropTypes.func,
+  onQueryChange: PropTypes.func.isRequired,
   /**
    * Component used for routing i.e React Router `Link`
    */
-  linkComponent: PropTypes.node,
+  linkComponent: PropTypes.node.isRequired,
 };
