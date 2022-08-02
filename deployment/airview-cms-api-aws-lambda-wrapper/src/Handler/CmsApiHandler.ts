@@ -52,21 +52,14 @@ export abstract class CmsApiHandler extends Handlers.AbstractHandler {
 
   public async getAuthorDetails(cookieStr: string): Promise<any> {
     Utilities.Functions.print_debug("getting user details");
-    const jwt = this._getIdTokenFromCookieString(cookieStr);
-    const { name, email }: any = jwt_decode(jwt);
-    return { name, email };
-  }
-  private _getIdTokenFromCookieString(cookieStr: string): string {
-    const regex = new RegExp(`CognitoIdentityServiceProvider(.*?)idToken`);
-    const cookies = cookieStr.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const [a, b] = cookies[i].split("=");
-      const matches = a.match(regex);
-      if (matches) {
-        return b;
-      }
+    const re = new RegExp(
+      ".*CognitoIdentityServiceProvider.*idToken=(?<token>.*?);"
+    );
+    const matches = cookieStr.match(re);
+    if (matches?.groups?.token) {
+      const { name, email }: any = jwt_decode(matches.groups.token);
+      return { name, email };
     }
-
     throw Error("Id token not found");
   }
 
