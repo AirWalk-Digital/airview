@@ -11,6 +11,47 @@ import { getEnvVar } from "../Utilities/Functions.js";
 import { SecretsManager } from "aws-sdk";
 import jwt_decode from "jwt-decode";
 
+function GithubClientSingletonFactory(): any {
+  async function getGithubSecretPemValue(): Promise<string> {
+    const secretId: string = getEnvVar("GITHUB_PEM_SECRET_ID");
+    const secretManager: SecretsManager = new SecretsManager();
+    let data: any;
+    let secret: string;
+
+    data = await secretManager.getSecretValue({ SecretId: secretId }).promise();
+
+    Utilities.Functions.print_debug(`Secret Data: ${JSON.stringify(data)}`);
+
+    if ("SecretString" in data) {
+      secret = data.SecretString;
+    } else {
+      throw Error("SecretString not in AWS Secrets manager response!");
+    }
+
+    return Promise.resolve(secret);
+  }
+
+  var instance: GithubClient;
+  return {
+    getInstance: async function (): Promise<GithubClient> {
+      if (!instance) {
+        const githubPemSecret: string = await getGithubSecretPemValue();
+        const githubClientConfig = {
+          applicationId: getEnvVar("GITHUB_APP_ID"),
+          installationId: getEnvVar("GITHUB_INSTALL_ID"),
+          privateKey: githubPemSecret,
+          repositoryName: getEnvVar("GITHUB_REPO_NAME"),
+          organisation: getEnvVar("GITHUB_ORG_NAME"),
+          githubApiBaseUri: getEnvVar("GITHUB_API_BASE"),
+        };
+        instance = new GithubClient(githubClientConfig);
+        delete instance.constructor;
+      }
+      return instance;
+    },
+  };
+}
+
 export abstract class CmsApiHandler extends Handlers.AbstractHandler {
   private s3CacheBucketConfig!: S3CacheConstructorNamedParameters;
   protected s3CacheBucket!: S3Cache;
@@ -35,18 +76,8 @@ export abstract class CmsApiHandler extends Handlers.AbstractHandler {
       };
       this.s3CacheBucket = new S3Cache(this.s3CacheBucketConfig);
 
-      let githubPemSecret: string = await this.getGithubSecretPemValue();
-      this.githubClientConfig = {
-        applicationId: getEnvVar("GITHUB_APP_ID"),
-        installationId: getEnvVar("GITHUB_INSTALL_ID"),
-        privateKey: githubPemSecret,
-        repositoryName: getEnvVar("GITHUB_REPO_NAME"),
-        organisation: getEnvVar("GITHUB_ORG_NAME"),
-        githubApiBaseUri: getEnvVar("GITHUB_API_BASE"),
-      };
-
-      this.githubClient = new GithubClient(this.githubClientConfig);
-      this.cmsBackend = new CmsBackend(this.githubClient, this.s3CacheBucket);
+      const githubClient = await GithubClientSingletonFactory().getInstance();
+      this.cmsBackend = new CmsBackend(githubClient, this.s3CacheBucket);
     });
   }
 
@@ -61,44 +92,5 @@ export abstract class CmsApiHandler extends Handlers.AbstractHandler {
       return { name, email };
     }
     throw Error("Id token not found");
-  }
-
-  private async getGithubSecretPemValue(): Promise<string> {
-    const secretId: string = getEnvVar("GITHUB_PEM_SECRET_ID");
-    const secretManager: SecretsManager = new SecretsManager();
-    let data: any;
-    let secret: string;
-
-    try {
-      data = await secretManager
-        .getSecretValue({ SecretId: secretId })
-        .promise();
-    } catch (error) {
-      console.error(error);
-      this.response.fail(
-        new Errors.InternalServerError({
-          Function: this.context.functionName,
-          Name: this.context.logStreamName,
-          Request: this.context.awsRequestId,
-        })
-      );
-    }
-
-    Utilities.Functions.print_debug(`Secret Data: ${JSON.stringify(data)}`);
-
-    if ("SecretString" in data) {
-      secret = data.SecretString;
-    } else {
-      console.error("SecretString not in AWS Secrets manager response!");
-      this.response.fail(
-        new Errors.InternalServerError({
-          Function: this.context.functionName,
-          Name: this.context.logStreamName,
-          Request: this.context.awsRequestId,
-        })
-      );
-    }
-
-    return Promise.resolve(secret);
   }
 }
