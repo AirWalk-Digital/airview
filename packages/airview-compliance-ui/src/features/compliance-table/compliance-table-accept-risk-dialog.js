@@ -21,7 +21,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { FormLabel } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 import CircularProgress from "@mui/material/CircularProgress";
-import { IconChip } from "./icon-chip";
+import { IconChip } from "../icon-chip/icon-chip";
 
 import { complianceTableAcceptRiskDialogStyles } from "./compliance-table-accept-risk-dialog.style";
 
