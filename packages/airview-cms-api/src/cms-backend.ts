@@ -97,7 +97,9 @@ export class CmsBackend {
   }
   async getEntries(sha: string): Promise<CmsEntity[]> {
     const cachedMapping = await this._cache.get("meta|" + sha);
-    if (cachedMapping) return cachedMapping;
+    if (cachedMapping) {
+      return cachedMapping;
+    }
 
     const collections = await this._getFilteredTree(
       sha,
@@ -150,6 +152,9 @@ export class CmsBackend {
         return mapped.filter((x): x is CmsEntity => x !== null);
       })
     );
-    return results.reduce((acc, val) => acc.concat(val), []);
+
+    const final = results.reduce((acc, val) => acc.concat(val), []);
+    await this._cache.set(`meta|${sha}`, final);
+    return final;
   }
 }

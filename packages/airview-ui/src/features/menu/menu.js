@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { isLinkInternal } from "@util";
+import { isLinkInternal } from "../../util";
 
 export function Menu({
   menuTitle,
@@ -142,10 +142,25 @@ export function Menu({
 }
 
 Menu.propTypes = {
+  /**
+   * Sets the title of the Menu
+   */
   menuTitle: PropTypes.string.isRequired,
+  /**
+   * Sets the HTML tag of the Menu title
+   */
   menuTitleElement: PropTypes.string,
+  /**
+   * Renders the Menu in a loading state
+   */
   loading: PropTypes.bool,
+  /**
+   * Renders the Menu in a fetching state
+   */
   fetching: PropTypes.bool,
+  /**
+   * Defines the data for the Menu navigation items
+   */
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       groupTitle: PropTypes.string,
@@ -157,9 +172,24 @@ Menu.propTypes = {
       ).isRequired,
     })
   ).isRequired,
+  /**
+   * Enables the Menu to collpase
+   */
   collapsible: PropTypes.bool,
+  /**
+   * Sets the intial collapsed state, if collapsible Menu is enabled
+   */
   initialCollapsed: PropTypes.bool,
+  /**
+   * Allows the passing of a Link Component (i.e React Router Link)
+   */
   linkComponent: PropTypes.any,
+  /**
+   * Enables highlighting of the current route to the user
+   */
   currentRoute: PropTypes.string,
+  /**
+   * Allows passthrough of SX styling props (see Material UI SX docs for more info)
+   */
   sx: PropTypes.object,
 };

@@ -1,7 +1,14 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link as ReactRouterLink } from "react-router-dom";
 import { useSetCmsContext } from "airview-cms";
-import { PageTitle, AsideAndMainContainer, Aside, Main } from "airview-ui";
+import {
+  PageTitle,
+  AsideAndMainContainer,
+  Aside,
+  Main,
+  Breadcrumb,
+} from "airview-ui";
+import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
 import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
@@ -9,8 +16,10 @@ import { DocumentContent } from "./document-content";
 export function DocumentView() {
   const entryId = useGetEntryId();
 
-  const { data, isError, error, isLoading, isFetching } =
+  const { data, isError, error, isUninitialized, isLoading, isFetching } =
     useSetCmsContext(entryId);
+
+  const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 
   if (isError && error.type === 404) {
     return <Navigate to="/not-found" replace={true} />;
@@ -19,9 +28,17 @@ export function DocumentView() {
   return (
     <AsideAndMainContainer>
       <Main>
+        <Breadcrumb
+          currentRoute={data.title ?? ""}
+          loading={isLoading || isUninitialized}
+          fetching={isFetching}
+          links={breadcrumbLinks}
+          sx={{ marginBottom: 4 }}
+          linkComponent={ReactRouterLink}
+        />
         <PageTitle
           title={data?.title ?? ""}
-          loading={isLoading}
+          loading={isLoading || isUninitialized}
           fetching={isFetching}
         />
         <DocumentContent loading={false} fetching={false} />

@@ -1,26 +1,29 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Switch from "@mui/material/Switch";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Grid,
+  TextField,
+  Switch,
+  Typography,
+  Box,
+  MenuItem,
+  FormLabel,
+  FormControl,
+  Select,
+  ButtonGroup,
+  CircularProgress,
+  InputLabel,
+} from "@mui/material";
+import WarningIcon from "@mui/icons-material/Warning";
+
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import { FormLabel } from "@mui/material";
-import WarningIcon from "@mui/icons-material/Warning";
-import CircularProgress from "@mui/material/CircularProgress";
 import { IconChip } from "../icon-chip/icon-chip";
 
 import { complianceTableAcceptRiskDialogStyles } from "./compliance-table-accept-risk-dialog.style";

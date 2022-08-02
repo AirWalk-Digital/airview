@@ -1,9 +1,7 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import { Skeleton } from "@mui/material";
+import { Paper, Box, Skeleton } from "@mui/material";
 import { ControlOverviewHeader } from "./control-overview-header";
 import { ControlOverviewGroup } from "./control-overview-group";
 import { ControlOverviewItem } from "./control-overview-item";

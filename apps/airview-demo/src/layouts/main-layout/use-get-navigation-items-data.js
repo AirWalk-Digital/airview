@@ -4,6 +4,7 @@ import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 export function useGetNavigationItemsData() {
   const {
     data: applications,
+    isUninitialized: applicationsIsUninitialized,
     isLoading: applicationsIsLoading,
     isFetching: applicationsIsFetching,
     isError: applicationsIsError,
@@ -11,6 +12,7 @@ export function useGetNavigationItemsData() {
 
   const {
     data: entries,
+    isUninitialized: entriesIsUninitialized,
     isLoading: entriesIsLoading,
     isFetching: entriesIsFetching,
     isError: entriesIsError,
@@ -95,6 +97,7 @@ export function useGetNavigationItemsData() {
   );
 
   return {
+    isUninitialized: applicationsIsUninitialized || entriesIsUninitialized,
     isLoading: applicationsIsLoading || entriesIsLoading,
     isFetching: applicationsIsFetching || entriesIsFetching,
     isError: applicationsIsError || entriesIsError,
