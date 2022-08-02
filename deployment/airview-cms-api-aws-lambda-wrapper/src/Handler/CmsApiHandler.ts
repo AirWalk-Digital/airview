@@ -78,21 +78,6 @@ export abstract class CmsApiHandler extends Handlers.AbstractHandler {
 
       const githubClient = await GithubClientSingletonFactory().getInstance();
       this.cmsBackend = new CmsBackend(githubClient, this.s3CacheBucket);
-
-      // try {
-      //   const githubClient = (
-      //     await GithubClientSingletonFactory()
-      //   ).getInstance();
-      //   this.cmsBackend = new CmsBackend(githubClient, this.s3CacheBucket);
-      // } catch {
-      //   this.response.fail(
-      //     new Errors.InternalServerError({
-      //       Function: this.context.functionName,
-      //       Name: this.context.logStreamName,
-      //       Request: this.context.awsRequestId,
-      //     })
-      //   );
-      // }
     });
   }
 
