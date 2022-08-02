@@ -27,12 +27,14 @@ export class PutContentEntity extends CmsApiHandler {
     Utilities.Functions.print_debug(`body == "${body}"`);
 
     try {
+      const cookie = request.getHeader("cookie");
+      const author = await this.getAuthorDetails(cookie);
       await this.cmsBackend.setContent({
         id: entityId,
         branchName: branch,
         baseSha: baseSha,
         content: request.getParseBody(),
-        author: { name: "User", email: "user@noreply.com" },
+        author,
       });
       response.setStatusCode(201).send();
     } catch (error) {
