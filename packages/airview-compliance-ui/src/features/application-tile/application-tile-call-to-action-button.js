@@ -1,18 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 
-export function ApplicationTileCallToActionButton({ href, label, classNames }) {
+export function ApplicationTileCallToActionButton({
+  href,
+  label,
+  classNames,
+  component = "button",
+  linkProps,
+}) {
   const styles = useStyles();
 
   return (
     <Button
       sx={styles.button}
       className={classNames}
-      // component={Link}
+      component={component}
       href={href}
       variant="contained"
       size="small"
+      {...linkProps}
     >
       {label}
     </Button>
@@ -42,4 +49,6 @@ ApplicationTileCallToActionButton.propTypes = {
   href: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   classNames: PropTypes.string,
+  component: PropTypes.string,
+  linkProps: PropTypes.node,
 };
