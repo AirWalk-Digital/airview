@@ -1,9 +1,8 @@
 import React from "react";
 import { userEvent, within } from "@storybook/testing-library";
-import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
-import WarningIcon from "@material-ui/icons/Warning";
-import Typography from "@material-ui/core/Typography";
+import WarningIcon from "@mui/icons-material/Warning";
+import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
 import {
   ApplicationTile,
   ApplicationTileHeader,
@@ -35,24 +34,20 @@ export default {
       },
     },
     controls: false,
+    layout: "padded",
   },
   decorators: [
     (story) => {
-      const classes = makeStyles(() => ({
-        "@global": {
-          "#root": {
-            flex: 1,
-          },
-        },
+      const classes = {
         root: {
           width: "100%",
           maxWidth: 360,
           margin: "0 auto",
           flex: "1 1 auto",
         },
-      }))();
+      };
 
-      return <div className={classes.root}>{story()}</div>;
+      return <Box sx={classes.root}>{story()}</Box>;
     },
   ],
 };
@@ -80,8 +75,6 @@ export const WithNoData = () => {
 };
 
 export const WithDataNotCollapsible = () => {
-  const theme = useTheme();
-
   return (
     <ApplicationTile>
       <ApplicationTileHeader
@@ -103,7 +96,7 @@ export const WithDataNotCollapsible = () => {
               icon={<WarningIcon />}
               label="2"
               dense
-              color={theme.palette.success.main}
+              color="success.main"
             />
 
             <ApplicationTileChip
@@ -111,7 +104,7 @@ export const WithDataNotCollapsible = () => {
               icon={<WarningIcon />}
               label="2"
               dense
-              color={theme.palette.warning.main}
+              color="warning.main"
             />
 
             <ApplicationTileChip
@@ -119,7 +112,7 @@ export const WithDataNotCollapsible = () => {
               icon={<WarningIcon />}
               label="2"
               dense
-              color={theme.palette.error.main}
+              color="error.main"
             />
 
             <ApplicationTileChip
@@ -127,11 +120,11 @@ export const WithDataNotCollapsible = () => {
               icon={<WarningIcon />}
               label="2"
               dense
-              color={theme.palette.grey["800"]}
+              color="grey.800"
             />
           </ApplicationTileContentRow>
 
-          <ProgressBar value={80} color={theme.palette.success.main} />
+          <ProgressBar value={80} color="#2e7d32" />
         </ApplicationTileContentRow>
       </ApplicationTileContent>
     </ApplicationTile>
@@ -139,8 +132,6 @@ export const WithDataNotCollapsible = () => {
 };
 
 export const WithDataCollapsed = () => {
-  const theme = useTheme();
-
   return (
     <ApplicationTile>
       <ApplicationTileHeader
@@ -158,19 +149,19 @@ export const WithDataCollapsed = () => {
             Production
           </ApplicationTileTitle>
 
-          <ProgressBar value={80} color={theme.palette.success.main} />
+          <ProgressBar value={80} color="#2e7d32" />
 
           <ApplicationTileTitle size="small" level="h3">
             UAT
           </ApplicationTileTitle>
 
-          <ProgressBar value={40} color={theme.palette.primary.main} />
+          <ProgressBar value={40} color="#1976d2" />
 
           <ApplicationTileTitle size="small" level="h3">
             Development
           </ApplicationTileTitle>
 
-          <ProgressBar value={65} color={theme.palette.error.main} />
+          <ProgressBar value={65} color="#d32f2f" />
         </ApplicationTileContentRow>
       </ApplicationTileContent>
 
@@ -192,7 +183,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.success.main}
+                color="success.main"
               />
 
               <ApplicationTileChip
@@ -200,7 +191,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.warning.main}
+                color="warning.main"
               />
 
               <ApplicationTileChip
@@ -208,7 +199,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.error.main}
+                color="error.main"
               />
 
               <ApplicationTileChip
@@ -216,7 +207,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.grey["800"]}
+                color="grey.800"
               />
             </ApplicationTileContentRow>
           </ApplicationTileContent>
@@ -237,7 +228,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.success.main}
+                color="success.main"
               />
 
               <ApplicationTileChip
@@ -245,7 +236,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.warning.main}
+                color="warning.main"
               />
 
               <ApplicationTileChip
@@ -253,7 +244,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.error.main}
+                color="error.main"
               />
 
               <ApplicationTileChip
@@ -261,7 +252,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.grey["800"]}
+                color="grey.800"
               />
             </ApplicationTileContentRow>
           </ApplicationTileContent>
@@ -284,7 +275,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.success.main}
+                color="success.main"
               />
 
               <ApplicationTileChip
@@ -292,7 +283,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.warning.main}
+                color="warning.main"
               />
 
               <ApplicationTileChip
@@ -300,7 +291,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.error.main}
+                color="error.main"
               />
 
               <ApplicationTileChip
@@ -308,7 +299,7 @@ export const WithDataCollapsed = () => {
                 icon={<WarningIcon />}
                 label="2"
                 dense
-                color={theme.palette.grey["800"]}
+                color="grey.800"
               />
             </ApplicationTileContentRow>
           </ApplicationTileContent>
