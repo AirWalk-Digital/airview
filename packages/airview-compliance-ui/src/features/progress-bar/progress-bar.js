@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, lighten } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { lighten } from "@mui/material/styles";
 
 export function ProgressBar({
   value,
@@ -13,7 +13,7 @@ export function ProgressBar({
   ariaLabel,
   classNames,
 }) {
-  const classes = useProgressBarStyles({ color });
+  const classes = useProgressBarStyles(color);
 
   return (
     <Box
@@ -24,9 +24,11 @@ export function ProgressBar({
     >
       <Box width="100%">
         <LinearProgress
-          classes={{ root: classes.lpRoot, bar: classes.lpBar }}
+          sx={{
+            "&.MuiLinearProgress-root": classes.lpRoot,
+            "& .MuiLinearProgress-bar": classes.lpBar,
+          }}
           value={value}
-          color="primary"
           variant={variant}
         />
       </Box>
@@ -34,7 +36,7 @@ export function ProgressBar({
       {showLabel && (
         <Box minWidth={35} ml={1}>
           <Typography
-            classes={{ body2: classes.label }}
+            sx={{ "&..MuiTypography-body2": classes.label }}
             variant="body2"
             color="textPrimary"
           >{`${Math.round(value)}%`}</Typography>
@@ -71,21 +73,21 @@ ProgressBar.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useProgressBarStyles = makeStyles((theme) => {
+function useProgressBarStyles(color) {
   return {
-    lpRoot: (props) => ({
-      borderRadius: theme.shape.borderRadius,
-      height: theme.spacing(1.5),
-      backgroundColor: lighten(props.color, 0.5),
-    }),
-    lpBar: (props) => ({
-      backgroundColor: props.color,
-    }),
+    lpRoot: {
+      borderRadius: 1,
+      height: 12,
+      backgroundColor: lighten(color, 0.5),
+    },
+    lpBar: {
+      backgroundColor: color,
+    },
     label: {
       lineHeight: 0,
     },
   };
-});
+}
 
 /*
 ApplicationTile
