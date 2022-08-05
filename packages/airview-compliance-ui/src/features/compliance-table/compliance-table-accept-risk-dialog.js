@@ -24,7 +24,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { IconChip } from "./icon-chip";
+import { IconChip } from "../icon-chip/icon-chip";
 
 import { complianceTableAcceptRiskDialogStyles } from "./compliance-table-accept-risk-dialog.style";
 

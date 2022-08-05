@@ -61,7 +61,8 @@ function useIconChipStyles(color, labelColor, dense) {
     root: {
       display: "inline-flex",
       justifyContent: "space-between",
-      border: `1px solid ${color}`,
+      border: "1px solid",
+      borderColor: color,
       borderRadius: 1,
       backgroundColor: "#fff",
     },
