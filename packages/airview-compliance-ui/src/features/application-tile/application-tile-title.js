@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 export function ApplicationTileTitle({
   children,
@@ -9,7 +8,7 @@ export function ApplicationTileTitle({
   color = "inherit",
   classNames,
 }) {
-  const classes = useApplicationTileStyles({ color });
+  const classes = useApplicationTileStyles(color);
 
   return (
     <Typography
@@ -18,7 +17,7 @@ export function ApplicationTileTitle({
       variant="h6"
       component={level}
       className={classNames}
-      classes={{ root: classes.root }}
+      sx={{ "&.MuiTypography-root": classes.root }}
     >
       {children}
     </Typography>
@@ -44,12 +43,12 @@ ApplicationTileTitle.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useApplicationTileStyles = makeStyles((theme) => {
+function useApplicationTileStyles(color) {
   return {
-    root: (props) => ({
-      fontSize: theme.typography.pxToRem(14),
+    root: {
+      fontSize: "14px",
       lineHeight: 1.3,
-      color: props.color,
-    }),
+      color: color,
+    },
   };
-});
+}

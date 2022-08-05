@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import Box from "@mui/material/Box";
 
 export function ApplicationTile({ children, gutter = false, classNames }) {
-  const classes = useApplicationTileStyles({ gutter });
-  return <div className={clsx(classNames, classes.root)}>{children}</div>;
+  const classes = useApplicationTileStyles(gutter);
+  return (
+    <Box sx={classes.root} className={classNames}>
+      {children}
+    </Box>
+  );
 }
 
 ApplicationTile.propTypes = {
@@ -23,13 +26,14 @@ ApplicationTile.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useApplicationTileStyles = makeStyles((theme) => {
+function useApplicationTileStyles(gutter) {
   return {
-    root: (props) => ({
-      backgroundColor: theme.palette.common.white,
-      border: `1px solid ${theme.palette.primary.main}`,
-      borderRadius: theme.shape.borderRadius,
-      marginBottom: props.gutter ? theme.spacing(2) : 0,
-    }),
+    root: {
+      backgroundColor: "common.white",
+      border: 1,
+      borderColoe: "primary.main",
+      borderRadius: 1,
+      marginBottom: gutter ? 2 : 0,
+    },
   };
-});
+}

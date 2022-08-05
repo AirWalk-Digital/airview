@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import IconButton from "@material-ui/core/IconButton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import Collapse from "@mui/material/Collapse";
+import Box from "@mui/material/Box";
 
 export function ApplicationTileContent({
   children,
@@ -13,7 +12,7 @@ export function ApplicationTileContent({
   initialCollapsed = false,
   classNames,
 }) {
-  const classes = useApplicationTileContentStyles({ collapsible });
+  const classes = useApplicationTileContentStyles();
 
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -22,13 +21,13 @@ export function ApplicationTileContent({
   }, [collapsed]);
 
   return (
-    <div className={clsx(classNames, classes.root)}>
+    <Box sx={classes.root} className={classNames}>
       {collapsible && (
         <IconButton
           aria-label={collapsed ? "Expand content" : "Collapse content"}
           color="primary"
           size="small"
-          classes={{ root: classes.collapseToggleBtn }}
+          sx={{ "&.MuiIconButton-root": classes.collapseToggleBtn }}
           onClick={handleOnToggleCollapsed}
         >
           {collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
@@ -36,12 +35,12 @@ export function ApplicationTileContent({
       )}
       <Collapse
         in={!collapsed}
-        classes={{ wrapperInner: classes.collapseWrapperInner }}
+        sx={classes.collapseWrapperInner}
         aria-hidden={collapsed}
       >
         {children}
       </Collapse>
-    </div>
+    </Box>
   );
 }
 
@@ -64,18 +63,18 @@ ApplicationTileContent.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useApplicationTileContentStyles = makeStyles((theme) => {
+function useApplicationTileContentStyles() {
   return {
     root: {
-      padding: theme.spacing(2),
+      padding: 2,
     },
     collapseToggleBtn: {
       display: "block",
       margin: "0 auto",
       padding: 0,
     },
-    collapseWrapperInner: (props) => ({
-      paddingTop: props.collapsible ? theme.spacing(2) : 0,
-    }),
+    collapseWrapperInner: {
+      paddingTop: 0,
+    },
   };
-});
+}

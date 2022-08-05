@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import { IconChip } from "../icon-chip/icon-chip";
 
 export function ApplicationTileChip({
@@ -11,27 +10,27 @@ export function ApplicationTileChip({
   color,
   ...rest
 }) {
-  const classes = useStyles();
-
   return (
     <Tooltip title={tooltipLabel} arrow>
       <IconChip
         {...{ icon, label, color }}
         dense
-        className={classes.root}
+        // className={classes.root}
         {...rest}
       />
     </Tooltip>
   );
 }
 
-const useStyles = makeStyles({
-  root: {
-    "&:hover": {
-      cursor: "default",
-    },
-  },
-});
+// function useStyles() {
+// return{
+// root: {
+//   "&:hover": {
+//     cursor: "default",
+//   },
+// },
+//   }
+// };
 
 ApplicationTileChip.propTypes = {
   tooltipLabel: PropTypes.string.isRequired,

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import Box from "@mui/material/Box";
 
 export function ApplicationTileHeader({
   leftContent,
@@ -9,31 +8,25 @@ export function ApplicationTileHeader({
   dense = false,
   classNames,
 }) {
-  const classes = useApplicationTileHeaderStyles({ dense });
+  const classes = useApplicationTileHeaderStyles(dense);
   return (
-    <header className={clsx(classNames, classes.root)}>
+    <Box component="header" sx={classes.root} className={classNames}>
       {leftContent && (
-        <div
-          className={clsx(
-            classes.subHeaderContainers,
-            classes.leftHeaderContent
-          )}
+        <Box
+          sx={{ ...classes.subHeaderContainers, ...classes.leftHeaderContent }}
         >
           {leftContent}
-        </div>
+        </Box>
       )}
 
       {rightContent && (
-        <div
-          className={clsx(
-            classes.subHeaderContainers,
-            classes.rightHeaderContent
-          )}
+        <Box
+          sx={{ ...classes.subHeaderContainers, ...classes.rightHeaderContent }}
         >
           {rightContent}
-        </div>
+        </Box>
       )}
-    </header>
+    </Box>
   );
 }
 
@@ -56,18 +49,24 @@ ApplicationTileHeader.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useApplicationTileHeaderStyles = makeStyles((theme) => {
+function useApplicationTileHeaderStyles(dense) {
   return {
-    root: (props) => ({
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white,
-      padding: props.dense ? theme.spacing(0.5, 1) : theme.spacing(1, 1),
+    root: {
+      backgroundColor: "primary.main",
+      color: "common.white",
+      paddingTop: dense ? 0.5 : 1,
+      paddingBottom: dense ? 0.5 : 1,
+      paddingRight: 1,
+      paddingLeft: 1,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-    }),
+    },
     subHeaderContainers: {
-      padding: theme.spacing(0, 1),
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingRight: 1,
+      paddingLeft: 1,
     },
     leftHeaderContent: {
       marginRight: "auto",
@@ -76,4 +75,4 @@ const useApplicationTileHeaderStyles = makeStyles((theme) => {
       marginLeft: "auto",
     },
   };
-});
+}

@@ -1,25 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
-import clsx from "clsx";
+import Box from "@mui/material/Box";
 
 export function ApplicationTileContentRow({
   children,
   inlineContent = false,
   classNames,
 }) {
-  const classes = useApplicationTileContentRowStyles({ inlineContent });
+  const classes = useApplicationTileContentRowStyles();
 
   return (
-    <div
-      className={clsx(
-        classNames,
-        classes.root,
-        inlineContent ? classes.inlineContent : null
-      )}
+    <Box
+      sx={[classes.root, inlineContent === true && classes.inlineContent]}
+      className={classNames}
     >
       {children}
-    </div>
+    </Box>
   );
 }
 
@@ -38,26 +34,26 @@ ApplicationTileContentRow.propTypes = {
   classNames: PropTypes.string,
 };
 
-const useApplicationTileContentRowStyles = makeStyles((theme) => {
+function useApplicationTileContentRowStyles() {
   return {
     inlineContent: {
       "&:last-of-type": {
-        marginBottom: -12,
+        marginBottom: "-12px",
       },
 
       "& > *": {
-        marginBottom: theme.spacing(1.5),
+        marginBottom: 1.5,
       },
 
       "& > *:not(:last-child)": {
-        marginRight: theme.spacing(1.5),
+        marginRight: 1.5,
       },
     },
 
     root: {
-      "& > *:not(:last-child, $inlineContent)": {
-        marginBottom: theme.spacing(1.5),
+      "& > *:not(:last-child)": {
+        marginBottom: 1.5,
       },
     },
   };
-});
+}
