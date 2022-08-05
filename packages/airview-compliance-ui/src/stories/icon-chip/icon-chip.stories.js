@@ -1,6 +1,6 @@
 import React from "react";
 import { IconChip } from "../../features/icon-chip";
-import WarningIcon from "@material-ui/icons/Warning";
+import WarningIcon from "@mui/icons-material/Warning";
 
 export default {
   title: "Features/IconChip",
