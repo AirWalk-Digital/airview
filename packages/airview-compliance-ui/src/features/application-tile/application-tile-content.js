@@ -72,7 +72,9 @@ function useApplicationTileContentStyles(collapsible) {
       padding: 0,
     },
     collapseWrapperInner: {
-      paddingTop: collapsible ? 2 : 0,
+      "& .MuiCollapse-wrapperInner": {
+        paddingTop: collapsible ? 2 : 0,
+      },
     },
   };
 }
