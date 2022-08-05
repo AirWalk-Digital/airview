@@ -1,10 +1,13 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { ProgressBar } from "../../features/progress-bar";
+import { Box } from "@mui/material";
 
 export default {
   title: "Features/ProgressBar",
   component: ProgressBar,
+  parameters: {
+    layout: "padded",
+  },
   argTypes: {
     ariaLabel: {
       control: false,
@@ -28,21 +31,16 @@ export default {
   },
   decorators: [
     (story) => {
-      const classes = makeStyles(() => ({
-        "@global": {
-          "#root": {
-            flex: 1,
-          },
-        },
+      const classes = {
         root: {
           width: "100%",
           maxWidth: 1024,
           margin: "0 auto",
           flex: 1,
         },
-      }))();
+      };
 
-      return <div className={classes.root}>{story()}</div>;
+      return <Box sx={classes.root}>{story()}</Box>;
     },
   ],
 };
