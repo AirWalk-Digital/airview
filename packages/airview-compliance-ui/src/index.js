@@ -1,1 +1,1 @@
-export { ComplianceTable, ControlOverview } from "@features";
+export * from "@features";
