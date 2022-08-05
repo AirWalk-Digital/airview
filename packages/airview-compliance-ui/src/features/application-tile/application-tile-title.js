@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 
 export function ApplicationTileTitle({
   children,

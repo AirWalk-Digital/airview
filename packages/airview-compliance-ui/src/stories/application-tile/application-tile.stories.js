@@ -1,8 +1,7 @@
 import React from "react";
 import { userEvent, within } from "@storybook/testing-library";
 import WarningIcon from "@mui/icons-material/Warning";
-import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import {
   ApplicationTile,
   ApplicationTileHeader,

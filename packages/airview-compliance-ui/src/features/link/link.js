@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { HashLink } from "react-router-hash-link";
-import { Link as MuiLink } from "@material-ui/core";
+import { Link as MuiLink } from "@mui/material";
 import clsx from "clsx";
 import { useLocation } from "../../hooks/use-location";
 

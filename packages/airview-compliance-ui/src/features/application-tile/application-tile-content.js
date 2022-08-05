@@ -1,10 +1,8 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import Collapse from "@mui/material/Collapse";
-import Box from "@mui/material/Box";
+import { IconButton, Collapse, Box } from "@mui/material";
 
 export function ApplicationTileContent({
   children,
@@ -12,7 +10,7 @@ export function ApplicationTileContent({
   initialCollapsed = false,
   classNames,
 }) {
-  const classes = useApplicationTileContentStyles();
+  const classes = useApplicationTileContentStyles(collapsible);
 
   const [collapsed, setCollapsed] = useState(initialCollapsed);
 
@@ -63,7 +61,7 @@ ApplicationTileContent.propTypes = {
   classNames: PropTypes.string,
 };
 
-function useApplicationTileContentStyles() {
+function useApplicationTileContentStyles(collapsible) {
   return {
     root: {
       padding: 2,
@@ -74,7 +72,7 @@ function useApplicationTileContentStyles() {
       padding: 0,
     },
     collapseWrapperInner: {
-      paddingTop: 0,
+      paddingTop: collapsible ? 2 : 0,
     },
   };
 }
