@@ -46,6 +46,6 @@ function useStyles() {
 ApplicationTileCallToActionButton.propTypes = {
   label: PropTypes.string.isRequired,
   classNames: PropTypes.string,
-  component: PropTypes.node,
+  component: PropTypes.any,
   linkProps: PropTypes.object,
 };
