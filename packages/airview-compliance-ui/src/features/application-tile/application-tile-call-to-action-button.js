@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 
 export function ApplicationTileCallToActionButton({
-  href,
   label,
   classNames,
-  component = "button",
+  component,
   linkProps,
 }) {
   const styles = useStyles();
@@ -16,7 +15,6 @@ export function ApplicationTileCallToActionButton({
       sx={styles.button}
       className={classNames}
       component={component}
-      href={href}
       variant="contained"
       size="small"
       {...linkProps}
@@ -46,9 +44,8 @@ function useStyles() {
 }
 
 ApplicationTileCallToActionButton.propTypes = {
-  href: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   classNames: PropTypes.string,
-  component: PropTypes.string,
-  linkProps: PropTypes.node,
+  component: PropTypes.node,
+  linkProps: PropTypes.object,
 };
