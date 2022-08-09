@@ -22,7 +22,7 @@ export function prepareEntryPayload() {
 
     const entryId = `${selectedEntryCollection}/${slugifyString(
       entryMetaData.title
-    )}`;
+    )}_${Date.now().toString(36)}`;
 
     const { additionalFiles } = collections[selectedEntryCollection];
 
