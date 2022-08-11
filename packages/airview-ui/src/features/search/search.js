@@ -45,10 +45,16 @@ export function Search({
         onEntered: handleOnReady,
       }}
       sx={{
+        "&": {
+          inset: 0,
+        },
+        "& .MuiDialog-container": {
+          maxHeight: 600,
+          alignItems: "flex-start",
+        },
         "& .MuiDialog-paper": {
           width: "100%",
-          overflow: "hidden",
-          minHeight: 80,
+          minHeight: 81,
         },
       }}
     >
@@ -116,7 +122,6 @@ export function Search({
       {state.errorMessage || state.results ? (
         <Box
           sx={{
-            maxHeight: 400,
             overflow: "auto",
             borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           }}
