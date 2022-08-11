@@ -3,6 +3,8 @@ The documentation view is a composition of airview-ui components; the result is 
 ```jsx
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   TopBar,
   AsideAndMainContainer,
@@ -13,6 +15,7 @@ import {
   PageTitle,
   StyledWysiwyg,
   Breadcrumb,
+  Search,
 } from "airview-ui";
 
 const Logo = styled("img")({
@@ -25,17 +28,35 @@ function DocumentationView() {
   const navDrawerWidth = 300;
   const topBarHeight = 64;
   const [menuOpen, setMenuOpen] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const handleOnNavButtonClick = () => setMenuOpen((prevState) => !prevState);
 
+  const handleOnQueryChange = async () => [];
+
   return (
     <React.Fragment>
+      <Search
+        open={searchOpen}
+        onRequestToClose={() => setSearchOpen(false)}
+        onQueryChange={handleOnQueryChange}
+        linkComponent="a"
+      />
       <TopBar
         onNavButtonClick={handleOnNavButtonClick}
         title="Top Bar Title"
         navOpen={menuOpen}
       >
         <Logo src={logo} alt="Logo alt text" />
+        <IconButton
+          aria-label="search"
+          size="large"
+          edge="end"
+          sx={{ color: "common.white", marginLeft: "auto" }}
+          onClick={() => setSearchOpen(true)}
+        >
+          <SearchIcon />
+        </IconButton>
       </TopBar>
       <NavigationDrawer
         open={menuOpen}
