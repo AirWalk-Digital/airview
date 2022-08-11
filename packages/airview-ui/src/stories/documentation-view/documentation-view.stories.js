@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Title, Description } from "@storybook/addon-docs";
 import { styled } from "@mui/material/styles";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   TopBar,
   AsideAndMainContainer,
@@ -11,6 +13,7 @@ import {
   PageTitle,
   StyledWysiwyg,
   Breadcrumb,
+  Search,
 } from "../../features";
 import documentation from "./documentation-view.doc.md";
 import logo from "./logo.svg";
@@ -258,21 +261,42 @@ const Logo = styled("img")({
   height: 30,
 });
 
+const searchResults = [];
+
 const Template = (args) => {
   const navDrawerWidth = 300;
   const topBarHeight = 64;
   const [menuOpen, setMenuOpen] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const handleOnNavButtonClick = () => setMenuOpen((prevState) => !prevState);
 
+  const handleOnQueryChange = async () => searchResults;
+
   return (
     <React.Fragment>
+      <Search
+        open={searchOpen}
+        onRequestToClose={() => setSearchOpen(false)}
+        onQueryChange={handleOnQueryChange}
+        linkComponent="a"
+      />
       <TopBar
         onNavButtonClick={handleOnNavButtonClick}
         title="Top Bar Title"
         navOpen={menuOpen}
       >
         <Logo src={logo} alt="Logo alt text" />
+        <IconButton
+          aria-label="search"
+          size="large"
+          edge="end"
+          sx={{ color: "common.white", marginLeft: "auto" }}
+          onClick={() => setSearchOpen(true)}
+          disabled={args.loading || args.fetching}
+        >
+          <SearchIcon />
+        </IconButton>
       </TopBar>
       <NavigationDrawer
         open={menuOpen}
