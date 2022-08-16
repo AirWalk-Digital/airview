@@ -117,10 +117,12 @@ export class CmsBackend {
 
         const mapped = await Promise.all(
           entities.map(async (entity): Promise<CmsEntity | null> => {
-            const cachedTree = await this._cache.get(`tree|${entity.sha}`);
+            const id = `${collection.path}/${entity.path}`;
+            const cachedTree = await this._cache.get(
+              `tree|${entity.sha}|${id}`
+            );
             if (cachedTree) return cachedTree;
 
-            const id = `${collection.path}/${entity.path}`;
             const filtered = await this._getFilteredTree(
               entity.sha,
               (item: GitTree) =>
@@ -143,7 +145,7 @@ export class CmsBackend {
                 sha: entity.sha,
                 meta: matter(s).data,
               };
-              await this._cache.set(`tree|${entity.sha}`, thisTree);
+              await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
               return thisTree;
             }
             return null;
