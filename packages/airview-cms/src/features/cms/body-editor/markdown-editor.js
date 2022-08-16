@@ -82,43 +82,40 @@ export function MarkdownEditor() {
 
   if (cmsEnabled && !protectedBranch) {
     return (
-      <MDEditor
-        value={markdownContent}
-        onChange={handleOnChange}
-        autoFocus={false}
-        preview="edit"
-        commands={[
-          titleSelector,
-          commands.bold,
-          commands.italic,
-          commands.strikethrough,
-          commands.hr,
-          commands.quote,
-          commands.code,
-          commands.codeBlock,
-          commands.unorderedListCommand,
-          commands.orderedListCommand,
-          commands.checkedListCommand,
-          commands.link,
-          commands.group([], markdownImagePicker),
-        ]}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value={markdownContent}
+          onChange={handleOnChange}
+          autoFocus={false}
+          preview="edit"
+          commands={[
+            titleSelector,
+            commands.bold,
+            commands.italic,
+            commands.strikethrough,
+            commands.hr,
+            commands.quote,
+            commands.code,
+            commands.codeBlock,
+            commands.unorderedListCommand,
+            commands.orderedListCommand,
+            commands.checkedListCommand,
+            commands.link,
+            commands.group([], markdownImagePicker),
+          ]}
+        />
+      </div>
     );
   }
 
   return (
-    <MDEditor.Markdown
-      source={markdownContent}
-      previewOptions={{
-        rehypePlugins: [[rehypeSanitize]],
-      }}
-    />
+    <div data-color-mode="light">
+      <MDEditor.Markdown
+        source={markdownContent}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+      />
+    </div>
   );
 }
-
-/*
-body: {
-  _index.md: base64 String,
-  cat.jpg: base64 String
-}
-*/
