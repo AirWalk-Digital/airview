@@ -52,22 +52,6 @@ function imagePicker(dispatch) {
   };
 }
 
-const titleSelector = commands.group(
-  [
-    commands.title1,
-    commands.title2,
-    commands.title3,
-    commands.title4,
-    commands.title5,
-    commands.title6,
-  ],
-  {
-    name: "title",
-    groupName: "title",
-    buttonProps: { "aria-label": "Insert title" },
-  }
-);
-
 export function MarkdownEditor() {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
@@ -82,43 +66,54 @@ export function MarkdownEditor() {
 
   if (cmsEnabled && !protectedBranch) {
     return (
-      <MDEditor
-        value={markdownContent}
-        onChange={handleOnChange}
-        autoFocus={false}
-        preview="edit"
-        commands={[
-          titleSelector,
-          commands.bold,
-          commands.italic,
-          commands.strikethrough,
-          commands.hr,
-          commands.quote,
-          commands.code,
-          commands.codeBlock,
-          commands.unorderedListCommand,
-          commands.orderedListCommand,
-          commands.checkedListCommand,
-          commands.link,
-          commands.group([], markdownImagePicker),
-        ]}
-      />
+      <div data-color-mode="light">
+        <MDEditor
+          value={markdownContent}
+          onChange={handleOnChange}
+          autoFocus={false}
+          preview="edit"
+          commands={[
+            commands.group(
+              [
+                commands.title1,
+                commands.title2,
+                commands.title3,
+                commands.title4,
+                commands.title5,
+                commands.title6,
+              ],
+              {
+                name: "title",
+                groupName: "title",
+                buttonProps: { "aria-label": "Insert title" },
+              }
+            ),
+            commands.bold,
+            commands.italic,
+            commands.strikethrough,
+            commands.hr,
+            commands.quote,
+            commands.code,
+            commands.codeBlock,
+            commands.unorderedListCommand,
+            commands.orderedListCommand,
+            commands.checkedListCommand,
+            commands.link,
+            commands.group([], markdownImagePicker),
+          ]}
+        />
+      </div>
     );
   }
 
   return (
-    <MDEditor.Markdown
-      source={markdownContent}
-      previewOptions={{
-        rehypePlugins: [[rehypeSanitize]],
-      }}
-    />
+    <div data-color-mode="light">
+      <MDEditor.Markdown
+        source={markdownContent}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+      />
+    </div>
   );
 }
-
-/*
-body: {
-  _index.md: base64 String,
-  cat.jpg: base64 String
-}
-*/
