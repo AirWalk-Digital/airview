@@ -52,22 +52,6 @@ function imagePicker(dispatch) {
   };
 }
 
-const titleSelector = commands.group(
-  [
-    commands.title1,
-    commands.title2,
-    commands.title3,
-    commands.title4,
-    commands.title5,
-    commands.title6,
-  ],
-  {
-    name: "title",
-    groupName: "title",
-    buttonProps: { "aria-label": "Insert title" },
-  }
-);
-
 export function MarkdownEditor() {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
@@ -89,7 +73,21 @@ export function MarkdownEditor() {
           autoFocus={false}
           preview="edit"
           commands={[
-            titleSelector,
+            commands.group(
+              [
+                commands.title1,
+                commands.title2,
+                commands.title3,
+                commands.title4,
+                commands.title5,
+                commands.title6,
+              ],
+              {
+                name: "title",
+                groupName: "title",
+                buttonProps: { "aria-label": "Insert title" },
+              }
+            ),
             commands.bold,
             commands.italic,
             commands.strikethrough,
