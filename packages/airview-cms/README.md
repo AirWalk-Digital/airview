@@ -17,11 +17,11 @@ Airview CMS is a React based client side content management system framework to 
 
 ### Collections
 
-Airview CMS groups markdown content into collections; a collection defines the shape of the data for a specific markdown file (its frontmatter).
+Airview CMS groups markdown content into collections; a collection defines the shape of the data for a specific markdown file (its frontmatter), think of collections as a bucket of similar material. As an example, consider we we're building a coffee blog; we could define a collection for our coffee, another for coffee brew types (aeropress, filter, mocka pot etc) and maybe a collection for coffee news.
 
 ### Entries
 
-Entries are markdown files, the AirviewCMS API will break an entry into two parts: the meta, which is the markdown frontmatter and the body, which is the main body of the markdown file.
+Entries are the markdown files that are assigned to a specific collection; the AirviewCMS API will break an entry into two parts: the meta, which is the markdown frontmatter and the body, which is the main body of the markdown file.
 
 ## Installation
 
