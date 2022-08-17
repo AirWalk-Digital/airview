@@ -55,10 +55,6 @@ export function complianceTableRowDetailStyles() {
       "&:not(:last-child):after": {
         content: "','",
       },
-
-      "&:not(:first-of-type)": {
-        marginLeft: 400,
-      },
     },
 
     pendingInstance: {
