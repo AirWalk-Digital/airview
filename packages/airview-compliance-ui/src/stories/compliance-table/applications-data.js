@@ -23,6 +23,81 @@ export const applicationsData = [
           name: "Server Instance 1",
           status: "none",
         },
+        {
+          id: 2,
+          name: "Server Instance 2",
+          status: "none",
+        },
+        {
+          id: 3,
+          name: "Server Instance 3",
+          status: "none",
+        },
+        {
+          id: 4,
+          name: "Server Instance 4",
+          status: "none",
+        },
+        {
+          id: 5,
+          name: "Server Instance 5",
+          status: "none",
+        },
+        {
+          id: 6,
+          name: "Server Instance 6",
+          status: "none",
+        },
+        {
+          id: 7,
+          name: "Server Instance 7",
+          status: "none",
+        },
+        {
+          id: 8,
+          name: "Server Instance 8",
+          status: "none",
+        },
+        {
+          id: 9,
+          name: "Server Instance 9",
+          status: "none",
+        },
+        {
+          id: 10,
+          name: "Server Instance 10",
+          status: "none",
+        },
+        {
+          id: 11,
+          name: "Server Instance 11",
+          status: "none",
+        },
+        {
+          id: 12,
+          name: "Server Instance 12",
+          status: "none",
+        },
+        {
+          id: 13,
+          name: "Server Instance 13",
+          status: "none",
+        },
+        {
+          id: 14,
+          name: "Server Instance 14",
+          status: "none",
+        },
+        {
+          id: 15,
+          name: "Server Instance 15",
+          status: "none",
+        },
+        {
+          id: 16,
+          name: "Server Instance 16",
+          status: "none",
+        },
       ],
       control: {
         name: "AWS ECS Pattern  CPU Monitoring",
