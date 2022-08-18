@@ -14,7 +14,11 @@ import {
   selectEditedImagesData,
 } from "../body-editor";
 import { usePutEntryMutation, useGetBranchesQuery } from "../../store";
-import { selectCmsContext, selectWorkingBranch } from "../cms.slice";
+import {
+  selectCmsContext,
+  selectWorkingBranch,
+  selectCmsBusyStatus,
+} from "../cms.slice";
 
 export function SaveChanges() {
   const metaEditorHasEdits = useSelector(selectDoesMetaEditorHaveEdits);
@@ -24,6 +28,7 @@ export function SaveChanges() {
   const initialImagesData = useSelector(selectInitialImagesData);
   const editedImagesData = useSelector(selectEditedImagesData);
   const [putEntry, { isLoading }] = usePutEntryMutation();
+  const cmsBusy = useSelector(selectCmsBusyStatus);
   const id = useSelector(selectCmsContext);
   const branch = useSelector(selectWorkingBranch);
   const { data: branches } = useGetBranchesQuery();
@@ -51,7 +56,9 @@ export function SaveChanges() {
     <Button
       variant="text"
       size="small"
-      disabled={!(metaEditorHasEdits || bodyEditorHasEdits) || isLoading}
+      disabled={
+        !(metaEditorHasEdits || bodyEditorHasEdits) || isLoading || cmsBusy
+      }
       onClick={handleOnClick}
     >
       Save Changes
