@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 
 export const config = {
   baseBranch: "main",
+  baseUrl: "/api",
   collections: {
     application: {
       label: "Application",
