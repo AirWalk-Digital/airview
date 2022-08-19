@@ -324,8 +324,11 @@ export class GithubClient implements GitClient {
         head: pullRequest.headBranch,
       }),
     });
-    const { html_url } = await resp.json();
-    if (resp.status == 201) return { value: { ...pullRequest, url: html_url } };
+
+    if (resp.status == 201) {
+      const { html_url } = await resp.json();
+      return { value: { ...pullRequest, url: html_url } };
+    }
 
     if (resp.status == 422) return { error: "conflict" };
 
