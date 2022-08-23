@@ -21,7 +21,9 @@ export const metaEditorSlice = createSlice({
         state.editedData = action.payload;
       },
       prepare: (entryData) => {
-        const { data } = matter(atob(entryData?.["_index.md"] ?? ""));
+        const { data } = matter(
+          Buffer.from(entryData?.["_index.md"] ?? "", "base64").toString("utf8")
+        );
 
         return { payload: data };
       },
