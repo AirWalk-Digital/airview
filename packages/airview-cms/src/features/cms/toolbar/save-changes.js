@@ -43,7 +43,12 @@ export function SaveChanges() {
       });
 
     const data = {
-      "_index.md": btoa(matter.stringify(resolvedMarkdown, metaEdits)),
+      // "_index.md": btoa(matter.stringify(resolvedMarkdown, metaEdits)),
+      "_index.md": Buffer.from(
+        matter.stringify(resolvedMarkdown, metaEdits),
+        "utf8"
+      ).toString("base64"),
+
       ...resolvedImages,
     };
 
