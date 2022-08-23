@@ -70,12 +70,14 @@ export function MarkdownResolverUtils() {
     let resolvedImages = {};
 
     for (const imageURL of markdownImageURLs) {
-      const image = await this.createObjectURLfromBase64String(
-        imageURL,
-        images[imageURL]
-      );
+      if (images[imageURL]) {
+        const image = await this.createObjectURLfromBase64String(
+          imageURL,
+          images[imageURL]
+        );
 
-      resolvedImages[`${imageURL}`] = image;
+        resolvedImages[`${imageURL}`] = image;
+      }
     }
 
     const resolvedMarkdown = this.findAndReplaceImagesWithinMarkdownString(
