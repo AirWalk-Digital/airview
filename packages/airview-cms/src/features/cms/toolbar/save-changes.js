@@ -43,7 +43,6 @@ export function SaveChanges() {
       });
 
     const data = {
-      // "_index.md": btoa(matter.stringify(resolvedMarkdown, metaEdits)),
       "_index.md": Buffer.from(
         matter.stringify(resolvedMarkdown, metaEdits),
         "utf8"
