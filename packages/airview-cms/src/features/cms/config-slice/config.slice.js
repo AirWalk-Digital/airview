@@ -18,3 +18,13 @@ export const selectAllCollectionsLabelsAndIds = (state) => {
 
   return collectionIds;
 };
+
+export const selectVisibleCollectionsLabelsAndIds = (state) => {
+  const collectionIds = Object.entries(state.configSlice.collections)
+    .filter((entry) => !entry[1].hidden)
+    .map(([entryId, entryData]) => {
+      return { id: entryId, label: entryData.label };
+    });
+
+  return collectionIds;
+};

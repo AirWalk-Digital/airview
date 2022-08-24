@@ -8,6 +8,11 @@ export const config = {
       label: "Application",
       fields: [],
     },
+    hidden: {
+      label: "Hidden",
+      hidden: true,
+      fields: [],
+    },
     knowledge: {
       label: "Knowledge",
       fields: [
