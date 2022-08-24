@@ -44,6 +44,5 @@
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "proxy": "http://localhost:5000"
+  }
 }
