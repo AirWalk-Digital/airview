@@ -91,6 +91,7 @@ The key should be an object of keyed collections, set to the desired collection 
 
 - `label`: A human readable string representation of the collection name, used within the CMS UI
 - `fields`: An array of available CMS fields, used to dynamically generate a UI to capture data for markdown frontmatter using widgets. See below for a detailed descrption
+- `hidden`: An optional boolean value to hide collections from the content creator (useful for binding content to single stand-alone pages, e.g an index page)
 
 **Example:**
 
