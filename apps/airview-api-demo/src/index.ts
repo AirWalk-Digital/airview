@@ -2,6 +2,16 @@ import fs from "fs";
 import express, { Response, Request, NextFunction } from "express";
 import { CmsBackend, S3Cache, GithubClient } from "airview-cms-api";
 
+const getCache = () => {
+  const _cache: any = {};
+  const get = (key: string) => {
+    return _cache[key];
+  };
+  const set = (key: string, value: any) => (_cache[key] = value);
+  return { get, set };
+};
+const cache = getCache();
+
 const bucket = process.env.AWS_S3_BUCKET;
 const region = process.env.AWS_S3_REGION;
 if (bucket === undefined) throw Error("No S3 Bucket defined");
@@ -23,16 +33,16 @@ const client = new GithubClient({
   organisation: org!,
 });
 
-const cache = new S3Cache({
-  bucketRegion: region,
-  bucketName: bucket,
-});
+// const cache = new S3Cache({
+//   bucketRegion: region,
+//   bucketName: bucket,
+// });
 
 const backend = new CmsBackend(client, cache);
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 const port = process.env.PORT || 3000;
 
@@ -45,6 +55,22 @@ app.get(
         return;
       }
       const data = await backend.searchContent(req.params.sha, req.query.query);
+      res.send(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+app.get(
+  "/api/treeContent/:sha",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (typeof req.query.path !== "string") {
+        res.status(400).send();
+        return;
+      }
+      const data = await backend.getTreeContent(req.params.sha, req.query.path);
       res.send(data);
     } catch (err) {
       next(err);

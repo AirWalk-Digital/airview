@@ -22,7 +22,7 @@ export const metaEditorSlice = createSlice({
       },
       prepare: (entryData) => {
         const { data } = matter(
-          Buffer.from(entryData?.["_index.md"] ?? "", "base64").toString("utf8")
+          Buffer.from(entryData.content ?? "", "base64").toString("utf8")
         );
 
         return { payload: data };
