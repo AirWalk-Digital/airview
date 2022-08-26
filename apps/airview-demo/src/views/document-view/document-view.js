@@ -14,10 +14,10 @@ import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
 
 export function DocumentView() {
-  const entryId = useGetEntryId();
+  const { entryId, path } = useGetEntryId();
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
-    useSetCmsContext(entryId);
+    useSetCmsContext(entryId, path);
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 

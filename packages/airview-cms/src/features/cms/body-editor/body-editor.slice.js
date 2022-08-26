@@ -56,7 +56,7 @@ export { setEditedImagesData };
 export const setBodyEditorContent = (data) => {
   return async (dispatch) => {
     const { content: markdownBody } = matter(
-      Buffer.from(data?.["_index.md"] ?? "", "base64").toString("utf8")
+      Buffer.from(data.content ?? "", "base64").toString("utf8")
     );
 
     const { resolvedMarkdown, resolvedImages } =

@@ -12,7 +12,7 @@ function App() {
       <AirviewUiThemeProvider>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route path=":collection/:entry" element={<DocumentView />} />
+            <Route path=":collection/:entry/*" element={<DocumentView />} />
           </Route>
           <Route path="*" element={<NotFoundView />} />
         </Routes>

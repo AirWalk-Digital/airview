@@ -60,7 +60,7 @@ export function useGetNavigationItemsData() {
                 links: [
                   {
                     label: "Overview",
-                    url: `/${application.id}`,
+                    url: `/${application.id}/_index.md`,
                   },
                 ],
               },
@@ -71,7 +71,7 @@ export function useGetNavigationItemsData() {
                       links: [
                         ...knowledgeEntries.map((entry) => ({
                           label: entry.meta.title,
-                          url: `/${entry.id}`,
+                          url: `/${entry.id}/_index.md`,
                         })),
                       ],
                     },
@@ -84,7 +84,7 @@ export function useGetNavigationItemsData() {
                       links: [
                         ...releaseEntries.map((entry) => ({
                           label: entry.meta.title,
-                          url: `/${entry.id}`,
+                          url: `/${entry.id}/_index.md`,
                         })),
                       ],
                     },

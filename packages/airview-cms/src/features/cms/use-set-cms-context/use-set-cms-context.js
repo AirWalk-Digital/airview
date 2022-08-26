@@ -5,7 +5,7 @@ import { setMetaEditorInitialData, selectMetaEditorData } from "../meta-editor";
 import { setBodyEditorContent } from "../body-editor";
 import { useGetEntry } from "../../use-get-entry";
 
-export function useSetCmsContext(entryId) {
+export function useSetCmsContext(entryId, path) {
   const dispatch = useDispatch();
   const metaEditorData = useSelector(selectMetaEditorData);
 
@@ -21,7 +21,7 @@ export function useSetCmsContext(entryId) {
     isSuccess,
     isError,
     error,
-  } = useGetEntry(entryId);
+  } = useGetEntry(entryId, path);
 
   useEffect(() => {
     if (!entryData) return;

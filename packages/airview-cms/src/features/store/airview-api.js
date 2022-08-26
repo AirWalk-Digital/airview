@@ -51,9 +51,11 @@ export const airviewApi = createApi({
       ],
     }),
     getEntry: builder.query({
-      query: (entrySha) => {
-        return `content/${entrySha}`;
+      query: ({ treeSha, path }) => {
+        return `treeContent/${treeSha}?path=${path}`;
       },
+
+      // transformResponse: (response) => {
       // transformResponse: (response) => {
       //   const parsedResponse = Object.entries(response).map(
       //     ([key, entryData]) => {

@@ -1,7 +1,7 @@
 import { useGetEntryQuery } from "../store";
 import { useGetAllEntriesMeta } from "../use-get-all-entries-meta";
 
-export function useGetEntry(entryId) {
+export function useGetEntry(entryId, path) {
   const { entryMetaData, isSuccess } = useGetAllEntriesMeta(
     ({ data, isSuccess }) => ({
       isSuccess,
@@ -9,9 +9,12 @@ export function useGetEntry(entryId) {
     })
   );
 
-  const entryQuery = useGetEntryQuery(entryMetaData?.sha, {
-    skip: !entryMetaData?.sha,
-  });
+  const entryQuery = useGetEntryQuery(
+    { treeSha: entryMetaData?.sha, path },
+    {
+      skip: !entryMetaData?.sha,
+    }
+  );
 
   if (isSuccess && !entryMetaData?.sha) {
     return {

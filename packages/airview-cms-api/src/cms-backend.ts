@@ -79,6 +79,21 @@ export class CmsBackend {
     return [];
   }
 
+  async getTreeContent(
+    treeSha: string,
+    path: string
+  ): Promise<Record<string, string>> {
+    console.log(treeSha);
+    console.log(path);
+    const cb = async () => await this._client.getTree(treeSha, true);
+    const files = await this._getCachedResponse(cb, treeSha);
+    const file = files.find((f: any) => f.type === "blob" && f.path === path);
+
+    const blobFetcher = async () => this._client.getBlob(file.sha);
+    const blob = await this._getCachedResponse(blobFetcher, file.sha);
+    return { content: blob.content };
+  }
+
   async getContent(sha: string): Promise<Record<string, string>> {
     const cb = async () => await this._client.getTree(sha);
     const files = await this._getCachedResponse(cb, sha);
