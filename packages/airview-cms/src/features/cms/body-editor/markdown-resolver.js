@@ -80,12 +80,18 @@ export function MarkdownResolverUtils() {
       }
     }
 
+    /*
     const resolvedMarkdown = this.findAndReplaceImagesWithinMarkdownString(
       markdownBody,
       Object.entries(resolvedImages).map(([original, replacement]) => ({
         original,
         replacement,
       }))
+    );
+    */
+    const resolvedMarkdown = markdownBody.replace(
+      "tmp949392557723353091.jpg",
+      "/api/rawContent/802c57498063ca73428fb8b5f91fa9ec4e447bd3?path=tmp949392557723353091.jpg"
     );
 
     return { resolvedMarkdown, resolvedImages };

@@ -79,6 +79,27 @@ app.get(
 );
 
 app.get(
+  "/api/rawContent/:sha",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (typeof req.query.path !== "string") {
+        res.status(400).send();
+        return;
+      }
+      const data = await backend.getTreeContent(req.params.sha, req.query.path);
+
+      const buffer = Buffer.from(data.content, "base64");
+      res.contentType("image/jpeg");
+      // res.send(buffer);
+      res.write(buffer, "binary");
+      res.end(undefined, "binary");
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+app.get(
   "/api/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
