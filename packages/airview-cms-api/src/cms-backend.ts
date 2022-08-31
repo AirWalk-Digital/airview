@@ -91,15 +91,6 @@ export class CmsBackend {
     const blobFetcher = async () => this._client.getBlob(sha);
     const blob = await this._getCachedResponse(blobFetcher, sha);
     return { content: blob.content };
-    /*
-    const cb = async () => await this._client.getTree(treeSha, true);
-    const files = await this._getCachedResponse(cb, treeSha);
-    const file = files.find((f: any) => f.type === "blob" && f.path === path);
-
-    const blobFetcher = async () => this._client.getBlob(file.sha);
-    const blob = await this._getCachedResponse(blobFetcher, file.sha);
-    return { content: blob.content };
-    */
   }
 
   async getContent(sha: string): Promise<Record<string, string>> {
@@ -225,68 +216,5 @@ export class CmsBackend {
   }
   async getEntries(sha: string): Promise<CmsEntity[]> {
     return (await this.getData(sha)).meta;
-    /*
-    const cachedMapping = await this._cache.get("meta|" + sha);
-    if (cachedMapping) {
-      return cachedMapping;
-    }
-
-    const collections = await this._getFilteredTree(
-      sha,
-      (item: GitTree) =>
-        item.type == "tree" &&
-        this._exclusions.find((f) => f === item.path) === undefined
-    );
-
-    const results = await Promise.all(
-      collections.map(async (collection) => {
-        const entities = await this._getFilteredTree(
-          collection.sha,
-          (item: GitTree) => item.type == "tree"
-        );
-
-        const mapped = await Promise.all(
-          entities.map(async (entity): Promise<CmsEntity | null> => {
-            const id = `${collection.path}/${entity.path}`;
-            const cachedTree = await this._cache.get(
-              `tree|${entity.sha}|${id}`
-            );
-            if (cachedTree) return cachedTree;
-            const filtered = await this._getFilteredTree(
-              entity.sha,
-              (item: GitTree) =>
-                item.path === "_index.md" && item.type === "blob"
-            );
-
-            if (filtered.length == 1) {
-              const blobFetcher = async () =>
-                await this._client.getBlob(filtered[0].sha);
-              const blob = await this._getCachedResponse(
-                blobFetcher,
-                filtered[0].sha
-              );
-              var b = Buffer.from(blob.content, "base64");
-              var s = b.toString();
-
-              const thisTree = {
-                id,
-                collection: collection.path,
-                sha: entity.sha,
-                meta: matter(s).data,
-              };
-              await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
-              return thisTree;
-            }
-            return null;
-          })
-        );
-        return mapped.filter((x): x is CmsEntity => x !== null);
-      })
-    );
-
-    const final = results.reduce((acc, val) => acc.concat(val), []);
-    await this._cache.set(`meta|${sha}`, final);
-    return final;
-  */
   }
 }
