@@ -22,6 +22,7 @@ import { visit } from "unist-util-visit";
 function imgLinks(options) {
   function visitor(node) {
     if (!options?.branchSha) return;
+    if (node.url.startsWith("blob:")) return;
 
     // Sanitize URL by removing leading `/`
     const relativeUrl = node.url.replace(/^\//, "");
