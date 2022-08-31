@@ -79,7 +79,7 @@ app.get(
 );
 
 app.get(
-  "/api/rawContent/:sha",
+  "/api/media/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.path !== "string") {
@@ -87,16 +87,12 @@ app.get(
         return;
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
-      if (!data) {
-        res.status(404).send();
-      } else {
-        const buffer = Buffer.from(data.content, "base64");
-        res.contentType("image/jpeg");
-        // res.send(buffer);
-        res.write(buffer, "binary");
-        res.end(undefined, "binary");
-      }
+      const buffer = Buffer.from(data.content, "base64");
+      res.contentType("image/jpeg");
+      res.write(buffer, "binary");
+      res.end(undefined, "binary");
     } catch (err) {
+      res.status(404).send();
       next(err);
     }
   }

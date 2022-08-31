@@ -13,8 +13,29 @@ import {
 } from "./body-editor.slice";
 import {
   selectCmsEnabledStatus,
+  selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
+
+import { visit } from "unist-util-visit";
+
+function imgLinks(options) {
+  function visitor(node) {
+    if (!options?.branchSha) return;
+
+    // Sanitize URL by removing leading `/`
+    const relativeUrl = node.url.replace(/^\//, "");
+
+    const path = new URL(relativeUrl, document.baseURI).pathname.substring(1);
+    node.url = `/api/media/${options.branchSha}?path=${path}`;
+  }
+
+  function transform(tree) {
+    visit(tree, "image", visitor);
+  }
+
+  return transform;
+}
 
 function imagePicker(dispatch) {
   return {
@@ -57,6 +78,7 @@ export function MarkdownEditor() {
   const markdownContent = useSelector(selectBodyEditorData);
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
+  const branchSha = useSelector(selectWorkingBranchSha);
 
   const handleOnChange = (value) => {
     dispatch(persitBodyEditorContent(value));
@@ -72,6 +94,17 @@ export function MarkdownEditor() {
           onChange={handleOnChange}
           autoFocus={false}
           preview="edit"
+          previewOptions={{
+            rehypePlugins: [],
+            remarkPlugins: [
+              [
+                imgLinks,
+                {
+                  branchSha,
+                },
+              ],
+            ],
+          }}
           commands={[
             commands.group(
               [
@@ -110,9 +143,15 @@ export function MarkdownEditor() {
     <div data-color-mode="light">
       <MDEditor.Markdown
         source={markdownContent}
-        previewOptions={{
-          rehypePlugins: [[rehypeSanitize]],
-        }}
+        remarkPlugins={[
+          [
+            imgLinks,
+            {
+              branchSha,
+            },
+          ],
+        ]}
+        rehypePlugins={[[rehypeSanitize]]}
       />
     </div>
   );

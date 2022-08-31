@@ -82,7 +82,7 @@ export class CmsBackend {
   async getTreeContent(
     treeSha: string,
     path: string
-  ): Promise<Record<string, string> | null> {
+  ): Promise<Record<string, string>> {
     const listing = await this.getListing(treeSha);
     const sha = listing[path];
     if (!sha) {
