@@ -63,7 +63,7 @@ app.get(
 );
 
 app.get(
-  "/api/treeContent/:sha",
+  "/api/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.path !== "string") {
@@ -98,17 +98,17 @@ app.get(
   }
 );
 
-app.get(
-  "/api/content/:sha",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const data = await backend.getContent(req.params.sha);
-      res.send(data);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+// app.get(
+//   "/api/content/:sha",
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const data = await backend.getContent(req.params.sha);
+//       res.send(data);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
 
 app.put("/api/content/:collection/:entity", async (req, res, next) => {
   try {
