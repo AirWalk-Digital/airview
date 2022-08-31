@@ -235,7 +235,10 @@ export class GithubClient implements GitClient {
   }
 
   async getTree(sha: string, recursive: boolean = false): Promise<GitTree[]> {
-    const url = `${this.githubRepoURI()}/git/trees/${sha}?recursive=${recursive}`;
+    // const url = `${this.githubRepoURI()}/git/trees/${sha}?recursive=${recursive}`;
+    const url = `${this.githubRepoURI()}/git/trees/${sha}${
+      recursive ? "?recursive=true" : ""
+    }`;
     const resp = await this._fetchWithHeaders(url);
     if (resp.status != 200)
       throw Error(

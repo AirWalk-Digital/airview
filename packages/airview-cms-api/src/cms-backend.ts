@@ -83,8 +83,6 @@ export class CmsBackend {
     treeSha: string,
     path: string
   ): Promise<Record<string, string>> {
-    console.log(treeSha);
-    console.log(path);
     const cb = async () => await this._client.getTree(treeSha, true);
     const files = await this._getCachedResponse(cb, treeSha);
     const file = files.find((f: any) => f.type === "blob" && f.path === path);
@@ -110,6 +108,65 @@ export class CmsBackend {
 
     return results.reduce((ac, a) => ({ ...ac, [a.name]: a.data }), {});
   }
+
+  async getListing(sha: string): Promise<any> {
+    interface pathSha {
+      path: string;
+      sha: string;
+    }
+
+    const collections = await this._getFilteredTree(sha, () => true);
+
+    let final: Record<string, string> = {};
+    await Promise.all(
+      collections.map(async (collection) => {
+        if (collection.type === "blob") {
+          final[String(`${collection.path}`)] = collection.sha;
+          return;
+        }
+        const entities = await this._getFilteredTree(
+          collection.sha,
+          () => true
+        );
+
+        const mapped = await Promise.all(
+          entities.map(async (entity): Promise<any> => {
+            if (entity.type === "blob") {
+              final[String(`${collection.path}/${entity.path}`)] = entity.sha;
+              return;
+            }
+            const id = `${collection.path}/${entity.path}`;
+            const cachedTree = await this._cache.get(
+              `tree|${entity.sha}|${id}`
+            );
+            if (cachedTree) return cachedTree;
+
+            const recursiveTreeGet = async () =>
+              await this._client.getTree(entity.sha, true);
+            const recursiveTree = await this._getCachedResponse<pathSha>(
+              recursiveTreeGet,
+              entity.sha
+            );
+
+            const obj = recursiveTree
+              .filter((f: any) => f.type === "blob")
+              .reduce(
+                (acc: Record<string, string>, item: any) => ({
+                  ...acc,
+                  [`${collection.path}/${entity.path}/${item.path}`]: item.sha,
+                }),
+                {}
+              );
+            Object.assign(final, obj);
+          })
+        );
+        return mapped;
+      })
+    );
+
+    return final;
+  }
+
   async getEntries(sha: string): Promise<CmsEntity[]> {
     const cachedMapping = await this._cache.get("meta|" + sha);
     if (cachedMapping) {
@@ -137,7 +194,6 @@ export class CmsBackend {
               `tree|${entity.sha}|${id}`
             );
             if (cachedTree) return cachedTree;
-
             const filtered = await this._getFilteredTree(
               entity.sha,
               (item: GitTree) =>
