@@ -71,12 +71,9 @@ app.get(
         return;
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
-      if (!data) {
-        res.status(404).send();
-      }
       res.send(data);
     } catch (err) {
-      next(err);
+      res.status(404).send();
     }
   }
 );

@@ -12,10 +12,15 @@ export function useGetEntry(entryId, path) {
   );
   */
 
-  const entryQuery = useGetEntryQuery({
-    branchSha: branch?.sha,
-    path: `${entryId}/${path}`,
-  });
+  const entryQuery = useGetEntryQuery(
+    {
+      branchSha: branch?.sha,
+      path: `${entryId}/${path}`,
+    },
+    {
+      skip: !branch?.sha,
+    }
+  );
 
   // if (isSuccess) {
   //   return {

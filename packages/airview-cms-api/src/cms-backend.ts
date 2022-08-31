@@ -86,7 +86,7 @@ export class CmsBackend {
     const listing = await this.getListing(treeSha);
     const sha = listing[path];
     if (!sha) {
-      return null;
+      throw Error("No sha for path");
     }
     const blobFetcher = async () => this._client.getBlob(sha);
     const blob = await this._getCachedResponse(blobFetcher, sha);
@@ -138,7 +138,7 @@ export class CmsBackend {
       collections.map(async (collection) => {
         if (collection.type === "blob") {
           listing[String(`${collection.path}`)] = collection.sha;
-          return [];
+          return;
         }
         const entities = await this._getFilteredTree(
           collection.sha,
@@ -149,13 +149,15 @@ export class CmsBackend {
           entities.map(async (entity): Promise<any> => {
             if (entity.type === "blob") {
               listing[String(`${collection.path}/${entity.path}`)] = entity.sha;
-              return [];
+              return;
             }
+            /*
             const id = `${collection.path}/${entity.path}`;
             const cachedTree = await this._cache.get(
               `tree|${entity.sha}|${id}`
             );
             if (cachedTree) return cachedTree;
+	    */
 
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
@@ -177,12 +179,14 @@ export class CmsBackend {
             await Promise.all(
               recursiveTree
                 .filter((f: any) => f.type === "blob")
-                .map(async (entityBlob: any): Promise<CmsEntity | null> => {
+                .map(async (entityBlob: any) => {
                   const id = `${collection.path}/${entity.path}`;
+                  /*
                   const cachedTree = await this._cache.get(
                     `tree|${entity.sha}|${id}`
                   );
                   if (cachedTree) return cachedTree;
+		  */
 
                   if (entityBlob.path === "_index.md") {
                     const blobFetcher = async () =>
@@ -200,11 +204,10 @@ export class CmsBackend {
                       sha: entity.sha,
                       meta: matter(s).data,
                     };
-                    await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
+                    // await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
                     meta.push(thisTree);
-                    return thisTree;
+                    // return thisTree;
                   }
-                  return null;
                 })
             );
             Object.assign(listing, obj);
