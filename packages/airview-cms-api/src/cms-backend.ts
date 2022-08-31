@@ -82,7 +82,16 @@ export class CmsBackend {
   async getTreeContent(
     treeSha: string,
     path: string
-  ): Promise<Record<string, string>> {
+  ): Promise<Record<string, string> | null> {
+    const listing = await this.getListing(treeSha);
+    const sha = listing[path];
+    if (!sha) {
+      return null;
+    }
+    const blobFetcher = async () => this._client.getBlob(sha);
+    const blob = await this._getCachedResponse(blobFetcher, sha);
+    return { content: blob.content };
+    /*
     const cb = async () => await this._client.getTree(treeSha, true);
     const files = await this._getCachedResponse(cb, treeSha);
     const file = files.find((f: any) => f.type === "blob" && f.path === path);
@@ -90,6 +99,7 @@ export class CmsBackend {
     const blobFetcher = async () => this._client.getBlob(file.sha);
     const blob = await this._getCachedResponse(blobFetcher, file.sha);
     return { content: blob.content };
+    */
   }
 
   async getContent(sha: string): Promise<Record<string, string>> {
@@ -109,31 +119,37 @@ export class CmsBackend {
     return results.reduce((ac, a) => ({ ...ac, [a.name]: a.data }), {});
   }
 
-  async getListing(sha: string): Promise<any> {
+  async getData(sha: string): Promise<any> {
     interface pathSha {
       path: string;
       sha: string;
     }
 
+    const cachedMapping = await this._cache.get("meta|" + sha);
+    if (cachedMapping) {
+      return cachedMapping;
+    }
+
     const collections = await this._getFilteredTree(sha, () => true);
 
-    let final: Record<string, string> = {};
+    let listing: Record<string, string> = {};
+    let meta: CmsEntity[] = [];
     await Promise.all(
       collections.map(async (collection) => {
         if (collection.type === "blob") {
-          final[String(`${collection.path}`)] = collection.sha;
-          return;
+          listing[String(`${collection.path}`)] = collection.sha;
+          return [];
         }
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
         );
 
-        const mapped = await Promise.all(
+        await Promise.all(
           entities.map(async (entity): Promise<any> => {
             if (entity.type === "blob") {
-              final[String(`${collection.path}/${entity.path}`)] = entity.sha;
-              return;
+              listing[String(`${collection.path}/${entity.path}`)] = entity.sha;
+              return [];
             }
             const id = `${collection.path}/${entity.path}`;
             const cachedTree = await this._cache.get(
@@ -157,17 +173,56 @@ export class CmsBackend {
                 }),
                 {}
               );
-            Object.assign(final, obj);
+
+            await Promise.all(
+              recursiveTree
+                .filter((f: any) => f.type === "blob")
+                .map(async (entityBlob: any): Promise<CmsEntity | null> => {
+                  const id = `${collection.path}/${entity.path}`;
+                  const cachedTree = await this._cache.get(
+                    `tree|${entity.sha}|${id}`
+                  );
+                  if (cachedTree) return cachedTree;
+
+                  if (entityBlob.path === "_index.md") {
+                    const blobFetcher = async () =>
+                      await this._client.getBlob(entityBlob.sha);
+                    const blob = await this._getCachedResponse(
+                      blobFetcher,
+                      entityBlob.sha
+                    );
+                    var b = Buffer.from(blob.content, "base64");
+                    var s = b.toString();
+
+                    const thisTree = {
+                      id,
+                      collection: collection.path,
+                      sha: entity.sha,
+                      meta: matter(s).data,
+                    };
+                    await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
+                    meta.push(thisTree);
+                    return thisTree;
+                  }
+                  return null;
+                })
+            );
+            Object.assign(listing, obj);
           })
         );
-        return mapped;
       })
     );
 
-    return final;
+    await this._cache.set(`meta|${sha}`, { meta, listing });
+    return { listing, meta };
   }
 
+  async getListing(sha: string): Promise<Record<string, string>> {
+    return (await this.getData(sha)).listing;
+  }
   async getEntries(sha: string): Promise<CmsEntity[]> {
+    return (await this.getData(sha)).meta;
+    /*
     const cachedMapping = await this._cache.get("meta|" + sha);
     if (cachedMapping) {
       return cachedMapping;
@@ -229,5 +284,6 @@ export class CmsBackend {
     const final = results.reduce((acc, val) => acc.concat(val), []);
     await this._cache.set(`meta|${sha}`, final);
     return final;
+  */
   }
 }

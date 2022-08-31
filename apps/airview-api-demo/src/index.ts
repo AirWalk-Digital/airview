@@ -71,6 +71,9 @@ app.get(
         return;
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
+      if (!data) {
+        res.status(404).send();
+      }
       res.send(data);
     } catch (err) {
       next(err);
@@ -87,12 +90,15 @@ app.get(
         return;
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
-
-      const buffer = Buffer.from(data.content, "base64");
-      res.contentType("image/jpeg");
-      // res.send(buffer);
-      res.write(buffer, "binary");
-      res.end(undefined, "binary");
+      if (!data) {
+        res.status(404).send();
+      } else {
+        const buffer = Buffer.from(data.content, "base64");
+        res.contentType("image/jpeg");
+        // res.send(buffer);
+        res.write(buffer, "binary");
+        res.end(undefined, "binary");
+      }
     } catch (err) {
       next(err);
     }
