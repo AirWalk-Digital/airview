@@ -26,9 +26,6 @@ function Template(args) {
 
 Template.args = {
   title: "Audit & Assurance",
-  summary:
-    "The Cloud Control Matrix (CCM) is a cybersecurity control framework for cloud computing aligned to the \
-    CSA best practices, that is considered the de-facto standard for cloud security and privacy.",
   noDataMessage: {
     title: "No Controls",
     message: "There are no controls to display for this application",

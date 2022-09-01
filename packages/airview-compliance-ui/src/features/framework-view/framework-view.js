@@ -7,7 +7,6 @@ import {
   TableContainer,
   TableBody,
   Skeleton,
-  Typography,
 } from "@mui/material";
 import { FrameworkViewToolbar } from "./framework-view-toolbar";
 import { FrameworkViewHeader } from "./framework-view-header";
@@ -17,7 +16,6 @@ import { Message } from "../../components";
 
 export function FrameworkView({
   title,
-  summary,
   applications,
   loading,
   noDataMessage,
@@ -59,14 +57,6 @@ export function FrameworkView({
     <TableContainer component={Paper}>
       <FrameworkViewToolbar {...{ title }} />
 
-      <Typography variant="h6" sx={{ marginLeft: 2 }}>
-        Summary
-      </Typography>
-
-      <Typography variant="body2" sx={{ marginLeft: 2 }}>
-        {summary}
-      </Typography>
-
       <Table arial-label="Compliance table">
         <FrameworkViewHeader />
 
@@ -93,10 +83,6 @@ FrameworkView.propTypes = {
    * An optional title for the table
    */
   title: PropTypes.string,
-  /**
-   * A summary for the table
-   */
-  summary: PropTypes.string,
   /**
    * The collection of applications to render to the complianceTable, should be an array of applications, an empty array (for no issues) of null (for invalid permissions)
    */
