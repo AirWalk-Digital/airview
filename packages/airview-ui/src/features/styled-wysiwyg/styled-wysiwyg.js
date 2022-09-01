@@ -21,6 +21,14 @@ export function StyledWysiwyg({
           wordWrap: "break-word",
           wordBreak: "break-word",
 
+          "& .wmde-markdown": (theme) => ({
+            fontFamily: "inherit",
+            backgroundColor: "inherit",
+            boxSizing: "inherit",
+            ...theme.typography.body1,
+            color: "text.primary",
+          }),
+
           "& h1": (theme) => ({
             ...theme.typography.h1,
             fontSize: 34,
@@ -48,6 +56,9 @@ export function StyledWysiwyg({
           "& h1, h2, h3, h4, h5, h6": {
             fontWeight: "fontWeightMedium",
             marginY: 2,
+            border: "none",
+            padding: 0,
+            color: "inherit",
           },
           "& hr": {
             border: 0,
@@ -56,6 +67,7 @@ export function StyledWysiwyg({
             borderColor: "divider",
             marginY: 4,
             display: "block",
+            background: "none",
           },
           "& img": {
             marginY: 2,
@@ -63,6 +75,7 @@ export function StyledWysiwyg({
           },
           "& a, a:visited": {
             color: "primary.main",
+            textDecoration: "underline",
           },
           "& a:hover, a:focus": {
             textDecoration: "none",
@@ -78,6 +91,10 @@ export function StyledWysiwyg({
           "& ul, & ol": {
             listStylePosition: "outside",
             padding: "0 0 0 36px",
+
+            "& li": {
+              margin: 0,
+            },
           },
           "& blockquote": {
             paddingLeft: 2,
@@ -85,6 +102,7 @@ export function StyledWysiwyg({
             borderColor: "primary.main",
             marginX: 0,
             marginY: 2,
+            color: "inherit",
 
             "&:before": {
               content: "none",
@@ -108,7 +126,7 @@ export function StyledWysiwyg({
             wordWrap: "initial",
             fontSize: 14,
             marginX: 0,
-            marginY: 2,
+            marginY: 5,
             padding: 0,
 
             "& code": {
@@ -120,6 +138,9 @@ export function StyledWysiwyg({
               color: "grey.400",
               fontSize: "100%",
             },
+          },
+          "& .wmde-markdown table tr": {
+            backgroundColor: "inherit",
           },
           "& table": (theme) => ({
             borderCollapse: "collapse",
