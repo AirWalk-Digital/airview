@@ -1,7 +1,7 @@
 import React, { useId, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { selectAllCollectionsLabelsAndIds } from "../config-slice";
+import { selectVisibleCollectionsLabelsAndIds } from "../config-slice";
 import { selectCmsBusyStatus } from "../cms.slice";
 import {
   selectContentCreatorSelectedCollection,
@@ -12,7 +12,9 @@ import {
 export function CollectionSelector() {
   const dispatch = useDispatch();
   const id = useId();
-  const collectionLabelsAndIds = useSelector(selectAllCollectionsLabelsAndIds);
+  const collectionLabelsAndIds = useSelector(
+    selectVisibleCollectionsLabelsAndIds
+  );
   const selectedCollection = useSelector(
     selectContentCreatorSelectedCollection
   );

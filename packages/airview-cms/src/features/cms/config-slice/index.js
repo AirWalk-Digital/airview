@@ -3,4 +3,5 @@ export {
   selectBaseBranch,
   selectAllCollections,
   selectAllCollectionsLabelsAndIds,
+  selectVisibleCollectionsLabelsAndIds,
 } from "./config.slice";
