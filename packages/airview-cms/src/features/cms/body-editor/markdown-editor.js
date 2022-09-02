@@ -101,6 +101,7 @@ export function MarkdownEditor() {
           onChange={handleOnChange}
           autoFocus={false}
           preview="edit"
+          previewOptions={{ components }}
           commands={[
             commands.group(
               [
