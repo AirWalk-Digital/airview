@@ -17,6 +17,11 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 
+function isLinkExternal(url) {
+  var r = new RegExp("^(?:[a-z+]+:)?//", "i");
+  return r.test(url);
+}
+
 function imagePicker(dispatch) {
   return {
     name: "image_picker",
@@ -75,6 +80,9 @@ export function MarkdownEditor() {
       return <img src={src} alt={alt} />;
     },
     a: ({ children, href }) => {
+      if (isLinkExternal(href)) {
+        return <a href={href}>{children}</a>;
+      }
       return <Link to={href}>{children}</Link>;
     },
   };
