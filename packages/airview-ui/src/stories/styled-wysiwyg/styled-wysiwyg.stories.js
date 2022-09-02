@@ -15,7 +15,7 @@ export default {
 };
 
 const content = (
-  <React.Fragment>
+  <div className="styled-wysiwyg-content">
     <h1>First level header</h1>
     <h2>Second level header</h2>
     <h3>Third level header</h3>
@@ -161,7 +161,7 @@ const content = (
     </table>
 
     <hr />
-  </React.Fragment>
+  </div>
 );
 
 const Template = (args) => <StyledWysiwyg {...args} />;
