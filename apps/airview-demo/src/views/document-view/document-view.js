@@ -41,7 +41,10 @@ export function DocumentView() {
           loading={isLoading || isUninitialized}
           fetching={isFetching}
         />
-        <DocumentContent loading={false} fetching={false} />
+        <DocumentContent
+          loading={isLoading || isUninitialized}
+          fetching={isFetching}
+        />
       </Main>
       <Aside>
         <TableOfContents />

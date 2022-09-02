@@ -6,7 +6,14 @@ export const config = {
   collections: {
     application: {
       label: "Application",
-      fields: [],
+      fields: [
+        {
+          label: "User Facing",
+          name: "user_facing",
+          defaultValue: false,
+          widget: "boolean",
+        },
+      ],
     },
     hidden: {
       label: "Hidden",

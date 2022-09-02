@@ -4,8 +4,8 @@ import { StyledWysiwyg } from "airview-ui/";
 
 export function DocumentContent({ loading, fetching }) {
   return (
-    // <StyledWysiwyg {...{ loading, fetching }}>
-    <MarkdownEditor />
-    // </StyledWysiwyg>
+    <StyledWysiwyg {...{ loading, fetching }}>
+      <MarkdownEditor />
+    </StyledWysiwyg>
   );
 }
