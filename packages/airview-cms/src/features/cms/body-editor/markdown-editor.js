@@ -68,14 +68,16 @@ export function MarkdownEditor() {
   const components = {
     img: ({ src, alt }) => {
       if (!branchSha) return;
-      if (src.startsWith("blob:")) return;
+      if (!src.startsWith("blob:")) {
+        // Sanitize URL by removing leading `/`
+        const relativeUrl = src.replace(/^\//, "");
 
-      // Sanitize URL by removing leading `/`
-      const relativeUrl = src.replace(/^\//, "");
+        const path = new URL(relativeUrl, document.baseURI).pathname.substring(
+          1
+        );
 
-      const path = new URL(relativeUrl, document.baseURI).pathname.substring(1);
-
-      src = `/api/media/${branchSha}?path=${path}`;
+        src = `/api/media/${branchSha}?path=${path}`;
+      }
 
       return <img src={src} alt={alt} />;
     },
