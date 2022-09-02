@@ -16,43 +16,50 @@ export function StyledWysiwyg({
   return (
     <Box
       sx={{
-        "&": {
+        "& .w-md-editor-preview": {
+          display: "block",
+        },
+
+        "& .wmde-markdown": (theme) => ({
           overflowWrap: "break-word",
           wordWrap: "break-word",
           wordBreak: "break-word",
+          fontFamily: "inherit",
+          backgroundColor: "inherit",
+          boxSizing: "inherit",
+          color: "text.primary",
+          ...theme.typography.body1,
 
-          "& .wmde-markdown": (theme) => ({
-            fontFamily: "inherit",
-            backgroundColor: "inherit",
-            boxSizing: "inherit",
-            ...theme.typography.body1,
-            color: "text.primary",
-          }),
-
-          "& h1": (theme) => ({
+          "& h1": {
             ...theme.typography.h1,
             fontSize: 34,
-          }),
-          "& h2": (theme) => ({
+          },
+
+          "& h2": {
             ...theme.typography.h2,
             fontSize: 28,
-          }),
-          "& h3": (theme) => ({
+          },
+
+          "& h3": {
             ...theme.typography.h3,
             fontSize: 24,
-          }),
-          "& h4": (theme) => ({
+          },
+
+          "& h4": {
             ...theme.typography.h4,
             fontSize: 22,
-          }),
-          "& h5": (theme) => ({
+          },
+
+          "& h5": {
             ...theme.typography.h5,
             fontSize: 20,
-          }),
-          "& h6": (theme) => ({
+          },
+
+          "& h6": {
             ...theme.typography.h6,
             fontSize: 18,
-          }),
+          },
+
           "& h1, h2, h3, h4, h5, h6": {
             fontWeight: "fontWeightMedium",
             marginY: 2,
@@ -60,6 +67,11 @@ export function StyledWysiwyg({
             padding: 0,
             color: "inherit",
           },
+
+          "& p": {
+            marginY: 2,
+          },
+
           "& hr": {
             border: 0,
             height: 0,
@@ -69,25 +81,24 @@ export function StyledWysiwyg({
             display: "block",
             background: "none",
           },
+
           "& img": {
             marginY: 2,
+            marginX: "auto",
             display: "block",
+            width: "100%",
+            maxWidth: 800,
           },
+
           "& a, a:visited": {
             color: "primary.main",
             textDecoration: "underline",
           },
+
           "& a:hover, a:focus": {
             textDecoration: "none",
           },
-          "& code": {
-            fontSize: "90%",
-            fontFamily: "Consolas,'Liberation Mono',Courier,monospace",
-            color: red[900],
-            borderRadius: "4px",
-            backgroundColor: "grey.100",
-            padding: "3px 6px",
-          },
+
           "& ul, & ol": {
             listStylePosition: "outside",
             padding: "0 0 0 36px",
@@ -96,6 +107,7 @@ export function StyledWysiwyg({
               margin: 0,
             },
           },
+
           "& blockquote": {
             paddingLeft: 2,
             borderLeft: 4,
@@ -115,6 +127,16 @@ export function StyledWysiwyg({
               fontSize: 14,
             },
           },
+
+          "& code": {
+            fontSize: "90%",
+            fontFamily: "Consolas,'Liberation Mono',Courier,monospace",
+            color: red[900],
+            borderRadius: "4px",
+            backgroundColor: "grey.100",
+            padding: "3px 6px",
+          },
+
           "& pre": {
             display: "block",
             width: "100%",
@@ -139,10 +161,8 @@ export function StyledWysiwyg({
               fontSize: "100%",
             },
           },
-          "& .wmde-markdown table tr": {
-            backgroundColor: "inherit",
-          },
-          "& table": (theme) => ({
+
+          "& table": {
             borderCollapse: "collapse",
             width: "100%",
             textAlign: "left",
@@ -160,6 +180,10 @@ export function StyledWysiwyg({
               height: "auto",
               overflowScrolling: "touch",
               WebkitOverflowScrolling: "touch",
+            },
+
+            "& tr": {
+              backgroundColor: "inherit",
             },
 
             "& th": {
@@ -196,8 +220,8 @@ export function StyledWysiwyg({
             "& th p": {
               fontWeight: "inherit",
             },
-          }),
-        },
+          },
+        }),
         ...(fetching && { opacity: 0.5, pointerEvents: "none" }),
         ...sx,
       }}
