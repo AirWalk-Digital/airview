@@ -15,10 +15,7 @@ import { MetaForm } from "./meta-form";
 export function MetaEditor() {
   const metaEditorEnabled = useSelector(selectMetaEditorEnabledStatus);
   const cmsContext = useSelector(selectCmsContext);
-  const { isLoading, isFetching, isError } = useGetEntry(
-    cmsContext,
-    "_index.md"
-  );
+  const { isLoading, isFetching, isError } = useGetEntry(cmsContext);
   const metaEditorData = useSelector(selectMetaEditorData);
 
   return (

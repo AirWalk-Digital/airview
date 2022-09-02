@@ -1,7 +1,7 @@
 import { useGetEntryQuery } from "../store";
 import { useGetCurrentBranch } from "../use-get-branches";
 
-export function useGetEntry(entryId, path) {
+export function useGetEntry({ entryId, path }) {
   const branch = useGetCurrentBranch();
 
   const entryQuery = useGetEntryQuery(

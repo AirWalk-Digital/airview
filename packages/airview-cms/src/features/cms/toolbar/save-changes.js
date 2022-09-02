@@ -29,31 +29,27 @@ export function SaveChanges() {
   const editedImagesData = useSelector(selectEditedImagesData);
   const [putEntry, { isLoading }] = usePutEntryMutation();
   const cmsBusy = useSelector(selectCmsBusyStatus);
-  const id = useSelector(selectCmsContext);
+  const entry = useSelector(selectCmsContext);
   const branch = useSelector(selectWorkingBranch);
   const { data: branches } = useGetBranchesQuery();
 
   const handleOnClick = async () => {
     const resolveMarkdown = new MarkdownResolverUtils();
 
-    const { resolvedMarkdown, resolvedImages } =
+    const { resolvedMarkdown, resolvedImages: data } =
       await resolveMarkdown.resolveOutbound(bodyEdits, {
         ...initialImagesData,
         ...editedImagesData,
       });
 
-    const data = {
-      "_index.md": Buffer.from(
-        matter.stringify(resolvedMarkdown, metaEdits),
-        "utf8"
-      ).toString("base64"),
-
-      ...resolvedImages,
-    };
+    data[`${entry.path}`] = Buffer.from(
+      matter.stringify(resolvedMarkdown, metaEdits),
+      "utf8"
+    ).toString("base64");
 
     const baseSha = branches.find((f) => f.name === branch).sha;
 
-    putEntry({ id, branch, data, baseSha });
+    putEntry({ id: entry.entryId, branch, data, baseSha });
   };
 
   return (

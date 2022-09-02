@@ -17,7 +17,7 @@ export function DocumentView() {
   const { entryId, path } = useGetEntryId();
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
-    useSetCmsContext(entryId, path);
+    useSetCmsContext({ entryId, path });
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 

@@ -5,13 +5,13 @@ import { setMetaEditorInitialData, selectMetaEditorData } from "../meta-editor";
 import { setBodyEditorContent } from "../body-editor";
 import { useGetEntry } from "../../use-get-entry";
 
-export function useSetCmsContext(entryId, path) {
+export function useSetCmsContext(entry) {
   const dispatch = useDispatch();
   const metaEditorData = useSelector(selectMetaEditorData);
 
   useEffect(() => {
-    dispatch(setCmsContext(entryId));
-  }, [dispatch, entryId]);
+    dispatch(setCmsContext(entry));
+  }, [dispatch, entry]);
 
   const {
     data: entryData,
@@ -21,7 +21,7 @@ export function useSetCmsContext(entryId, path) {
     isSuccess,
     isError,
     error,
-  } = useGetEntry(entryId, path);
+  } = useGetEntry(entry);
 
   useEffect(() => {
     if (!entryData) return;
