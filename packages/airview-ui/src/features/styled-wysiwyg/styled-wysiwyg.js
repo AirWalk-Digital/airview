@@ -20,7 +20,7 @@ export function StyledWysiwyg({
           display: "block",
         },
 
-        "& .wmde-markdown": (theme) => ({
+        "& .wmde-markdown, & .styled-wysiwyg-content": (theme) => ({
           overflowWrap: "break-word",
           wordWrap: "break-word",
           wordBreak: "break-word",
@@ -220,10 +220,10 @@ export function StyledWysiwyg({
             "& th p": {
               fontWeight: "inherit",
             },
+            ...sx,
           },
         }),
         ...(fetching && { opacity: 0.5, pointerEvents: "none" }),
-        ...sx,
       }}
       {...rest}
     >
