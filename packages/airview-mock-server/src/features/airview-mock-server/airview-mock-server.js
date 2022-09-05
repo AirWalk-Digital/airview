@@ -83,8 +83,6 @@ export function AirviewMockServer(delay = 500, domain = "") {
         return res(
           ctx.delay(ARTIFICIAL_DELAY_MS),
           ctx.set("Content-Length", buffer.byteLength.toString()),
-          // ctx.set("Content-Type", "image/jpeg"),
-          // Respond with the "ArrayBuffer".
           ctx.body(buffer)
         );
       } else {
