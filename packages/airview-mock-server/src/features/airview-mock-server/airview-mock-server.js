@@ -59,10 +59,34 @@ export function AirviewMockServer(delay = 500, domain = "") {
     }),
 
     rest.get(`${domain}/api/content/:sha`, function (req, res, ctx) {
-      const content = getEntryContent(req.params.sha);
+      const path = req.url.searchParams.get("path");
+      const content = getEntryContent(req.params.sha, path);
 
       if (content) {
-        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(content));
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json({ content }));
+      } else {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            message: `Entry '${req.params.sha}' not found`,
+          })
+        );
+      }
+    }),
+
+    rest.get(`${domain}/api/media/:sha`, function (req, res, ctx) {
+      const path = req.url.searchParams.get("path");
+      const content = getEntryContent(req.params.sha, path);
+
+      if (content) {
+        const buffer = Buffer.from(content, "base64");
+        return res(
+          ctx.delay(ARTIFICIAL_DELAY_MS),
+          ctx.set("Content-Length", buffer.byteLength.toString()),
+          // ctx.set("Content-Type", "image/jpeg"),
+          // Respond with the "ArrayBuffer".
+          ctx.body(buffer)
+        );
       } else {
         return res(
           ctx.status(404),
@@ -78,9 +102,9 @@ export function AirviewMockServer(delay = 500, domain = "") {
       `${domain}/api/content/:collection/:entity`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
-        const branch = req.url.searchParams.get("branch");
+        const branchName = req.url.searchParams.get("branch");
 
-        if (persistContent(id, branch, req.body)) {
+        if (persistContent(id, branchName, req.body)) {
           return res(
             ctx.delay(ARTIFICIAL_DELAY_MS),
             ctx.json({
