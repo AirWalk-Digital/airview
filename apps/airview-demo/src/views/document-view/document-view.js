@@ -21,7 +21,7 @@ export function DocumentView() {
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 
-  if (isError && error.type === 404) {
+  if (isError && error.status === 404) {
     return <Navigate to="/not-found" replace={true} />;
   }
 
