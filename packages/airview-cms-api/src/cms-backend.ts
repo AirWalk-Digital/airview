@@ -86,7 +86,7 @@ export class CmsBackend {
     const listing = await this.getListing(treeSha);
     const sha = listing[path];
     if (!sha) {
-      throw Error("No sha for path");
+      throw Error("No content sha for requested path");
     }
     const blobFetcher = async () => this._client.getBlob(sha);
     const blob = await this._getCachedResponse(blobFetcher, sha);
