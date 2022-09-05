@@ -38,7 +38,7 @@ export interface CmsResult<T> {
 
 export interface GitClient {
   getBranches(): Promise<GitBranch[]>;
-  getTree(sha: string): Promise<GitTree[]>;
+  getTree(sha: string, recursive?: boolean): Promise<GitTree[]>;
   getBlob(sha: string): Promise<GitBlob>;
   setContent(content: InboundContent): Promise<GitBlob[]>;
   deleteEntity(content: InboundEntity): Promise<any>;

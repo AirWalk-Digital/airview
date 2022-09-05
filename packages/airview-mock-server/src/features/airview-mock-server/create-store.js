@@ -50,29 +50,18 @@ export function createStore() {
     });
   };
 
-  const getEntryContent = (entrySha) => {
-    let entry;
+  const getEntryContent = (branchSha, path) => {
+    const branchData = getBranches().find((branch) => branch.sha === branchSha);
+    const content = entries[branchData.name];
+    const splits = path.split("/");
 
-    const groupedEntries = Object.values(entries);
-
-    for (let i = 0; i < groupedEntries.length; i++) {
-      entry = Object.values(groupedEntries[i]).find(
-        (entry) => entry.sha === entrySha
-      );
-
-      if (entry) break;
-    }
-
-    if (!entry) return false;
-
-    return entry.content;
+    const entry = content[splits.slice(0, 2).join("/")];
+    const e = entry.content[splits.slice(2).join("/")];
+    return e;
   };
 
   const persistContent = (entryId, branchName, content) => {
-    if (!branches[branchName]) return false;
-
     const newBranchSha = nanoid();
-
     branches[branchName].sha = newBranchSha;
 
     const meta = matter(atob(content["_index.md"])).data;
