@@ -1,6 +1,7 @@
 export {
   configSlice,
   selectBaseBranch,
+  selectBaseUrl,
   selectAllCollections,
   selectAllCollectionsLabelsAndIds,
   selectVisibleCollectionsLabelsAndIds,

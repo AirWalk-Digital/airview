@@ -17,6 +17,8 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 
+import { selectBaseUrl } from "../config-slice";
+
 function isLinkExternal(url) {
   var r = new RegExp("^(?:[a-z+]+:)?//", "i");
   return r.test(url);
@@ -64,6 +66,7 @@ export function MarkdownEditor() {
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
+  const baseUrl = useSelector(selectBaseUrl);
 
   const components = {
     img: ({ src, alt }) => {
@@ -76,7 +79,7 @@ export function MarkdownEditor() {
           1
         );
 
-        src = `/api/media/${branchSha}?path=${path}`;
+        src = `${baseUrl}/media/${branchSha}?path=${path}`;
       }
 
       return <img src={src} alt={alt} />;
