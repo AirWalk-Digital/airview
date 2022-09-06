@@ -1,7 +1,7 @@
 import { CmsApiHandler } from "../../../Handler/CmsApiHandler.js";
 import { Errors, Request, Response, Utilities } from "ts-lambda-handler";
 
-export class GetContentBySha extends CmsApiHandler {
+export class GetMediaBySha extends CmsApiHandler {
   public async process(request: Request, response: Response): Promise<void> {
     let data: any;
     try {
@@ -29,10 +29,9 @@ export class GetContentBySha extends CmsApiHandler {
       );
     }
 
-    response
-      .setBody(JSON.stringify(data))
-      .addHeader("content-type", "application/json")
-      .send();
+    const buffer = Buffer.from(data.content, "base64");
+
+    response.setBody(buffer).send();
     return Promise.resolve();
   }
 }
