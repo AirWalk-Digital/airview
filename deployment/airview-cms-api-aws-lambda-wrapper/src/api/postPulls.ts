@@ -1,7 +1,34 @@
-import { CmsApiHandler } from "../../../Handler/CmsApiHandler.js";
-import { Errors, Request, Response, Utilities } from "ts-lambda-handler";
+import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
+import { cmsBackendFactory, utils } from "../common";
 
-export class PostPulls extends CmsApiHandler {
+export function postPulls() {
+  const factory = cmsBackendFactory();
+  async function handle(
+    event: APIGatewayEvent,
+    context: Context
+  ): Promise<APIGatewayProxyResult> {
+    const cmsBackend = await factory.getInstance();
+    const requestBody = JSON.parse(event.body);
+    const prResponse = await cmsBackend.createPullRequest(requestBody);
+    if (prResponse.value) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(prResponse.value),
+      };
+    }
+    if (prResponse.error === "conflict") {
+      return {
+        statusCode: 422,
+        body: "Conflict. Check PR does not exist already",
+      };
+    }
+    //
+  }
+
+  return { handle };
+}
+/*
+export class postPulls extends CmsApiHandler {
   public async process(request: Request, response: Response): Promise<void> {
     let prResponse: any;
     const requestBody = request.getBodyAsJSON();
@@ -38,3 +65,4 @@ export class PostPulls extends CmsApiHandler {
     return Promise.resolve();
   }
 }
+*/

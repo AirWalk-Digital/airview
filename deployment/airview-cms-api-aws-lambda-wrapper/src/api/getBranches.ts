@@ -1,7 +1,25 @@
-import { CmsApiHandler } from "../../../Handler/CmsApiHandler.js";
-import { Errors, Request, Response, Utilities } from "ts-lambda-handler";
+import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
+import { cmsBackendFactory, utils } from "../common";
 
-export class GetBranches extends CmsApiHandler {
+export function getBranches() {
+  const factory = cmsBackendFactory();
+  async function handle(
+    event: APIGatewayEvent,
+    context: Context
+  ): Promise<APIGatewayProxyResult> {
+    const cmsBackend = await factory.getInstance();
+    const data = await cmsBackend.getBranches();
+    utils.printDebug(`Data: ${data}`);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  }
+
+  return { handle };
+}
+/*
+export class getBranches extends CmsApiHandler {
   public async process(request: Request, response: Response): Promise<void> {
     let data: any;
     try {
@@ -25,3 +43,5 @@ export class GetBranches extends CmsApiHandler {
     return Promise.resolve();
   }
 }
+
+*/

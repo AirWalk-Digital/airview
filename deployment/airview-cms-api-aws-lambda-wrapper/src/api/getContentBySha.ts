@@ -1,7 +1,30 @@
-import { CmsApiHandler } from "../../../Handler/CmsApiHandler.js";
-import { Errors, Request, Response, Utilities } from "ts-lambda-handler";
+import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
+import { cmsBackendFactory, utils } from "../common";
 
-export class GetContentBySha extends CmsApiHandler {
+export function getContentBySha() {
+  const factory = cmsBackendFactory();
+  async function handle(
+    event: APIGatewayEvent,
+    context: Context
+  ): Promise<APIGatewayProxyResult> {
+    const path: string = event.queryStringParameters["path"];
+    const sha: string = event.pathParameters["sha"];
+    utils.printDebug(`Query String: path == "${path}"`);
+    utils.printDebug(`Query String: sha == "${sha}"`);
+
+    const cmsBackend = await factory.getInstance();
+    const data = await cmsBackend.getTreeContent(sha, path);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  }
+
+  return { handle };
+}
+
+/*
+export class getContentBySha extends CmsApiHandler {
   public async process(request: Request, response: Response): Promise<void> {
     let data: any;
     try {
@@ -36,3 +59,4 @@ export class GetContentBySha extends CmsApiHandler {
     return Promise.resolve();
   }
 }
+*/

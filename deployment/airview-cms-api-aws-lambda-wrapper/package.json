@@ -1,6 +1,6 @@
 {
   "name": "airview-cms-api-aws-lambda-wrapper",
-  "version": "0.0.6",
+  "version": "0.0.12",
   "description": "Airview CMS API AWS Wrapper Module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,8 +13,7 @@
   "license": "",
   "dependencies": {
     "airview-cms-api": "^0.0.40",
-    "jwt-decode": "^3.1.2",
-    "ts-lambda-handler": "^0.0.12"
+    "jwt-decode": "^3.1.2"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
