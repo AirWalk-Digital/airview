@@ -26,7 +26,7 @@ export function putContentEntity() {
     const body = JSON.parse(event.body);
     utils.printDebug(`body == "${body}"`);
 
-    const cookie = this.event.headers["cookie"];
+    const cookie = event.headers["cookie"];
     const author = await getAuthorDetails(cookie);
     await cmsBackend.setContent({
       id: entityId,

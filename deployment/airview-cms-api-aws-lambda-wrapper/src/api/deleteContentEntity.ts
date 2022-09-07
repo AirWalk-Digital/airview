@@ -20,9 +20,9 @@ export function deleteContentEntity() {
     const entityId = `${event.pathParameters["collection"]}/${event.pathParameters["entity"]}`;
     utils.printDebug(`entityID == "${entityId}"`);
 
-    const cookie = this.event.headers["cookie"];
+    const cookie = event.headers["cookie"];
     const author = await getAuthorDetails(cookie);
-    await this.cmsBackend.deleteEntity({
+    await cmsBackend.deleteEntity({
       id: entityId,
       branchName: branch,
       baseSha: baseSha,
