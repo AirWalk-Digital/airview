@@ -88,6 +88,7 @@ app.get(
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
       const buffer = Buffer.from(data.content, "base64");
+      res.setHeader("content-type", "application/octet-stream");
       res.write(buffer, "binary");
       res.end(undefined, "binary");
     } catch (err) {
