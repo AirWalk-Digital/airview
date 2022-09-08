@@ -21,7 +21,7 @@ export function deleteContentEntity() {
     utils.printDebug(`entityID == "${entityId}"`);
 
     const cookie = event.headers["cookie"];
-    const author = await getAuthorDetails(cookie);
+    const author = getAuthorDetails(cookie);
     await cmsBackend.deleteEntity({
       id: entityId,
       branchName: branch,
@@ -31,7 +31,7 @@ export function deleteContentEntity() {
 
     return {
       statusCode: 204,
-      body: "No Content",
+      body: null,
     };
 
     //

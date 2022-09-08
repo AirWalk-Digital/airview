@@ -24,10 +24,10 @@ export function putContentEntity() {
     utils.printDebug(`entityID == "${entityId}"`);
 
     const body = JSON.parse(event.body);
-    utils.printDebug(`body == "${body}"`);
+    utils.printDebug(`body == "${event.body}"`);
 
-    const cookie = event.headers["cookie"];
-    const author = await getAuthorDetails(cookie);
+    const cookie = event.headers["Cookie"];
+    const author = getAuthorDetails(cookie);
     await cmsBackend.setContent({
       id: entityId,
       branchName: branch,
@@ -38,7 +38,7 @@ export function putContentEntity() {
 
     return {
       statusCode: 201,
-      body: "Accepted",
+      body: null,
     };
   }
 
