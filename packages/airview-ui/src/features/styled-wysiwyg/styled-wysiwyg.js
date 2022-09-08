@@ -68,6 +68,10 @@ export function StyledWysiwyg({
             color: "inherit",
           },
 
+          "& .octicon-link": {
+            display: "none",
+          },
+
           "& p": {
             marginY: 2,
           },
