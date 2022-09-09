@@ -69,7 +69,9 @@ export function StyledWysiwyg({
           },
 
           "& .octicon-link": {
-            display: "none",
+            visibility: "visible",
+            color: theme.palette.grey[500],
+            marginRight: "5px",
           },
 
           "& p": {
