@@ -27,7 +27,7 @@ export function DocumentView() {
 
   return (
     <AsideAndMainContainer>
-      <Main>
+      <Main sx={{ width: "calc(100% - 300px)" }}>
         <Breadcrumb
           currentRoute={data.title ?? ""}
           loading={isLoading || isUninitialized}
