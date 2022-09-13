@@ -226,11 +226,13 @@ export class GithubClient implements GitClient {
         `Bad status getting branches ${resp.status} ${await resp.text()})`
       );
     const data: any = await resp.json();
-    const mapped = data.map((item: any) => ({
-      name: item.name,
-      sha: item.commit.sha,
-      protected: item.protected,
-    }));
+    const mapped = data.map(
+      (item: any): GitBranch => ({
+        name: item.name,
+        sha: item.commit.sha,
+        isProtected: item.protected,
+      })
+    );
     return mapped;
   }
 
