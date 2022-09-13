@@ -28,13 +28,20 @@ export function putContentEntity() {
 
     const cookie = event.headers["Cookie"];
     const author = getAuthorDetails(cookie);
-    await cmsBackend.setContent({
-      id: entityId,
-      branchName: branch,
-      baseSha: baseSha,
-      content: body,
-      author,
-    });
+    try {
+      await cmsBackend.setContent({
+        id: entityId,
+        branchName: branch,
+        baseSha: baseSha,
+        content: body,
+        author,
+      });
+    } catch (err) {
+      return {
+        statusCode: 400,
+        body: "Failed to persist content. Please check branch protection policies and that the branch has not been committed to since begining edits.",
+      };
+    }
 
     return {
       statusCode: 201,
