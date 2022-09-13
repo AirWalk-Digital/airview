@@ -1,1 +1,0 @@
-export { PostPulls } from "./PostPulls";

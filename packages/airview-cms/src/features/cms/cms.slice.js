@@ -100,6 +100,16 @@ export const selectIsWorkingBranchProtected = (state) => {
   );
 };
 
+export const selectWorkingBranchSha = (state) => {
+  const getBranchesResult = airviewApi.endpoints.getBranches.select()(state);
+  const { data: branches } = getBranchesResult;
+  const workingBranch = selectWorkingBranch(state);
+
+  if (!branches) return;
+
+  return branches.find((branch) => branch.name === workingBranch)?.sha;
+};
+
 export function disableCms() {
   return (dispatch, getState) => {
     const metaEdits = selectDoesMetaEditorHaveEdits(getState());

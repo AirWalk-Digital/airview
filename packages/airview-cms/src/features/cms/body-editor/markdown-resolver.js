@@ -63,34 +63,6 @@ export function MarkdownResolverUtils() {
 
     return parsedMarkdown;
   };
-
-  this.resolveInbound = async function (markdownBody, images) {
-    const markdownImageURLs = this.searchMarkdownStringForImages(markdownBody);
-
-    let resolvedImages = {};
-
-    for (const imageURL of markdownImageURLs) {
-      if (images[imageURL]) {
-        const image = await this.createObjectURLfromBase64String(
-          imageURL,
-          images[imageURL]
-        );
-
-        resolvedImages[`${imageURL}`] = image;
-      }
-    }
-
-    const resolvedMarkdown = this.findAndReplaceImagesWithinMarkdownString(
-      markdownBody,
-      Object.entries(resolvedImages).map(([original, replacement]) => ({
-        original,
-        replacement,
-      }))
-    );
-
-    return { resolvedMarkdown, resolvedImages };
-  };
-
   this.resolveOutbound = async function (markdownBody, images) {
     const markdownImageURLs = this.searchMarkdownStringForImages(markdownBody);
 

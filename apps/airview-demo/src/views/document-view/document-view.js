@@ -14,20 +14,20 @@ import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
 
 export function DocumentView() {
-  const entryId = useGetEntryId();
+  const { entryId, path } = useGetEntryId();
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
-    useSetCmsContext(entryId);
+    useSetCmsContext({ entryId, path });
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 
-  if (isError && error.type === 404) {
+  if (isError && error.status === 404) {
     return <Navigate to="/not-found" replace={true} />;
   }
 
   return (
     <AsideAndMainContainer>
-      <Main>
+      <Main sx={{ width: "calc(100% - 300px)" }}>
         <Breadcrumb
           currentRoute={data.title ?? ""}
           loading={isLoading || isUninitialized}
@@ -41,7 +41,10 @@ export function DocumentView() {
           loading={isLoading || isUninitialized}
           fetching={isFetching}
         />
-        <DocumentContent loading={false} fetching={false} />
+        <DocumentContent
+          loading={isLoading || isUninitialized}
+          fetching={isFetching}
+        />
       </Main>
       <Aside>
         <TableOfContents />

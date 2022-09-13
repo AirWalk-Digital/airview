@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import rehypeSanitize from "rehype-sanitize";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeSvgIcon } from "@components";
 import { FilePicker } from "./file-picker";
@@ -13,8 +13,16 @@ import {
 } from "./body-editor.slice";
 import {
   selectCmsEnabledStatus,
+  selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
+
+import { selectBaseUrl } from "../config-slice";
+
+function isLinkExternal(url) {
+  var r = new RegExp("^(?:[a-z+]+:)?//", "i");
+  return r.test(url);
+}
 
 function imagePicker(dispatch) {
   return {
@@ -57,6 +65,32 @@ export function MarkdownEditor() {
   const markdownContent = useSelector(selectBodyEditorData);
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
+  const branchSha = useSelector(selectWorkingBranchSha);
+  const baseUrl = useSelector(selectBaseUrl);
+
+  const components = {
+    img: ({ src, alt }) => {
+      if (!branchSha) return;
+      if (!src.startsWith("blob:")) {
+        // Sanitize URL by removing leading `/`
+        const relativeUrl = src.replace(/^\//, "");
+
+        const path = new URL(relativeUrl, document.baseURI).pathname.substring(
+          1
+        );
+
+        src = `${baseUrl}/media/${branchSha}?path=${path}`;
+      }
+
+      return <img src={src} alt={alt} />;
+    },
+    a: ({ children, href }) => {
+      if (isLinkExternal(href)) {
+        return <a href={href}>{children}</a>;
+      }
+      return <Link to={href}>{children}</Link>;
+    },
+  };
 
   const handleOnChange = (value) => {
     dispatch(persitBodyEditorContent(value));
@@ -72,6 +106,7 @@ export function MarkdownEditor() {
           onChange={handleOnChange}
           autoFocus={false}
           preview="edit"
+          previewOptions={{ components }}
           commands={[
             commands.group(
               [
@@ -108,12 +143,7 @@ export function MarkdownEditor() {
 
   return (
     <div data-color-mode="light">
-      <MDEditor.Markdown
-        source={markdownContent}
-        previewOptions={{
-          rehypePlugins: [[rehypeSanitize]],
-        }}
-      />
+      <MDEditor.Markdown source={markdownContent} components={components} />
     </div>
   );
 }

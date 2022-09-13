@@ -7,6 +7,8 @@ export const configSlice = createSlice({
 
 export const selectBaseBranch = (state) => state.configSlice.baseBranch;
 
+export const selectBaseUrl = (state) => state.configSlice.baseUrl;
+
 export const selectAllCollections = (state) => state.configSlice.collections;
 
 export const selectAllCollectionsLabelsAndIds = (state) => {

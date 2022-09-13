@@ -18,7 +18,10 @@
     "prettier": "^2.6.2"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint 'packages/**/*.{js, jsx, ts, tsx}' 'apps/**/*.{js, jsx, ts, tsx}'",
+    "check-formatting": "prettier --check --ignore-unknown 'packages' 'apps'",
+    "fix-formatting": "npm run check-formatting -- --write"
   },
   "repository": {
     "type": "git",

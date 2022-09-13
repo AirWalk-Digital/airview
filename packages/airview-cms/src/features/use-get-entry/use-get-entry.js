@@ -1,30 +1,18 @@
 import { useGetEntryQuery } from "../store";
-import { useGetAllEntriesMeta } from "../use-get-all-entries-meta";
+import { useGetCurrentBranch } from "../use-get-branches";
 
-export function useGetEntry(entryId) {
-  const { entryMetaData, isSuccess } = useGetAllEntriesMeta(
-    ({ data, isSuccess }) => ({
-      isSuccess,
-      entryMetaData: data?.find((entry) => entry.id === entryId),
-    })
+export function useGetEntry({ entryId, path }) {
+  const branch = useGetCurrentBranch();
+
+  const entryQuery = useGetEntryQuery(
+    {
+      branchSha: branch?.sha,
+      path: `${entryId}/${path}`,
+    },
+    {
+      skip: !branch?.sha,
+    }
   );
-
-  const entryQuery = useGetEntryQuery(entryMetaData?.sha, {
-    skip: !entryMetaData?.sha,
-  });
-
-  if (isSuccess && !entryMetaData?.sha) {
-    return {
-      data: null,
-      isLoading: false,
-      isFetching: false,
-      isError: true,
-      error: {
-        type: 404,
-        message: `${entryId} not found`,
-      },
-    };
-  }
 
   return entryQuery;
 }

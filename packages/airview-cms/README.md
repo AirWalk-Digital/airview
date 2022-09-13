@@ -234,14 +234,14 @@ The entry select widget is used to select an entry from a specific collection. Y
 
 The core functionality of the CMS is to provide data for a specific markdown document (body and frontmatter). You can choose to get a static representation of this data, or a contextual version. Static data is read only, contextual data allows both read and write.
 
-The recommended approach to writing your app is to identify the current page your user is requesting and set the cms context equal to the entry ID for that page. Once set, the CMS will fetch the data for the given entry ID and setup the CMS to allow editing of the frontmatter and markdown body.
+The recommended approach to writing your app is to identify the current page your user is requesting and set the cms context equal to the entry ID and markdown file for that page. Once set, the CMS will fetch the data for the given entry/path and setup the CMS to allow editing of the frontmatter and markdown body.
 
-Airview CMS exports a utility hook to allow you to set the CMS context, `useSetCmsContext`. The hook accepts an entryId, which is [collection name]/[entry name]. The hook will return frontmatter for the markdown file, a set of booleans relating to the fetch state of the data and an error object (if applicable).
+Airview CMS exports a utility hook to allow you to set the CMS context, `useSetCmsContext`. The hook accepts an object with the properties entryId, which is [collection name]/[entry name], and path, which is the relative path of the file to fetch. The hook will return frontmatter for the markdown file, a set of booleans relating to the fetch state of the data and an error object (if applicable).
 
 **Signature:**
 
 - **Hook Name:** `useSetCmsContext`
-- **Arguments:** `entryId` - string
+- **Arguments:** `object` - details of entry data to fetch. {entryId, path}
 - **Returns:** `object`
 - - `data` - the frontmatter for the markdown file - object
 - - `isUninitialized` - Request to fetch data has not started yet - boolean
@@ -344,14 +344,14 @@ To request frontmatter for a single entry, call `useGetEntryMeta`, passing the e
 
 ### useGetEntry
 
-To request frontmatter and body content for a single entry, call `useGetEntry`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of objects, containing markdown content and various booleans relating the the status of the data fetching process.
+To request frontmatter and body content for a single entry, call `useGetEntry`, passing an object with entryId (which is [collection name]/[entry name]) and relative path to the file as the argument. The hook will return an object containing the content of the file and various booleans relating the the status of the data fetching process.
 
 **Note:** This is a static representation of this data, it will not reflect CMS edits made in real time, use `useSetCmsContext` and the `MarkdownEditor` if you need this functionality.
 
 **Signature:**
 
 - **Hook Name:** `useGetEntry`
-- **Arguments:** `entryId` - string
+- **Arguments:** `object` - details of entry data to fetch. {entryId, path}
 - **Returns:** `object`
 - - `data` - the frontmatter any body content for the passed entryID - array of objects
 - - `isUninitialized` - Request to fetch data has not started yet - boolean

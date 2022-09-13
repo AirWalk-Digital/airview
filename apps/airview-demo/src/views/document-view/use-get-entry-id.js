@@ -2,13 +2,14 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 export function useGetEntryId() {
-  const { collection, entry } = useParams();
+  const params = useParams();
+  const path = params["*"];
 
-  const selectedEntry = useMemo(() => {
-    if (!collection || !entry) return "";
+  const entry = useMemo(() => {
+    if (!params.collection || !params.entry) return "";
 
-    return `${collection}/${entry}`;
-  }, [collection, entry]);
+    return { entryId: `${params.collection}/${params.entry}`, path };
+  }, [params.collection, params.entry, path]);
 
-  return selectedEntry;
+  return entry;
 }
