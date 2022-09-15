@@ -15,9 +15,11 @@ export function PageTitle({
       variant="h1"
       gutterBottom
       sx={{
-        fontSize: 36,
-        fontWeight: "500",
+        fontSize: 48,
+        fontWeight: "700",
         marginBottom: 4,
+        letterSpacing: 0,
+
         ...(fetching && { opacity: 0.5 }),
         ...sx,
       }}
