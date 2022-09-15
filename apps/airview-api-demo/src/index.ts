@@ -47,22 +47,6 @@ app.use(express.json({ limit: "50mb" }));
 const port = process.env.PORT || 3000;
 
 app.get(
-  "/api/search/:sha",
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      if (typeof req.query.query !== "string") {
-        res.status(400).send();
-        return;
-      }
-      const data = await backend.searchContent(req.params.sha, req.query.query);
-      res.send(data);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-app.get(
   "/api/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
