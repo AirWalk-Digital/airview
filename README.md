@@ -34,7 +34,7 @@ A demonstration of the integration of `airview-ui`, `airview-cms`, `airview-mock
 
 ### Airview API Demo
 
-An instance of the Airview API based on Express.js wired up to airview-cms-api package for demo/local debug.
+An instance of the Airview API based on Express.js wired up to airview-cms-api package for demo/local debug. [Learn more](apps/airview-api-demo)
 
 ## Cloning the monorepo for local development
 
