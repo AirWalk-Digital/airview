@@ -28,44 +28,38 @@ export function StyledWysiwyg({
           backgroundColor: "inherit",
           boxSizing: "inherit",
           color: "text.primary",
-          ...theme.typography.body1,
-
-          "& h1": {
-            ...theme.typography.h1,
-            fontSize: 34,
-          },
-
-          "& h2": {
-            ...theme.typography.h2,
-            fontSize: 28,
-          },
-
-          "& h3": {
-            ...theme.typography.h3,
-            fontSize: 24,
-          },
-
-          "& h4": {
-            ...theme.typography.h4,
-            fontSize: 22,
-          },
-
-          "& h5": {
-            ...theme.typography.h5,
-            fontSize: 20,
-          },
-
-          "& h6": {
-            ...theme.typography.h6,
-            fontSize: 18,
-          },
 
           "& h1, h2, h3, h4, h5, h6": {
-            fontWeight: "fontWeightMedium",
-            marginY: 2,
+            fontWeight: 700,
+            marginBottom: 4,
             border: "none",
             padding: 0,
             color: "inherit",
+            letterSpacing: 0,
+          },
+
+          h1: {
+            fontSize: 48,
+          },
+
+          h2: {
+            fontSize: 40,
+          },
+
+          h3: {
+            fontSize: 32,
+          },
+
+          h4: {
+            fontSize: 24,
+          },
+
+          h5: {
+            fontSize: 20,
+          },
+
+          h6: {
+            fontSize: 18,
           },
 
           "& .octicon-link": {
@@ -76,7 +70,9 @@ export function StyledWysiwyg({
           },
 
           "& p": {
-            marginY: 2,
+            marginBottom: 4,
+            fontSize: 18,
+            lineHeight: 1.7,
           },
 
           "& hr": {
@@ -84,7 +80,7 @@ export function StyledWysiwyg({
             height: 0,
             borderBottom: 1,
             borderColor: "divider",
-            marginY: 4,
+            marginY: 8,
             display: "block",
             background: "none",
           },
@@ -109,6 +105,7 @@ export function StyledWysiwyg({
           "& ul, & ol": {
             listStylePosition: "outside",
             padding: "0 0 0 36px",
+            fontSize: 18,
 
             "& li": {
               margin: 0,
