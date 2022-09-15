@@ -8,33 +8,33 @@ This monorepo contains the following packages, more information on each package 
 
 ### Airview CMS
 
-A client side content management system framework to allow CRU~~D~~ workflow for GitHub persisted Markdown documentation. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/packages/airview-cms).
+A client side content management system framework to allow CRU~~D~~ workflow for GitHub persisted Markdown documentation. [Learn more](packages/airview-cms).
 
 ### Airview UI
 
-A collection of React UI components; these can be composed to build an interface to render an application, which allows a user to navigate between and view specific Markdown documents. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/packages/airview-ui)
+A collection of React UI components; these can be composed to build an interface to render an application, which allows a user to navigate between and view specific Markdown documents. [Learn more](packages/airview-ui)
 
 ### Airview Mock Server
 
-A simplified mock instance of `Airview CMS API`, with seed data; this is intended for local development and testing of the `airview-cms` package. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/packages/airview-mock-server)
+A simplified mock instance of `Airview CMS API`, with seed data; this is intended for local development and testing of the `airview-cms` package. [Learn more](packages/airview-mock-server)
 
 ### Airview CMS API
 
-[INSERT DESCRIPTION HERE]
+An api service library which interacts with a git style api, such as github. Transforms data from the backend into structure which airview-cms understands. The library does not implement view/controller logic to allow it to be re-used agnostic to deployment (e.g. in Express.js, AWS lambda/api-gateway)
+
+[Learn more](packages/airview-cms-api).
 
 ### Airview Compliance UI
-
-[INSERT DESCRIPTION HERE]
 
 In addition to the above packages, two demo apps exist, these showcase the composition of the above packages within a working application. As before, more information on each demo can be found by following the relevant link to the demo README.
 
 ### Airview Demo
 
-A demonstration of the integration of `airview-ui`, `airview-cms`, `airview-mock-server` and `airview-cms-api` packages. The demo acts as a development environment and an ideal canvas to talk through features or issues, without having to hit a real GitHub repo or GitHub API. [Learn more](https://github.com/AirWalk-Digital/airview/tree/main/apps/airview-demo)
+A demonstration of the integration of `airview-ui`, `airview-cms`, `airview-mock-server` and `airview-cms-api` packages. The demo acts as a development environment and an ideal canvas to talk through features or issues, without having to hit a real GitHub repo or GitHub API. [Learn more](apps/airview-demo)
 
 ### Airview API Demo
 
-[INSERT DESCRIPTION HERE]
+An instance of the Airview API based on Express.js wired up to airview-cms-api package for demo/local debug.
 
 ## Cloning the monorepo for local development
 
