@@ -15,4 +15,6 @@ The consumer must implement the http side themselves but need to ensure it maps 
 
 # Documentation
 
-Code is documented inline using tsdoc and auto generated into markdown format using typdoc. The generated documentation is in [docs](docs)
+Code is documented inline using tsdoc and auto generated into markdown format using typdoc.
+
+The generated documentation is in [docs](docs)
