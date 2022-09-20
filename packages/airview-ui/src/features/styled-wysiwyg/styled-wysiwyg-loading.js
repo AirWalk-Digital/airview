@@ -1,9 +1,15 @@
 import React from "react";
-import { Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 
 export function StyledWysiwygLoading() {
   return (
-    <div>
+    <Box
+      sx={{
+        "@media print": {
+          display: "none",
+        },
+      }}
+    >
       <div>
         {[...Array(5)].map((item, index) => (
           <Skeleton width="100%" key={index}>
@@ -19,6 +25,6 @@ export function StyledWysiwygLoading() {
           </Skeleton>
         ))}
       </div>
-    </div>
+    </Box>
   );
 }
