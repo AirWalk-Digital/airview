@@ -34,6 +34,10 @@ export function MetaEditor() {
           boxSizing: "border-box",
           backgroundColor: "common.white",
           zIndex: 1200,
+
+          "@media print": {
+            display: "none",
+          },
         }}
       >
         <React.Fragment>

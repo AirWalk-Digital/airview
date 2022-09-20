@@ -52,6 +52,11 @@ export function ContentCreator() {
       TransitionProps={{
         onExited: () => dispatch(setInitialCollection()),
       }}
+      sx={{
+        "@media print": {
+          display: "none",
+        },
+      }}
     >
       <DialogTitle>Create New</DialogTitle>
       <DialogContent dividers>

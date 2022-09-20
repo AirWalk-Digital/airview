@@ -20,6 +20,10 @@ export function ToolBar() {
         borderBottom: 1,
         borderBottomColor: "grey.300",
         height: `${TOOL_BAR_HEIGHT}px`,
+
+        "@media print": {
+          display: "none",
+        },
       }}
     >
       <Toolbar

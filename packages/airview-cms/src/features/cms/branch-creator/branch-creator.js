@@ -84,6 +84,11 @@ export function BranchCreator() {
       TransitionProps={{
         onExit: handleOnExit,
       }}
+      sx={{
+        "@media print": {
+          display: "none",
+        },
+      }}
     >
       <DialogTitle>Create Branch</DialogTitle>
       <DialogContent dividers>
