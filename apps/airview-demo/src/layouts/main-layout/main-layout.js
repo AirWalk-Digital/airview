@@ -50,10 +50,6 @@ export function MainLayout() {
         sx={{
           marginTop: `${viewportOffset + topBarHeight}px`,
           paddingLeft: navOpen ? "300px" : 0,
-          "@media print": {
-            margin: 0,
-            padding: 0,
-          },
         }}
       >
         <Outlet />
