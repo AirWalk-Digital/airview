@@ -12,6 +12,7 @@ import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
 import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
+import { DownloadDocumentPdf } from "./download-document-pdf";
 
 export function DocumentView() {
   const { entryId, path } = useGetEntryId();
@@ -36,6 +37,7 @@ export function DocumentView() {
           sx={{ marginBottom: 4 }}
           linkComponent={ReactRouterLink}
         />
+        <DownloadDocumentPdf />
         <PageTitle
           title={data?.title ?? ""}
           loading={isLoading || isUninitialized}
