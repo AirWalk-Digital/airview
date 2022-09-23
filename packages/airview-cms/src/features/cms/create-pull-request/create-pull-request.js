@@ -59,11 +59,6 @@ export function CreatePullRequest() {
       TransitionProps={{
         onExited: handleOnExited,
       }}
-      sx={{
-        "@media print": {
-          display: "none",
-        },
-      }}
     >
       <DialogTitle>Create Pull request</DialogTitle>
 
