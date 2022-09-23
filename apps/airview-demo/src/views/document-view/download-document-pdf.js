@@ -8,9 +8,9 @@ const initialState = {
   success: false,
 };
 
-const htmlContent = "<p>Hello World!</p>";
+const html = "<p>Hello World!</p>";
 
-const css = "@page { backgroundColor: 'blue'; color: '#fff' }";
+const css = "@page { margin: 2cm; @top-left { content:'test'; } }";
 
 async function wait(error = false) {
   return new Promise((resolve, reject) => {
@@ -21,31 +21,43 @@ async function wait(error = false) {
 function DownloadDocumentPdf() {
   const [status, setStatus] = useState({ ...initialState });
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-  const [pdfBlob, setPdfBlob] = useState(false);
 
-  const count = useRef(0);
+  const downloadUrl = useRef();
 
-  const downloadFile = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("downloading file");
-        resolve();
-      }, 500);
-    });
+  const downloadFile = (url) => {
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = url;
+    downloadLink.download = "document.pdf";
+
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+    downloadLink.remove();
   };
 
   const handleOnClick = async () => {
     try {
       setFeedbackOpen(false);
 
-      if (!pdfBlob) {
+      if (!downloadUrl.current) {
         console.log("doing fetch");
         setStatus((prevStatus) => ({ ...prevStatus, loading: true }));
-        await wait(count.current < 1 ? false : true); // Placeholder for fetch
-        setPdfBlob(true);
+
+        const body = JSON.stringify({ html, css });
+
+        const resp = await fetch("/api/export", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body,
+        });
+
+        const blob = await resp.blob();
+        downloadUrl.current = URL.createObjectURL(blob);
       }
 
-      await downloadFile();
+      downloadFile(downloadUrl.current);
+
       setStatus((prevStatus) => ({
         ...prevStatus,
         loading: false,
@@ -63,13 +75,8 @@ function DownloadDocumentPdf() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setStatus({ ...initialState });
-      setFeedbackOpen(false);
-      setPdfBlob(null);
-      console.log("purging state");
-      count.current = 10;
-    }, 10000);
+    setStatus({ ...initialState });
+    setFeedbackOpen(false);
   }, []);
 
   return (
