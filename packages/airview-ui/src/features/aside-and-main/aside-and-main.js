@@ -6,15 +6,7 @@ export function AsideAndMainContainer({ children, sx, ...rest }) {
   return (
     <MuiContainer
       maxWidth={false}
-      sx={{
-        paddingTop: 6,
-        paddingBottom: 6,
-        "@media print": {
-          margin: 0,
-          padding: 0,
-        },
-        ...sx,
-      }}
+      sx={{ paddingTop: 6, paddingBottom: 6, ...sx }}
       {...rest}
     >
       <Box sx={{ display: "flex" }}>{children}</Box>
