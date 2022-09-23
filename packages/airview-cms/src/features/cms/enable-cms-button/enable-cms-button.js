@@ -20,9 +20,6 @@ export function EnableCmsButton() {
         zIndex: 1299,
         bottom: 32,
         right: 32,
-        "@media print": {
-          display: "none",
-        },
       }}
     >
       Enable CMS

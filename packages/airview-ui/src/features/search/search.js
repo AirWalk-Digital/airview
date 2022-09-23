@@ -56,9 +56,6 @@ export function Search({
           width: "100%",
           minHeight: 81,
         },
-        "@media print": {
-          display: "none",
-        },
       }}
     >
       <Box

@@ -39,15 +39,7 @@ export function Aside({ children, sx }) {
   return (
     <Box
       component="aside"
-      sx={{
-        flex: "0 0 auto",
-        width: 300,
-        paddingLeft: 4,
-        "@media print": {
-          display: "none",
-        },
-        ...sx,
-      }}
+      sx={{ flex: "0 0 auto", width: 300, paddingLeft: 4, ...sx }}
     >
       {children}
     </Box>

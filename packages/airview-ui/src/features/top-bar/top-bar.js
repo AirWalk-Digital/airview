@@ -13,21 +13,11 @@ export function TopBar({
   children,
 }) {
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        "@media print": {
-          display: "none",
-        },
-      }}
-    >
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
         {...{ color, position }}
-        sx={{
-          top: top,
-          boxShadow: 0,
-        }}
+        sx={{ top: top, boxShadow: 0 }}
       >
         <Toolbar>
           <IconButton

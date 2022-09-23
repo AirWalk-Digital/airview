@@ -26,9 +26,6 @@ export function NavigationDrawer({
         backgroundColor: "common.white",
         zIndex: 1200,
         overflowY: "auto",
-        "@media print": {
-          display: "none",
-        },
       }}
     >
       {children}

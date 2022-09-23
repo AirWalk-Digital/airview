@@ -37,9 +37,6 @@ export function Menu({
           opacity: 0.5,
           pointerEvents: "none",
         }),
-        "@media print": {
-          display: "none",
-        },
         ...sx,
       }}
       {...rest}

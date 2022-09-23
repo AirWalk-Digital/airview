@@ -25,17 +25,7 @@ export function PageTitle({
       }}
       {...{ component, ...rest }}
     >
-      {loading ? (
-        <Skeleton
-          sx={{
-            "@media print": {
-              display: "none",
-            },
-          }}
-        />
-      ) : (
-        title
-      )}
+      {loading ? <Skeleton /> : title}
     </Typography>
   );
 }
