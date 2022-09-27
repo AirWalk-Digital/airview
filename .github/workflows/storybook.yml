@@ -22,7 +22,7 @@ jobs:
         with:
           branch: gh-pages
           folder: storybook-static # output folder from `npm run build-storybook`
-          target-folder: storybook-ui-static
+          target_folder: storybook-ui-static
           
   deploy-airview-compliance-ui:
     runs-on: ubuntu-latest
@@ -41,4 +41,4 @@ jobs:
         with:
           branch: gh-pages
           folder: storybook-static # output folder from `npm run build-storybook`
-          target-folder: storybook-compliance-ui-static
+          target_folder: storybook-compliance-ui-static
