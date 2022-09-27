@@ -45,5 +45,8 @@
   "msw": {
     "workerDirectory": "public"
   },
-  "proxy": "http://localhost:5001"
+  "proxy": "http://localhost:5001",
+  "devDependencies": {
+    "raw-loader": "^4.0.2"
+  }
 }
