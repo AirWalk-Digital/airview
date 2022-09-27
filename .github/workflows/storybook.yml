@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy-airview-ui:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,11 +22,12 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           branch: gh-pages
-          folder: ui-static-build# output folder from `npm run build-storybook`
+          folder: ui-static-build
           clean: true
           target_folder: storybook-ui-static
           
   deploy-airview-compliance-ui:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
