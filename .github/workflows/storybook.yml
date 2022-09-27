@@ -22,7 +22,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           branch: gh-pages
-          folder: ui-static-build
+          folder: packages/airview-ui/ui-static-build
           clean: true
           target_folder: storybook-ui-static
           
@@ -43,6 +43,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           branch: gh-pages
-          folder: compliance-ui-static-build # output folder from `npm run build-storybook`
+          folder: /packages/airview-compliance-ui/compliance-ui-static-build   # output folder from `npm run build-storybook`
           clean: true
           target_folder: storybook-compliance-ui-static
