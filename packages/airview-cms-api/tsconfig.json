@@ -1,9 +1,0 @@
-{
-  "extends": "@tsconfig/node16/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "declaration": true,
-    "outDir": "./dist"
-  },
-  "include": ["src/**/*"]
-}
