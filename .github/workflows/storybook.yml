@@ -21,7 +21,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           branch: gh-pages
-          folder: build-storybook # output folder from `npm run build-storybook`
+          folder: ui-static-build # output folder from `npm run build-storybook`
           clean: true
           target_folder: storybook-ui-static
           
@@ -41,6 +41,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           branch: gh-pages
-          folder: build-storybook # output folder from `npm run build-storybook`
+          folder: compliance-ui-static-build # output folder from `npm run build-storybook`
           clean: true
           target_folder: storybook-compliance-ui-static
