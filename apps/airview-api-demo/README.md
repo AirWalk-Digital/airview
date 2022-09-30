@@ -21,10 +21,10 @@ Once the app is created, you will also need to install it into the your account 
 
 You will need to define the following environement variables:
 
-|Name|Example|Description|
-|-----|-------|------------|
-| GITHUB_REPO_NAME | my-repository | Name of repository in which to store content |
-| GITHUB_ORG_NAME | my-user-or-org-name | Name of github user or organisation which owns the repo |
-| GITHUB_INSTALLATION_ID | 123456 | Id of installation. Can be found by inspecting URL when viewing in GitHub UI|
-| GITHUB_APP_ID | 183877 |Id of application. Can be found by inspecting URL when viewing in GitHub UI|
-| GITHUB_PRIVATE_KEY_FILE | /path/to/private-key.pem |Path to where the private key is stored|
+| Name                    | Example                  | Description                                                                  |
+| ----------------------- | ------------------------ | ---------------------------------------------------------------------------- |
+| GITHUB_REPO_NAME        | my-repository            | Name of repository in which to store content                                 |
+| GITHUB_ORG_NAME         | my-user-or-org-name      | Name of github user or organisation which owns the repo                      |
+| GITHUB_INSTALLATION_ID  | 123456                   | Id of installation. Can be found by inspecting URL when viewing in GitHub UI |
+| GITHUB_APP_ID           | 183877                   | Id of application. Can be found by inspecting URL when viewing in GitHub UI  |
+| GITHUB_PRIVATE_KEY_FILE | /path/to/private-key.pem | Path to where the private key is stored                                      |
