@@ -12,10 +12,10 @@ const getCache = () => {
 };
 const cache = getCache();
 
-const bucket = process.env.AWS_S3_BUCKET;
-const region = process.env.AWS_S3_REGION;
-if (bucket === undefined) throw Error("No S3 Bucket defined");
-if (region === undefined) throw Error("No S3 Region defined");
+// const bucket = process.env.AWS_S3_BUCKET;
+// const region = process.env.AWS_S3_REGION;
+// if (bucket === undefined) throw Error("No S3 Bucket defined");
+// if (region === undefined) throw Error("No S3 Region defined");
 
 const appId = process.env.GITHUB_APP_ID;
 const installationId = process.env.GITHUB_INSTALLATION_ID;

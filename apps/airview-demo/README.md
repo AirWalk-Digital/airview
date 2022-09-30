@@ -34,6 +34,16 @@ npm run start
 
 The package is built on-top of [Create React App](https://create-react-app.dev/) - please refer to their documentation for guidance on tooling and build scripts.
 
+## Using with the airview-api-demo app
+
+Removing the `REACT_APP_USE_MOCK=true` variable from .env will disable calls to the mock server. For develoment, React will need to be configured to point to an endpoint where the api is running. To avoid CORS issues, a proxy will need configuring in package.json as described in [](https://create-react-app.dev/docs/proxying-api-requests-in-development/)
+
+e.g. if you were to run the airview-api-demo locally on port 3001, you would set the proxy like:
+
+```json
+  "proxy": "http://localhost:3001"
+```
+
 ## Contributing to the package
 
 Please see our documentation [here](https://github.com/AirWalk-Digital/airview#contributing) for guidance
