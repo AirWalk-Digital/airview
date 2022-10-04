@@ -106,102 +106,37 @@
 		</div>
 	</div>
 </div>
-	/* <script>
+<script>
 		const Http = new XMLHttpRequest();
-		const url = "https://api.github.com/repos/AirWalk-Digital/airview/pulls?state=open";
-		Http.open("GET", url);
-		Http.send();
+		const url = "https://api.github.com/repos/AirWalk-Digital/airview/pulls";
+		Http.open("GET", url, true);
+	
 
-		const Table = document.getElementById('pr-table');
-		Http.onreadystatechange=(e)=>{
+		var Table = document.getElementById('pr-table');
+		Http.onload=(e)=>{
 			if (true == true){
-				console.log(Http.responseText);
-				const resp = JSON.parse(Http.responseText);
+				//console.log(Http.responseText);
+				var resp = JSON.parse(Http.responseText);
 
-				for (var i=0; i<resp; i++){
-					const prid = resp['number'];
-					const prtitle = resp['title'];
-					const prdate = resp['created_at'];
+				console.log(typeof resp);
+
+				for (var k in resp){
+					console.log(resp[k].number);
+					const prid = resp[k].number;
+					const prtitle = resp[k].title;
+					const prdate = resp[k].created_at;
 
 					const PRUIURL = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + prid;
+					const PRCOMPUIURL = "https://airwalk-digital.github.io/airview/pr-preview-compliance-ui/pr-" + prid;
 
-					Table.find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + prdate + "</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + prtitle + "</td>" + "</tr>");
+
+					$(Table).find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + prdate + "</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + "<a type='button' class='btn btn-success' href=" + PRUIURL + ">Airview UI Preview</a>  "+ "<a type='button' class='btn btn-success' href=" + PRCOMPUIURL + ">Airview Compliance-UI Preview</a>" + "</td>" + "</tr>");
 
 				}
 			}
 		}
-	</script> */
-	
-	<script type="text/javascript">
 
-		var request;
-
-		request = new XMLHttpRequest();
-
-		request.open("GET", "https://api.github.com/repos/airwalk-digital/airview/pulls?state=open", false);
-		request.onload = function () {
-		    if (request.readyState == 4 && request.status == 200) {
-			var pullRequests = JSON.parse(request.responseText);
-
-			//Create a HTML Table element.
-			var table = document.createElement("table");
-			table.border = "1";
-
-			//Add the header row.
-			var row = table.insertRow(-1);
-
-			//Add the header cells.
-			var headerCell = document.createElement("TH");
-			headerCell.innerHTML = "Number";
-			row.appendChild(headerCell);
-
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "Title";
-			row.appendChild(headerCell);
-
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "Creation Date";
-			row.appendChild(headerCell);
-
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "Status";
-			row.appendChild(headerCell);
-
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "Permalinks";
-			row.appendChild(headerCell);
-
-
-			//Add the data rows.
-			for (var i = 0; i < pullRequests.length; i++) {
-			    //Add the data row.
-			    var row = table.insertRow(-1);
-
-			    //Add the data cells.
-			    var cell = row.insertCell(-1);
-			    cell.innerHTML = pullRequests[i].number;
-
-			    cell = row.insertCell(-1);
-			    cell.innerHTML = pullRequests[i].title;
-
-			    cell = row.insertCell(-1);
-			    cell.innerHTML = pullRequests[i].created_at;
-
-			    cell = row.insertCell(-1);
-			    cell.innerHTML = pullRequests[i].state;
-
-			    cell = row.insertCell(-1);
-			    cell.innerHTML = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + pullRequests[i].number;
-			}
-
-			var dvTable = document.getElementById("dvPRGrid");
-			dvTable.innerHTML = "";
-			dvTable.appendChild(table);
-		    }
-		};
-		request.send();
-
-
+		Http.send(null);
 	</script>
 	  
 	  
