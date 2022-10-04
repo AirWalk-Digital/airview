@@ -107,20 +107,20 @@
 	<script>
 		const Http = new XMLHttpRequest();
 		const url = "https://api.github.com/repos/AirWalk-Digital/airview/pulls?state=open";
-		Http.open("GET", url)
+		Http.open("GET", url);
 		Http.send();
 
-		const Table = Document.getElementById('pr-table')
+		const Table = document.getElementById('pr-table');
 		Http.onreadystatechange=(e)=>{
 			if (this.readyState==4 && this.status==200){
-				const JSON = JSON.parse(Http.responseText)
+				const JSON = JSON.parse(Http.responseText);
 
 				for (var i=0; i<JSON; i++){
 					const prid = JSON['number'];
 					const prtitle = JSON['title'];
 					const prdate = JSON['created_at'];
 
-					const PRUIURL = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + prid
+					const PRUIURL = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + prid;
 
 					Table.find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + prdate + "</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + prtitle + "</td>" + "</tr>");
 
