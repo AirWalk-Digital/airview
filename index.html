@@ -98,36 +98,40 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							A pull request
-						</td>
-						<td>
-							01/01/1999
-						</td>
-						<td>
-							Open
-						</td>
-						<td>
-							<a type="button" class="btn btn-success" href="">
-								Airview UI Preview
-							</a>
-							<a type="button" class="btn btn-success" href="">
-								Airview Compliance-UI Preview
-							</a>
-						</td>
-					</tr>
+					
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
+	<script>
+		const Http = new XMLHttpRequest();
+		const url = "https://api.github.com/repos/AirWalk-Digital/airview/pulls?state=open";
+		Http.open("GET", url)
+		Http.send();
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
+		const Table = Document.getElementById('pr-table')
+		Http.onreadystatechange=(e)=>{
+			if (this.readyState==4 && this.status==200){
+				const JSON = JSON.parse(Http.responseText)
+
+				for (var i=0; i<JSON; i++){
+					const prid = JSON['number'];
+					const prtitle = JSON['title'];
+					const prdate = JSON['created_at'];
+
+					const PRUIURL = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + prid
+
+					Table.find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + prdate + "</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + prtitle + "</td>" + "</tr>");
+
+				}
+			}
+		}
+	</script>
+
+	  
+   	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/scripts.js"></script>
   </body>
 </html>
