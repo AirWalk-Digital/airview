@@ -113,7 +113,7 @@
 		const Table = document.getElementById('pr-table');
 		Http.onreadystatechange=(e)=>{
 			if (true == true){
-				console.log(Http.responseType);
+				console.log(Http.responseText);
 				const resp = JSON.parse(Http.responseText);
 
 				for (var i=0; i<resp; i++){
