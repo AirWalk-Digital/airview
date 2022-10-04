@@ -130,7 +130,8 @@
 					const PRCOMPUIURL = "https://airwalk-digital.github.io/airview/pr-preview-compliance-ui/pr-" + prid;
 
 
-					$(Table).find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + prdate + "</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + "<a type='button' class='btn btn-success' href=" + PRUIURL + ">Airview UI Preview</a>  "+ "<a type='button' class='btn btn-success' href=" + PRCOMPUIURL + ">Airview Compliance-UI Preview</a>" + "</td>" + "</tr>");
+					$(Table).find('tbody').append("<tr><td>" + prid + "</td>" + "<td>" + prtitle + "</td>" + "</td>" + "<td>" + resp[k].user.login + " (" + prdate + ")</td>" + "</td>" + "<td>" + "Open" + "</td>" + "</td>" + "<td>" + "<a type='button' class='btn btn-success' href=" + PRUIURL + ">Airview UI Preview</a>  "+ "<a type='button' class='btn btn-success' href=" + PRCOMPUIURL + ">Airview Compliance-UI Preview</a>" + "</td>" + "</tr>");
+
 
 				}
 			}
