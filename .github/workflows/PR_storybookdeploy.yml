@@ -27,6 +27,7 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           preview-branch: gh-pages
+          umbrella-dir: pr-preview-ui
           source-dir: packages/airview-ui/ui-static-build
           
   
@@ -45,5 +46,6 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           preview-branch: gh-pages
+          umbrella-dir: pr-preview-compliance-ui
           source-dir: packages/airview-compliance-ui/compliance-ui-static-build
           
