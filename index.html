@@ -113,12 +113,12 @@
 		const Table = document.getElementById('pr-table');
 		Http.onreadystatechange=(e)=>{
 			if (true == true){
-				const JSON = JSON.parse(Http.responseText);
+				const resp = JSON.parse(Http.responseText);
 
-				for (var i=0; i<JSON; i++){
-					const prid = JSON['number'];
-					const prtitle = JSON['title'];
-					const prdate = JSON['created_at'];
+				for (var i=0; i<resp; i++){
+					const prid = resp['number'];
+					const prtitle = resp['title'];
+					const prdate = resp['created_at'];
 
 					const PRUIURL = "https://airwalk-digital.github.io/airview/pr-preview-ui/pr-" + prid;
 
