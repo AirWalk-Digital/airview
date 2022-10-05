@@ -1,0 +1,51 @@
+# .github/workflows/preview.yml
+name: Deploy Pull Request Storybook
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-pr-ui:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build-storybook --workspace=airview-ui
+
+      - name: Deploy
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview-ui
+          source-dir: packages/airview-ui/ui-static-build
+          
+  
+  deploy-pr-compliance-ui:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build-storybook --workspace=airview-compliance-ui
+
+      - name: Deploy
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview-compliance-ui
+          source-dir: packages/airview-compliance-ui/compliance-ui-static-build
+          
