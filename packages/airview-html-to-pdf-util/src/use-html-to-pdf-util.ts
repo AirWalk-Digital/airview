@@ -73,7 +73,7 @@ const initialState = {
 };
 
 function useHtmlToPdfUtil(): {
-  print: (html: string) => void;
+  print: (html: string, css: string) => void;
   idle: boolean;
   loading: boolean;
   success: boolean;
@@ -93,7 +93,7 @@ function useHtmlToPdfUtil(): {
     };
   }, []);
 
-  const print = async (html: string) => {
+  const print = async (html: string, css: string) => {
     try {
       setStatus((prevStatus) => ({
         ...prevStatus,
@@ -104,13 +104,17 @@ function useHtmlToPdfUtil(): {
         purgeObjectURL();
         const preparedHTML = await prepareHTMLforPrint(html);
 
-        const body = JSON.stringify({ html: preparedHTML, css: "" });
+        const body = JSON.stringify({ html: preparedHTML, css });
 
         const resp = await fetch("/api/export", {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body,
         });
+
+        if (!resp.ok) {
+          throw new Error(resp.statusText);
+        }
 
         const blob = await resp.blob();
 
