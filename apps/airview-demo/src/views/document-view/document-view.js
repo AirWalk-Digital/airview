@@ -42,7 +42,9 @@ export function DocumentView() {
         />
         <div>
           <button
-            onClick={() => print(contentsRef?.current?.innerHTML)}
+            onClick={() => {
+              print(contentsRef?.current?.innerHTML);
+            }}
             disabled={
               isUninitialized || isLoading || isFetching || status.loading
             }
