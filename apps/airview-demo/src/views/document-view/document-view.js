@@ -13,6 +13,10 @@ import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
 import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
+import { DownloadDocumentPdfButton } from "./download-document-pdf";
+
+/* eslint import/no-webpack-loader-syntax: off */
+import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
   const { entryId, path } = useGetEntryId();
@@ -41,16 +45,13 @@ export function DocumentView() {
           linkComponent={ReactRouterLink}
         />
         <div>
-          <button
+          <DownloadDocumentPdfButton
             onClick={() => {
-              print(contentsRef?.current?.innerHTML);
+              print(contentsRef?.current?.innerHTML, css);
             }}
-            disabled={
-              isUninitialized || isLoading || isFetching || status.loading
-            }
-          >
-            Print to PDF
-          </button>
+            status={status}
+            disabled={isUninitialized || isLoading || isFetching || isError}
+          />
           <div ref={contentsRef}>
             <PageTitle
               title={data?.title ?? ""}
