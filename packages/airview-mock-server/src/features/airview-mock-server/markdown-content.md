@@ -20,7 +20,7 @@ Exercitationem amet vel aspernatur praesentium numquam expedita architecto conse
 - This is an [telephone](tel:01234567890) hyperlink
 - ~~This line of text is meant to be treated as deleted text.~~
 - **This line rendered as bold text**
-- _This line rendered as italicized text_
+- \*This line rendered as italicized text
 - This line of text includes `inline` code
 
 - In fermentum leo eu lectus mollis quis dictum mi aliquet
@@ -36,6 +36,17 @@ Exercitationem amet vel aspernatur praesentium numquam expedita architecto conse
 6. Quisque aliquam cursus urna, non bibendum massa viverra eget
 
 > Ut venenatis, nisl scelerisque sollicitudin fermentum, quam libero hendrerit ipsum, ut blandit est tellus sit amet turpis. Id illum neque iusto incidunt, nemo magnam excepturi perferendis.
+
+```
+<!-- HTML -->
+<article>
+  <p>This is some example HTML</p>
+</article>
+```
+
+```
+Unde iusto odio quaerat dicta omnis consectetur fugit. Vero dolor fugiat accusamus eius. Odit quisquam repellat in deleniti neque qui rerum recusandae necessitatibus voluptates sequi, nisi non voluptas quasi assumenda veniam. Maxime voluptatibus quibusdam delectus expedita ipsum, veniam harum optio asperiores odio aut quaerat voluptate eius accusamus
+```
 
 **Long string of text that needs breaking:**
 Lorem/ipsum/dolor/sit/amet/consectetur/adipisicing/elit/dolore/doloremque/obcaecati/eveniet/laboriosam/et/eos/deleniti/ipsum/dolor/sit/amet/consectetur/adipisicing/elit/dolore/doloremque/obcaecati/eveniet/laboriosam/et/eos/deleniti
