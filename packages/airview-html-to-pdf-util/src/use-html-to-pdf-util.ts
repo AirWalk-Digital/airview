@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { rehype } from "rehype";
 import { selectAll } from "hast-util-select";
-import type { Element, Root } from "hast";
+import { remove } from "unist-util-remove";
+import type { Root } from "hast";
 
-function createBase64ImageStringFromURL(url: string): Promise<string | void> {
+function createBase64ImageStringFromURL(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     fetch(url)
       .then((response) => {
@@ -29,12 +30,12 @@ function createBase64ImageStringFromURL(url: string): Promise<string | void> {
   });
 }
 
-function rehypeInlineImages() {
-  return async (tree: Root) => {
+function rehypeInlineImages(): (tree: Root) => void {
+  return async (tree) => {
     const images = selectAll("img", tree);
 
     await Promise.all(
-      images.map(async (image: Element) => {
+      images.map(async (image) => {
         const imagePath = image?.properties?.src;
 
         if (
@@ -59,8 +60,19 @@ function rehypeInlineImages() {
   };
 }
 
+function rehypeStripSVGs(): (tree: Root) => void {
+  return (tree) => {
+    remove(tree, (node) => {
+      return node.type === "element" && node.tagName === "svg";
+    });
+  };
+}
+
 async function prepareHTMLforPrint(html: string) {
-  const file = await rehype().use(rehypeInlineImages).process(html);
+  const file = await rehype()
+    .use(rehypeStripSVGs)
+    .use(rehypeInlineImages)
+    .process(html);
 
   return file.value;
 }
