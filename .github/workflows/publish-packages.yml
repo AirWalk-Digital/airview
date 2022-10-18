@@ -41,6 +41,10 @@ jobs:
         run: |
           npm version --no-git-tag-version --workspace=packages/airview-compliance-ui ${GITHUB_REF##*/}
           npm publish --workspace=packages/airview-compliance-ui/
+      - name: Publish airview-html-to-pdf-util
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-html-to-pdf-util ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-html-to-pdf-util/
 
       - name: Publish airview-cms-api-aws-lambda-wrapper
         run: |
