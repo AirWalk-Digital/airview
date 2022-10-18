@@ -1,0 +1,48 @@
+name: Storybook Deploy
+on:
+  push:
+    branches:
+      - main # if any push happens on branch `main`, run this workflow. You could also add `paths` to detect changes in specific folder
+
+jobs:
+  deploy-airview-ui:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build-storybook --workspace=airview-ui
+
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          branch: gh-pages
+          folder: packages/airview-ui/ui-static-build
+          clean: true
+          target_folder: airview-ui
+          
+  deploy-airview-compliance-ui:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build-storybook --workspace=airview-compliance-ui
+
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          branch: gh-pages
+          folder: packages/airview-compliance-ui/compliance-ui-static-build   # output folder from `npm run build-storybook`
+          clean: true
+          target_folder: airview-compliance-ui
