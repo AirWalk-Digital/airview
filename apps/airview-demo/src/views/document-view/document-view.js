@@ -51,27 +51,6 @@ export function DocumentView() {
           sx={{ marginBottom: 4 }}
           linkComponent={ReactRouterLink}
         />
-        <PageTitle
-          title={data?.title ?? ""}
-          loading={isLoading || isUninitialized}
-          fetching={isFetching}
-        />
-        <DocumentContent
-          loading={isLoading || isUninitialized}
-          fetching={isFetching}
-        />
-        {renderExternalContent && (
-          <div>
-            <div>
-              &nbsp; <br />{" "}
-            </div>
-            <ExternalDocumentContent
-              loading={isLoading || isUninitialized}
-              fetching={isFetching}
-              metadata={data}
-            />
-          </div>
-        )}
         <div>
           <DownloadDocumentPdfButton
             onClick={() => {
@@ -90,6 +69,18 @@ export function DocumentView() {
               loading={isLoading || isUninitialized}
               fetching={isFetching}
             />
+            {renderExternalContent && (
+              <div>
+                <div>
+                  &nbsp; <br />{" "}
+                </div>
+                <ExternalDocumentContent
+                  loading={isLoading || isUninitialized}
+                  fetching={isFetching}
+                  metadata={data}
+                />
+              </div>
+            )}
           </div>
         </div>
       </Main>
