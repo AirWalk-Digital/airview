@@ -288,4 +288,23 @@ export class CmsBackend {
   async getEntries(sha: string): Promise<CmsEntity[]> {
     return (await this.getData(sha)).meta;
   }
+
+  /**
+   * Get the external content for the data givem
+   *
+   * @param repo - The name of the external repo
+   * @param owner - The name of the external owner
+   * @param path - The name of the external path
+   *
+   * @returns - The dxternal content in base64 encoded format
+   *
+   */
+  async getExternalData(
+    repo: string,
+    owner: string,
+    path: string
+  ): Promise<Record<string, string>> {
+    const blob = await this._client.getExternalContent(repo, owner, path);
+    return { content: blob.content };
+  }
 }

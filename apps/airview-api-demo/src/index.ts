@@ -63,6 +63,26 @@ app.get(
 );
 
 app.get(
+  "/api/external-content/:repo/:owner",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (typeof req.query.path !== "string") {
+        res.status(400).send();
+        return;
+      }
+      const data = await backend.getExternalData(
+        req.params.repo,
+        req.params.owner,
+        req.query.path
+      );
+      res.send(data);
+    } catch (err) {
+      res.status(404).send();
+    }
+  }
+);
+
+app.get(
   "/api/media/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
