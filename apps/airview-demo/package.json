@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "airview-cms": "file:../../packages/airview-cms",
+    "airview-html-to-pdf-util": "file:../../packages/airview-html-to-pdf-util",
     "airview-mock-server": "file:../../packages/airview-mock-server",
     "airview-ui": "file:../../packages/airview-ui",
     "msw": "^0.39.2",
@@ -44,5 +45,9 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "proxy": "http://localhost:5001",
+  "devDependencies": {
+    "raw-loader": "^4.0.2"
   }
 }

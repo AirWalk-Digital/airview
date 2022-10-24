@@ -28,6 +28,8 @@ jobs:
         run: npm run storybook --workspace=packages/airview-ui -- --smoke-test --ci
       - name: Build airview-compliance-ui
         run: npm run build --workspace=packages/airview-compliance-ui
+      - name: Build airview-html-to-pdf-util
+        run: npm run build --workspace=packages/airview-html-to-pdf-util
       - name: Smoke test airview-ui Storybook
         run: npm run storybook --workspace=packages/airview-compliance-ui -- --smoke-test --ci
       - name: Build airview-cms-api

@@ -40,7 +40,8 @@
     "packages/airview-mock-server",
     "packages/airview-cms-api",
     "packages/airview-compliance-ui",
-    "apps/airview-api-demo"
+    "apps/airview-api-demo",
+    "packages/airview-html-to-pdf-util"
   ],
   "lint-staged": {
     "*.js": "eslint",
