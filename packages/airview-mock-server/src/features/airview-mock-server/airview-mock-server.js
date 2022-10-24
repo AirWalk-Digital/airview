@@ -13,6 +13,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
     getBranches,
     createBranch,
     resetStore,
+    getExternalContent,
   } = createStore();
 
   this.handlers = [
@@ -73,6 +74,29 @@ export function AirviewMockServer(delay = 500, domain = "") {
         );
       }
     }),
+
+    rest.get(
+      `${domain}/api/external-content/:repo/:owner`,
+      function (req, res, ctx) {
+        const path = req.url.searchParams.get("path");
+        const content = getExternalContent(
+          req.params.repo,
+          req.params.owner,
+          path
+        );
+
+        if (content) {
+          return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json({ content }));
+        } else {
+          return res(
+            ctx.status(404),
+            ctx.json({
+              message: `External Content '${req.params.repo}' not found`,
+            })
+          );
+        }
+      }
+    ),
 
     rest.get(`${domain}/api/media/:sha`, function (req, res, ctx) {
       const path = req.url.searchParams.get("path");

@@ -14,12 +14,21 @@ export function createSeedData() {
         collection: "application",
         meta: {
           title: "Microsoft Teams",
+          external_repo: "external_repo",
+          external_owner: "external_owner",
+          external_path: "README.md",
         },
         content: {
           "_index.md": btoa(
-            matter.stringify("I am body content for Microsoft Teams", {
-              title: "Microsoft Teams",
-            })
+            matter.stringify(
+              "I am body content for Microsoft Teams \n \n This is an external link: [https://github.com/external_repo/external_owner/blob/main/README.md](https://github.com/AirWalk-Digital/terraform-aws-airview/blob/main/README.md) \n \n Some other random stuff.",
+              {
+                title: "Microsoft Teams",
+                external_repo: "external_repo",
+                external_owner: "external_owner",
+                external_path: "README.md",
+              }
+            )
           ),
         },
       },
@@ -156,8 +165,26 @@ export function createSeedData() {
     },
   };
 
+  const external_content = {
+    ["external_repo"]: {
+      external_owner: {
+        "README.md": btoa(
+          matter.stringify("I am the content of the external repo")
+        ),
+      },
+    },
+    ["external_repo_2"]: {
+      external_owner_2: {
+        "README.md": btoa(
+          matter.stringify("Some random content of the extenral repo2")
+        ),
+      },
+    },
+  };
+
   return {
     branches,
     entries,
+    external_content,
   };
 }
