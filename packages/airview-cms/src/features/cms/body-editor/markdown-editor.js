@@ -142,8 +142,40 @@ export function MarkdownEditor() {
   }
 
   return (
-    <div data-color-mode="light">
-      <MDEditor.Markdown source={markdownContent} components={components} />
-    </div>
+    // <div data-color-mode="light">
+    //   <MDEditor.Markdown source={markdownContent} components={components} />
+    // </div>
+    <MDXRenderer content={markdownContent} />
   );
 }
+
+import { useEffect, useState } from "react";
+import * as runtime from "react/jsx-runtime";
+import { evaluate } from "@mdx-js/mdx";
+import * as provider from "@mdx-js/react";
+import PropTypes from "prop-types";
+
+function useMDX(content) {
+  const [exports, setExports] = useState({ default: runtime.Fragment });
+
+  useEffect(() => {
+    const processContent = async () => {
+      const exports = await evaluate(content, { ...provider, ...runtime });
+      setExports(exports);
+    };
+
+    processContent();
+  }, [content]);
+
+  return exports.default;
+}
+
+function MDXRenderer({ content }) {
+  const Content = useMDX(content);
+
+  return <Content />;
+}
+
+MDXRenderer.propTypes = {
+  content: PropTypes.string,
+};
