@@ -31,7 +31,11 @@
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
     "rehype-sanitize": "^5.0.1",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "remark-gfm": "^3.0.1",
+    "@mdx-js/mdx": "^2.1.5",
+    "@mdx-js/react": "^2.1.5",
+    "rehype-highlight": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

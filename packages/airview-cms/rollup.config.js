@@ -34,6 +34,8 @@ export default [
       "react/jsx-runtime",
       "@mdx-js/mdx",
       "@mdx-js/react",
+      "remark-gfm",
+      "rehype-highlight",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [

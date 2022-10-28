@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { StyledWysiwygLoading } from "./styled-wysiwyg-loading";
+import "highlight.js/styles/atom-one-dark.css";
 
 export function StyledWysiwyg({
   children,
