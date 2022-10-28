@@ -266,6 +266,24 @@ export class GithubClient implements GitClient {
     return { sha: data.sha, content: data.content };
   }
 
+  async getExternalContent(
+    repo: string,
+    owner: string,
+    path: string
+  ): Promise<GitBlob> {
+    const url = `${this.githubApiBaseUri}/repos/${owner}/${repo}/contents/${path}`;
+    const resp = await this._fetchWithHeaders(url);
+    if (resp.status != 200) {
+      throw Error(
+        `Bad status getting external content ${
+          resp.status
+        } ${await resp.text()})`
+      );
+    }
+    const data: any = await resp.json();
+    return { sha: data.sha, content: data.content };
+  }
+
   async setContent(inboundContent: InboundContent): Promise<GitBlob[]> {
     // needs to commit content and somehow announce the sha's of the content it put to github so they can be mapped to the base64 content
     // this will allow us to cache the blob without a second call to git

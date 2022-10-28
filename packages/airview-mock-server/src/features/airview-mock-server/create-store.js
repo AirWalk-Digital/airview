@@ -3,7 +3,7 @@ import { createSeedData } from "./create-seed-data";
 import matter from "gray-matter";
 
 export function createStore() {
-  let { branches, entries } = createSeedData();
+  let { branches, entries, external_content } = createSeedData();
 
   const getBranches = () => Object.values(branches);
 
@@ -60,6 +60,11 @@ export function createStore() {
     return e;
   };
 
+  const getExternalContent = (repo, owner, path) => {
+    const content = external_content[repo][owner][path];
+    return content;
+  };
+
   const persistContent = (entryId, branchName, content) => {
     const newBranchSha = nanoid();
     branches[branchName].sha = newBranchSha;
@@ -102,5 +107,6 @@ export function createStore() {
     getBranches,
     createBranch,
     resetStore,
+    getExternalContent,
   };
 }

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Navigate, Link as ReactRouterLink } from "react-router-dom";
-import { useSetCmsContext } from "airview-cms";
+import { useSetCmsContext, useCMSViewportOffset } from "airview-cms";
 import {
   PageTitle,
   AsideAndMainContainer,
@@ -13,6 +13,7 @@ import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
 import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
+import { ExternalDocumentContent } from "./external-document-content";
 import { DownloadDocumentPdfButton } from "./download-document-pdf";
 
 /* eslint import/no-webpack-loader-syntax: off */
@@ -27,11 +28,17 @@ export function DocumentView() {
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
     useSetCmsContext({ entryId, path });
 
+  const cmsEnabled = useCMSViewportOffset();
+
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
 
   if (isError && error.status === 404) {
     return <Navigate to="/not-found" replace={true} />;
   }
+
+  const hasExternalContent = "external_repo" in data;
+
+  const renderExternalContent = hasExternalContent && !cmsEnabled;
 
   return (
     <AsideAndMainContainer>
@@ -62,6 +69,18 @@ export function DocumentView() {
               loading={isLoading || isUninitialized}
               fetching={isFetching}
             />
+            {renderExternalContent && (
+              <div>
+                <div>
+                  &nbsp; <br />{" "}
+                </div>
+                <ExternalDocumentContent
+                  loading={isLoading || isUninitialized}
+                  fetching={isFetching}
+                  metadata={data}
+                />
+              </div>
+            )}
           </div>
         </div>
       </Main>

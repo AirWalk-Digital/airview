@@ -40,6 +40,11 @@ export interface GitClient {
   getBranches(): Promise<GitBranch[]>;
   getTree(sha: string, recursive?: boolean): Promise<GitTree[]>;
   getBlob(sha: string): Promise<GitBlob>;
+  getExternalContent(
+    repo: string,
+    owner: string,
+    path: string
+  ): Promise<GitBlob>;
   setContent(content: InboundContent): Promise<GitBlob[]>;
   deleteEntity(content: InboundEntity): Promise<any>;
   createBranch(baseSha: string, branchName: string): Promise<CmsResult<void>>;

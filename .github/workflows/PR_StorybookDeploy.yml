@@ -29,8 +29,7 @@ jobs:
           preview-branch: gh-pages
           umbrella-dir: pr-preview-ui
           source-dir: packages/airview-ui/ui-static-build
-          
-  
+
   deploy-pr-compliance-ui:
     runs-on: ubuntu-20.04
     steps:
@@ -48,4 +47,3 @@ jobs:
           preview-branch: gh-pages
           umbrella-dir: pr-preview-compliance-ui
           source-dir: packages/airview-compliance-ui/compliance-ui-static-build
-          
