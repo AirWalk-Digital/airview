@@ -16,7 +16,7 @@ import {
   selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
-
+import { MDXRenderer } from "../mdx-renderer/mdx-renderer";
 import { selectBaseUrl } from "../config-slice";
 
 function isLinkExternal(url) {
@@ -141,9 +141,5 @@ export function MarkdownEditor() {
     );
   }
 
-  return (
-    <div data-color-mode="light">
-      <MDEditor.Markdown source={markdownContent} components={components} />
-    </div>
-  );
+  return <MDXRenderer source={markdownContent} />;
 }

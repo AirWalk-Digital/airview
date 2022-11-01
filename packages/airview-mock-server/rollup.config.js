@@ -13,7 +13,7 @@ const config = {
   plugins: [
     resolve(),
     babel({ babelHelpers: "bundled" }),
-    string({ include: "**/*.md" }),
+    string({ include: "**/*.{md,mdx}" }),
   ],
 };
 

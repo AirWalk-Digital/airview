@@ -31,6 +31,11 @@ export default [
       "rehype-sanitize",
       "unist-util-visit",
       "mime",
+      "react/jsx-runtime",
+      "@mdx-js/mdx",
+      "@mdx-js/react",
+      "remark-gfm",
+      "rehype-highlight",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
