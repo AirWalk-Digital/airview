@@ -15,9 +15,6 @@ export function createSeedData() {
         collection: "application",
         meta: {
           title: "Microsoft Teams",
-          external_repo: "external_repo",
-          external_owner: "external_owner",
-          external_path: "README.md",
         },
         content: {
           "_index.md": btoa(
@@ -25,9 +22,6 @@ export function createSeedData() {
               "I am body content for Microsoft Teams \n \n This is an external link: [https://github.com/external_repo/external_owner/blob/main/README.md](https://github.com/AirWalk-Digital/terraform-aws-airview/blob/main/README.md) \n \n Some other random stuff.",
               {
                 title: "Microsoft Teams",
-                external_repo: "external_repo",
-                external_owner: "external_owner",
-                external_path: "README.md",
               }
             )
           ),
@@ -75,18 +69,24 @@ export function createSeedData() {
           ),
         },
       },
-      "knowledge/composing_a_new_message": {
+      "knowledge/with_external_content": {
         sha: nanoid(),
         collection: "knowledge",
         meta: {
-          title: "Composing a new message",
+          title: "With External Content",
           parent: "application/ms_teams",
+          external_repo: "external_repo",
+          external_owner: "external_owner",
+          external_path: "README.md",
         },
         content: {
           "_index.md": btoa(
-            matter.stringify("I am body content for Composing a new message", {
-              title: "Composing a new message",
+            matter.stringify("I am body content for With External Content", {
+              title: "With External Content",
               parent: "application/ms_teams",
+              external_repo: "external_repo",
+              external_owner: "external_owner",
+              external_path: "README.md",
             })
           ),
           section_one: btoa(

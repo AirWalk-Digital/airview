@@ -23,6 +23,21 @@ export const config = {
           collection: "application",
           required: true,
         },
+        {
+          label: "External Repo",
+          name: "external_repo",
+          widget: "string",
+        },
+        {
+          label: "External Owner",
+          name: "external_owner",
+          widget: "string",
+        },
+        {
+          label: "External Path",
+          name: "external_path",
+          widget: "string",
+        },
       ],
       additionalFiles: ["section_one", "section_two"],
     },
