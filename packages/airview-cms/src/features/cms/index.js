@@ -21,4 +21,5 @@ export { useUnsavedEditsNavPrompt } from "./use-unsaved-edits-nav-prompt";
 export { useClearCmsContext } from "./use-clear-cms-context";
 export { useHandleOnContentCreation } from "./use-handle-on-content-creation";
 export { useCMSViewportOffset } from "./use-cms-viewport-offset";
+export { useEnableBranchViaSearchParam } from "./use-enable-branch-via-search-param";
 export { MDXProvider } from "./mdx-renderer";

@@ -8,12 +8,14 @@ import {
   MainContent,
   useInvalidateBranches,
   useUnsavedEditsNavPrompt,
+  useEnableBranchViaSearchParam,
 } from "@features";
 
 export function MainView({ children }) {
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   useUnsavedEditsNavPrompt();
   useInvalidateBranches();
+  useEnableBranchViaSearchParam();
 
   return (
     <React.Fragment>
