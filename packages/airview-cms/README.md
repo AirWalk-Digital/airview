@@ -253,7 +253,9 @@ Airview CMS exports a utility hook to allow you to set the CMS context, `useSetC
 
 ## Routing
 
-AirviewCMS uses [React Router v6](https://reactrouter.com/), it is recommended you use this package for your apps routing too.
+AirviewCMS uses [React Router v6](https://reactrouter.com/), it is required that you use this package for your apps routing too.
+
+AirviewCMS supports the instantiation of a route / page using a URL query parameter, the key should be `branch` with a value equal to the branch you want to view, for example `https://my-app.com?branch=main`
 
 ## Additional hooks
 
