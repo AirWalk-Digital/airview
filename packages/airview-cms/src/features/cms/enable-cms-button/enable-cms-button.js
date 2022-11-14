@@ -22,7 +22,7 @@ export function EnableCmsButton() {
         right: 32,
       }}
     >
-      Enable CMS
+      Edit Content
     </Button>
   );
 }
