@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Navigate, Link as ReactRouterLink } from "react-router-dom";
 import { useSetCmsContext, useCMSViewportOffset } from "airview-cms";
 import {
@@ -7,21 +7,26 @@ import {
   Aside,
   Main,
   Breadcrumb,
+  DocumentActions,
 } from "airview-ui";
 import { useHtmlToPdfUtil } from "airview-html-to-pdf-util";
 import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
-import { TableOfContents } from "./table-of-contents";
 import { DocumentContent } from "./document-content";
 import { ExternalDocumentContent } from "./external-document-content";
-import { DownloadDocumentPdfButton } from "./download-document-pdf";
 
 /* eslint import/no-webpack-loader-syntax: off */
 import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
+  useEffect(() => {
+    console.log("PAGE MOUNT");
+
+    return () => console.log("PAGE UNMOUNT");
+  }, []);
+
   const { entryId, path } = useGetEntryId();
-  const { print, ...status } = useHtmlToPdfUtil();
+  const { print, ...status } = useHtmlToPdfUtil(entryId);
 
   const contentsRef = useRef();
 
@@ -52,13 +57,6 @@ export function DocumentView() {
           linkComponent={ReactRouterLink}
         />
         <div>
-          <DownloadDocumentPdfButton
-            onClick={() => {
-              print(contentsRef?.current?.innerHTML, css);
-            }}
-            status={status}
-            disabled={isUninitialized || isLoading || isFetching || isError}
-          />
           <div ref={contentsRef}>
             <PageTitle
               title={data?.title ?? ""}
@@ -85,7 +83,19 @@ export function DocumentView() {
         </div>
       </Main>
       <Aside>
-        <TableOfContents />
+        <DocumentActions
+          menuTitle="Document Actions"
+          loading={isLoading || isUninitialized}
+          fetching={isFetching}
+          srcURL="/"
+          linkComponent={ReactRouterLink}
+          onDownloadPDFClick={() => {
+            print(contentsRef?.current?.innerHTML, css);
+          }}
+          downloadStatus={
+            status.loading ? "loading" : status.error ? "error" : null
+          }
+        />
       </Aside>
     </AsideAndMainContainer>
   );

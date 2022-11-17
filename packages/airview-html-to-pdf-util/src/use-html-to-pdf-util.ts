@@ -84,7 +84,7 @@ const initialState = {
   error: false,
 };
 
-function useHtmlToPdfUtil(): {
+function useHtmlToPdfUtil(key: string): {
   print: (html: string, css: string) => void;
   idle: boolean;
   loading: boolean;
@@ -102,8 +102,9 @@ function useHtmlToPdfUtil(): {
   useEffect(() => {
     return () => {
       purgeObjectURL();
+      setStatus(initialState);
     };
-  }, []);
+  }, [key]);
 
   const print = async (html: string, css: string) => {
     try {
