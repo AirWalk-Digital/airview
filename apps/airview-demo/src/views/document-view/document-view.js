@@ -19,12 +19,6 @@ import { ExternalDocumentContent } from "./external-document-content";
 import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
-  useEffect(() => {
-    console.log("PAGE MOUNT");
-
-    return () => console.log("PAGE UNMOUNT");
-  }, []);
-
   const { entryId, path } = useGetEntryId();
   const { print, ...status } = useHtmlToPdfUtil(entryId);
 
