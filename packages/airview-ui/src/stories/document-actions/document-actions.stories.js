@@ -1,17 +1,17 @@
 import React from "react";
 import { DocumentActions } from "../../features";
-//import Documentation from "./page-title.doc.md";
+import Documentation from "./document-actions.doc.md";
 
 export default {
   title: "Components/Document Actions",
   component: DocumentActions,
   parameters: {
     layout: "centered",
-    // docs: {
-    //   description: {
-    //     component: Documentation,
-    //   },
-    // },
+    docs: {
+      description: {
+        component: Documentation,
+      },
+    },
   },
 };
 
