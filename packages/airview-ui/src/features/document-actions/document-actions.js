@@ -40,11 +40,17 @@ function DocumentActions({
   sx,
   onDownloadPDFClick,
   downloadStatus,
+  pageLinkUrl,
   ...rest
 }) {
   const [collapsed, setCollapsed] = useState(
     collapsible ? initialCollapsed : false
   );
+
+  const handleOnCopyLinkClick = async () => {
+    await navigator.clipboard.writeText(pageLinkUrl);
+    window.alert("Page link copied to clipboard");
+  };
 
   return (
     <Box
@@ -147,6 +153,23 @@ function DocumentActions({
               </Link>
             )}
           </Box>
+          <Box component="li">
+            {loading ? (
+              <Skeleton component="span" />
+            ) : (
+              <Link
+                underline={downloadStatus !== "loading" ? "hover" : "none"}
+                component="button"
+                onClick={handleOnCopyLinkClick}
+                sx={{
+                  fontFamily: "default",
+                  fontSize: "default",
+                }}
+              >
+                Copy page link to clipboard
+              </Link>
+            )}
+          </Box>
         </Box>
       </Collapse>
     </Box>
@@ -165,6 +188,7 @@ DocumentActions.propTypes = {
   sx: PropTypes.object,
   downloadStatus: PropTypes.oneOf(["loading", "error"]),
   onDownloadPDFClick: PropTypes.func,
+  pageLinkUrl: PropTypes.string.isRequired,
 };
 
 export { DocumentActions };

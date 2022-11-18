@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Navigate, Link as ReactRouterLink } from "react-router-dom";
 import { useSetCmsContext, useCMSViewportOffset } from "airview-cms";
 import {

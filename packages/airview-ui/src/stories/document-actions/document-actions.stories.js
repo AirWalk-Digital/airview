@@ -25,6 +25,7 @@ Template.args = {
   loading: false,
   fetching: false,
   srcURL: "/",
+  pageLinkUrl: "https://github.com/AirWalk-Digital/airview",
 };
 
 Template.argTypes = {
