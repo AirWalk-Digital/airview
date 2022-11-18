@@ -7,3 +7,4 @@ export * from "./search";
 export * from "./aside-and-main";
 export * from "./styled-wysiwyg";
 export * from "./breadcrumb";
+export * from "./document-actions";

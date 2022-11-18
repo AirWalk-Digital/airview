@@ -14,6 +14,7 @@ import {
   StyledWysiwyg,
   Breadcrumb,
   Search,
+  DocumentActions,
 } from "../../features";
 import documentation from "./documentation-view.doc.md";
 import logo from "./logo.svg";
@@ -336,6 +337,13 @@ const Template = (args) => {
             </StyledWysiwyg>
           </Main>
           <Aside>
+            <DocumentActions
+              menuTitle="Document Actions"
+              srcURL=""
+              sx={{ mb: 2 }}
+              loading={args.loading}
+              fetching={args.fetching}
+            />
             <Menu
               menuTitle="Table of Contents"
               menuItems={tocItems}

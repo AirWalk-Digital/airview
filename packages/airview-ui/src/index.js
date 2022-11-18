@@ -10,4 +10,5 @@ export {
   StyledWysiwyg,
   Breadcrumb,
   Search,
+  DocumentActions,
 } from "@features";

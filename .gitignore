@@ -6,3 +6,5 @@ build
 .env
 /.envrc
 storybook-static
+github-app-private-key.pem
+github-app-private-key.pem/
