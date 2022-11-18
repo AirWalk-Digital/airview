@@ -35,7 +35,6 @@ function DocumentActions({
   initialCollapsed = false,
   loading = false,
   fetching = false,
-  linkComponent,
   srcURL,
   sx,
   onDownloadPDFClick,
@@ -123,8 +122,8 @@ function DocumentActions({
             ) : (
               <Link
                 underline="hover"
-                component={linkComponent}
-                to={srcURL}
+                component="a"
+                href={srcURL}
                 target="_blank"
               >
                 View Document Source
@@ -183,7 +182,6 @@ DocumentActions.propTypes = {
   initialCollapsed: PropTypes.bool,
   loading: PropTypes.bool,
   fetching: PropTypes.bool,
-  linkComponent: PropTypes.any,
   srcURL: PropTypes.string.isRequired,
   sx: PropTypes.object,
   downloadStatus: PropTypes.oneOf(["loading", "error"]),
