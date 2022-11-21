@@ -81,9 +81,8 @@ export function DocumentView() {
           menuTitle="Document Actions"
           loading={isLoading || isUninitialized}
           fetching={isFetching}
-          srcURL="/"
+          srcURL="https://github.com/AirWalk-Digital/airview"
           pageLinkUrl="https://github.com/AirWalk-Digital/airview"
-          linkComponent={ReactRouterLink}
           onDownloadPDFClick={() => {
             print(contentsRef?.current?.innerHTML, css);
           }}

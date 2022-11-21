@@ -230,5 +230,5 @@ Search.propTypes = {
   /**
    * Component used for routing i.e React Router `Link`
    */
-  linkComponent: PropTypes.node.isRequired,
+  linkComponent: PropTypes.any.isRequired,
 };
