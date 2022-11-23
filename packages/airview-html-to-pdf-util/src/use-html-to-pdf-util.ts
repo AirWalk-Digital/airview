@@ -119,7 +119,7 @@ function useHtmlToPdfUtil(key: string): {
 
         const body = JSON.stringify({ html: preparedHTML, css });
 
-        const resp = await fetch("/api/export", {
+        const resp = await fetch("/api/cms/export", {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body,
