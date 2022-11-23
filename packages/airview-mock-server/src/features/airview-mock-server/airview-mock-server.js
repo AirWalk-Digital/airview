@@ -17,12 +17,12 @@ export function AirviewMockServer(delay = 500, domain = "") {
   } = createStore();
 
   this.handlers = [
-    rest.get(`${domain}/api/branches`, function (req, res, ctx) {
+    rest.get(`${domain}/api/cms/branches`, function (req, res, ctx) {
       const branches = getBranches();
       return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(branches));
     }),
 
-    rest.post(`${domain}/api/branches`, function (req, res, ctx) {
+    rest.post(`${domain}/api/cms/branches`, function (req, res, ctx) {
       const { baseSha, name } = req.body;
 
       const branches = createBranch(baseSha, name);
@@ -34,14 +34,17 @@ export function AirviewMockServer(delay = 500, domain = "") {
       }
     }),
 
-    rest.delete(`${domain}/api/content/:branchSha`, function (req, res, ctx) {
-      const { branchSha } = req.params;
+    rest.delete(
+      `${domain}/api/cms/content/:branchSha`,
+      function (req, res, ctx) {
+        const { branchSha } = req.params;
 
-      deleteBranch(branchSha);
-      return res(ctx.delay(ARTIFICIAL_DELAY_MS));
-    }),
+        deleteBranch(branchSha);
+        return res(ctx.delay(ARTIFICIAL_DELAY_MS));
+      }
+    ),
 
-    rest.get(`${domain}/api/entries/:branchSha`, function (req, res, ctx) {
+    rest.get(`${domain}/api/cms/entries/:branchSha`, function (req, res, ctx) {
       const { branchSha } = req.params;
 
       const entriesMeta = getEntries(branchSha);
@@ -59,7 +62,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
       }
     }),
 
-    rest.get(`${domain}/api/content/:sha`, function (req, res, ctx) {
+    rest.get(`${domain}/api/cms/content/:sha`, function (req, res, ctx) {
       const path = req.url.searchParams.get("path");
       const content = getEntryContent(req.params.sha, path);
 
@@ -76,7 +79,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
     }),
 
     rest.get(
-      `${domain}/api/external-content/:repo/:owner`,
+      `${domain}/api/cms/external-content/:repo/:owner`,
       function (req, res, ctx) {
         const path = req.url.searchParams.get("path");
         const content = getExternalContent(
@@ -98,7 +101,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
       }
     ),
 
-    rest.get(`${domain}/api/media/:sha`, function (req, res, ctx) {
+    rest.get(`${domain}/api/cms/media/:sha`, function (req, res, ctx) {
       const path = req.url.searchParams.get("path");
       const content = getEntryContent(req.params.sha, path);
 
@@ -121,7 +124,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
 
     // branchSha, branchName, entrySha (branchSha as q param)
     rest.put(
-      `${domain}/api/content/:collection/:entity`,
+      `${domain}/api/cms/content/:collection/:entity`,
       function (req, res, ctx) {
         const id = `${req.params.collection}/${req.params.entity}`;
         const branchName = req.url.searchParams.get("branch");
@@ -142,7 +145,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
     ),
 
     rest.delete(
-      `${domain}/api/content/:collection/:entity/:branch`,
+      `${domain}/api/cms/content/:collection/:entity/:branch`,
       function (req, res, ctx) {
         const entryId = `${req.params.collection}/${req.params.entity}`;
         dropEntry(entryId, req.params.branch);
@@ -150,7 +153,7 @@ export function AirviewMockServer(delay = 500, domain = "") {
       }
     ),
 
-    rest.post(`${domain}/api/pulls`, function (req, res, ctx) {
+    rest.post(`${domain}/api/cms/pulls`, function (req, res, ctx) {
       const { baseBranch, headBranch } = req.body;
 
       if (baseBranch !== headBranch) {
