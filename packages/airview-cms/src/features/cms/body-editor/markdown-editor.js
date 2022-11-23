@@ -16,7 +16,7 @@ import {
   selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
-import { MDXRenderer } from "../mdx-renderer/mdx-renderer";
+//import { MDXRenderer } from "../mdx-renderer/mdx-renderer";
 import { selectBaseUrl } from "../config-slice";
 
 function isLinkExternal(url) {
@@ -141,5 +141,12 @@ export function MarkdownEditor() {
     );
   }
 
-  return <MDXRenderer source={markdownContent} />;
+  return (
+    <div data-color-mode="light">
+      <MDEditor.Markdown source={markdownContent} components={components} />
+    </div>
+  );
+
+  // Disabled until a solution for supporing images withing MDX can be found
+  //return <MDXRenderer source={markdownContent} />;
 }

@@ -14,13 +14,17 @@ import { useGetBreadcrumbLinksData } from "./use-get-breadcrumb-links-data";
 import { useGetEntryId } from "./use-get-entry-id";
 import { DocumentContent } from "./document-content";
 import { ExternalDocumentContent } from "./external-document-content";
+import { config } from "../../config";
 
 /* eslint import/no-webpack-loader-syntax: off */
 import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
   const { entryId, path } = useGetEntryId();
-  const { print, ...status } = useHtmlToPdfUtil(entryId);
+  const { print, ...status } = useHtmlToPdfUtil(
+    entryId,
+    `${config.baseUrl}/export`
+  );
 
   const contentsRef = useRef();
 
