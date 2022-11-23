@@ -47,7 +47,7 @@ app.use(express.json({ limit: "50mb" }));
 const port = process.env.PORT || 3000;
 
 app.get(
-  "/api/content/:sha",
+  "/api/cms/content/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.path !== "string") {
@@ -63,7 +63,7 @@ app.get(
 );
 
 app.get(
-  "/api/external-content/:repo/:owner",
+  "/api/cms/external-content/:repo/:owner",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.path !== "string") {
@@ -83,7 +83,7 @@ app.get(
 );
 
 app.get(
-  "/api/media/:sha",
+  "/api/cms/media/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.path !== "string") {
@@ -102,7 +102,7 @@ app.get(
   }
 );
 
-app.put("/api/content/:collection/:entity", async (req, res, next) => {
+app.put("/api/cms/content/:collection/:entity", async (req, res, next) => {
   try {
     if (typeof req.query.branch !== "string") {
       res.status(400).send();
@@ -130,7 +130,7 @@ app.put("/api/content/:collection/:entity", async (req, res, next) => {
 });
 
 app.delete(
-  "/api/content/:collection/:entity",
+  "/api/cms/content/:collection/:entity",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (typeof req.query.branch !== "string") {
@@ -159,7 +159,7 @@ app.delete(
 );
 
 app.get(
-  "/api/entries/:sha",
+  "/api/cms/entries/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getEntries(req.params.sha);
@@ -171,7 +171,7 @@ app.get(
 );
 
 app.get(
-  "/api/branches",
+  "/api/cms/branches",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.getBranches();
@@ -183,7 +183,7 @@ app.get(
 );
 
 app.post(
-  "/api/branches",
+  "/api/cms/branches",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const baseSha = req.body.baseSha;
@@ -199,7 +199,7 @@ app.post(
 );
 
 app.post(
-  "/api/pulls",
+  "/api/cms/pulls",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await backend.createPullRequest(req.body);
