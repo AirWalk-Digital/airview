@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import matter from "gray-matter";
-import md from "./markdown-content.mdx";
+//import md from "./markdown-content.mdx";
+import md from "./markdown-content.md";
 
 export function createSeedData() {
   const branches = {
