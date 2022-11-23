@@ -84,7 +84,10 @@ const initialState = {
   error: false,
 };
 
-function useHtmlToPdfUtil(key: string): {
+function useHtmlToPdfUtil(
+  key: string,
+  endpoint: string
+): {
   print: (html: string, css: string) => void;
   idle: boolean;
   loading: boolean;
@@ -119,7 +122,7 @@ function useHtmlToPdfUtil(key: string): {
 
         const body = JSON.stringify({ html: preparedHTML, css });
 
-        const resp = await fetch("/api/cms/export", {
+        const resp = await fetch(endpoint, {
           method: "post",
           headers: { "Content-Type": "application/json" },
           body,
