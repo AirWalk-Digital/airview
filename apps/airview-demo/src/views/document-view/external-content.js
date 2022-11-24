@@ -8,7 +8,7 @@ export function ExternalContent({ metadata }) {
 
   useEffect(() => {
     async function getData() {
-      const url = `/api/external-content/${metadata.external_repo}/${metadata.external_owner}?path=${metadata.external_path}`;
+      const url = `/api/cms/external-content/${metadata.external_repo}/${metadata.external_owner}?path=${metadata.external_path}`;
       const actualData = await fetch(url).then((response) => response.json());
 
       const { content: markdownBody } = matter(
