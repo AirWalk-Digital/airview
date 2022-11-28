@@ -16,8 +16,9 @@ import {
   selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
-//import { MDXRenderer } from "../mdx-renderer/mdx-renderer";
 import { selectBaseUrl } from "../config-slice";
+import { MDXContent } from "./mdx-content";
+import PropTypes from "prop-types";
 
 function isLinkExternal(url) {
   var r = new RegExp("^(?:[a-z+]+:)?//", "i");
@@ -60,7 +61,7 @@ function imagePicker(dispatch) {
   };
 }
 
-export function MarkdownEditor() {
+export function MarkdownEditor({ components: externalComponents }) {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
@@ -142,11 +143,14 @@ export function MarkdownEditor() {
   }
 
   return (
-    <div data-color-mode="light">
-      <MDEditor.Markdown source={markdownContent} components={components} />
-    </div>
+    <MDXContent
+      components={components}
+      externalComponents={externalComponents}
+      markdownContent={markdownContent}
+    />
   );
-
-  // Disabled until a solution for supporing images withing MDX can be found
-  //return <MDXRenderer source={markdownContent} />;
 }
+
+MarkdownEditor.propTypes = {
+  components: PropTypes.object,
+};

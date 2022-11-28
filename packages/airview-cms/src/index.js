@@ -12,5 +12,4 @@ export {
   useGetBranches,
   useGetCurrentBranch,
   MarkdownEditor,
-  MDXProvider,
 } from "@features";
