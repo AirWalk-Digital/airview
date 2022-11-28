@@ -19,7 +19,6 @@ function useMDX(source) {
       });
       setExports(exports);
     };
-    console.log("compile MDX");
     processContent();
   }, [source]);
 
