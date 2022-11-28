@@ -17,7 +17,7 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 import { selectBaseUrl } from "../config-slice";
-import { useMDX } from "../mdx-renderer";
+import { useMDX } from "./use-mdx";
 import PropTypes from "prop-types";
 
 function isLinkExternal(url) {
