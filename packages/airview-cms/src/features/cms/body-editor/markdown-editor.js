@@ -16,8 +16,9 @@ import {
   selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
-//import { MDXRenderer } from "../mdx-renderer/mdx-renderer";
 import { selectBaseUrl } from "../config-slice";
+import { useMDX } from "../mdx-renderer";
+import PropTypes from "prop-types";
 
 function isLinkExternal(url) {
   var r = new RegExp("^(?:[a-z+]+:)?//", "i");
@@ -60,13 +61,15 @@ function imagePicker(dispatch) {
   };
 }
 
-export function MarkdownEditor() {
+export function MarkdownEditor({ components: externalComponents }) {
   const dispatch = useDispatch();
   const markdownContent = useSelector(selectBodyEditorData);
   const cmsEnabled = useSelector(selectCmsEnabledStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
+
+  const Content = useMDX(markdownContent);
 
   const components = {
     img: ({ src, alt }) => {
@@ -142,11 +145,14 @@ export function MarkdownEditor() {
   }
 
   return (
-    <div data-color-mode="light">
-      <MDEditor.Markdown source={markdownContent} components={components} />
+    <div className="styled-wysiwyg-content">
+      {Content && (
+        <Content components={{ ...components, ...externalComponents }} />
+      )}
     </div>
   );
-
-  // Disabled until a solution for supporing images withing MDX can be found
-  //return <MDXRenderer source={markdownContent} />;
 }
+
+MarkdownEditor.propTypes = {
+  components: PropTypes.object,
+};

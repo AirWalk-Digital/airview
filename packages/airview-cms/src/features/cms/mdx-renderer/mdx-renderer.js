@@ -9,7 +9,7 @@ import rehypeHighlight from "rehype-highlight";
 import PropTypes from "prop-types";
 
 function useMDX(source) {
-  const [exports, setExports] = useState({ default: runtime.Fragment });
+  const [exports, setExports] = useState({ default: undefined });
 
   useEffect(() => {
     const processContent = async () => {
@@ -51,4 +51,4 @@ MDXProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export { MDXRenderer, MDXProvider };
+export { MDXRenderer, MDXProvider, useMDX };
