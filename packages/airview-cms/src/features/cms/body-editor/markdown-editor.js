@@ -17,7 +17,7 @@ import {
   selectIsWorkingBranchProtected,
 } from "../cms.slice";
 import { selectBaseUrl } from "../config-slice";
-import { useMDX } from "./use-mdx";
+import { MDXContent } from "./mdx-content";
 import PropTypes from "prop-types";
 
 function isLinkExternal(url) {
@@ -68,8 +68,6 @@ export function MarkdownEditor({ components: externalComponents }) {
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
-
-  const Content = useMDX(markdownContent);
 
   const components = {
     img: ({ src, alt }) => {
@@ -145,11 +143,11 @@ export function MarkdownEditor({ components: externalComponents }) {
   }
 
   return (
-    <div className="styled-wysiwyg-content">
-      {Content && (
-        <Content components={{ ...components, ...externalComponents }} />
-      )}
-    </div>
+    <MDXContent
+      components={components}
+      externalComponents={externalComponents}
+      markdownContent={markdownContent}
+    />
   );
 }
 
