@@ -220,10 +220,10 @@ export class GithubClient implements GitClient {
 
   async getBranches(): Promise<GitBranch[]> {
     const linkParser = (linkHeader: string) => {
-      let re = /<([^\?]+\?[a-z]+=([\d]+))>;[\s]*rel="next"/g;
+      let re = /<.*(?=>; rel=\"next\")/g;
       let arrRes: any = [];
       while ((arrRes = re.exec(linkHeader)) !== null) {
-        return arrRes[1];
+        return arrRes[0].split("<").slice(-1)[0];
       }
       return null;
     };
