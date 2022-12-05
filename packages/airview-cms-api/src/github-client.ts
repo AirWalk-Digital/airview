@@ -219,21 +219,42 @@ export class GithubClient implements GitClient {
   }
 
   async getBranches(): Promise<GitBranch[]> {
-    const url = `${this.githubRepoURI()}/branches`;
-    const resp = await this._fetchWithHeaders(url);
-    if (resp.status != 200)
-      throw Error(
-        `Bad status getting branches ${resp.status} ${await resp.text()})`
+    const linkParser = (linkHeader: string) => {
+      let re = /<([^\?]+\?[a-z]+=([\d]+))>;[\s]*rel="next"/g;
+      let arrRes: any = [];
+      while ((arrRes = re.exec(linkHeader)) !== null) {
+        return arrRes[1];
+      }
+      return null;
+    };
+
+    const getData = async (url: string) => {
+      const resp = await this._fetchWithHeaders(url);
+      if (resp.status != 200)
+        throw Error(
+          `Bad status getting branches ${resp.status} ${await resp.text()})`
+        );
+      const data: any = await resp.json();
+      const mapped = data.map(
+        (item: any): GitBranch => ({
+          name: item.name,
+          sha: item.commit.sha,
+          isProtected: item.protected,
+        })
       );
-    const data: any = await resp.json();
-    const mapped = data.map(
-      (item: any): GitBranch => ({
-        name: item.name,
-        sha: item.commit.sha,
-        isProtected: item.protected,
-      })
-    );
-    return mapped;
+
+      const next: string = linkParser(resp.headers.get("Link")!);
+      return { mapped, next };
+    };
+    let link = `${this.githubRepoURI()}/branches`;
+    let final: GitBranch[] = [];
+
+    while (link) {
+      let { mapped, next } = await getData(link);
+      link = next;
+      final = final.concat(mapped);
+    }
+    return final;
   }
 
   async getTree(sha: string, recursive: boolean = false): Promise<GitTree[]> {
