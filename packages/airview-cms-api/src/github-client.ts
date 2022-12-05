@@ -246,7 +246,7 @@ export class GithubClient implements GitClient {
       const next: string = linkParser(resp.headers.get("Link")!);
       return { mapped, next };
     };
-    let link = `${this.githubRepoURI()}/branches`;
+    let link = `${this.githubRepoURI()}/branches?per_page=100`;
     let final: GitBranch[] = [];
 
     while (link) {
