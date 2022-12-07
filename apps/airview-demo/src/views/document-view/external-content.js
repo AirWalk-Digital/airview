@@ -7,7 +7,7 @@ import { config } from "../../config";
 export function ExternalContent({ metadata }) {
   const [data, setData] = useState("");
 
-  const githubBaseUri = "https://github.com/";
+  const placeholderUri = "https://example.com/";
 
   useEffect(() => {
     async function getData() {
@@ -24,12 +24,13 @@ export function ExternalContent({ metadata }) {
 
   const components = {
     img: ({ src, alt }) => {
-      if (!src.startsWith("https:")) {
+      var r = new RegExp("^(?:[a-z+]+:)?//", "i");
+      if (!r.test(src)) {
         const relativeUrl = src.replace(/^\//, "");
 
         const path = new URL(
           relativeUrl,
-          `${githubBaseUri}${metadata.external_path}`
+          `${placeholderUri}${metadata.external_path}`
         ).pathname.substring(1);
 
         src = `${config.baseUrl}/external-media/${metadata.external_repo}/${metadata.external_owner}?path=${path}`;
