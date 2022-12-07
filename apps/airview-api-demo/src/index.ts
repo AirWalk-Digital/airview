@@ -83,6 +83,29 @@ app.get(
 );
 
 app.get(
+  "/api/cms/external-media/:repo/:owner",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (typeof req.query.path !== "string") {
+        res.status(400).send();
+        return;
+      }
+      const data = await backend.getExternalData(
+        req.params.repo,
+        req.params.owner,
+        req.query.path
+      );
+      const buffer = Buffer.from(data.content, "base64");
+      res.setHeader("content-type", "application/octet-stream");
+      res.write(buffer, "binary");
+      res.end(undefined, "binary");
+    } catch (err) {
+      res.status(404).send();
+    }
+  }
+);
+
+app.get(
   "/api/cms/media/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
