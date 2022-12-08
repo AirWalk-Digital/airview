@@ -7,6 +7,8 @@ import { config } from "../../config";
 export function ExternalContent({ metadata }) {
   const [data, setData] = useState("");
 
+  const placeholderUri = "https://example.com/";
+
   useEffect(() => {
     async function getData() {
       const url = `${config.baseUrl}/external-content/${metadata.external_repo}/${metadata.external_owner}?path=${metadata.external_path}`;
@@ -20,5 +22,23 @@ export function ExternalContent({ metadata }) {
     getData();
   }, [setData, metadata]);
 
-  return <MDEditor.Markdown source={data} />;
+  const components = {
+    img: ({ src, alt }) => {
+      var r = new RegExp("^(?:[a-z+]+:)?//", "i");
+      if (!r.test(src)) {
+        const relativeUrl = src.replace(/^\//, "");
+
+        const path = new URL(
+          relativeUrl,
+          `${placeholderUri}${metadata.external_path}`
+        ).pathname.substring(1);
+
+        src = `${config.baseUrl}/external-media/${metadata.external_repo}/${metadata.external_owner}?path=${path}`;
+      }
+
+      return <img src={src} alt={alt} />;
+    },
+  };
+
+  return <MDEditor.Markdown source={data} components={components} />;
 }
