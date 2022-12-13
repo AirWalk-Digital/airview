@@ -7,3 +7,4 @@ export { postBranches } from "./postBranches.js";
 export { postPulls } from "./postPulls.js";
 export { putContentEntity } from "./putContentEntity.js";
 export { getExternalContentByRepoOwner } from "./getExternalContentByRepoOwner.js";
+export { getExternalMediaByRepoOwner } from "./getExternalMediaByRepoOwner.js";
