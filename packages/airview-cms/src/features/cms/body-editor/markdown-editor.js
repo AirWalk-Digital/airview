@@ -5,6 +5,8 @@ import MDEditor, { commands } from "@uiw/react-md-editor";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeSvgIcon } from "@components";
 import { FilePicker } from "./file-picker";
+import { ErrorBoundary } from "react-error-boundary";
+import Alert from "@mui/material/Alert";
 import {
   selectBodyEditorData,
   persitBodyEditorContent,
@@ -15,6 +17,7 @@ import {
   selectCmsEnabledStatus,
   selectWorkingBranchSha,
   selectIsWorkingBranchProtected,
+  selectCmsContext,
 } from "../cms.slice";
 import { selectBaseUrl } from "../config-slice";
 import { MDXContent } from "./mdx-content";
@@ -68,6 +71,7 @@ export function MarkdownEditor({ components: externalComponents }) {
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
+  const { path } = useSelector(selectCmsContext);
 
   const components = {
     img: ({ src, alt }) => {
@@ -142,13 +146,33 @@ export function MarkdownEditor({ components: externalComponents }) {
     );
   }
 
-  return (
-    <MDXContent
-      components={components}
-      externalComponents={externalComponents}
-      markdownContent={markdownContent}
-    />
+  const RawMarkdownOutput = () => (
+    <div data-color-mode="light">
+      <MDEditor.Markdown source={markdownContent} components={components} />
+    </div>
   );
+
+  const Fallback = () => (
+    <div>
+      <Alert severity="error">
+        {"MDX could not be parsed. The content below has reverted to Markdown."}
+      </Alert>
+      <RawMarkdownOutput />
+    </div>
+  );
+
+  if (path.endsWith(".mdx")) {
+    return (
+      <ErrorBoundary FallbackComponent={Fallback}>
+        <MDXContent
+          components={components}
+          externalComponents={externalComponents}
+          markdownContent={markdownContent}
+        />
+      </ErrorBoundary>
+    );
+  }
+  return <RawMarkdownOutput />;
 }
 
 MarkdownEditor.propTypes = {

@@ -234,7 +234,10 @@ export class CmsBackend {
                   if (cachedTree) return cachedTree;
 		  */
 
-                  if (entityBlob.path === "_index.md") {
+                  if (
+                    entityBlob.path === "_index.md" ||
+                    entityBlob.path === "_index.mdx"
+                  ) {
                     const blobFetcher = async () =>
                       await this._client.getBlob(entityBlob.sha);
                     const blob = await this._getCachedResponse(
@@ -249,6 +252,7 @@ export class CmsBackend {
                       collection: collection.path,
                       sha: entity.sha,
                       meta: matter(s).data,
+                      index: entityBlob.path,
                     };
                     // await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
                     meta.push(thisTree);

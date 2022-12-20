@@ -63,4 +63,5 @@ export interface CmsEntity {
   collection: string;
   meta: any;
   sha: string;
+  index: string;
 }
