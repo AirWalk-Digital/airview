@@ -36,6 +36,7 @@ export default [
       "@mdx-js/react",
       "remark-gfm",
       "rehype-highlight",
+      "@mui/material/Alert",
     ],
     output: [{ dir: `dist`, format: "es" }],
     plugins: [
