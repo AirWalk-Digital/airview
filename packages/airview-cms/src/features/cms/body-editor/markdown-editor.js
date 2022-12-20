@@ -146,24 +146,23 @@ export function MarkdownEditor({ components: externalComponents }) {
     );
   }
 
-  const RawMarkdownOutput = () => (
-    <div data-color-mode="light">
-      <MDEditor.Markdown source={markdownContent} components={components} />
-    </div>
-  );
-
-  const Fallback = () => (
-    <div>
-      <Alert severity="error">
-        {"MDX could not be parsed. The content below has reverted to Markdown."}
-      </Alert>
-      <RawMarkdownOutput />
-    </div>
-  );
-
   if (path.endsWith(".mdx")) {
     return (
-      <ErrorBoundary FallbackComponent={Fallback}>
+      <ErrorBoundary
+        FallbackRender={() => (
+          <div data-color-mode="light">
+            <Alert severity="error">
+              {
+                "MDX could not be parsed. The content below has reverted to Markdown."
+              }
+            </Alert>
+            <MDEditor.Markdown
+              source={markdownContent}
+              components={components}
+            />
+          </div>
+        )}
+      >
         <MDXContent
           components={components}
           externalComponents={externalComponents}
@@ -172,7 +171,11 @@ export function MarkdownEditor({ components: externalComponents }) {
       </ErrorBoundary>
     );
   }
-  return <RawMarkdownOutput />;
+  return (
+    <div data-color-mode="light">
+      <MDEditor.Markdown source={markdownContent} components={components} />
+    </div>
+  );
 }
 
 MarkdownEditor.propTypes = {
