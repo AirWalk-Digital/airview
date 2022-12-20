@@ -149,7 +149,7 @@ export function MarkdownEditor({ components: externalComponents }) {
   if (path.endsWith(".mdx")) {
     return (
       <ErrorBoundary
-        FallbackRender={() => (
+        fallbackRender={() => (
           <div data-color-mode="light">
             <Alert severity="error">
               {
