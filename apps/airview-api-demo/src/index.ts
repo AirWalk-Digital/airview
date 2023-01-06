@@ -1,6 +1,7 @@
 import fs from "fs";
 import express, { Response, Request, NextFunction } from "express";
 import { CmsBackend, S3Cache, GithubClient } from "airview-cms-api";
+import { fileTypeFromBuffer } from "file-type";
 
 const getCache = () => {
   const _cache: any = {};
@@ -115,7 +116,11 @@ app.get(
       }
       const data = await backend.getTreeContent(req.params.sha, req.query.path);
       const buffer = Buffer.from(data.content, "base64");
-      res.setHeader("content-type", "application/octet-stream");
+      const contentType = await fileTypeFromBuffer(buffer);
+      res.setHeader(
+        "content-type",
+        contentType?.mime || "application/octet-stream"
+      );
       res.write(buffer, "binary");
       res.end(undefined, "binary");
     } catch (err) {
