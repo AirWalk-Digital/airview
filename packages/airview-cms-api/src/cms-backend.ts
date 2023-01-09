@@ -177,15 +177,12 @@ export class CmsBackend {
     }
 
     const collections = await this._getFilteredTree(sha, () => true);
+    const resp: any = {};
 
     let listing: Record<string, string> = {};
     let meta: CmsEntity[] = [];
     await Promise.all(
       collections.map(async (collection) => {
-        if (collection.type === "blob") {
-          listing[String(`${collection.path}`)] = collection.sha;
-          return;
-        }
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
@@ -193,18 +190,6 @@ export class CmsBackend {
 
         await Promise.all(
           entities.map(async (entity): Promise<any> => {
-            if (entity.type === "blob") {
-              listing[String(`${collection.path}/${entity.path}`)] = entity.sha;
-              return;
-            }
-            /*
-            const id = `${collection.path}/${entity.path}`;
-            const cachedTree = await this._cache.get(
-              `tree|${entity.sha}|${id}`
-            );
-            if (cachedTree) return cachedTree;
-	    */
-
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
             const recursiveTree = await this._getCachedResponse<pathSha>(
@@ -212,15 +197,19 @@ export class CmsBackend {
               entity.sha
             );
 
+            /*
             const obj = recursiveTree
               .filter((f: any) => f.type === "blob")
               .reduce(
                 (acc: Record<string, string>, item: any) => ({
                   ...acc,
-                  [`${collection.path}/${entity.path}/${item.path}`]: item.sha,
+                  [`${item.path}`]: { sha: item.sha },
                 }),
                 {}
               );
+	      */
+            // resp[collection.path] = resp[collection.path] || {};
+            // resp[collection.path][entity.path] = obj;
 
             await Promise.all(
               recursiveTree
@@ -233,11 +222,13 @@ export class CmsBackend {
                   );
                   if (cachedTree) return cachedTree;
 		  */
+                  let d = {};
 
                   if (
-                    entityBlob.path === "_index.md" ||
-                    entityBlob.path === "_index.mdx"
+                    entityBlob.path.endsWith("md") ||
+                    entityBlob.path.endsWith("mdx")
                   ) {
+                    console.log(entityBlob.path);
                     const blobFetcher = async () =>
                       await this._client.getBlob(entityBlob.sha);
                     const blob = await this._getCachedResponse(
@@ -255,19 +246,30 @@ export class CmsBackend {
                       index: entityBlob.path,
                     };
                     // await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
-                    meta.push(thisTree);
+                    //meta.push(thisTree);
+                    d = matter(s).data;
+                    //                    resp[collection.path][entity.path][entityBlob.path].meta =
+                    //                    matter(s).data;
                     // return thisTree;
                   }
+                  resp[collection.path] = resp[collection.path] || {};
+                  resp[collection.path][entity.path] =
+                    resp[collection.path][entity.path] || {};
+                  resp[collection.path][entity.path][entityBlob.path] = {
+                    sha: entityBlob.sha,
+                    ...d,
+                  };
                 })
             );
-            Object.assign(listing, obj);
+            // Object.assign(listing, obj);
           })
         );
       })
     );
 
-    await this._cache.set(`meta|${sha}`, { meta, listing });
-    return { listing, meta };
+    //    await this._cache.set(`meta|${sha}`, { meta, listing });
+    //    return { listing, meta };
+    return { meta: resp };
   }
 
   /**
