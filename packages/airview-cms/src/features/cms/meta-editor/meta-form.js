@@ -12,11 +12,16 @@ export function MetaForm() {
   const metaEditorData = useSelector(selectMetaEditorData);
   const collectionsData = useSelector(selectAllCollections);
   const cmsContext = useSelector(selectCmsContext);
+  console.log("context", cmsContext);
   const { data: entryMetaData } = useGetEntryMeta(cmsContext);
 
   if (!entryMetaData) return null;
 
-  const collectionsFields = collectionsData[entryMetaData.collection].fields;
+  console.log(entryMetaData);
+
+  // TO DO: How to get the current collection? add to context?
+  const collectionsFields = collectionsData["application"].fields;
+  //const collectionsFields = collectionsData[entryMetaData.collection].fields;
 
   const handleOnChange = (key, data) => {
     dispatch(

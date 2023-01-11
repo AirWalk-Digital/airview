@@ -1,7 +1,11 @@
-import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+//import { useMemo } from "react";
+//import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export function useGetEntryId() {
+  const location = useLocation();
+  return location.pathname;
+  /*
   const params = useParams();
   const path = params["*"];
 
@@ -12,4 +16,5 @@ export function useGetEntryId() {
   }, [params.collection, params.entry, path]);
 
   return entry;
+  */
 }

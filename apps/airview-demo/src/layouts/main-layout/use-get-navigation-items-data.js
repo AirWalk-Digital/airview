@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+//import { useMemo } from "react";
 import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 
 export function useGetNavigationItemsData() {
   const {
-    data: applications,
+    // data: applications,
     isUninitialized: applicationsIsUninitialized,
     isLoading: applicationsIsLoading,
     isFetching: applicationsIsFetching,
@@ -11,13 +11,14 @@ export function useGetNavigationItemsData() {
   } = useGetCollectionEntries("application");
 
   const {
-    data: entries,
+    //  data: entries,
     isUninitialized: entriesIsUninitialized,
     isLoading: entriesIsLoading,
     isFetching: entriesIsFetching,
     isError: entriesIsError,
   } = useGetAllEntriesMeta();
 
+  /*
   const navData = useMemo(
     () =>
       applications
@@ -95,7 +96,56 @@ export function useGetNavigationItemsData() {
         }),
     [applications, entries]
   );
+  */
 
+  const navData = [
+    {
+      application: "MDX Test",
+      menuItems: [
+        {
+          groupTitle: "Application",
+          links: [
+            {
+              label: "Overview",
+              url: "/application/new_l8slg1dh/_index.mdx",
+            },
+          ],
+        },
+        {
+          groupTitle: "Release",
+          links: [
+            {
+              label: "rrr",
+              url: "/release/rrr_lcozpsn4/_index.mdx",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      application: "Writing and formatting syntax",
+      menuItems: [
+        {
+          groupTitle: "Application",
+          links: [
+            {
+              label: "Overview",
+              url: "/application/ttt_l8slg1dh/_index.md",
+            },
+          ],
+        },
+        {
+          groupTitle: "Knowledge",
+          links: [
+            {
+              label: "ttt",
+              url: "/knowledge/ttt_lcozpk9t/_index.md",
+            },
+          ],
+        },
+      ],
+    },
+  ];
   return {
     isUninitialized: applicationsIsUninitialized || entriesIsUninitialized,
     isLoading: applicationsIsLoading || entriesIsLoading,

@@ -141,6 +141,15 @@ export class CmsBackend {
     return { content: blob.content };
   }
 
+  async getContent(sha: string): Promise<Record<string, string>> {
+    if (!sha) {
+      throw Error("No content sha for requested path");
+    }
+    const blobFetcher = async () => this._client.getBlob(sha);
+    const blob = await this._getCachedResponse(blobFetcher, sha);
+    return { content: blob.content };
+  }
+
   /**
    * Gets the listing and entry meta data for the provided branch sha
    *

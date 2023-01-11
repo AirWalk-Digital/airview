@@ -20,7 +20,8 @@ import { config } from "../../config";
 import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
-  const { entryId, path } = useGetEntryId();
+  const entryId = useGetEntryId();
+  console.log("eid", entryId);
   const { print, ...status } = useHtmlToPdfUtil(
     entryId,
     `${config.baseUrl}/export`
@@ -29,7 +30,7 @@ export function DocumentView() {
   const contentsRef = useRef();
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
-    useSetCmsContext({ entryId, path });
+    useSetCmsContext(entryId);
 
   const cmsEnabled = useCMSViewportOffset();
 

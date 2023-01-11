@@ -71,7 +71,7 @@ export function MarkdownEditor({ components: externalComponents }) {
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
-  const { path } = useSelector(selectCmsContext);
+  const path = useSelector(selectCmsContext);
 
   const components = {
     img: ({ src, alt }) => {
