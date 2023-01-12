@@ -7,7 +7,7 @@ import {
   StyledWysiwyg,
 } from "airview-ui";
 export function HomePageView() {
-  useSetCmsContext({});
+  useSetCmsContext("/");
   return (
     <AsideAndMainContainer>
       <Main>
