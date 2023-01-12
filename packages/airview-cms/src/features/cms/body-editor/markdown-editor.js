@@ -71,7 +71,7 @@ export function MarkdownEditor({ components: externalComponents }) {
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
-  const path = useSelector(selectCmsContext);
+  const context = useSelector(selectCmsContext);
 
   const components = {
     img: ({ src, alt }) => {
@@ -146,7 +146,7 @@ export function MarkdownEditor({ components: externalComponents }) {
     );
   }
 
-  if (path.endsWith(".mdx")) {
+  if (context.path && context.path.endsWith(".mdx")) {
     return (
       <ErrorBoundary
         fallbackRender={() => (

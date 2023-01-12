@@ -23,8 +23,6 @@ export function useSetCmsContext(entry) {
     error,
   } = useGetEntry(entry);
 
-  console.log("edata", entryData);
-
   useEffect(() => {
     if (!entryData) return;
     dispatch(setMetaEditorInitialData(entryData));

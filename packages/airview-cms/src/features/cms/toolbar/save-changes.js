@@ -42,15 +42,19 @@ export function SaveChanges() {
         ...editedImagesData,
       });
 
-    const [collection, entity, path] = entry.replace(/^\//, "").split("/", 3);
-    data[`${path}`] = Buffer.from(
+    data[`${entry.path}`] = Buffer.from(
       matter.stringify(resolvedMarkdown, metaEdits),
       "utf8"
     ).toString("base64");
 
     const baseSha = branches.find((f) => f.name === branch).sha;
 
-    putEntry({ id: `${collection}/${entity}`, branch, data, baseSha });
+    putEntry({
+      id: `${entry.collection}/${entry.entity}`,
+      branch,
+      data,
+      baseSha,
+    });
   };
 
   return (

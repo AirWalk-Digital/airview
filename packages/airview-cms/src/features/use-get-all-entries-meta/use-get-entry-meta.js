@@ -1,11 +1,6 @@
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
 export function useGetEntryMeta(entry) {
-  console.log("entry", entry);
-  const [collection, entity, path] = (entry || "")
-    .replace(/^\//, "")
-    .split("/", 3);
-  console.log(entry);
   return useGetAllEntriesMeta(
     ({
       data: entries,
@@ -17,7 +12,9 @@ export function useGetEntryMeta(entry) {
       error,
     }) => {
       return {
-        data: entry && ((entries[collection] || {})[entity] || {})[path],
+        data:
+          entry &&
+          ((entries[entry.collection] || {})[entry.entity] || {})[entry.path],
         isUninitialized,
         isLoading,
         isFetching,
