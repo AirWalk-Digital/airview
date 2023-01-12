@@ -13,8 +13,9 @@ export function useGetEntryMeta(entry) {
     }) => {
       return {
         data:
+          entries &&
           entry &&
-          ((entries[entry.collection] || {})[entry.entity] || {})[entry.path],
+          ((entries[entry.collection] || {})[entry.entry] || {})[entry.path],
         isUninitialized,
         isLoading,
         isFetching,

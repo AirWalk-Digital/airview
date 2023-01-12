@@ -116,7 +116,7 @@ export function useGetNavigationItemsData() {
           links: [
             {
               label: "rrr",
-              url: "/release/rrr_lcozpsn4/_index.mdx",
+              url: "/release/rrr_lcozpsn4/_index.md",
             },
           ],
         },

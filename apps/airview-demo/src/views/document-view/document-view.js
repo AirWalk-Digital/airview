@@ -30,7 +30,6 @@ export function DocumentView() {
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
     useSetCmsContext(context);
-  console.log("contextdata", data);
 
   const cmsEnabled = useCMSViewportOffset();
 

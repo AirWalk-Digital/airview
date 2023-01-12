@@ -1,14 +1,25 @@
 import { useGetEntryQuery } from "../store";
-import { useGetCurrentBranch } from "../use-get-branches";
+import { useGetEntryMeta } from "../use-get-all-entries-meta";
 
 export function useGetEntry(entryId) {
-  console.log("eee", entryId);
-  const branch = useGetCurrentBranch();
-  const sha = "a05bda22cb6ba7e9ee2a0a03702c27d480bf4e8f";
+  const { data, isSuccess } = useGetEntryMeta(entryId);
 
-  const entryQuery = useGetEntryQuery(sha, {
-    skip: !branch?.sha,
+  const entryQuery = useGetEntryQuery(data?.sha, {
+    skip: !data?.sha,
   });
+
+  if (isSuccess && !data?.sha) {
+    return {
+      data: null,
+      isLoading: false,
+      isFetching: false,
+      isError: true,
+      error: {
+        status: 404,
+        message: `${entryId} not found`,
+      },
+    };
+  }
 
   return entryQuery;
 }
