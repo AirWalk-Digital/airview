@@ -25,16 +25,11 @@ import PropTypes from "prop-types";
 
 import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
 
-function useGetShaByPathResolver() {
+function useShaResolver() {
   const { data } = useGetAllEntriesMeta();
   function getSha(url) {
-    console.log(url);
     const [collection, entity, path] = url.split("/", 3);
-    console.log(data);
-    console.log(collection, entity, path);
-
     const o = data && ((data[collection] || {})[entity] || {})[path];
-    console.log(o);
     return o?.sha;
   }
   return getSha;
@@ -90,7 +85,7 @@ export function MarkdownEditor({ components: externalComponents }) {
   const baseUrl = useSelector(selectBaseUrl);
   const context = useSelector(selectCmsContext);
 
-  const resolver = useGetShaByPathResolver();
+  const resolver = useShaResolver();
   const components = {
     img: ({ src, alt }) => {
       if (!branchSha) return;
@@ -103,7 +98,10 @@ export function MarkdownEditor({ components: externalComponents }) {
         );
         const mediaSha = resolver(path);
 
-        src = `${baseUrl}/media/${mediaSha}`;
+        if (mediaSha) {
+          src = `${baseUrl}/media/${mediaSha}`;
+          return <img src={src} alt={alt} />;
+        }
       }
 
       return <img src={src} alt={alt} />;

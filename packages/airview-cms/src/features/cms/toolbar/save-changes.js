@@ -36,8 +36,6 @@ export function SaveChanges() {
   const handleOnClick = async () => {
     const resolveMarkdown = new MarkdownResolverUtils();
 
-    console.log(entry);
-
     const { resolvedMarkdown, resolvedImages: data } =
       await resolveMarkdown.resolveOutbound(bodyEdits, {
         ...initialImagesData,
