@@ -1,6 +1,10 @@
 import React, { useRef } from "react";
 import { Navigate, Link as ReactRouterLink } from "react-router-dom";
-import { useSetCmsContext, useCMSViewportOffset } from "airview-cms";
+import {
+  useGetRelated,
+  useSetCmsContext,
+  useCMSViewportOffset,
+} from "airview-cms";
 import {
   PageTitle,
   AsideAndMainContainer,
@@ -34,6 +38,7 @@ export function DocumentView() {
   const cmsEnabled = useCMSViewportOffset();
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
+  const related = useGetRelated(context);
 
   if (isError && error.status === 404) {
     return <Navigate to="/not-found" replace={true} />;
@@ -94,6 +99,7 @@ export function DocumentView() {
             status.loading ? "loading" : status.error ? "error" : null
           }
         />
+        {related.data && JSON.stringify(related.data)}
       </Aside>
     </AsideAndMainContainer>
   );
