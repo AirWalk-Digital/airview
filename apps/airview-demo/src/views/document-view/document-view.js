@@ -26,7 +26,7 @@ import css from "!!raw-loader!../../print.css";
 export function DocumentView() {
   const context = useGetEntryId();
   const { print, ...status } = useHtmlToPdfUtil(
-    context.entryId,
+    context,
     `${config.baseUrl}/export`
   );
 
