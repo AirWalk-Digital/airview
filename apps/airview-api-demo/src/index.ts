@@ -106,11 +106,7 @@ app.get(
   "/api/cms/media/:sha",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (typeof req.query.path !== "string") {
-        res.status(400).send();
-        return;
-      }
-      const data = await backend.getTreeContent(req.params.sha, req.query.path);
+      const data = await backend.getContent(req.params.sha);
       const buffer = Buffer.from(data.content, "base64");
       const contentType = await fileTypeFromBuffer(buffer);
       res.setHeader(

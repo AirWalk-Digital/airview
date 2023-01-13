@@ -36,6 +36,8 @@ export function SaveChanges() {
   const handleOnClick = async () => {
     const resolveMarkdown = new MarkdownResolverUtils();
 
+    console.log(entry);
+
     const { resolvedMarkdown, resolvedImages: data } =
       await resolveMarkdown.resolveOutbound(bodyEdits, {
         ...initialImagesData,
@@ -50,7 +52,7 @@ export function SaveChanges() {
     const baseSha = branches.find((f) => f.name === branch).sha;
 
     putEntry({
-      id: `${entry.collection}/${entry.entity}`,
+      id: `${entry.collection}/${entry.entry}`,
       branch,
       data,
       baseSha,
