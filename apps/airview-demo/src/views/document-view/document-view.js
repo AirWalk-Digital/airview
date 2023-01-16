@@ -56,6 +56,7 @@ export function DocumentView() {
     presentationPdf && `/api/cms/media/${related.data[presentationPdf].sha}`;
 
   const presentationHtmlOnClick = async () => {
+    //TODO: this needs to pass errors back
     const url = `/api/cms/media/${related.data[presentationHtml].sha}`;
     const response = await fetch(url);
     if (response.ok) {
@@ -69,15 +70,6 @@ export function DocumentView() {
       alert("HTTP-Error: " + response.status);
     }
   };
-
-  console.log(presentationPdf, presentationHtml);
-
-  /*
-  function RelatedContent() {
-    const related = useGetRelated(context);
-    if (related.data) return JSON.stringify(related.data);
-  }
-  */
 
   return (
     <AsideAndMainContainer>

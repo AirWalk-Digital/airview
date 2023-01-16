@@ -116,15 +116,13 @@ export function Menu({
                 ? [...Array(6)].map((item, index) => (
                     <Skeleton key={index} component="li" />
                   ))
-                : links?.map(({ label, url, target, rel }, index) => {
-                    console.log("target", target);
+                : links?.map(({ label, url }, index) => {
                     return (
                       <Box component="li" key={index}>
                         <Link
                           underline="hover"
                           component={linkComponent}
                           to={url}
-                          rel={rel}
                           target={isLinkInternal(url) ? "_self" : "_blank"}
                           sx={{
                             ...(url === currentRoute && { fontWeight: "bold" }),
