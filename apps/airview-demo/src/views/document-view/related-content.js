@@ -20,7 +20,7 @@ export function RelatedContent() {
 
     return {
       links: keys.map((key) => ({
-        label: key,
+        label: data[key].meta.title || key,
         url: key,
         target: "_self",
       })),
