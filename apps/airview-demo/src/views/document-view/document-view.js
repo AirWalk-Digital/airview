@@ -19,6 +19,7 @@ import { useGetEntryId } from "./use-get-entry-id";
 import { DocumentContent } from "./document-content";
 import { ExternalDocumentContent } from "./external-document-content";
 import { config } from "../../config";
+import { RelatedContent } from "./related-content";
 
 /* eslint import/no-webpack-loader-syntax: off */
 import css from "!!raw-loader!../../print.css";
@@ -38,7 +39,6 @@ export function DocumentView() {
   const cmsEnabled = useCMSViewportOffset();
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
-  const related = useGetRelated(context);
 
   if (isError && error.status === 404) {
     return <Navigate to="/not-found" replace={true} />;
@@ -47,6 +47,13 @@ export function DocumentView() {
   const hasExternalContent = "external_repo" in data;
 
   const renderExternalContent = hasExternalContent && !cmsEnabled;
+
+  /*
+  function RelatedContent() {
+    const related = useGetRelated(context);
+    if (related.data) return JSON.stringify(related.data);
+  }
+  */
 
   return (
     <AsideAndMainContainer>
@@ -99,7 +106,7 @@ export function DocumentView() {
             status.loading ? "loading" : status.error ? "error" : null
           }
         />
-        {related.data && JSON.stringify(related.data)}
+        <RelatedContent />
       </Aside>
     </AsideAndMainContainer>
   );

@@ -109,10 +109,7 @@ app.get(
       const data = await backend.getContent(req.params.sha);
       const buffer = Buffer.from(data.content, "base64");
       const contentType = await fileTypeFromBuffer(buffer);
-      res.setHeader(
-        "content-type",
-        contentType?.mime || "application/octet-stream"
-      );
+      res.setHeader("content-type", contentType?.mime || "text/plain");
       res.write(buffer, "binary");
       res.end(undefined, "binary");
     } catch (err) {

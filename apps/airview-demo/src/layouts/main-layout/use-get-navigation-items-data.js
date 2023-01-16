@@ -3,7 +3,7 @@ import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 
 export function useGetNavigationItemsData() {
   const {
-    // data: applications,
+    data: applications,
     isUninitialized: applicationsIsUninitialized,
     isLoading: applicationsIsLoading,
     isFetching: applicationsIsFetching,
@@ -11,7 +11,7 @@ export function useGetNavigationItemsData() {
   } = useGetCollectionEntries("application");
 
   const {
-    //  data: entries,
+    data: entries,
     isUninitialized: entriesIsUninitialized,
     isLoading: entriesIsLoading,
     isFetching: entriesIsFetching,
@@ -97,6 +97,17 @@ export function useGetNavigationItemsData() {
     [applications, entries]
   );
   */
+
+  if (applications) {
+    console.log("apps", applications);
+    const newNav = Object.keys(applications).map(
+      (m) =>
+        (applications[m]["_index.md"] || applications[m]["_index.mdx"]).meta
+          .title
+    );
+
+    console.log(newNav);
+  }
 
   const navData = [
     {
