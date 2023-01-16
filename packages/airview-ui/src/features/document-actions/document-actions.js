@@ -39,6 +39,7 @@ function DocumentActions({
   sx,
   onDownloadPDFClick,
   downloadStatus,
+  presentationHtmlOnClick,
   pageLinkUrl,
   ...rest
 }) {
@@ -169,6 +170,25 @@ function DocumentActions({
               </Link>
             )}
           </Box>
+          {presentationHtmlOnClick && (
+            <Box component="li">
+              {loading ? (
+                <Skeleton component="span" />
+              ) : (
+                <Link
+                  underline={downloadStatus !== "loading" ? "hover" : "none"}
+                  component="button"
+                  onClick={presentationHtmlOnClick}
+                  sx={{
+                    fontFamily: "default",
+                    fontSize: "default",
+                  }}
+                >
+                  Open Presentation (HTML)
+                </Link>
+              )}
+            </Box>
+          )}
         </Box>
       </Collapse>
     </Box>
@@ -186,6 +206,7 @@ DocumentActions.propTypes = {
   sx: PropTypes.object,
   downloadStatus: PropTypes.oneOf(["loading", "error"]),
   onDownloadPDFClick: PropTypes.func,
+  presentationHtmlOnClick: PropTypes.func,
   pageLinkUrl: PropTypes.string.isRequired,
 };
 

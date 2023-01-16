@@ -125,13 +125,7 @@ export function Menu({
                           component={linkComponent}
                           to={url}
                           rel={rel}
-                          target={
-                            target
-                              ? target
-                              : isLinkInternal(url)
-                              ? "_self"
-                              : "_blank"
-                          }
+                          target={isLinkInternal(url) ? "_self" : "_blank"}
                           sx={{
                             ...(url === currentRoute && { fontWeight: "bold" }),
                           }}
