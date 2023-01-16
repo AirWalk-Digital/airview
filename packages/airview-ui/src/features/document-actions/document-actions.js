@@ -40,6 +40,7 @@ function DocumentActions({
   onDownloadPDFClick,
   downloadStatus,
   presentationHtmlOnClick,
+  presentationPdfLinkUrl,
   pageLinkUrl,
   ...rest
 }) {
@@ -170,6 +171,7 @@ function DocumentActions({
               </Link>
             )}
           </Box>
+
           {presentationHtmlOnClick && (
             <Box component="li">
               {loading ? (
@@ -185,6 +187,22 @@ function DocumentActions({
                   }}
                 >
                   Open Presentation (HTML)
+                </Link>
+              )}
+            </Box>
+          )}
+          {presentationPdfLinkUrl && (
+            <Box component="li">
+              {loading ? (
+                <Skeleton component="span" />
+              ) : (
+                <Link
+                  underline="hover"
+                  component="a"
+                  href={presentationPdfLinkUrl}
+                  target="_blank"
+                >
+                  Open Presentation (PDF)
                 </Link>
               )}
             </Box>
@@ -208,6 +226,7 @@ DocumentActions.propTypes = {
   onDownloadPDFClick: PropTypes.func,
   presentationHtmlOnClick: PropTypes.func,
   pageLinkUrl: PropTypes.string.isRequired,
+  presentationPdfLinkUrl: PropTypes.string,
 };
 
 export { DocumentActions };

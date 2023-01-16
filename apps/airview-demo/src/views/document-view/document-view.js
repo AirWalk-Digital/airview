@@ -52,10 +52,10 @@ export function DocumentView() {
   const relatedKeys = Object.keys(related.data || {});
   const presentationHtml = relatedKeys.find((f) => f.endsWith(".ppt.html"));
   const presentationPdf = relatedKeys.find((f) => f.endsWith(".ppt.pdf"));
+  const presentationPdfUrl =
+    presentationPdf && `/api/cms/media/${related.data[presentationPdf].sha}`;
 
   const presentationHtmlOnClick = async () => {
-    console.log("html", presentationHtml);
-    console.log(relatedKeys);
     const url = `/api/cms/media/${related.data[presentationHtml].sha}`;
     const response = await fetch(url);
     if (response.ok) {
@@ -130,6 +130,7 @@ export function DocumentView() {
             status.loading ? "loading" : status.error ? "error" : null
           }
           presentationHtmlOnClick={presentationHtml && presentationHtmlOnClick}
+          presentationPdfLinkUrl={presentationPdfUrl}
         />
         <RelatedContent />
       </Aside>
