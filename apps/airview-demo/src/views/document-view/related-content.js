@@ -13,7 +13,10 @@ export function RelatedContent() {
     if (!data) return {};
 
     const keys = Object.keys(data).filter(
-      (f) => (f.endsWith("md") || f.endsWith("mdx")) && f !== entryId.path
+      (f) =>
+        (f.endsWith("md") || f.endsWith("mdx")) &&
+        f !== entryId.path &&
+        data[f].meta.title
     );
 
     if (keys.length === 0) return {};
