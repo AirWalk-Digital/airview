@@ -15,7 +15,8 @@ export function useGetRelated(entry) {
         data:
           entries &&
           entry &&
-          ((entries[entry.collection] || {})[entry.entry] || {}),
+          ((entries[entry.collection] || {})[entry.entry] || { files: {} })
+            .files,
         isUninitialized,
         isLoading,
         isFetching,

@@ -216,10 +216,11 @@ export class CmsBackend {
 		  */
 
                   resp[collection.path] = resp[collection.path] || {};
-                  resp[collection.path][entity.path] =
-                    resp[collection.path][entity.path] || {};
+                  resp[collection.path][entity.path] = resp[collection.path][
+                    entity.path
+                  ] || { files: {} };
 
-                  resp[collection.path][entity.path][entityBlob.path] = {
+                  resp[collection.path][entity.path].files[entityBlob.path] = {
                     sha: entityBlob.sha,
                   };
                   if (
@@ -234,9 +235,20 @@ export class CmsBackend {
                     );
                     var b = Buffer.from(blob.content, "base64");
                     var s = b.toString();
+                    const meta = matter(s).data;
 
-                    resp[collection.path][entity.path][entityBlob.path].meta =
-                      matter(s).data;
+                    if (
+                      entityBlob.path === "_index.md" ||
+                      entityBlob.path === "_index.mdx"
+                    ) {
+                      resp[collection.path][entity.path].meta = meta;
+                      resp[collection.path][entity.path].index =
+                        entityBlob.path;
+                    }
+
+                    resp[collection.path][entity.path].files[
+                      entityBlob.path
+                    ].meta = matter(s).data;
                   }
                 })
             );

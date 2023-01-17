@@ -15,7 +15,8 @@ export function useGetEntryMeta(entry) {
         data:
           entries &&
           entry &&
-          ((entries[entry.collection] || {})[entry.entry] || {})[entry.path],
+          ((entries[entry.collection] || {})[entry.entry] || { files: {} })
+            .files[entry.path],
         isUninitialized,
         isLoading,
         isFetching,

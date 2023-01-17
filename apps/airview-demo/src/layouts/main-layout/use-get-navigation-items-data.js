@@ -2,13 +2,13 @@
 import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 
 export function useGetNavigationItemsData() {
-  const {
-    data: applications,
-    isUninitialized: applicationsIsUninitialized,
-    isLoading: applicationsIsLoading,
-    isFetching: applicationsIsFetching,
-    isError: applicationsIsError,
-  } = useGetCollectionEntries("application");
+  // const {
+  //   data: applications,
+  //   isUninitialized: applicationsIsUninitialized,
+  //   isLoading: applicationsIsLoading,
+  //   isFetching: applicationsIsFetching,
+  //   isError: applicationsIsError,
+  // } = useGetCollectionEntries("application");
 
   const {
     data: entries,
@@ -98,16 +98,64 @@ export function useGetNavigationItemsData() {
   );
   */
 
-  if (applications) {
-    console.log("apps", applications);
-    const newNav = Object.keys(applications).map(
-      (m) =>
-        (applications[m]["_index.md"] || applications[m]["_index.mdx"]).meta
-          .title
+  /*
+  const getFilteredChildCollection = (collection, parentCollection, parent) => {
+    console.log(collection);
+    console.log(parentCollection);
+    console.log(parent);
+    console.log(`${parentCollection}/${parent}`);
+    const data = Object.keys(collection).filter(
+      (key) =>
+        (collection[key]["_index.md"] || collection[key]["_index.mdx"]).meta
+          .parent === `${parentCollection}/${parent}`
     );
+    if (data.length == 0) return [];
+
+    const n = data.map((key) => ({
+      label: (collection[key]["_index.md"] || collection[key]["_index.mdx"])
+        .meta.title,
+    }));
+    console.log("n", n);
+  };
+
+  let newNav = [];
+  if (entries) {
+    newNav = Object.keys(entries.application).map((m) => {
+      return {
+        appliation: (
+          entries.application[m]["_index.md"] ||
+          entries.application[m]["_index.mdx"]
+        ).meta.title,
+        menuItems: [
+          {
+            groupTitle: "Application",
+            links: [
+              {
+                label: "Overview",
+                url: `/application/${m}/${
+                  entries.application[m]["_index.mdx"]
+                    ? "_index.mdx"
+                    : "_index.md"
+                }`,
+              },
+            ],
+          },
+          {
+            groupTitle: "Release",
+            links: getFilteredChildCollection(
+              entries.release,
+              "application",
+              m
+            ),
+          },
+        ],
+      };
+    });
 
     console.log(newNav);
+    console.log(entries);
   }
+    */
 
   const navData = [
     {
@@ -158,10 +206,10 @@ export function useGetNavigationItemsData() {
     },
   ];
   return {
-    isUninitialized: applicationsIsUninitialized || entriesIsUninitialized,
-    isLoading: applicationsIsLoading || entriesIsLoading,
-    isFetching: applicationsIsFetching || entriesIsFetching,
-    isError: applicationsIsError || entriesIsError,
+    isUninitialized: entriesIsUninitialized,
+    isLoading: entriesIsLoading,
+    isFetching: entriesIsFetching,
+    isError: entriesIsError,
     data: navData,
   };
 }
