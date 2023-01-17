@@ -1,10 +1,6 @@
 import React, { useRef } from "react";
 import { Navigate, Link as ReactRouterLink } from "react-router-dom";
-import {
-  useGetRelated,
-  useSetCmsContext,
-  useCMSViewportOffset,
-} from "airview-cms";
+import { useSetCmsContext, useCMSViewportOffset } from "airview-cms";
 import {
   PageTitle,
   AsideAndMainContainer,
@@ -36,7 +32,6 @@ export function DocumentView() {
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
     useSetCmsContext(context);
 
-  // const related = useGetRelated(context);
   const presentation = useGetPresentation(context);
   const cmsEnabled = useCMSViewportOffset();
 
@@ -49,31 +44,6 @@ export function DocumentView() {
   const hasExternalContent = "external_repo" in data;
 
   const renderExternalContent = hasExternalContent && !cmsEnabled;
-
-  /*
-  const relatedKeys = Object.keys(related.data || {});
-  const presentationHtml = relatedKeys.find((f) => f.endsWith(".ppt.html"));
-  const presentationPdf = relatedKeys.find((f) => f.endsWith(".ppt.pdf"));
-  const presentationPdfUrl =
-    presentationPdf && `/api/cms/media/${related.data[presentationPdf].sha}`;
-
-  const presentationHtmlOnClick = async () => {
-    //TODO: this needs to pass errors back
-    const url = `/api/cms/media/${related.data[presentationHtml].sha}`;
-    const response = await fetch(url);
-    if (response.ok) {
-      // if HTTP-status is 200-299
-      // get the response body (the method explained below)
-      const blob = await response.blob();
-
-      const htmlBlob = blob.slice(0, blob.size, "text/html");
-      const htmlUrl = URL.createObjectURL(htmlBlob);
-      window.open(htmlUrl, "_blank");
-    } else {
-      alert("HTTP-Error: " + response.status);
-    }
-  };
-  */
 
   return (
     <AsideAndMainContainer>
