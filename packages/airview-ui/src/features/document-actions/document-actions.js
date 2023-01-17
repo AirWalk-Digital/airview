@@ -40,6 +40,7 @@ function DocumentActions({
   onDownloadPDFClick,
   downloadStatus,
   presentationHtmlOnClick,
+  presentationHtmlDownloadStatus,
   presentationPdfLinkUrl,
   pageLinkUrl,
   ...rest
@@ -178,7 +179,11 @@ function DocumentActions({
                 <Skeleton component="span" />
               ) : (
                 <Link
-                  underline={downloadStatus !== "loading" ? "hover" : "none"}
+                  underline={
+                    presentationHtmlDownloadStatus !== "loading"
+                      ? "hover"
+                      : "none"
+                  }
                   component="button"
                   onClick={presentationHtmlOnClick}
                   sx={{
@@ -227,6 +232,7 @@ DocumentActions.propTypes = {
   presentationHtmlOnClick: PropTypes.func,
   pageLinkUrl: PropTypes.string.isRequired,
   presentationPdfLinkUrl: PropTypes.string,
+  presentationHtmlDownloadStatus: PropTypes.oneOf(["loading", "error"]),
 };
 
 export { DocumentActions };

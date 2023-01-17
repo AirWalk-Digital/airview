@@ -20,7 +20,7 @@ import { DocumentContent } from "./document-content";
 import { ExternalDocumentContent } from "./external-document-content";
 import { config } from "../../config";
 import { RelatedContent } from "./related-content";
-
+import { useGetPresentation } from "./use-get-presentation";
 /* eslint import/no-webpack-loader-syntax: off */
 import css from "!!raw-loader!../../print.css";
 
@@ -36,7 +36,8 @@ export function DocumentView() {
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
     useSetCmsContext(context);
 
-  const related = useGetRelated(context);
+  // const related = useGetRelated(context);
+  const presentation = useGetPresentation(context);
   const cmsEnabled = useCMSViewportOffset();
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
@@ -49,6 +50,7 @@ export function DocumentView() {
 
   const renderExternalContent = hasExternalContent && !cmsEnabled;
 
+  /*
   const relatedKeys = Object.keys(related.data || {});
   const presentationHtml = relatedKeys.find((f) => f.endsWith(".ppt.html"));
   const presentationPdf = relatedKeys.find((f) => f.endsWith(".ppt.pdf"));
@@ -63,6 +65,7 @@ export function DocumentView() {
       // if HTTP-status is 200-299
       // get the response body (the method explained below)
       const blob = await response.blob();
+
       const htmlBlob = blob.slice(0, blob.size, "text/html");
       const htmlUrl = URL.createObjectURL(htmlBlob);
       window.open(htmlUrl, "_blank");
@@ -70,6 +73,7 @@ export function DocumentView() {
       alert("HTTP-Error: " + response.status);
     }
   };
+  */
 
   return (
     <AsideAndMainContainer>
@@ -121,8 +125,15 @@ export function DocumentView() {
           downloadStatus={
             status.loading ? "loading" : status.error ? "error" : null
           }
-          presentationHtmlOnClick={presentationHtml && presentationHtmlOnClick}
-          presentationPdfLinkUrl={presentationPdfUrl}
+          presentationHtmlOnClick={presentation.presentationHtmlOnClick}
+          presentationHtmlDownloadStatus={
+            presentation.loading
+              ? "loading"
+              : presentation.error
+              ? "error"
+              : null
+          }
+          presentationPdfLinkUrl={presentation.presentationPdfUrl}
         />
         <RelatedContent />
       </Aside>
