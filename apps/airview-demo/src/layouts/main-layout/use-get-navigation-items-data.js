@@ -1,4 +1,4 @@
-//import { useMemo } from "react";
+import { useMemo } from "react";
 import { useGetCollectionEntries, useGetAllEntriesMeta } from "airview-cms";
 
 export function useGetNavigationItemsData() {
@@ -98,113 +98,72 @@ export function useGetNavigationItemsData() {
   );
   */
 
-  /*
-  const getFilteredChildCollection = (collection, parentCollection, parent) => {
-    console.log(collection);
-    console.log(parentCollection);
-    console.log(parent);
-    console.log(`${parentCollection}/${parent}`);
-    const data = Object.keys(collection).filter(
+  const getFilteredChildCollection = (
+    entries,
+    collection,
+    parentCollection,
+    parent
+  ) => {
+    const data = Object.keys(entries[collection] || {}).filter(
       (key) =>
-        (collection[key]["_index.md"] || collection[key]["_index.mdx"]).meta
-          .parent === `${parentCollection}/${parent}`
+        entries[collection][key].meta.parent === `${parentCollection}/${parent}`
     );
     if (data.length == 0) return [];
 
     const n = data.map((key) => ({
-      label: (collection[key]["_index.md"] || collection[key]["_index.mdx"])
-        .meta.title,
+      label: entries[collection][key].meta.title,
+      url: `${collection}/${key}/${entries[collection][key].index}`,
     }));
-    console.log("n", n);
+    return n;
   };
 
-  let newNav = [];
-  if (entries) {
-    newNav = Object.keys(entries.application).map((m) => {
-      return {
-        appliation: (
-          entries.application[m]["_index.md"] ||
-          entries.application[m]["_index.mdx"]
-        ).meta.title,
-        menuItems: [
-          {
-            groupTitle: "Application",
-            links: [
-              {
-                label: "Overview",
-                url: `/application/${m}/${
-                  entries.application[m]["_index.mdx"]
-                    ? "_index.mdx"
-                    : "_index.md"
-                }`,
-              },
-            ],
-          },
-          {
+  const navData = useMemo(() => {
+    if (entries) {
+      return Object.keys(entries.application).map((m) => {
+        const releaseLinks = getFilteredChildCollection(
+          entries,
+          "release",
+          "application",
+          m
+        );
+        const knowledgeLinks = getFilteredChildCollection(
+          entries,
+          "knowledge",
+          "application",
+          m
+        );
+
+        const navItem = {
+          application: entries.application[m].meta.title,
+          menuItems: [
+            {
+              groupTitle: "Application",
+              links: [
+                {
+                  label: "Overview",
+                  url: `/application/${m}/${entries.application[m].index}`,
+                },
+              ],
+            },
+          ],
+        };
+
+        if (releaseLinks.length > 0)
+          navItem.menuItems.push({
             groupTitle: "Release",
-            links: getFilteredChildCollection(
-              entries.release,
-              "application",
-              m
-            ),
-          },
-        ],
-      };
-    });
+            links: releaseLinks,
+          });
+        if (knowledgeLinks.length > 0)
+          navItem.menuItems.push({
+            groupTitle: "Knowledge",
+            links: knowledgeLinks,
+          });
+        return navItem;
+      });
+    }
+    return [];
+  }, [entries]);
 
-    console.log(newNav);
-    console.log(entries);
-  }
-    */
-
-  const navData = [
-    {
-      application: "MDX Test",
-      menuItems: [
-        {
-          groupTitle: "Application",
-          links: [
-            {
-              label: "Overview",
-              url: "/application/new_l8slg1dh/_index.mdx",
-            },
-          ],
-        },
-        {
-          groupTitle: "Release",
-          links: [
-            {
-              label: "rrr",
-              url: "/release/rrr_lcozpsn4/_index.md",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      application: "Writing and formatting syntax",
-      menuItems: [
-        {
-          groupTitle: "Application",
-          links: [
-            {
-              label: "Overview",
-              url: "/application/ttt_l8slg1dh/_index.md",
-            },
-          ],
-        },
-        {
-          groupTitle: "Knowledge",
-          links: [
-            {
-              label: "ttt",
-              url: "/knowledge/ttt_lcozpk9t/_index.md",
-            },
-          ],
-        },
-      ],
-    },
-  ];
   return {
     isUninitialized: entriesIsUninitialized,
     isLoading: entriesIsLoading,
