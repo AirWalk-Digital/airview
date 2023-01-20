@@ -30,7 +30,7 @@ export function EntrySelectWidget({
   const filteredEntries = entries[collection];
 
   const isInvalidSelection =
-    value && filteredEntries[value.split("/", 2)[1]] === undefined;
+    value && filteredEntries[value.split("/").pop()] === undefined;
 
   const noSelection = (
     <Typography component="em" sx={{ color: "text.disabled" }}>
