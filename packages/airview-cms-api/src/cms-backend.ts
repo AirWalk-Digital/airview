@@ -180,13 +180,13 @@ export class CmsBackend {
       sha: string;
     }
 
-    const cachedMapping = await this._cache.get("meta|" + sha);
-    if (cachedMapping) {
-      return cachedMapping;
+    const cachedMeta = await this._cache.get("meta|" + sha);
+    if (cachedMeta) {
+      return cachedMeta;
     }
 
     const collections = await this._getFilteredTree(sha, () => true);
-    const resp: any = {};
+    const meta: any = {};
 
     await Promise.all(
       collections.map(async (collection) => {
@@ -215,12 +215,12 @@ export class CmsBackend {
                   if (cachedTree) return cachedTree;
 		  */
 
-                  resp[collection.path] = resp[collection.path] || {};
-                  resp[collection.path][entity.path] = resp[collection.path][
+                  meta[collection.path] = meta[collection.path] || {};
+                  meta[collection.path][entity.path] = meta[collection.path][
                     entity.path
                   ] || { files: {} };
 
-                  resp[collection.path][entity.path].files[entityBlob.path] = {
+                  meta[collection.path][entity.path].files[entityBlob.path] = {
                     sha: entityBlob.sha,
                   };
                   if (
@@ -235,18 +235,18 @@ export class CmsBackend {
                     );
                     var b = Buffer.from(blob.content, "base64");
                     var s = b.toString();
-                    const meta = matter(s).data;
+                    const frontmatter = matter(s).data;
 
                     if (
                       entityBlob.path === "_index.md" ||
                       entityBlob.path === "_index.mdx"
                     ) {
-                      resp[collection.path][entity.path].meta = meta;
-                      resp[collection.path][entity.path].index =
+                      meta[collection.path][entity.path].meta = frontmatter;
+                      meta[collection.path][entity.path].index =
                         entityBlob.path;
                     }
 
-                    resp[collection.path][entity.path].files[
+                    meta[collection.path][entity.path].files[
                       entityBlob.path
                     ].meta = matter(s).data;
                   }
@@ -257,9 +257,8 @@ export class CmsBackend {
       })
     );
 
-    //    await this._cache.set(`meta|${sha}`, { meta, listing });
-    //    return { listing, meta };
-    return { meta: resp };
+    await this._cache.set(`meta|${sha}`, meta);
+    return meta;
   }
 
   /**
@@ -282,7 +281,7 @@ export class CmsBackend {
    *
    */
   async getEntries(sha: string): Promise<CmsEntity[]> {
-    return (await this.getData(sha)).meta;
+    return await this.getData(sha);
   }
 
   /**
