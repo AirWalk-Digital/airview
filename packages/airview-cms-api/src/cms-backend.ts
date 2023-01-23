@@ -195,7 +195,7 @@ export class CmsBackend {
           () => true
         );
 
-        const mappedEntities = await Promise.all(
+        await Promise.all(
           entities.map(async (entity): Promise<any> => {
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
@@ -204,7 +204,7 @@ export class CmsBackend {
               entity.sha
             );
 
-            const mapped = await Promise.all(
+            await Promise.all(
               recursiveTree
                 .filter((f: any) => f.type === "blob")
                 .map(async (entityBlob: any) => {
@@ -223,7 +223,6 @@ export class CmsBackend {
                   resp[collection.path][entity.path].files[entityBlob.path] = {
                     sha: entityBlob.sha,
                   };
-                  let meta;
                   if (
                     entityBlob.path.endsWith("md") ||
                     entityBlob.path.endsWith("mdx")
@@ -236,7 +235,7 @@ export class CmsBackend {
                     );
                     var b = Buffer.from(blob.content, "base64");
                     var s = b.toString();
-                    meta = matter(s).data;
+                    const meta = matter(s).data;
 
                     if (
                       entityBlob.path === "_index.md" ||
@@ -251,28 +250,10 @@ export class CmsBackend {
                       entityBlob.path
                     ].meta = matter(s).data;
                   }
-                  return { sha: entityBlob.sha, path: entityBlob.path, meta };
                 })
             );
-            const files = mapped.reduce(
-              (a, v) => ({ ...a, [v.path]: { sha: v.sha, meta: v.meta } }),
-              {}
-            );
-            //const index = files["_index.mdx"] ?? ("" || files["_index.md"]);
-            let index;
-            if (files["_index.mdx"]) {
-              index = "_index.mdx";
-            }
-            if (files["_index.md"]) {
-              index = "_index.md";
-            }
-
-            if (index) {
-              return { files, index, meta: files[index].meta };
-            }
           })
         );
-        console.log(mappedEntities);
       })
     );
 
