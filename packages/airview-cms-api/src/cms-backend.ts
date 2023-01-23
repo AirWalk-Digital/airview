@@ -180,23 +180,27 @@ export class CmsBackend {
       sha: string;
     }
 
-    const cachedMeta = await this._cache.get("meta|" + sha);
-    if (cachedMeta) {
-      return cachedMeta;
+    const cachedMapping = await this._cache.get("meta|" + sha);
+    if (cachedMapping) {
+      return cachedMapping;
     }
 
     const collections = await this._getFilteredTree(sha, () => true);
     const meta: any = {};
 
-    await Promise.all(
-      collections.map(async (collection) => {
+    const mappedCollections = await collections.reduce(
+      async (collectionPromise: any, collection: any) => {
+        // await Promise.all(
+        // collections.map(async (collection) => {
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
         );
 
-        await Promise.all(
-          entities.map(async (entity): Promise<any> => {
+        const mappedEntities = await entities.reduce(
+          async (entityPromise: any, entity: any) => {
+            // const mappedEntities = await Promise.all(
+            // entities.map(async (entity): Promise<any> => {
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
             const recursiveTree = await this._getCachedResponse<pathSha>(
@@ -204,61 +208,98 @@ export class CmsBackend {
               entity.sha
             );
 
-            await Promise.all(
-              recursiveTree
-                .filter((f: any) => f.type === "blob")
-                .map(async (entityBlob: any) => {
-                  /*
-                  const cachedTree = await this._cache.get(
-                    `tree|${entity.sha}|${id}`
+            const files = await recursiveTree
+              .filter((f: any) => f.type === "blob")
+              .reduce(async (treePromise: any, entityBlob: any) => {
+                // console.log(entityBlob);
+                // console.log(acc);
+                //.map(async (entityBlob: any) => {
+                meta[collection.path] = meta[collection.path] || {};
+                meta[collection.path][entity.path] = meta[collection.path][
+                  entity.path
+                ] || { files: {} };
+
+                meta[collection.path][entity.path].files[entityBlob.path] = {
+                  sha: entityBlob.sha,
+                };
+                let frontmatter;
+                if (
+                  entityBlob.path.endsWith("md") ||
+                  entityBlob.path.endsWith("mdx")
+                ) {
+                  const blobFetcher = async () =>
+                    await this._client.getBlob(entityBlob.sha);
+                  const blob = await this._getCachedResponse(
+                    blobFetcher,
+                    entityBlob.sha
                   );
-                  if (cachedTree) return cachedTree;
+                  var b = Buffer.from(blob.content, "base64");
+                  var s = b.toString();
+                  frontmatter = matter(s).data;
+
+                  if (
+                    entityBlob.path === "_index.md" ||
+                    entityBlob.path === "_index.mdx"
+                  ) {
+                    meta[collection.path][entity.path].meta = frontmatter;
+                    meta[collection.path][entity.path].index = entityBlob.path;
+                  }
+
+                  meta[collection.path][entity.path].files[
+                    entityBlob.path
+                  ].meta = frontmatter;
+                }
+                /*
+                  return {
+                    sha: entityBlob.sha,
+                    path: entityBlob.path,
+                    meta: frontmatter,
+                  };
 		  */
 
-                  meta[collection.path] = meta[collection.path] || {};
-                  meta[collection.path][entity.path] = meta[collection.path][
-                    entity.path
-                  ] || { files: {} };
-
-                  meta[collection.path][entity.path].files[entityBlob.path] = {
-                    sha: entityBlob.sha,
-                  };
-                  if (
-                    entityBlob.path.endsWith("md") ||
-                    entityBlob.path.endsWith("mdx")
-                  ) {
-                    const blobFetcher = async () =>
-                      await this._client.getBlob(entityBlob.sha);
-                    const blob = await this._getCachedResponse(
-                      blobFetcher,
-                      entityBlob.sha
-                    );
-                    var b = Buffer.from(blob.content, "base64");
-                    var s = b.toString();
-                    const frontmatter = matter(s).data;
-
-                    if (
-                      entityBlob.path === "_index.md" ||
-                      entityBlob.path === "_index.mdx"
-                    ) {
-                      meta[collection.path][entity.path].meta = frontmatter;
-                      meta[collection.path][entity.path].index =
-                        entityBlob.path;
-                    }
-
-                    meta[collection.path][entity.path].files[
-                      entityBlob.path
-                    ].meta = matter(s).data;
-                  }
-                })
+                const tree = await treePromise;
+                return {
+                  ...tree,
+                  [entityBlob.path]: { sha: entityBlob.sha, meta: frontmatter },
+                };
+              }, Promise.resolve());
+            /*
+            const files = mapped.reduce(
+              (a, v) => ({ ...a, [v.path]: { sha: v.sha, meta: v.meta } }),
+              {}
             );
-          })
+            //const index = files["_index.mdx"] ?? ("" || files["_index.md"]);
+	    */
+
+            const entityAcc = await entityPromise;
+
+            let index;
+            if (files["_index.mdx"]) {
+              index = "_index.mdx";
+            }
+            if (files["_index.md"]) {
+              index = "_index.md";
+            }
+
+            if (index) {
+              return {
+                ...entityAcc,
+                [entity.path]: { files, index, meta: files[index].meta },
+              };
+            }
+            return entityAcc;
+          },
+          Promise.resolve()
         );
-      })
+        const collectionAcc = await collectionPromise;
+        return { ...collectionAcc, [collection.path]: mappedEntities };
+        // return mappedEntities;
+      },
+      Promise.resolve()
     );
 
-    await this._cache.set(`meta|${sha}`, meta);
-    return meta;
+    // await this._cache.set(`meta|${sha}`, meta);
+    return mappedCollections;
   }
 
   /**
