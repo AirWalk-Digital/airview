@@ -29,7 +29,7 @@ function useShaResolver() {
   const { data } = useGetAllEntriesMeta();
   function getSha(url) {
     const [collection, entity, path] = url.split("/", 3);
-    const o = data && ((data[collection] || {})[entity] || {})[path];
+    const o = data && ((data[collection] || {})[entity] || {}).files[path];
     return o?.sha;
   }
   return getSha;
