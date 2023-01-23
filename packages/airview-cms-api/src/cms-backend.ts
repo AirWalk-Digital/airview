@@ -186,12 +186,9 @@ export class CmsBackend {
     }
 
     const collections = await this._getFilteredTree(sha, () => true);
-    const meta: any = {};
 
     const mappedCollections = await collections.reduce(
       async (collectionPromise: any, collection: any) => {
-        // await Promise.all(
-        // collections.map(async (collection) => {
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
@@ -199,8 +196,6 @@ export class CmsBackend {
 
         const mappedEntities = await entities.reduce(
           async (entityPromise: any, entity: any) => {
-            // const mappedEntities = await Promise.all(
-            // entities.map(async (entity): Promise<any> => {
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
             const recursiveTree = await this._getCachedResponse<pathSha>(
@@ -211,17 +206,6 @@ export class CmsBackend {
             const files = await recursiveTree
               .filter((f: any) => f.type === "blob")
               .reduce(async (treePromise: any, entityBlob: any) => {
-                // console.log(entityBlob);
-                // console.log(acc);
-                //.map(async (entityBlob: any) => {
-                meta[collection.path] = meta[collection.path] || {};
-                meta[collection.path][entity.path] = meta[collection.path][
-                  entity.path
-                ] || { files: {} };
-
-                meta[collection.path][entity.path].files[entityBlob.path] = {
-                  sha: entityBlob.sha,
-                };
                 let frontmatter;
                 if (
                   entityBlob.path.endsWith("md") ||
@@ -236,26 +220,7 @@ export class CmsBackend {
                   var b = Buffer.from(blob.content, "base64");
                   var s = b.toString();
                   frontmatter = matter(s).data;
-
-                  if (
-                    entityBlob.path === "_index.md" ||
-                    entityBlob.path === "_index.mdx"
-                  ) {
-                    meta[collection.path][entity.path].meta = frontmatter;
-                    meta[collection.path][entity.path].index = entityBlob.path;
-                  }
-
-                  meta[collection.path][entity.path].files[
-                    entityBlob.path
-                  ].meta = frontmatter;
                 }
-                /*
-                  return {
-                    sha: entityBlob.sha,
-                    path: entityBlob.path,
-                    meta: frontmatter,
-                  };
-		  */
 
                 const tree = await treePromise;
                 return {
@@ -263,13 +228,6 @@ export class CmsBackend {
                   [entityBlob.path]: { sha: entityBlob.sha, meta: frontmatter },
                 };
               }, Promise.resolve());
-            /*
-            const files = mapped.reduce(
-              (a, v) => ({ ...a, [v.path]: { sha: v.sha, meta: v.meta } }),
-              {}
-            );
-            //const index = files["_index.mdx"] ?? ("" || files["_index.md"]);
-	    */
 
             const entityAcc = await entityPromise;
 
@@ -293,12 +251,11 @@ export class CmsBackend {
         );
         const collectionAcc = await collectionPromise;
         return { ...collectionAcc, [collection.path]: mappedEntities };
-        // return mappedEntities;
       },
       Promise.resolve()
     );
 
-    // await this._cache.set(`meta|${sha}`, meta);
+    await this._cache.set(`meta|${sha}`, mappedCollections);
     return mappedCollections;
   }
 
