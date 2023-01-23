@@ -16,9 +16,7 @@ export function MetaForm() {
 
   if (!entryMetaData) return null;
 
-  // TO DO: How to get the current collection? add to context?
   const collectionsFields = collectionsData["application"].fields;
-  //const collectionsFields = collectionsData[entryMetaData.collection].fields;
 
   const handleOnChange = (key, data) => {
     dispatch(
