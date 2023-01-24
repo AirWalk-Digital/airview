@@ -20,7 +20,7 @@ export function useGetNavigationItemsData() {
       (key) =>
         entries[collection][key].meta.parent === `${parentCollection}/${parent}`
     );
-    if (data.length == 0) return [];
+    if (data.length === 0) return [];
 
     const n = data.map((key) => ({
       label: entries[collection][key].meta.title,
