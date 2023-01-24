@@ -189,6 +189,15 @@ export class CmsBackend {
 
     const mappedCollections = await collections.reduce(
       async (collectionPromise: any, collection: any) => {
+        const collectionAcc = await collectionPromise;
+        const cachedEntities = await this._cache.get(
+          "entities|" + collection.sha
+        );
+        if (cachedEntities) {
+          return { ...collectionAcc, [collection.path]: cachedEntities };
+        }
+        console.log("Cache collection miss");
+
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
@@ -196,6 +205,16 @@ export class CmsBackend {
 
         const mappedEntities = await entities.reduce(
           async (entityPromise: any, entity: any) => {
+            let entityAcc = await entityPromise;
+            const cachedFiles = await this._cache.get("files|" + entity.sha);
+            if (cachedFiles) {
+              return {
+                ...entityAcc,
+                [entity.path]: cachedFiles,
+              };
+            }
+            console.log("Cache file miss");
+
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
             const recursiveTree = await this._getCachedResponse<pathSha>(
@@ -229,9 +248,8 @@ export class CmsBackend {
                 };
               }, Promise.resolve());
 
-            const entityAcc = await entityPromise;
-
             let index;
+            let cacheableFiles = { index: false };
             if (files["_index.mdx"]) {
               index = "_index.mdx";
             }
@@ -240,16 +258,18 @@ export class CmsBackend {
             }
 
             if (index) {
-              return {
+              cacheableFiles = { files, index, meta: files[index].meta };
+              entityAcc = {
                 ...entityAcc,
-                [entity.path]: { files, index, meta: files[index].meta },
+                [entity.path]: cacheableFiles,
               };
             }
+            await this._cache.set(`files|${entity.sha}`, cacheableFiles);
             return entityAcc;
           },
           Promise.resolve()
         );
-        const collectionAcc = await collectionPromise;
+        await this._cache.set(`entities|${collection.sha}`, mappedEntities);
         return { ...collectionAcc, [collection.path]: mappedEntities };
       },
       Promise.resolve()
