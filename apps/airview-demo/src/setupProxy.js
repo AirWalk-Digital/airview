@@ -12,7 +12,7 @@ module.exports = function (app) {
   app.use(
     "/api/cms",
     createProxyMiddleware({
-      target: "http://localhost:5002",
+      target: "http://localhost:3001",
       changeOrigin: true,
     })
   );

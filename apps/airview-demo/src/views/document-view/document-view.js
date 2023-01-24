@@ -15,22 +15,24 @@ import { useGetEntryId } from "./use-get-entry-id";
 import { DocumentContent } from "./document-content";
 import { ExternalDocumentContent } from "./external-document-content";
 import { config } from "../../config";
-
+import { RelatedContent } from "./related-content";
+import { useGetPresentation } from "./use-get-presentation";
 /* eslint import/no-webpack-loader-syntax: off */
 import css from "!!raw-loader!../../print.css";
 
 export function DocumentView() {
-  const { entryId, path } = useGetEntryId();
+  const context = useGetEntryId();
   const { print, ...status } = useHtmlToPdfUtil(
-    entryId,
+    context,
     `${config.baseUrl}/export`
   );
 
   const contentsRef = useRef();
 
   const { data, isError, error, isUninitialized, isLoading, isFetching } =
-    useSetCmsContext({ entryId, path });
+    useSetCmsContext(context);
 
+  const presentation = useGetPresentation(context);
   const cmsEnabled = useCMSViewportOffset();
 
   const breadcrumbLinks = useGetBreadcrumbLinksData(data);
@@ -93,7 +95,17 @@ export function DocumentView() {
           downloadStatus={
             status.loading ? "loading" : status.error ? "error" : null
           }
+          presentationHtmlOnClick={presentation.presentationHtmlOnClick}
+          presentationHtmlDownloadStatus={
+            presentation.loading
+              ? "loading"
+              : presentation.error
+              ? "error"
+              : null
+          }
+          presentationPdfLinkUrl={presentation.presentationPdfUrl}
         />
+        <RelatedContent />
       </Aside>
     </AsideAndMainContainer>
   );

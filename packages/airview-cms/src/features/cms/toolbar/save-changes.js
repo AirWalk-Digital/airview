@@ -49,7 +49,12 @@ export function SaveChanges() {
 
     const baseSha = branches.find((f) => f.name === branch).sha;
 
-    putEntry({ id: entry.entryId, branch, data, baseSha });
+    putEntry({
+      id: `${entry.collection}/${entry.entry}`,
+      branch,
+      data,
+      baseSha,
+    });
   };
 
   return (

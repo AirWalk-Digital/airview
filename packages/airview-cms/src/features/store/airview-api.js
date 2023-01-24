@@ -51,8 +51,8 @@ export const airviewApi = createApi({
       ],
     }),
     getEntry: builder.query({
-      query: ({ branchSha, path }) => {
-        return `content/${branchSha}?path=${path}`;
+      query: (sha) => {
+        return `content/${sha}`;
       },
       providesTags: (result, error, entrySha) => [
         { type: "Entry", id: entrySha },

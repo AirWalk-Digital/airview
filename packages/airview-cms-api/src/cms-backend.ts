@@ -141,6 +141,15 @@ export class CmsBackend {
     return { content: blob.content };
   }
 
+  async getContent(sha: string): Promise<Record<string, string>> {
+    if (!sha) {
+      throw Error("No content sha for requested path");
+    }
+    const blobFetcher = async () => this._client.getBlob(sha);
+    const blob = await this._getCachedResponse(blobFetcher, sha);
+    return { content: blob.content };
+  }
+
   /**
    * Gets the listing and entry meta data for the provided branch sha
    *
@@ -171,39 +180,41 @@ export class CmsBackend {
       sha: string;
     }
 
-    const cachedMapping = await this._cache.get("meta|" + sha);
-    if (cachedMapping) {
-      return cachedMapping;
+    const cachedMeta = await this._cache.get("meta|" + sha);
+    if (cachedMeta) {
+      return cachedMeta;
     }
 
     const collections = await this._getFilteredTree(sha, () => true);
+    const meta: any = {};
 
-    let listing: Record<string, string> = {};
-    let meta: CmsEntity[] = [];
     await Promise.all(
       collections.map(async (collection) => {
-        if (collection.type === "blob") {
-          listing[String(`${collection.path}`)] = collection.sha;
+        const cachedCollection = await this._cache.get(
+          "collection|" + collection.sha
+        );
+        if (cachedCollection) {
+          meta[collection.path] = cachedCollection;
           return;
         }
+        console.log("cache miss collection");
+
         const entities = await this._getFilteredTree(
           collection.sha,
           () => true
         );
 
+        const collectionData: any = {};
         await Promise.all(
           entities.map(async (entity): Promise<any> => {
-            if (entity.type === "blob") {
-              listing[String(`${collection.path}/${entity.path}`)] = entity.sha;
+            const cachedEntityDetail = await this._cache.get(
+              "entityDetail|" + entity.sha
+            );
+            if (cachedEntityDetail) {
+              collectionData[entity.path] = cachedEntityDetail;
               return;
             }
-            /*
-            const id = `${collection.path}/${entity.path}`;
-            const cachedTree = await this._cache.get(
-              `tree|${entity.sha}|${id}`
-            );
-            if (cachedTree) return cachedTree;
-	    */
+            console.log("cache miss entity");
 
             const recursiveTreeGet = async () =>
               await this._client.getTree(entity.sha, true);
@@ -212,31 +223,17 @@ export class CmsBackend {
               entity.sha
             );
 
-            const obj = recursiveTree
-              .filter((f: any) => f.type === "blob")
-              .reduce(
-                (acc: Record<string, string>, item: any) => ({
-                  ...acc,
-                  [`${collection.path}/${entity.path}/${item.path}`]: item.sha,
-                }),
-                {}
-              );
-
+            const entityDetailData: any = { files: {} };
             await Promise.all(
               recursiveTree
                 .filter((f: any) => f.type === "blob")
                 .map(async (entityBlob: any) => {
-                  const id = `${collection.path}/${entity.path}`;
-                  /*
-                  const cachedTree = await this._cache.get(
-                    `tree|${entity.sha}|${id}`
-                  );
-                  if (cachedTree) return cachedTree;
-		  */
-
+                  entityDetailData.files[entityBlob.path] = {
+                    sha: entityBlob.sha,
+                  };
                   if (
-                    entityBlob.path === "_index.md" ||
-                    entityBlob.path === "_index.mdx"
+                    entityBlob.path.endsWith("md") ||
+                    entityBlob.path.endsWith("mdx")
                   ) {
                     const blobFetcher = async () =>
                       await this._client.getBlob(entityBlob.sha);
@@ -246,28 +243,35 @@ export class CmsBackend {
                     );
                     var b = Buffer.from(blob.content, "base64");
                     var s = b.toString();
+                    const frontmatter = matter(s).data;
 
-                    const thisTree = {
-                      id,
-                      collection: collection.path,
-                      sha: entity.sha,
-                      meta: matter(s).data,
-                      index: entityBlob.path,
-                    };
-                    // await this._cache.set(`tree|${entity.sha}|${id}`, thisTree);
-                    meta.push(thisTree);
-                    // return thisTree;
+                    if (
+                      entityBlob.path === "_index.md" ||
+                      entityBlob.path === "_index.mdx"
+                    ) {
+                      entityDetailData.meta = frontmatter;
+                      entityDetailData.index = entityBlob.path;
+                    }
+                    entityDetailData.files[entityBlob.path].meta =
+                      matter(s).data;
                   }
                 })
             );
-            Object.assign(listing, obj);
+            await this._cache.set(
+              `entityDetail|${entity.sha}`,
+              entityDetailData
+            );
+            collectionData[entity.path] = entityDetailData;
           })
         );
+
+        await this._cache.set(`collection|${collection.sha}`, collectionData);
+        meta[collection.path] = collectionData;
       })
     );
 
-    await this._cache.set(`meta|${sha}`, { meta, listing });
-    return { listing, meta };
+    await this._cache.set(`meta|${sha}`, meta);
+    return meta;
   }
 
   /**
@@ -290,7 +294,7 @@ export class CmsBackend {
    *
    */
   async getEntries(sha: string): Promise<CmsEntity[]> {
-    return (await this.getData(sha)).meta;
+    return await this.getData(sha);
   }
 
   /**

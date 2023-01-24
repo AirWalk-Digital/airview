@@ -23,6 +23,18 @@ import { selectBaseUrl } from "../config-slice";
 import { MDXContent } from "./mdx-content";
 import PropTypes from "prop-types";
 
+import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
+
+function useShaResolver() {
+  const { data } = useGetAllEntriesMeta();
+  function getSha(url) {
+    const [collection, entity, path] = url.split("/", 3);
+    const o = data && ((data[collection] || {})[entity] || {}).files[path];
+    return o?.sha;
+  }
+  return getSha;
+}
+
 function isLinkExternal(url) {
   var r = new RegExp("^(?:[a-z+]+:)?//", "i");
   return r.test(url);
@@ -71,8 +83,9 @@ export function MarkdownEditor({ components: externalComponents }) {
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
   const branchSha = useSelector(selectWorkingBranchSha);
   const baseUrl = useSelector(selectBaseUrl);
-  const { path } = useSelector(selectCmsContext);
+  const context = useSelector(selectCmsContext);
 
+  const resolver = useShaResolver();
   const components = {
     img: ({ src, alt }) => {
       if (!branchSha) return;
@@ -83,8 +96,12 @@ export function MarkdownEditor({ components: externalComponents }) {
         const path = new URL(relativeUrl, document.baseURI).pathname.substring(
           1
         );
+        const mediaSha = resolver(path);
 
-        src = `${baseUrl}/media/${branchSha}?path=${path}`;
+        if (mediaSha) {
+          src = `${baseUrl}/media/${mediaSha}`;
+          return <img src={src} alt={alt} />;
+        }
       }
 
       return <img src={src} alt={alt} />;
@@ -146,7 +163,7 @@ export function MarkdownEditor({ components: externalComponents }) {
     );
   }
 
-  if (path.endsWith(".mdx")) {
+  if (context.path && context.path.endsWith(".mdx")) {
     return (
       <ErrorBoundary
         fallbackRender={() => (

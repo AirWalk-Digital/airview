@@ -293,40 +293,6 @@ To request frontmatter for all markdown entries of a specific collection call `u
 - - `isError` - Request to fetch data is complete and was unsuccessful - boolean
 - - `error` - Error result, if applicable - unknown
 
-### useGetChildEntriesMeta
-
-To request frontmatter for all markdown entry children of a specific entry call `useGetChildEntriesMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
-
-**Signature:**
-
-- **Hook Name:** `useGetChildEntriesMeta`
-- **Arguments:** `entryId` - string
-- **Returns:** `object`
-- - `data` - the frontmatter for all markdown entry children of the passed entryID - array of objects
-- - `isUninitialized` - Request to fetch data has not started yet - boolean
-- - `isLoading` - Request to fetch data is in flight for the first time - boolean
-- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
-- - `isSuccess` - Request to fetch data is complete and was a success - boolean
-- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
-- - `error` - Error result, if applicable - unknown
-
-### useGetSiblingEntriesMeta
-
-To request frontmatter for all markdown entry siblings of a specific entry call `useGetSiblingEntriesMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an array of entries frontmatter and various booleans relating the the status of the data fetching process.
-
-**Signature:**
-
-- **Hook Name:** `useGetSiblingEntriesMeta`
-- **Arguments:** `entryId` - string
-- **Returns:** `object`
-- - `data` - the frontmatter for all markdown entry siblings of the passed entryID - array of objects
-- - `isUninitialized` - Request to fetch data has not started yet - boolean
-- - `isLoading` - Request to fetch data is in flight for the first time - boolean
-- - `isFetching` - Request to fetch data is in flight, but might have data from a previous request - boolean
-- - `isSuccess` - Request to fetch data is complete and was a success - boolean
-- - `isError` - Request to fetch data is complete and was unsuccessful - boolean
-- - `error` - Error result, if applicable - unknown
-
 ### useGetEntryMeta
 
 To request frontmatter for a single entry, call `useGetEntryMeta`, passing the entry ID as the argument (which is [collection name]/[entry name]). The hook will return an object of frontmatter and various booleans relating the the status of the data fetching process.

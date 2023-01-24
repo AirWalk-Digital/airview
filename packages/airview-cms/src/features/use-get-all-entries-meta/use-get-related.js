@@ -1,12 +1,6 @@
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
-export function useGetCollectionEntries(collectionId) {
-  const findCollectionEntries = (entries) => {
-    if (!entries) return;
-
-    return entries[collectionId];
-  };
-
+export function useGetRelated(entry) {
   return useGetAllEntriesMeta(
     ({
       data: entries,
@@ -18,7 +12,11 @@ export function useGetCollectionEntries(collectionId) {
       error,
     }) => {
       return {
-        data: findCollectionEntries(entries),
+        data:
+          entries &&
+          entry &&
+          ((entries[entry.collection] || {})[entry.entry] || { files: {} })
+            .files,
         isUninitialized,
         isLoading,
         isFetching,

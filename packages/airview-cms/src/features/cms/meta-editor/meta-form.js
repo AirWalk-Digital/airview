@@ -16,7 +16,7 @@ export function MetaForm() {
 
   if (!entryMetaData) return null;
 
-  const collectionsFields = collectionsData[entryMetaData.collection].fields;
+  const collectionsFields = collectionsData["application"].fields;
 
   const handleOnChange = (key, data) => {
     dispatch(

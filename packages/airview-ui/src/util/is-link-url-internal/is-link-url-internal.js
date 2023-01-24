@@ -1,3 +1,3 @@
 export function isLinkInternal(url) {
-  return /^\/(?!\/)/.test(url);
+  return !/^(?:[a-z]+:)?\/\//i.test(url);
 }

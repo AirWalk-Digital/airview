@@ -12,7 +12,11 @@ export function useGetEntryMeta(entry) {
       error,
     }) => {
       return {
-        data: entries?.find((e) => e.id === entry?.entryId),
+        data:
+          entries &&
+          entry &&
+          ((entries[entry.collection] || {})[entry.entry] || { files: {} })
+            .files[entry.path],
         isUninitialized,
         isLoading,
         isFetching,
