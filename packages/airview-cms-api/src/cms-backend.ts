@@ -185,7 +185,10 @@ export class CmsBackend {
       return cachedMeta;
     }
 
-    const collections = await this._getFilteredTree(sha, () => true);
+    const collections = await this._getFilteredTree(
+      sha,
+      (t: GitTree) => t.type === "tree"
+    );
     const meta: any = {};
 
     await Promise.all(
@@ -201,7 +204,7 @@ export class CmsBackend {
 
         const entities = await this._getFilteredTree(
           collection.sha,
-          () => true
+          (t: GitTree) => t.type === "tree"
         );
 
         const collectionData: any = {};
@@ -243,7 +246,12 @@ export class CmsBackend {
                     );
                     var b = Buffer.from(blob.content, "base64");
                     var s = b.toString();
-                    const frontmatter = matter(s).data;
+                    let frontmatter = {};
+                    try {
+                      frontmatter = matter(s).data;
+                    } catch {
+                      // ignore bad frontmatter
+                    }
 
                     if (
                       entityBlob.path === "_index.md" ||
@@ -252,8 +260,7 @@ export class CmsBackend {
                       entityDetailData.meta = frontmatter;
                       entityDetailData.index = entityBlob.path;
                     }
-                    entityDetailData.files[entityBlob.path].meta =
-                      matter(s).data;
+                    entityDetailData.files[entityBlob.path].meta = frontmatter;
                   }
                 })
             );

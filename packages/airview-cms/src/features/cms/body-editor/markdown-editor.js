@@ -91,6 +91,9 @@ export function MarkdownEditor({ components: externalComponents }) {
       if (!branchSha) return;
       if (!src.startsWith("blob:")) {
         // Sanitize URL by removing leading `/`
+        if (src.startsWith("./")) {
+          src = src.slice(2);
+        }
         const relativeUrl = src.replace(/^\//, "");
 
         const path = new URL(relativeUrl, document.baseURI).pathname.substring(
