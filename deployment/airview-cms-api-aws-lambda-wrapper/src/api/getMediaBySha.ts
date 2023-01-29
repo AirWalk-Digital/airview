@@ -16,19 +16,15 @@ export function getMediaBySha() {
     const buffer = Buffer.from(data.content, "base64");
     const contentType = await FileType.fromBuffer(buffer);
     utils.printDebug(contentType);
-    utils.printDebug(contentType?.mime);
 
     const resp: any = {
       statusCode: 200,
       body: data.content,
       isBase64Encoded: true,
-      // headers: { "content-type": contentType?.mime },
     };
     if (contentType) {
       resp.headers = { "content-type": contentType?.mime };
     }
-    utils.printDebug(data);
-    utils.printDebug(resp);
     return resp;
   }
 
