@@ -18,12 +18,16 @@ export function getMediaBySha() {
     utils.printDebug(contentType);
     utils.printDebug(contentType?.mime);
 
-    return {
+    const resp: any = {
       statusCode: 200,
       body: data.content,
       isBase64Encoded: true,
-      headers: { "content-type": contentType?.mime || "text/plain" },
+      // headers: { "content-type": contentType?.mime },
     };
+    if (contentType) {
+      resp.headers = { "content-type": contentType?.mime };
+    }
+    return resp;
   }
 
   return { handle };
