@@ -1,6 +1,6 @@
 import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
 import { cmsBackendFactory, utils } from "../common";
-import FileType from "file-type";
+//import FileType from "file-type";
 //const FileType = require('file-type/browser');
 
 export function getMediaBySha() {
@@ -14,13 +14,13 @@ export function getMediaBySha() {
 
     const cmsBackend = await factory.getInstance();
     const data = await cmsBackend.getContent(sha);
-    const buffer = Buffer.from(data.content, "base64");
-    const contentType = await FileType.fromBuffer(buffer);
+    //const buffer = Buffer.from(data.content, "base64");
+    //const contentType = await FileType.fromBuffer(buffer);
     return {
       statusCode: 200,
       body: data.content,
       isBase64Encoded: true,
-      headers: { "content-type": contentType?.mime || "text/plain" },
+      // headers: { "content-type": contentType?.mime || "text/plain" },
     };
   }
 
