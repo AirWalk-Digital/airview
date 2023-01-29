@@ -27,6 +27,8 @@ export function getMediaBySha() {
     if (contentType) {
       resp.headers = { "content-type": contentType?.mime };
     }
+    utils.printDebug(data);
+    utils.printDebug(resp);
     return resp;
   }
 
