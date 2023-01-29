@@ -2,7 +2,7 @@
   "name": "airview-cms-api-aws-lambda-wrapper",
   "version": "0.0.0",
   "description": "Airview CMS API AWS Wrapper Module",
-  "exports": "index.js",
+  "exports": "./index.js",
   "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
