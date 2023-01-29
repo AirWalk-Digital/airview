@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Airview CMS API AWS Wrapper Module",
   "exports": "./dist/index.js",
-  "type": "module",
+  "type": "commonjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
