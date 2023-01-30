@@ -28,7 +28,14 @@ import { useGetAllEntriesMeta } from "../../use-get-all-entries-meta";
 function useShaResolver() {
   const { data } = useGetAllEntriesMeta();
   function getSha(url) {
-    const [collection, entity, path] = url.split("/", 3);
+    console.log(url);
+    const split = url.split("/");
+    const [collection, entity, path] = [
+      split[0],
+      split[1],
+      split.slice(2).join("/"),
+    ];
+    console.log(path);
     const o =
       data &&
       collection &&
