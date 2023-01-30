@@ -7,13 +7,11 @@ export function getContentBySha() {
     event: APIGatewayEvent,
     context: Context
   ): Promise<APIGatewayProxyResult> {
-    const path: string = event.queryStringParameters["path"];
     const sha: string = event.pathParameters["sha"];
-    utils.printDebug(`Query String: path == "${path}"`);
     utils.printDebug(`Query String: sha == "${sha}"`);
 
     const cmsBackend = await factory.getInstance();
-    const data = await cmsBackend.getTreeContent(sha, path);
+    const data = await cmsBackend.getContent(sha);
     return {
       statusCode: 200,
       body: JSON.stringify(data),
