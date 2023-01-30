@@ -268,7 +268,9 @@ export class CmsBackend {
               `entityDetail|${entity.sha}`,
               entityDetailData
             );
-            collectionData[entity.path] = entityDetailData;
+            if (entityDetailData.meta && entityDetailData.index) {
+              collectionData[entity.path] = entityDetailData;
+            }
           })
         );
 
