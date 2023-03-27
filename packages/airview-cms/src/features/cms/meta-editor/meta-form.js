@@ -16,7 +16,7 @@ export function MetaForm() {
 
   if (!entryMetaData) return null;
 
-  const collectionsFields = collectionsData[entryMetaData.collection].fields;
+  const collectionsFields = collectionsData[cmsContext.collection].fields;
 
   const handleOnChange = (key, data) => {
     dispatch(
@@ -36,18 +36,19 @@ export function MetaForm() {
         value={metaEditorData?.title}
         onChange={(value) => handleOnChange("title", value)}
       />
-      {collectionsFields.map((collectionFieldData) => {
-        return (
-          <DynamicWidget
-            key={collectionFieldData.name}
-            fieldData={collectionFieldData}
-            value={metaEditorData[collectionFieldData.name]}
-            onChange={(value) =>
-              handleOnChange(collectionFieldData.name, value)
-            }
-          />
-        );
-      })}
+      {cmsContext.path === "_index.md" &&
+        collectionsFields.map((collectionFieldData) => {
+          return (
+            <DynamicWidget
+              key={collectionFieldData.name}
+              fieldData={collectionFieldData}
+              value={metaEditorData[collectionFieldData.name]}
+              onChange={(value) =>
+                handleOnChange(collectionFieldData.name, value)
+              }
+            />
+          );
+        })}
     </Box>
   );
 }

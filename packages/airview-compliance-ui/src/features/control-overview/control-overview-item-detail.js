@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import { Grid, Button, Typography, Box } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export function ControlOverviewItemDetail({
   control,
@@ -12,20 +9,18 @@ export function ControlOverviewItemDetail({
   controlAction,
   lifecycle,
 }) {
-  const classes = useControlOverviewItemDetailStyles();
+  const classes = controlOverviewItemDetailStyles();
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={9}>
-        <div className={classes.itemDetails}>
-          <div className={classes.itemDetail}>
-            <div className={classes.itemDetailLeftContent}>
-              <Typography className={classes.itemDetailTitle}>
-                Control:
-              </Typography>
-            </div>
+        <Box component="div">
+          <Box component="div" sx={classes.itemDetail}>
+            <Box component="div" sx={classes.itemDetailLeftContent}>
+              <Typography sx={classes.itemDetailTitle}>Control:</Typography>
+            </Box>
 
-            <div className={classes.itemDetailRightContent}>
+            <Box component="div" sx={classes.itemDetailRightContent}>
               <Typography variant="body2">{control.name}</Typography>
 
               <Button
@@ -34,21 +29,19 @@ export function ControlOverviewItemDetail({
                 href={control.url}
                 color="primary"
                 endIcon={<OpenInNewIcon />}
-                className={classes.itemDetailAction}
+                sx={classes.itemDetailAction}
               >
                 View
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className={classes.itemDetail}>
-            <div className={classes.itemDetailLeftContent}>
-              <Typography className={classes.itemDetailTitle}>
-                Frameworks:
-              </Typography>
-            </div>
+          <Box component="div" sx={classes.itemDetail}>
+            <Box component="div" sx={classes.itemDetailLeftContent}>
+              <Typography sx={classes.itemDetailTitle}>Frameworks:</Typography>
+            </Box>
 
-            <div className={classes.itemDetailRightContent}>
+            <Box component="div" sx={classes.itemDetailRightContent}>
               {frameworks.map((framework) => (
                 <Button
                   size="small"
@@ -56,42 +49,40 @@ export function ControlOverviewItemDetail({
                   href={framework.url}
                   color="primary"
                   endIcon={<OpenInNewIcon />}
-                  className={classes.itemDetailAction}
+                  sx={classes.itemDetailAction}
                   key={framework.name}
                 >
                   {framework.name}
                 </Button>
               ))}
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className={classes.itemDetail}>
-            <div className={classes.itemDetailLeftContent}>
-              <Typography className={classes.itemDetailTitle}>
+          <Box component="div" sx={classes.itemDetail}>
+            <Box component="div" sx={classes.itemDetailLeftContent}>
+              <Typography sx={classes.itemDetailTitle}>
                 Control Action:
               </Typography>
-            </div>
+            </Box>
 
-            <div className={classes.itemDetailRightContent}>
+            <Box component="div" sx={classes.itemDetailRightContent}>
               <Typography variant="body2">{controlAction}</Typography>
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className={classes.itemDetail}>
-            <div className={classes.itemDetailLeftContent}>
-              <Typography className={classes.itemDetailTitle}>
-                Lifecycle:
-              </Typography>
-            </div>
+          <Box component="div" sx={classes.itemDetail}>
+            <Box component="div" sx={classes.itemDetailLeftContent}>
+              <Typography sx={classes.itemDetailTitle}>Lifecycle:</Typography>
+            </Box>
 
-            <div className={classes.itemDetailRightContent}>
+            <Box component="div" sx={classes.itemDetailRightContent}>
               <Typography variant="body2">{lifecycle}</Typography>
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
       </Grid>
 
-      <Grid item xs={3} className={classes.actions}>
+      <Grid item xs={3} sx={classes.actions}>
         <Button
           variant="contained"
           disableElevation
@@ -123,26 +114,30 @@ ControlOverviewItemDetail.propTypes = {
   lifecycle: PropTypes.string,
 };
 
-const useControlOverviewItemDetailStyles = makeStyles((theme) => {
+function controlOverviewItemDetailStyles() {
   return {
     itemDetail: {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      padding: theme.spacing(1, 0),
+      paddingTop: 1,
+      paddingBottom: 1,
+      paddingRight: 0,
+      paddingLeft: 0,
 
       "&:first-of-type": {
         paddingTop: 0,
       },
 
       "&:not(:last-of-type)": {
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        borderBottom: 1,
+        borderBottomColor: "divider",
       },
     },
 
     itemDetailLeftContent: {
       flex: "0 0 auto",
-      paddingRight: theme.spacing(1),
+      paddingRight: 1,
     },
 
     itemDetailRightContent: {
@@ -151,24 +146,24 @@ const useControlOverviewItemDetailStyles = makeStyles((theme) => {
       alignItems: "center",
       justifyContent: "flex-end",
       flexWrap: "wrap",
-      paddingLeft: theme.spacing(1),
+      paddingLeft: 1,
 
       "& > *:not(:last-child)": {
-        marginRight: theme.spacing(1),
+        marginRight: 1,
       },
     },
 
     itemDetailTitle: {
-      fontSize: theme.typography.pxToRem(14),
-      fontWeight: theme.typography.fontWeightBold,
+      fontSize: 14,
+      fontWeight: "bold",
     },
 
     itemDetailAction: {
-      fontSize: theme.typography.pxToRem(12),
+      fontSize: 12,
 
       "& .MuiSvgIcon-root": {
-        fontSize: theme.typography.pxToRem(14),
+        fontSize: 14,
       },
     },
   };
-});
+}

@@ -1,4 +1,4 @@
-import React, { useMemo, useId } from "react";
+import React, { useId } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import {
@@ -26,29 +26,11 @@ export function EntrySelectWidget({
   const cmsBusy = useSelector(selectCmsBusyStatus);
   const protectedBranch = useSelector(selectIsWorkingBranchProtected);
 
-  const { data: entries } = useGetAllEntriesMeta(({ data }) => {
-    const filteredData = data?.map((dataItem) => ({
-      id: dataItem.id,
-      title: dataItem.meta.title,
-      collection: dataItem.collection,
-    }));
+  const { data: entries } = useGetAllEntriesMeta();
+  const filteredEntries = entries[collection];
 
-    return { data: filteredData };
-  });
-
-  // Remove current context entry to prevent self as parent selection
-  const filteredEntries = useMemo(() => {
-    if (!collection) return [...entries];
-
-    return entries.filter((entry) => entry.collection === collection);
-  }, [entries, collection]);
-
-  // Derrive if working branch no longer has selected parent
-  const isInvalidSelection = useMemo(() => {
-    if (!value) return false;
-
-    return filteredEntries.find((entry) => entry.id === value) ? false : true;
-  }, [value, filteredEntries]);
+  const isInvalidSelection =
+    value && filteredEntries[value.split("/").pop()] === undefined;
 
   const noSelection = (
     <Typography component="em" sx={{ color: "text.disabled" }}>
@@ -83,10 +65,13 @@ export function EntrySelectWidget({
         onChange={handleOnChange}
       >
         <MenuItem value="">{noSelection}</MenuItem>
-        {filteredEntries.map((entry) => {
+        {Object.keys(filteredEntries).map((entry) => {
           return (
-            <MenuItem key={entry.id} value={entry.id}>
-              {entry.title}
+            <MenuItem
+              key={`${collection}/${entry}`}
+              value={`${collection}/${entry}`}
+            >
+              {filteredEntries[entry].meta.title}
             </MenuItem>
           );
         })}

@@ -1,7 +1,10 @@
 {
   "name": "airview",
-  "version": "1.5.0",
+  "version": "0.0.0",
   "description": "",
+  "engines": {
+    "node": ">=16.15.1 <17.0.0"
+  },
   "devDependencies": {
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
@@ -15,7 +18,10 @@
     "prettier": "^2.6.2"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint 'packages/**/*.{js, jsx, ts, tsx}' 'apps/**/*.{js, jsx, ts, tsx}'",
+    "check-formatting": "prettier --check --ignore-unknown 'packages' 'apps'",
+    "fix-formatting": "npm run check-formatting -- --write"
   },
   "repository": {
     "type": "git",
@@ -34,7 +40,8 @@
     "packages/airview-mock-server",
     "packages/airview-cms-api",
     "packages/airview-compliance-ui",
-    "apps/airview-api-demo"
+    "apps/airview-api-demo",
+    "packages/airview-html-to-pdf-util"
   ],
   "lint-staged": {
     "*.js": "eslint",

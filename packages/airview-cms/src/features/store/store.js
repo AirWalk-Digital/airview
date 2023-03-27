@@ -5,6 +5,7 @@ import {
   cmsSlice,
   branchCreatorSlice,
   metaEditorSlice,
+  bodyEditorSlice,
   createPullRequestSlice,
   contentCreatorSlice,
 } from "../cms";
@@ -31,6 +32,7 @@ export function initStore(config) {
       [configSlice.name]: configSlice.reducer,
       [branchCreatorSlice.name]: branchCreatorSlice.reducer,
       [metaEditorSlice.name]: metaEditorSlice.reducer,
+      [bodyEditorSlice.name]: bodyEditorSlice.reducer,
       [cmsSlice.name]: cmsSlice.reducer,
       [createPullRequestSlice.name]: createPullRequestSlice.reducer,
       [contentCreatorSlice.name]: contentCreatorSlice.reducer,

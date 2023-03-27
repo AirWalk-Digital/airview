@@ -1,0 +1,38 @@
+name: Lint Build and Test
+on:
+  pull_request:
+    branches: ["main"]
+jobs:
+  lint_build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Project
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Lint JavaScript
+        run: npm run lint
+      - name: Check formatting
+        run: npm run check-formatting
+      - name: Build airview-cms
+        run: npm run build --workspace=packages/airview-cms
+      - name: Build airview-mock-server
+        run: npm run build --workspace=packages/airview-mock-server
+      - name: Build airview-ui
+        run: npm run build --workspace=packages/airview-ui
+      - name: Smoke test airview-ui Storybook
+        run: npm run storybook --workspace=packages/airview-ui -- --smoke-test --ci
+      - name: Build airview-compliance-ui
+        run: npm run build --workspace=packages/airview-compliance-ui
+      - name: Build airview-html-to-pdf-util
+        run: npm run build --workspace=packages/airview-html-to-pdf-util
+      - name: Smoke test airview-ui Storybook
+        run: npm run storybook --workspace=packages/airview-compliance-ui -- --smoke-test --ci
+      - name: Build airview-cms-api
+        run: npm run build --workspace=packages/airview-cms-api
+      - name: Build airview-demo
+        run: npm run build --workspace=apps/airview-demo -- --env=CI

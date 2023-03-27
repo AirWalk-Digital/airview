@@ -17,12 +17,12 @@ export function EnableCmsButton() {
       onClick={() => dispatch(enableCms())}
       sx={{
         position: "fixed",
-        zIndex: 10000,
+        zIndex: 1299,
         bottom: 32,
         right: 32,
       }}
     >
-      Enable CMS
+      Edit Content
     </Button>
   );
 }

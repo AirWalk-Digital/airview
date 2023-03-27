@@ -1,7 +1,10 @@
 {
   "name": "airview-cms",
-  "version": "0.6.0",
+  "version": "0.0.0",
   "description": "",
+  "engines": {
+    "node": ">=16.15.1 <17.0.0"
+  },
   "main": "dist/index.js",
   "files": [
     "./dist"
@@ -12,17 +15,26 @@
     "@emotion/styled": "^11.8.1",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@mdx-js/mdx": "^2.1.5",
+    "@mdx-js/react": "^2.1.5",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.3",
     "@mui/x-date-pickers": "^5.0.0-alpha.3",
     "@reduxjs/toolkit": "^1.8.1",
+    "@uiw/react-md-editor": "^3.14.4",
     "dayjs": "^1.11.2",
+    "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
+    "mime": "3.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-markdown": "^8.0.3",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
+    "rehype-highlight": "^6.0.0",
+    "rehype-sanitize": "^5.0.1",
+    "remark-gfm": "^3.0.1",
     "slugify": "^1.6.5"
   },
   "devDependencies": {
@@ -38,7 +50,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -49,5 +62,8 @@
   "bugs": {
     "url": "https://github.com/AirWalk-Digital/airview/issues"
   },
-  "homepage": "https://github.com/AirWalk-Digital/airview#readme"
+  "homepage": "https://github.com/AirWalk-Digital/airview#readme",
+  "dependencies": {
+    "react-error-boundary": "^3.1.4"
+  }
 }

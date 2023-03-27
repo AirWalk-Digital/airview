@@ -3,8 +3,21 @@ import { Menu } from "airview-ui";
 import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import { useGetNavigationItemsData } from "./use-get-navigation-items-data";
 
+const loadingData = [
+  {
+    application: "",
+    menuItems: [{ groupTitle: "", links: [] }],
+  },
+];
+
 export function NavigationItems({ open }) {
-  const { isLoading, isFetching, isError, data } = useGetNavigationItemsData();
+  const {
+    isLoading,
+    isFetching,
+    isUninitialized,
+    isError,
+    data = loadingData,
+  } = useGetNavigationItemsData();
   const location = useLocation();
 
   if (isError) {
@@ -24,7 +37,7 @@ export function NavigationItems({ open }) {
         }}
         linkComponent={ReactRouterLink}
         currentRoute={location.pathname}
-        loading={isLoading}
+        loading={isLoading || isUninitialized}
         fetching={isFetching}
         initialCollapsed={false}
       />

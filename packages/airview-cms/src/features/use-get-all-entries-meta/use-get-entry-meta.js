@@ -1,6 +1,6 @@
 import { useGetAllEntriesMeta } from "./use-get-all-entries-meta";
 
-export function useGetEntryMeta(entryId) {
+export function useGetEntryMeta(entry) {
   return useGetAllEntriesMeta(
     ({
       data: entries,
@@ -12,7 +12,11 @@ export function useGetEntryMeta(entryId) {
       error,
     }) => {
       return {
-        data: entries?.find((entry) => entry.id === entryId),
+        data:
+          entries &&
+          entry &&
+          ((entries[entry.collection] || {})[entry.entry] || { files: {} })
+            .files[entry.path],
         isUninitialized,
         isLoading,
         isFetching,

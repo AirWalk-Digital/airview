@@ -12,6 +12,7 @@ export {
 export { contentCreatorSlice } from "./content-creator";
 export { branchCreatorSlice } from "./branch-creator";
 export { metaEditorSlice } from "./meta-editor";
+export { bodyEditorSlice, MarkdownEditor } from "./body-editor";
 export { createPullRequestSlice } from "./create-pull-request";
 export { useSetCmsContext } from "./use-set-cms-context";
 export { configSlice } from "./config-slice";
@@ -20,3 +21,4 @@ export { useUnsavedEditsNavPrompt } from "./use-unsaved-edits-nav-prompt";
 export { useClearCmsContext } from "./use-clear-cms-context";
 export { useHandleOnContentCreation } from "./use-handle-on-content-creation";
 export { useCMSViewportOffset } from "./use-cms-viewport-offset";
+export { useEnableBranchViaSearchParam } from "./use-enable-branch-via-search-param";

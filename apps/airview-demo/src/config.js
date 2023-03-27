@@ -2,9 +2,15 @@ import dayjs from "dayjs";
 
 export const config = {
   baseBranch: "main",
+  baseUrl: "/api/cms",
   collections: {
     application: {
       label: "Application",
+      fields: [],
+    },
+    hidden: {
+      label: "Hidden",
+      hidden: true,
       fields: [],
     },
     knowledge: {
@@ -16,6 +22,21 @@ export const config = {
           widget: "entrySelect",
           collection: "application",
           required: true,
+        },
+        {
+          label: "External Repo",
+          name: "external_repo",
+          widget: "string",
+        },
+        {
+          label: "External Owner",
+          name: "external_owner",
+          widget: "string",
+        },
+        {
+          label: "External Path",
+          name: "external_path",
+          widget: "string",
         },
       ],
       additionalFiles: ["section_one", "section_two"],

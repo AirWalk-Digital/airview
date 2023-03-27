@@ -3,28 +3,28 @@ import { createSeedData } from "./create-seed-data";
 import matter from "gray-matter";
 
 export function createStore() {
-  let { branches, entries } = createSeedData();
+  let { branches, entries, external_content } = createSeedData();
 
   const getBranches = () => Object.values(branches);
 
-  const createBranch = (baseBranchSha, branchName) => {
+  const createBranch = (baseSha, name) => {
     const baseBranch = Object.values(branches).find(
-      (branch) => branch.sha === baseBranchSha
+      (branch) => branch.sha === baseSha
     );
 
-    if (!baseBranch || branches[branchName]) {
+    if (!baseBranch || branches[name]) {
       return false;
     }
 
     const branchSha = nanoid();
 
-    branches[branchName] = {
-      name: branchName,
+    branches[name] = {
+      name: name,
       sha: branchSha,
       isProtected: false,
     };
 
-    entries[branchName] = { ...entries[baseBranch.name] };
+    entries[name] = { ...entries[baseBranch.name] };
 
     return true;
   };
@@ -50,29 +50,23 @@ export function createStore() {
     });
   };
 
-  const getEntryContent = (entrySha) => {
-    let entry;
+  const getEntryContent = (branchSha, path) => {
+    const branchData = getBranches().find((branch) => branch.sha === branchSha);
+    const content = entries[branchData.name];
+    const splits = path.split("/");
 
-    const groupedEntries = Object.values(entries);
+    const entry = content[splits.slice(0, 2).join("/")];
+    const e = entry.content[splits.slice(2).join("/")];
+    return e;
+  };
 
-    for (let i = 0; i < groupedEntries.length; i++) {
-      entry = Object.values(groupedEntries[i]).find(
-        (entry) => entry.sha === entrySha
-      );
-
-      if (entry) break;
-    }
-
-    if (!entry) return false;
-
-    return entry.content;
+  const getExternalContent = (repo, owner, path) => {
+    const content = external_content[repo][owner][path];
+    return content;
   };
 
   const persistContent = (entryId, branchName, content) => {
-    if (!branches[branchName]) return false;
-
     const newBranchSha = nanoid();
-
     branches[branchName].sha = newBranchSha;
 
     const meta = matter(atob(content["_index.md"])).data;
@@ -113,5 +107,6 @@ export function createStore() {
     getBranches,
     createBranch,
     resetStore,
+    getExternalContent,
   };
 }

@@ -22,7 +22,7 @@ export function prepareEntryPayload() {
 
     const entryId = `${selectedEntryCollection}/${slugifyString(
       entryMetaData.title
-    )}`;
+    )}_${Date.now().toString(36)}`;
 
     const { additionalFiles } = collections[selectedEntryCollection];
 
@@ -34,7 +34,10 @@ export function prepareEntryPayload() {
       id: entryId,
       branch: workingBranch,
       data: {
-        "_index.md": btoa(matter.stringify("", entryMetaData)),
+        "_index.md": Buffer.from(
+          matter.stringify("", entryMetaData),
+          "utf8"
+        ).toString("base64"),
         ...(additionalFiles &&
           Object.fromEntries(
             additionalFiles.map((file) => {

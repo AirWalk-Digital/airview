@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export function ControlOverviewGroup({ groupTitle, id, onChange, children }) {
-  const classes = useControlOverviewGroupStyles();
+  const classes = controlOverviewGroupStyles();
 
   const handleOnChange = (event, expanded) => {
     if (expanded) onChange(id);
@@ -16,22 +17,19 @@ export function ControlOverviewGroup({ groupTitle, id, onChange, children }) {
 
   return (
     <Accordion
-      classes={{
-        root: classes.overviewGroup,
-        expanded: classes.overviewGroupExpanded,
+      sx={{
+        "&.MuiAccordion-root": classes.overviewGroup,
       }}
       onChange={handleOnChange}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        className={classes.overviewGroupSummary}
+        sx={classes.overviewGroupSummary}
       >
-        <Typography className={classes.overviewGroupTitle}>
-          {groupTitle}
-        </Typography>
+        <Typography sx={classes.overviewGroupTitle}>{groupTitle}</Typography>
       </AccordionSummary>
 
-      <AccordionDetails className={classes.overviewGroupChildren}>
+      <AccordionDetails sx={classes.overviewGroupChildren}>
         {children}
       </AccordionDetails>
     </Accordion>
@@ -45,7 +43,7 @@ ControlOverviewGroup.propTypes = {
   children: PropTypes.node,
 };
 
-const useControlOverviewGroupStyles = makeStyles((theme) => {
+function controlOverviewGroupStyles() {
   return {
     overviewGroup: {
       boxShadow: "none",
@@ -55,23 +53,23 @@ const useControlOverviewGroupStyles = makeStyles((theme) => {
       "&:before": {
         display: "none",
       },
-      "&$overviewGroupExpanded": {
+      "&.Mui-expanded": {
         margin: "auto",
       },
-      "&:not(:first-of-type) $overviewGroupSummary": {
+      "&:not(:first-of-type)": {
         borderTop: "1px solid rgba(0, 0, 0, .125)",
       },
     },
     overviewGroupExpanded: {},
     overviewGroupSummary: {},
     overviewGroupTitle: {
-      fontSize: theme.typography.pxToRem(16),
-      fontWeight: theme.typography.fontWeightMedium,
+      fontSize: 16,
+      fontWeight: "medium",
     },
     overviewGroupChildren: {
       display: "block",
-      padding: theme.spacing(0, 0, 0, 0),
+      padding: 0,
       borderTop: "1px solid rgba(0, 0, 0, .125)",
     },
   };
-});
+}

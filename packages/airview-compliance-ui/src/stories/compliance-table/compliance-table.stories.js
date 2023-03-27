@@ -1,7 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { ComplianceTable } from "../../features/compliance-table";
 import { applicationsData } from "./applications-data";
+import { Box } from "@mui/material";
 
 export default {
   title: "Features/Compliance Table",
@@ -11,15 +11,11 @@ export default {
   },
   decorators: [
     (story) => {
-      const classes = makeStyles(() => ({
-        root: {
-          width: "100%",
-          maxWidth: 1024,
-          margin: "0 auto",
-        },
-      }))();
-
-      return <div className={classes.root}>{story()}</div>;
+      return (
+        <Box sx={{ width: "100%", maxWidth: 1024, margin: "0 auto" }}>
+          {story()}
+        </Box>
+      );
     },
   ],
 };

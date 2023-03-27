@@ -4,7 +4,7 @@ import { AirviewUiThemeProvider } from "airview-ui";
 import { Routes, Route } from "react-router-dom";
 import { config } from "./config";
 import { MainLayout } from "./layouts";
-import { NotFoundView, DocumentView } from "./views";
+import { NotFoundView, DocumentView, HomePageView } from "./views";
 
 function App() {
   return (
@@ -12,7 +12,8 @@ function App() {
       <AirviewUiThemeProvider>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route path=":collection/:entry" element={<DocumentView />} />
+            <Route index element={<HomePageView />} />
+            <Route path=":collection/:entry/*" element={<DocumentView />} />
           </Route>
           <Route path="*" element={<NotFoundView />} />
         </Routes>

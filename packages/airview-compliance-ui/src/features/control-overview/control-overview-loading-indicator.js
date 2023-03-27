@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { Box, CircularProgress } from "@mui/material";
 
 export function ControlOverviewLoadingIndicator({ padding = false }) {
   return (

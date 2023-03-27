@@ -75,7 +75,7 @@ export function CreatePullRequest() {
               size="small"
               disableElevation
               component="a"
-              href={data}
+              href={data.url}
               target="_blank"
               startIcon={<FontAwesomeSvgIcon icon={faArrowUpRightFromSquare} />}
             >

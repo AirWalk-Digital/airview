@@ -1,0 +1,54 @@
+name: Publish Package to npmjs
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Set Git Config
+        run: |
+          git config user.name $GITHUB_ACTOR
+          git config user.email gh-actions-${GITHUB_ACTOR}@github.com
+
+      - name: NPM CI
+        run: npm ci
+      - name: Publish airview-cms-api
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-cms-api/ ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-cms-api/
+      - name: Publish airview-cms
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-cms/ ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-cms/
+      - name: Publish airview-ui
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-ui/ ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-ui/
+      - name: Publish airview-mock-server
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-mock-server/ ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-mock-server/
+      - name: Publish airview-compliance-ui
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-compliance-ui ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-compliance-ui/
+      - name: Publish airview-html-to-pdf-util
+        run: |
+          npm version --no-git-tag-version --workspace=packages/airview-html-to-pdf-util ${GITHUB_REF##*/}
+          npm publish --workspace=packages/airview-html-to-pdf-util/
+
+      - name: Publish airview-cms-api-aws-lambda-wrapper
+        run: |
+          cd deployment/airview-cms-api-aws-lambda-wrapper/
+          npm version --no-git-tag-version ${GITHUB_REF##*/} 
+          npm install airview-cms-api@${GITHUB_REF##*/} --save-exact
+          npm publish

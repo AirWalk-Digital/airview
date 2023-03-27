@@ -1,30 +1,32 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Switch from "@material-ui/core/Switch";
-import Typography from "@material-ui/core/Typography";
-import DayjsUtils from "@date-io/dayjs";
+import { useTheme } from "@mui/material/styles";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { FormLabel } from "@material-ui/core";
-import WarningIcon from "@material-ui/icons/Warning";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { IconChip } from "./icon-chip";
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Grid,
+  TextField,
+  Switch,
+  Typography,
+  Box,
+  MenuItem,
+  FormLabel,
+  FormControl,
+  Select,
+  ButtonGroup,
+  CircularProgress,
+  InputLabel,
+} from "@mui/material";
+import WarningIcon from "@mui/icons-material/Warning";
+
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { IconChip } from "../icon-chip/icon-chip";
+
+import { complianceTableAcceptRiskDialogStyles } from "./compliance-table-accept-risk-dialog.style";
 
 export function ComplianceTableAcceptRiskDialog({
   open,
@@ -34,8 +36,8 @@ export function ComplianceTableAcceptRiskDialog({
   applicationId,
   impactLevel,
 }) {
-  const classes = useComplianceTableAcceptRiskDialogStyles();
   const theme = useTheme();
+  const classes = complianceTableAcceptRiskDialogStyles();
   const probabilities = useMemo(
     () => ["Low", "Moderate", "High", "Absolute"],
     []
@@ -213,7 +215,7 @@ export function ComplianceTableAcceptRiskDialog({
           <Grid item xs={12} sm="auto">
             <FormLabel
               required
-              className={classes.inputLabel}
+              sx={classes.inputLabel}
               id={`probability-${applicationId}`}
             >
               Probability
@@ -239,11 +241,10 @@ export function ComplianceTableAcceptRiskDialog({
                       probability: { value: event.currentTarget.name },
                     });
                   }}
-                  className={
-                    formData.probability.value === probability
-                      ? classes.selectedBtnGroupItem
-                      : null
-                  }
+                  sx={[
+                    formData.probability.value === probability &&
+                      classes.selectedBtnGroupItem,
+                  ]}
                   disableElevation
                   disableRipple
                   size="small"
@@ -258,7 +259,7 @@ export function ComplianceTableAcceptRiskDialog({
           <Grid item xs={12} sm="auto">
             <FormLabel
               required
-              className={classes.inputLabel}
+              sx={classes.inputLabel}
               id={`impact-${applicationId}`}
             >
               Impact
@@ -283,11 +284,10 @@ export function ComplianceTableAcceptRiskDialog({
                       impact: { value: event.currentTarget.name },
                     })
                   }
-                  className={
-                    formData.impact.value === impact
-                      ? classes.selectedBtnGroupItem
-                      : null
-                  }
+                  sx={[
+                    formData.impact.value === impact &&
+                      classes.selectedBtnGroupItem,
+                  ]}
                   disableElevation
                   disableRipple
                   size="small"
@@ -300,7 +300,7 @@ export function ComplianceTableAcceptRiskDialog({
           </Grid>
 
           <Grid item xs={12} sm="auto">
-            <FormLabel className={classes.inputLabel}>Impact Level</FormLabel>
+            <FormLabel sx={classes.inputLabel}>Impact Level</FormLabel>
             <IconChip
               color={impactLevelData[getImpactLevel].color}
               icon={<WarningIcon />}
@@ -311,13 +311,7 @@ export function ComplianceTableAcceptRiskDialog({
           </Grid>
 
           <Grid item xs={12} md={7}>
-            <FormControl
-              className={classes.formControl}
-              fullWidth
-              size="small"
-              variant="outlined"
-              required
-            >
+            <FormControl fullWidth size="small" variant="outlined" required>
               <InputLabel id={`resources-${applicationId}`}>
                 Resources
               </InputLabel>
@@ -336,7 +330,6 @@ export function ComplianceTableAcceptRiskDialog({
                   })
                 }
                 MenuProps={{
-                  getContentAnchorEl: () => null,
                   keepMounted: true,
                 }}
                 disabled={submitting}
@@ -360,16 +353,16 @@ export function ComplianceTableAcceptRiskDialog({
             item
             xs={12}
             md={2}
-            classes={{ item: classes.limitedExemptionGridItem }}
+            sx={{ "&.MuiGrid-item": classes.limitedExemptionGridItem }}
           >
             <FormLabel
-              className={classes.inputLabel}
+              sx={classes.inputLabel}
               htmlFor={`limited-exemption-${applicationId}`}
             >
               Limited Exemption?
             </FormLabel>
             <Switch
-              className={classes.limitedexemptionswitch}
+              sx={classes.limitedexemptionswitch}
               checked={formData.limitedExemption.value}
               onChange={(event) => {
                 const value = event.target.checked;
@@ -396,20 +389,11 @@ export function ComplianceTableAcceptRiskDialog({
 
           <Grid item xs={12} md={3}>
             {formData.limitedExemption.value && (
-              <MuiPickersUtilsProvider utils={DayjsUtils}>
-                <KeyboardDatePicker
-                  className={classes.exemptionEnd}
-                  id={`exemption-end-date-picker-${applicationId}`}
-                  disableToolbar
-                  variant="inline"
-                  inputVariant="outlined"
-                  format="DD/MM/YYYY"
-                  margin="normal"
-                  disablePast
-                  minDateMessage="Date should not be a past date"
-                  invalidDateMessage="Invalid date, please format as DD/MM/YYYY"
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
                   label="Exemption End"
-                  initialFocusedDate={new Date()}
+                  inputFormat="DD/MM/YYYY"
+                  disablePast
                   value={formData.exemptionEnd.value}
                   onChange={(date) => {
                     let valid = true;
@@ -426,15 +410,17 @@ export function ComplianceTableAcceptRiskDialog({
                       },
                     });
                   }}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                    size: "small",
-                  }}
-                  required={formData.limitedExemption.value}
-                  name="exemption end"
+                  renderInput={(params) => (
+                    <TextField
+                      sx={classes.exemptionEnd}
+                      required={formData.limitedExemption.value}
+                      {...params}
+                    />
+                  )}
                   disabled={submitting}
+                  PopperProps={{ placement: "auto" }}
                 />
-              </MuiPickersUtilsProvider>
+              </LocalizationProvider>
             )}
           </Grid>
 
@@ -444,7 +430,7 @@ export function ComplianceTableAcceptRiskDialog({
               variant="outlined"
               fullWidth
               multiline
-              rows={5}
+              rows={4}
               size="small"
               name="notes"
               InputLabelProps={{
@@ -476,7 +462,7 @@ export function ComplianceTableAcceptRiskDialog({
       </DialogContent>
 
       <DialogActions>
-        <div className={classes.submitActionContainer}>
+        <Box component="div" sx={classes.submitActionContainer}>
           <Button
             onClick={handleOnSubmit}
             variant="contained"
@@ -488,13 +474,14 @@ export function ComplianceTableAcceptRiskDialog({
             {submitting ? "Submitting" : "Submit"}
           </Button>
           {submitting && (
-            <div className={classes.submitActionProgressContainer}>
+            <Box component="div" sx={classes.submitActionProgressContainer}>
               <CircularProgress size={20} />
-            </div>
+            </Box>
           )}
-        </div>
+        </Box>
 
         <Button
+          sx={{ "&:not(first-of-type)": { marginLeft: "8px" } }}
           onClick={onClose}
           variant="contained"
           disableElevation
@@ -539,61 +526,3 @@ ComplianceTableAcceptRiskDialog.propTypes = {
    */
   impactLevel: PropTypes.func.isRequired,
 };
-
-const useComplianceTableAcceptRiskDialogStyles = makeStyles((theme) => ({
-  border: {
-    border: "1px solid #000",
-  },
-  limitedExemptionGridItem: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  limitedExemptionLabel: {
-    margin: 0,
-  },
-  limitedexemptionswitch: {
-    marginTop: "-2px",
-  },
-  exemptionEnd: {
-    margin: 0,
-    width: "100%",
-
-    "& .MuiInputBase-input": {
-      paddingTop: 10.5,
-      paddingBottom: 10.5,
-    },
-
-    "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
-      transform: "translate(14px, 12px) scale(1)",
-    },
-  },
-  inputLabel: {
-    display: "block",
-    marginTop: "-5px",
-    marginBottom: 6,
-    fontSize: theme.typography.pxToRem(12),
-  },
-  selectedBtnGroupItem: {
-    "&, &:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white,
-    },
-    "&[disabled]": {
-      backgroundColor: theme.palette.action.disabledBackground,
-      color: theme.palette.action.disabled,
-    },
-  },
-  submitActionContainer: {
-    position: "relative",
-  },
-  submitActionProgressContainer: {
-    position: "absolute",
-    display: "inline-flex",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-}));

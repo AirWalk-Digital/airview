@@ -8,4 +8,7 @@ export {
   Aside,
   Main,
   StyledWysiwyg,
+  Breadcrumb,
+  Search,
+  DocumentActions,
 } from "@features";

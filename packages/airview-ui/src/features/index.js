@@ -3,5 +3,8 @@ export * from "./top-bar";
 export * from "./navigation-drawer";
 export * from "./menu";
 export * from "./page-title";
+export * from "./search";
 export * from "./aside-and-main";
 export * from "./styled-wysiwyg";
+export * from "./breadcrumb";
+export * from "./document-actions";

@@ -2,21 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container as MuiContainer, Box } from "@mui/material";
 
-export function AsideAndMainContainer({ children }) {
+export function AsideAndMainContainer({ children, sx, ...rest }) {
   return (
-    <MuiContainer maxWidth={false} sx={{ paddingTop: 6, paddingBottom: 6 }}>
+    <MuiContainer
+      maxWidth={false}
+      sx={{ paddingTop: 6, paddingBottom: 6, ...sx }}
+      {...rest}
+    >
       <Box sx={{ display: "flex" }}>{children}</Box>
     </MuiContainer>
   );
 }
 
 AsideAndMainContainer.propTypes = {
+  /**
+   * One of `Main` (required) and one of `Aside` (optional)
+   */
   children: PropTypes.node,
+  sx: PropTypes.object,
 };
 
-export function Main({ children }) {
+export function Main({ children, sx }) {
   return (
-    <Box component="main" sx={{ flex: "1 1 auto" }}>
+    <Box component="main" sx={{ flex: "1 1 auto", width: "100%", ...sx }}>
       {children}
     </Box>
   );
@@ -24,13 +32,14 @@ export function Main({ children }) {
 
 Main.propTypes = {
   children: PropTypes.node,
+  sx: PropTypes.object,
 };
 
-export function Aside({ children }) {
+export function Aside({ children, sx }) {
   return (
     <Box
       component="aside"
-      sx={{ flex: "0 0 auto", width: 300, paddingLeft: 4 }}
+      sx={{ flex: "0 0 auto", width: 300, paddingLeft: 4, ...sx }}
     >
       {children}
     </Box>
@@ -39,4 +48,5 @@ export function Aside({ children }) {
 
 Aside.propTypes = {
   children: PropTypes.node,
+  sx: PropTypes.object,
 };

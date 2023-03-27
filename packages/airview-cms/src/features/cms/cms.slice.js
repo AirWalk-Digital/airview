@@ -1,6 +1,7 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { selectBaseBranch } from "./config-slice";
 import { selectDoesMetaEditorHaveEdits } from "./meta-editor";
+import { selectDoesBodyEditorHaveEdits } from "./body-editor";
 import { airviewApi } from "../store";
 
 const initialState = {
@@ -99,9 +100,20 @@ export const selectIsWorkingBranchProtected = (state) => {
   );
 };
 
+export const selectWorkingBranchSha = (state) => {
+  const getBranchesResult = airviewApi.endpoints.getBranches.select()(state);
+  const { data: branches } = getBranchesResult;
+  const workingBranch = selectWorkingBranch(state);
+
+  if (!branches) return;
+
+  return branches.find((branch) => branch.name === workingBranch)?.sha;
+};
+
 export function disableCms() {
   return (dispatch, getState) => {
     const metaEdits = selectDoesMetaEditorHaveEdits(getState());
+    const bodyEdits = selectDoesBodyEditorHaveEdits(getState());
     const baseBranch = selectBaseBranch(getState());
 
     const runDisableActions = () => {
@@ -109,7 +121,7 @@ export function disableCms() {
       dispatch(cmsSlice.actions.setWorkingBranch(baseBranch));
     };
 
-    if (metaEdits) {
+    if (metaEdits || bodyEdits) {
       if (
         confirm(
           "You have unsaved changes; if you continue, your changes will be lost. Continue?"

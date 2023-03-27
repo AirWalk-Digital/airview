@@ -5,4 +5,6 @@ coverage
 build
 .env
 /.envrc
-apps/airview-api-demo/github-app-private-key.pem
+storybook-static
+github-app-private-key.pem
+github-app-private-key.pem/

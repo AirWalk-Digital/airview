@@ -15,7 +15,7 @@ export function DisableCms() {
       size="small"
       onClick={() => dispatch(disableCms())}
     >
-      Disable CMS
+      Disable Editor
     </Button>
   );
 }

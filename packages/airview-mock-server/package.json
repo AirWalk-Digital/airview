@@ -1,7 +1,10 @@
 {
   "name": "airview-mock-server",
-  "version": "0.3.2",
+  "version": "0.0.0",
   "description": "",
+  "engines": {
+    "node": ">=16.15.1 <17.0.0"
+  },
   "main": "dist/airview-mock-server.esm.min.js",
   "files": [
     "./dist"
@@ -9,6 +12,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c --environment NODE_ENV:production",
+    "prepare": "npm run build",
     "dev": "npm run build -- -w --environment NODE_ENV:development",
     "test": "jest",
     "test:watch": "npm run test -- --watch --coverage=false",
@@ -39,6 +43,7 @@
     "node-fetch": "^2.6.7",
     "rimraf": "^3.0.2",
     "rollup": "^2.70.2",
+    "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-terser": "^7.0.2"
   }
 }

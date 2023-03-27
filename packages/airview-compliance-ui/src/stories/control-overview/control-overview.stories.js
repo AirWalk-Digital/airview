@@ -1,32 +1,27 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   ControlOverview,
   useControlOverviewController,
 } from "../../features/control-overview";
 import docs from "./control-overview.docs.md";
 import { groups, controls, resources } from "./data";
+import { Box } from "@mui/material";
 
 export default {
   title: "Features/Control Overview",
   component: ControlOverview,
   decorators: [
     (story) => {
-      const classes = makeStyles(() => ({
-        "@global": {
-          "#root": {
-            flex: 1,
-          },
-        },
+      const classes = {
         root: {
           width: "100%",
           maxWidth: 1024,
           margin: "0 auto",
           flex: 1,
         },
-      }))();
+      };
 
-      return <div className={classes.root}>{story()}</div>;
+      return <Box sx={classes.root}>{story()}</Box>;
     },
   ],
   parameters: {
@@ -35,6 +30,7 @@ export default {
         component: docs,
       },
     },
+    layout: "padded",
   },
 };
 

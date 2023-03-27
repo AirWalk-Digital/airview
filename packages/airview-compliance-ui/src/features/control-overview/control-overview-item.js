@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import Box from "@material-ui/core/Box";
-import ErrorIcon from "@material-ui/icons/Error";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Tooltip,
+  Box,
+} from "@mui/material";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ErrorIcon from "@mui/icons-material/Error";
 
 export function ControlOverviewItem({
   id,
@@ -19,9 +21,7 @@ export function ControlOverviewItem({
   children,
   onChange,
 }) {
-  const classes = useControlOverviewItemStyles({
-    severity: severity.toLowerCase(),
-  });
+  const classes = controlOverviewItemStyles(severity.toLowerCase());
 
   const handleOnChange = (event, expanded) => {
     if (expanded) onChange(id);
@@ -29,15 +29,20 @@ export function ControlOverviewItem({
 
   return (
     <Accordion
-      classes={{
-        root: classes.overviewItem,
-        expanded: classes.overviewItemExpanded,
+      sx={{
+        "&.MuiAccordion-root": classes.overviewItem,
       }}
       onChange={handleOnChange}
     >
       <AccordionSummary
+        sx={{
+          "& .MuiAccordionSummary-expandIconWrapper": {
+            padding: "12px",
+            marginRight: "-12px",
+          },
+          "&.Mui-expanded": { borderBottom: "1px solid rgba(0, 0, 0, .125)" },
+        }}
         expandIcon={<ExpandMoreIcon />}
-        className={classes.overviewItemSummary}
       >
         <Box display="flex" flexGrow={1} justifyContent="space-between">
           <Box paddingRight={1} display="flex" alignItems="center">
@@ -45,7 +50,7 @@ export function ControlOverviewItem({
               title={`Severity: ${severity.toLowerCase()}`}
               placement="bottom-start"
             >
-              <ErrorIcon fontSize="small" className={classes.severityStatus} />
+              <ErrorIcon fontSize="small" sx={classes.severityStatus} />
             </Tooltip>
 
             <Typography variant="body2">{name}</Typography>
@@ -53,21 +58,21 @@ export function ControlOverviewItem({
 
           <Box paddingLeft={1} display="flex" alignItems="center">
             <Tooltip title={`Applied`} placement="bottom-end">
-              <span className={classes.infoLabel}>
+              <Box component="span" sx={classes.infoLabel}>
                 <Typography variant="body2">{applied}</Typography>
-              </span>
+              </Box>
             </Tooltip>
 
             <Tooltip title={`Exempt`} placement="bottom-end">
-              <span className={classes.infoLabel}>
+              <Box component="span" sx={classes.infoLabel}>
                 <Typography variant="body2">{exempt}</Typography>
-              </span>
+              </Box>
             </Tooltip>
           </Box>
         </Box>
       </AccordionSummary>
 
-      <AccordionDetails className={classes.overviewItemDetail}>
+      <AccordionDetails sx={classes.overviewItemDetail}>
         {children}
       </AccordionDetails>
     </Accordion>
@@ -84,7 +89,7 @@ ControlOverviewItem.propTypes = {
   onChange: PropTypes.func,
 };
 
-const useControlOverviewItemStyles = makeStyles((theme) => {
+function controlOverviewItemStyles(severity) {
   return {
     overviewItem: {
       width: "100%",
@@ -95,14 +100,14 @@ const useControlOverviewItemStyles = makeStyles((theme) => {
       "&:before": {
         display: "none",
       },
-      "&$overviewItemExpanded": {
+      "&.Mui-expanded": {
         margin: "auto",
       },
-      "&:not(:first-of-type) $overviewItemSummary": {
+      "&:not(:first-of-type)": {
         borderTop: "1px solid rgba(0, 0, 0, .125)",
       },
     },
-    overviewItemExpanded: {},
+    overviewItemExpanded: { margin: "auto" },
     overviewItemSummary: {
       "$overviewItemExpanded &": {
         borderBottom: "1px solid rgba(0, 0, 0, .125)",
@@ -110,24 +115,24 @@ const useControlOverviewItemStyles = makeStyles((theme) => {
     },
     overviewItemDetail: {
       display: "block",
-      paddingTop: theme.spacing(2),
+      paddingTop: 2,
     },
-    severityStatus: (props) => {
+    severityStatus: () => {
       const getBackgroundColor = (severity) => {
         let backgroundColor;
 
         switch (severity) {
           case "low":
-            backgroundColor = theme.palette.success.main;
+            backgroundColor = "success.main";
             break;
           case "medium":
-            backgroundColor = theme.palette.warning.main;
+            backgroundColor = "warning.main";
             break;
           case "high":
-            backgroundColor = theme.palette.error.main;
+            backgroundColor = "error.main";
             break;
           default:
-            backgroundColor = theme.palette.grey["500"];
+            backgroundColor = "grey.500";
         }
 
         return backgroundColor;
@@ -136,25 +141,29 @@ const useControlOverviewItemStyles = makeStyles((theme) => {
       return {
         width: 26,
         height: 26,
-        padding: 4,
+        padding: "4px",
         borderRadius: "100%",
         color: "#fff",
         display: "inline-block",
-        backgroundColor: getBackgroundColor(props.severity),
+        backgroundColor: getBackgroundColor(severity),
         fontSize: "16px",
-        marginRight: theme.spacing(2),
+        marginRight: 2,
       };
     },
+
     infoLabel: {
       display: "inline-block",
-      border: `1px solid ${theme.palette.primary.main}`,
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(0, 1),
-      color: theme.palette.text.primary,
+      border: 1,
+      borderRadius: 1,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingRight: 1,
+      paddingLeft: 1,
+      color: "text.primary",
 
       "&:not(:last-of-type)": {
-        marginRight: theme.spacing(1),
+        marginRight: 1,
       },
     },
   };
-});
+}

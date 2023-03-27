@@ -1,26 +1,21 @@
 import { useGetEntryQuery } from "../store";
-import { useGetAllEntriesMeta } from "../use-get-all-entries-meta";
+import { useGetEntryMeta } from "../use-get-all-entries-meta";
 
 export function useGetEntry(entryId) {
-  const { entryMetaData, isSuccess } = useGetAllEntriesMeta(
-    ({ data, isSuccess }) => ({
-      isSuccess,
-      entryMetaData: data?.find((entry) => entry.id === entryId),
-    })
-  );
+  const { data, isSuccess } = useGetEntryMeta(entryId);
 
-  const entryQuery = useGetEntryQuery(entryMetaData?.sha, {
-    skip: !entryMetaData?.sha,
+  const entryQuery = useGetEntryQuery(data?.sha, {
+    skip: !data?.sha,
   });
 
-  if (isSuccess && !entryMetaData?.sha) {
+  if (isSuccess && !data?.sha) {
     return {
       data: null,
       isLoading: false,
       isFetching: false,
       isError: true,
       error: {
-        type: 404,
+        status: 404,
         message: `${entryId} not found`,
       },
     };

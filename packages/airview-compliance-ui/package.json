@@ -1,24 +1,53 @@
 {
   "name": "airview-compliance-ui",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": ">=16.15.1 <17.0.0"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "./dist"
+  ],
   "scripts": {
-    "storybook": "start-storybook -p 6006"
+    "prepare": "npm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -o compliance-ui-static-build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.1",
     "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/react": "^6.5.9"
+    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/manager-webpack5": "^6.5.10",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.7",
+    "babel-loader": "^8.2.5",
+    "rollup": "^2.70.2"
+  },
+  "peerDependencies": {
+    "@date-io/dayjs": "^1.3.13",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.86",
+    "@mui/material": "^5.8.4",
+    "@mui/x-date-pickers": "^5.0.0-alpha.3",
+    "dayjs": "^1.10.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "dependencies": {
     "@date-io/dayjs": "^1.3.13",
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.57",
-    "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.86",
+    "@mui/material": "^5.8.4",
+    "@mui/x-date-pickers": "^5.0.0-alpha.3",
     "dayjs": "^1.10.4",
-    "jss-plugin-compose": "^10.5.1"
+    "jss-plugin-compose": "^10.5.1",
+    "react-router-hash-link": "^2.4.3"
   }
 }
