@@ -5,3 +5,4 @@ coverage
 build
 .env
 /.envrc
+apps/airview-api-demo/github-app-private-key.pem
