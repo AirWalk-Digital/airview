@@ -3,7 +3,7 @@ import * as runtime from "react/jsx-runtime";
 import { evaluateSync } from "@mdx-js/mdx";
 import * as provider from "@mdx-js/react";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
+// import rehypeHighlight from "rehype-highlight";
 import PropTypes from "prop-types";
 
 function useMDX(source) {
@@ -15,7 +15,7 @@ function useMDX(source) {
         ...provider,
         ...runtime,
         remarkPlugins: [remarkGfm],
-        rehypePlugins: [rehypeHighlight],
+        // rehypePlugins: [rehypeHighlight],
       });
       setExports(exports);
     };
