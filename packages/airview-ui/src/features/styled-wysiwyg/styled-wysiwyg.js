@@ -21,7 +21,7 @@ export function StyledWysiwyg({
           display: "block",
         },
 
-        "& .wmde-markdown, & .styled-wysiwyg-content": (theme) => ({
+        "& .wmde-markdown, & .styled-wysiwyg-content": () => ({
           overflowWrap: "break-word",
           wordWrap: "break-word",
           wordBreak: "break-word",
@@ -167,68 +167,69 @@ export function StyledWysiwyg({
             },
           },
 
-          "& table": {
-            borderCollapse: "collapse",
-            width: "100%",
-            textAlign: "left",
-            marginX: 0,
-            marginY: 2,
-            fontFamily: "default",
-            fontWeight: "regular",
+          // "& table": {
+          //   borderCollapse: "collapse",
+          //   width: "100%",
+          //   textAlign: "left",
+          //   marginX: 0,
+          //   marginY: 2,
+          //   fontFamily: "default",
+          //   fontWeight: "regular",
 
-            // Scrollable table for smaller viewports
-            [theme.breakpoints.down(800)]: {
-              overflow: "hidden",
-              overflowX: "scroll",
-              display: "block",
-              whiteSpace: "nowrap",
-              height: "auto",
-              overflowScrolling: "touch",
-              WebkitOverflowScrolling: "touch",
-            },
+          //   // Scrollable table for smaller viewports
+          //   [theme.breakpoints.down(800)]: {
+          //     overflow: "hidden",
+          //     overflowX: "scroll",
+          //     display: "block",
+          //     whiteSpace: "nowrap",
+          //     height: "auto",
+          //     overflowScrolling: "touch",
+          //     WebkitOverflowScrolling: "touch",
+          //   },
 
-            "& tr": {
-              backgroundColor: "inherit",
-            },
+          //   "& tr": {
+          //     backgroundColor: "inherit",
+          //   },
 
-            "& th": {
-              fontWeight: "medium",
-            },
+          //   "& th": {
+          //     fontWeight: "medium",
+          //   },
 
-            "& td": {
-              verticalAlign: "top",
-            },
+          //   "& td": {
+          //     verticalAlign: "top",
+          //   },
 
-            "& tbody": {
-              wordBreak: "break-word",
-            },
+          //   "& tbody": {
+          //     wordBreak: "break-word",
+          //   },
 
-            "& th, & td": {
-              border: 1,
-              borderColor: "grey.300",
-              minWidth: 100,
-            },
+          //   "& th, & td": {
+          //     border: 1,
+          //     borderColor: "grey.300",
+          //     minWidth: 100,
+          //   },
 
-            "& thead th, & thead td, & tbody th, & tbody td, & tfoot th, & tfoot td":
-              {
-                padding: 1,
-              },
+          //   "& thead th, & thead td, & tbody th, & tbody td, & tfoot th, & tfoot td":
+          //     {
+          //       padding: 1,
+          //     },
 
-            "& thead, & tbody tr:nth-of-type(even)": {
-              backgroundColor: "grey.100",
-            },
+          //   "& thead, & tbody tr:nth-of-type(even)": {
+          //     backgroundColor: "grey.100",
+          //   },
 
-            "& p": {
-              fontSize: "inherit",
-            },
+          //   "& p": {
+          //     fontSize: "inherit",
+          //   },
 
-            "& th p": {
-              fontWeight: "inherit",
-            },
-            ...sx,
-          },
+          //   "& th p": {
+          //     fontWeight: "inherit",
+          //   },
+          //   ...sx,
+          // },
         }),
         ...(fetching && { opacity: 0.5, pointerEvents: "none" }),
+        ...sx,
       }}
       {...rest}
     >

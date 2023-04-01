@@ -1,6 +1,6 @@
 {
   "name": "airview-ui",
-  "version": "0.0.0",
+  "version": "2.3.3",
   "description": "",
   "engines": {
     "node": ">=16.15.1 <17.0.0"
