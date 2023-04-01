@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
-import { red } from "@mui/material/colors";
+// import { red } from "@mui/material/colors";
 import { StyledWysiwygLoading } from "./styled-wysiwyg-loading";
 import "highlight.js/styles/atom-one-dark.css";
 
@@ -21,213 +21,213 @@ export function StyledWysiwyg({
           display: "block",
         },
 
-        "& .wmde-markdown, & .styled-wysiwyg-content": () => ({
-          overflowWrap: "break-word",
-          wordWrap: "break-word",
-          wordBreak: "break-word",
-          fontFamily: "inherit",
-          backgroundColor: "inherit",
-          boxSizing: "inherit",
-          color: "text.primary",
+        // "& .wmde-markdown, & .styled-wysiwyg-content": () => ({
+        //   overflowWrap: "break-word",
+        //   wordWrap: "break-word",
+        //   wordBreak: "break-word",
+        //   fontFamily: "inherit",
+        //   backgroundColor: "inherit",
+        //   boxSizing: "inherit",
+        //   color: "text.primary",
 
-          "& h1, h2, h3, h4, h5, h6": {
-            fontWeight: 700,
-            marginBottom: 4,
-            border: "none",
-            padding: 0,
-            color: "inherit",
-            letterSpacing: 0,
-          },
+        //   "& h1, h2, h3, h4, h5, h6": {
+        //     fontWeight: 700,
+        //     marginBottom: 4,
+        //     border: "none",
+        //     padding: 0,
+        //     color: "inherit",
+        //     letterSpacing: 0,
+        //   },
 
-          h1: {
-            fontSize: 48,
-          },
+        //   h1: {
+        //     fontSize: 48,
+        //   },
 
-          h2: {
-            fontSize: 40,
-          },
+        //   h2: {
+        //     fontSize: 40,
+        //   },
 
-          h3: {
-            fontSize: 32,
-          },
+        //   h3: {
+        //     fontSize: 32,
+        //   },
 
-          h4: {
-            fontSize: 24,
-          },
+        //   h4: {
+        //     fontSize: 24,
+        //   },
 
-          h5: {
-            fontSize: 20,
-          },
+        //   h5: {
+        //     fontSize: 20,
+        //   },
 
-          h6: {
-            fontSize: 18,
-          },
+        //   h6: {
+        //     fontSize: 18,
+        //   },
 
-          "& .octicon-link": {
-            display: "none",
-            // visibility: "visible",
-            // color: theme.palette.grey[500],
-            // marginRight: "5px",
-          },
+        //   "& .octicon-link": {
+        //     display: "none",
+        //     // visibility: "visible",
+        //     // color: theme.palette.grey[500],
+        //     // marginRight: "5px",
+        //   },
 
-          "& p": {
-            marginBottom: 4,
-            fontSize: 18,
-            lineHeight: 1.7,
-          },
+        //   "& p": {
+        //     marginBottom: 4,
+        //     fontSize: 18,
+        //     lineHeight: 1.7,
+        //   },
 
-          "& hr": {
-            border: 0,
-            height: 0,
-            borderBottom: 1,
-            borderColor: "divider",
-            marginY: 8,
-            display: "block",
-            background: "none",
-          },
+        //   "& hr": {
+        //     border: 0,
+        //     height: 0,
+        //     borderBottom: 1,
+        //     borderColor: "divider",
+        //     marginY: 8,
+        //     display: "block",
+        //     background: "none",
+        //   },
 
-          "& img": {
-            marginY: 2,
-            marginX: "auto",
-            display: "block",
-            width: "100%",
-            maxWidth: 800,
-          },
+        //   "& img": {
+        //     marginY: 2,
+        //     marginX: "auto",
+        //     display: "block",
+        //     width: "100%",
+        //     maxWidth: 800,
+        //   },
 
-          "& a, a:visited": {
-            color: "primary.main",
-            textDecoration: "underline",
-          },
+        //   "& a, a:visited": {
+        //     color: "primary.main",
+        //     textDecoration: "underline",
+        //   },
 
-          "& a:hover, a:focus": {
-            textDecoration: "none",
-          },
+        //   "& a:hover, a:focus": {
+        //     textDecoration: "none",
+        //   },
 
-          "& ul, & ol": {
-            listStylePosition: "outside",
-            padding: "0 0 0 36px",
-            fontSize: 18,
+        //   "& ul, & ol": {
+        //     listStylePosition: "outside",
+        //     padding: "0 0 0 36px",
+        //     fontSize: 18,
 
-            "& li": {
-              margin: 0,
-            },
-          },
+        //     "& li": {
+        //       margin: 0,
+        //     },
+        //   },
 
-          "& blockquote": {
-            paddingLeft: 2,
-            borderLeft: 4,
-            borderColor: "primary.main",
-            marginX: 0,
-            marginY: 2,
-            color: "inherit",
+        //   "& blockquote": {
+        //     paddingLeft: 2,
+        //     borderLeft: 4,
+        //     borderColor: "primary.main",
+        //     marginX: 0,
+        //     marginY: 2,
+        //     color: "inherit",
 
-            "&:before": {
-              content: "none",
-            },
+        //     "&:before": {
+        //       content: "none",
+        //     },
 
-            "& cite": {
-              display: "block",
-              fontStyle: "normal",
-              fontWeight: "fontWeightMedium",
-              fontSize: 14,
-            },
-          },
+        //     "& cite": {
+        //       display: "block",
+        //       fontStyle: "normal",
+        //       fontWeight: "fontWeightMedium",
+        //       fontSize: 14,
+        //     },
+        //   },
 
-          "& code": {
-            fontSize: "90%",
-            fontFamily: "Consolas,'Liberation Mono',Courier,monospace",
-            color: red[900],
-            borderRadius: "4px",
-            backgroundColor: "grey.100",
-            padding: "3px 6px",
-          },
+        //   "& code": {
+        //     fontSize: "90%",
+        //     fontFamily: "Consolas,'Liberation Mono',Courier,monospace",
+        //     color: red[900],
+        //     borderRadius: "4px",
+        //     backgroundColor: "grey.100",
+        //     padding: "3px 6px",
+        //   },
 
-          "& pre": {
-            display: "block",
-            width: "100%",
-            whiteSpace: "pre",
-            overflow: "auto",
-            backgroundColor: "grey.900",
-            borderRadius: 1,
-            tabSize: 2,
-            wordWrap: "initial",
-            fontSize: 14,
-            marginX: 0,
-            marginY: 5,
-            padding: 0,
+        //   "& pre": {
+        //     display: "block",
+        //     width: "100%",
+        //     whiteSpace: "pre",
+        //     overflow: "auto",
+        //     backgroundColor: "grey.900",
+        //     borderRadius: 1,
+        //     tabSize: 2,
+        //     wordWrap: "initial",
+        //     fontSize: 14,
+        //     marginX: 0,
+        //     marginY: 5,
+        //     padding: 0,
 
-            "& code": {
-              overflowX: "auto",
-              display: "block",
-              padding: 2,
-              backgroundColor: "transparent",
-              border: 0,
-              color: "grey.400",
-              fontSize: "100%",
-            },
-          },
+        //     "& code": {
+        //       overflowX: "auto",
+        //       display: "block",
+        //       padding: 2,
+        //       backgroundColor: "transparent",
+        //       border: 0,
+        //       color: "grey.400",
+        //       fontSize: "100%",
+        //     },
+        //   },
 
-          // "& table": {
-          //   borderCollapse: "collapse",
-          //   width: "100%",
-          //   textAlign: "left",
-          //   marginX: 0,
-          //   marginY: 2,
-          //   fontFamily: "default",
-          //   fontWeight: "regular",
+        //   // "& table": {
+        //   //   borderCollapse: "collapse",
+        //   //   width: "100%",
+        //   //   textAlign: "left",
+        //   //   marginX: 0,
+        //   //   marginY: 2,
+        //   //   fontFamily: "default",
+        //   //   fontWeight: "regular",
 
-          //   // Scrollable table for smaller viewports
-          //   [theme.breakpoints.down(800)]: {
-          //     overflow: "hidden",
-          //     overflowX: "scroll",
-          //     display: "block",
-          //     whiteSpace: "nowrap",
-          //     height: "auto",
-          //     overflowScrolling: "touch",
-          //     WebkitOverflowScrolling: "touch",
-          //   },
+        //   //   // Scrollable table for smaller viewports
+        //   //   [theme.breakpoints.down(800)]: {
+        //   //     overflow: "hidden",
+        //   //     overflowX: "scroll",
+        //   //     display: "block",
+        //   //     whiteSpace: "nowrap",
+        //   //     height: "auto",
+        //   //     overflowScrolling: "touch",
+        //   //     WebkitOverflowScrolling: "touch",
+        //   //   },
 
-          //   "& tr": {
-          //     backgroundColor: "inherit",
-          //   },
+        //   //   "& tr": {
+        //   //     backgroundColor: "inherit",
+        //   //   },
 
-          //   "& th": {
-          //     fontWeight: "medium",
-          //   },
+        //   //   "& th": {
+        //   //     fontWeight: "medium",
+        //   //   },
 
-          //   "& td": {
-          //     verticalAlign: "top",
-          //   },
+        //   //   "& td": {
+        //   //     verticalAlign: "top",
+        //   //   },
 
-          //   "& tbody": {
-          //     wordBreak: "break-word",
-          //   },
+        //   //   "& tbody": {
+        //   //     wordBreak: "break-word",
+        //   //   },
 
-          //   "& th, & td": {
-          //     border: 1,
-          //     borderColor: "grey.300",
-          //     minWidth: 100,
-          //   },
+        //   //   "& th, & td": {
+        //   //     border: 1,
+        //   //     borderColor: "grey.300",
+        //   //     minWidth: 100,
+        //   //   },
 
-          //   "& thead th, & thead td, & tbody th, & tbody td, & tfoot th, & tfoot td":
-          //     {
-          //       padding: 1,
-          //     },
+        //   //   "& thead th, & thead td, & tbody th, & tbody td, & tfoot th, & tfoot td":
+        //   //     {
+        //   //       padding: 1,
+        //   //     },
 
-          //   "& thead, & tbody tr:nth-of-type(even)": {
-          //     backgroundColor: "grey.100",
-          //   },
+        //   //   "& thead, & tbody tr:nth-of-type(even)": {
+        //   //     backgroundColor: "grey.100",
+        //   //   },
 
-          //   "& p": {
-          //     fontSize: "inherit",
-          //   },
+        //   //   "& p": {
+        //   //     fontSize: "inherit",
+        //   //   },
 
-          //   "& th p": {
-          //     fontWeight: "inherit",
-          //   },
-          //   ...sx,
-          // },
-        }),
+        //   //   "& th p": {
+        //   //     fontWeight: "inherit",
+        //   //   },
+        //   //   ...sx,
+        //   // },
+        // }),
         ...(fetching && { opacity: 0.5, pointerEvents: "none" }),
         ...sx,
       }}

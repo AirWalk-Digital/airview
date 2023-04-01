@@ -34,7 +34,7 @@ export function prepareEntryPayload() {
       id: entryId,
       branch: workingBranch,
       data: {
-        "_index.md": Buffer.from(
+        "_index.mdx": Buffer.from(
           matter.stringify("", entryMetaData),
           "utf8"
         ).toString("base64"),
