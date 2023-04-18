@@ -12,7 +12,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "airview-cms-api": "^2.3.3",
+    "airview-cms-api": "^2.3.16",
     "file-type": "^16.0.0",
     "jwt-decode": "^3.1.2"
   },
